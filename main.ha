@@ -2,7 +2,7 @@ use fmt;
 use io;
 
 // Unit prefix decimal exponents
-type prefix = enum {
+type decimal_prefix = enum {
 	YOTTA = 24,
 	ZETTA = 21,
 	EXA = 18,
@@ -24,6 +24,20 @@ type prefix = enum {
 	ZEPTO = -21,
 	YOCTO = -24,
 };
+
+// Unit prefix binary exponents
+type binary_prefix = enum {
+	QUEBI = 100,
+	ROBI = 90,
+	YOBI = 80,
+	ZEBI = 70,
+	EXBI = 60,
+	PEBI = 50,
+	TEBI = 40,
+	GIBI = 30,
+	MEBI = 20,
+	KIBI = 10,
+}
 
 // Dimension
 type dimension = struct {
