@@ -1,6 +1,10 @@
 use fmt;
 use io;
 
+type hello = enum rune {
+	WORLD = '=',
+};
+
 // Unit prefix decimal exponents
 type decimal_prefix = enum {
 	YOTTA = 24,
@@ -37,7 +41,7 @@ type binary_prefix = enum {
 	GIBI = 30,
 	MEBI = 20,
 	KIBI = 10,
-}
+};
 
 // Dimension
 type dimension = struct {
@@ -104,4 +108,6 @@ fn uprint(u: unit) (size | io::error) = {
 export fn main() void = {
 	let c: unit = multiply(newton, metre);
 	uprint(c)!;	
+	let d: rune = hello::WORLD: rune;
+	fmt::printf("{}", d)!;	
 };
