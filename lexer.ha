@@ -9,7 +9,7 @@ type not_an_int = !void;
 type token_kind = enum u8 {
 	UNSPECIFIED,
 	IDENTIFIER,
-	INTEGER, INTEGER_SUPER,   // exponents
+	INTEGER, SUPER_INTEGER,   // exponents
 	MULTIPLY, POWER, SOLIDUS, // operators
 	PLUS, SUPER_PLUS,
 	MINUS, SUPER_MINUS,
@@ -88,56 +88,6 @@ def LEFT_PARENTHESIS           : rune = '\u0028'; // (
 def RIGHT_PARENTHESIS          : rune = '\u0029'; // )
 def LEFT_CURLY_BRACKET         : rune = '\u007B'; // {
 def RIGHT_CURLY_BRACKET        : rune = '\u007D'; // }
-
-// Unit prefix decimal exponents
-type decimal_prefix = enum i8 {
-	YOTTA = 24,
-	ZETTA = 21,
-	EXA = 18,
-	PETA = 15,
-	TERA = 12,
-	GIGA = 9,
-	MEGA = 6,
-	KILO = 3,
-	HECTO = 2,
-	DECA = 1,
-	DECI = -1,
-	CENTI = -2,
-	MILLI = -3,
-	MICRO = -6,
-	NANO = -9,
-	PICO = -12,
-	FEMTO = -15,
-	ATTO = -18,
-	ZEPTO = -21,
-	YOCTO = -24,
-};
-
-fn prefix_exponent(c: rune) (i8 | void) = {
-	let prefix = switch (c) {
-	case 'Y' => decimal_prefix::YOTTA;
-	case 'Z' => decimal_prefix::ZETTA;
-	case 'E' => decimal_prefix::EXA;
-	case 'P' => decimal_prefix::PETA;
-	case 'T' => decimal_prefix::TERA;
-	case 'G' => decimal_prefix::GIGA;
-	case 'M' => decimal_prefix::MEGA;
-	case 'k' => decimal_prefix::KILO;
-	case 'h' => decimal_prefix::HECTO;
-	case 'd' => decimal_prefix::DECI;
-	case 'c' => decimal_prefix::CENTI;
-	case 'm' => decimal_prefix::MILLI;
-	case 'u', LETTER_MICRO_SIGN, LETTER_GREEK_SMALL_MU => decimal_prefix::MICRO;
-	case 'n' => decimal_prefix::NANO;
-	case 'p' => decimal_prefix::PICO;
-	case 'f' => decimal_prefix::FEMTO;
-	case 'a' => decimal_prefix::ATTO;
-	case 'z' => decimal_prefix::ZEPTO;
-	case 'y' => decimal_prefix::YOCTO;
-	case => return void;
-	};
-	return prefix: i8;
-};
 
 fn is_space(c: rune) bool = {
 	if (ascii::isspace(c)) {
@@ -296,7 +246,7 @@ fn next_token(s: *strings::iterator) (token | done) = {
 		kind = token_kind::INTEGER;
 		pred = &ascii::isdigit;
 	} else if (is_digit_super(c)) {
-		kind = token_kind::INTEGER_SUPER;
+		kind = token_kind::SUPER_INTEGER;
 		pred = &is_digit_super;
 	} else if (is_ident(c)){
 		kind = token_kind::IDENTIFIER;
@@ -321,16 +271,3 @@ fn next_token(s: *strings::iterator) (token | done) = {
 	return make_token(&start, s, kind);
 };
 
-export fn main() void = {
-	if (len(os::args) < 2) {
-		return;
-	};
-	const s: str = os::args[1];
-	let scanner: strings::iterator = strings::iter(s);
-	let buffer: [1024]u8 = [0...];
-	for (let c => next_token(&scanner)) {
-		let n: int = c.kind: int;
-		fmt::printf("[{}:{}] ", c.text, n)!;
-	};
-
-};
