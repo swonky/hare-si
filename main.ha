@@ -524,6 +524,11 @@ fn run() (void | error) = {
 		return;
 	};
 
+	if (os::args[1] == "version") {
+		print_version();
+		return;
+	};
+
 	const qty: quantity = match (parse(os::args[1])) {
 	case let err: no_match =>
 		fmt::printf("{}: {}", strerror(err), err)?;
@@ -543,6 +548,10 @@ fn run() (void | error) = {
 	case =>
 		fmt::println("unexpected number of arguments")?;
 	};
+};
+
+fn print_version() void = {
+	fmt::printf("si {}-{}\n", sem_version, git_version)!;
 };
 
 export fn main() void = {
