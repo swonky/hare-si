@@ -2,7 +2,7 @@
 
 A library and command-line tool for parsing, converting, and formatting quantities using the International System of Units (SI).
 
-Written in pure Hare with zero dependencies.
+Written in Hare with zero external dependencies.
 
 ## Features
 - [x] Parses ASCII and UTF-8 encoded unit representations.
@@ -18,7 +18,6 @@ Written in pure Hare with zero dependencies.
 - [x] SI derived units (`Bq` `C` `°C` or `degC` `F` `Gy` `H` `Hz` `J` `kat` `lm` `lx` `N` `Ω` or `ohm` `Pa` `rad` `S` `sr` `Sv` `T` `V` `W` `Wb`)
 - [x] Formerly accepted non-SI units (`min` `h` `d` `au` `°` `′` `″` `as` `ha` `L` `t` `Da` `eV` `Np` `B`)
 
-## Supported representations
 | Parsing | Formatting | Feature |
 | ------- | ---------- | ------- |
 |x|x| Scientific notation. |
@@ -29,8 +28,26 @@ Written in pure Hare with zero dependencies.
 | | | Long formatting in other languages. |
 | | | LaTeX unit representations. |
 
-## Installation
-
 ## Usage
+
+### Prerequisites
+- Hare 0.26+
+- GNU Make
+
+### Installation
+```sh
+git clone --depth=1 https://github.com/swonky/hare-si.git
+
+make
+make install       # installs command-line tool + hare modules
+make install-bin   # installed command-line tool
+make install-lib   # installs hare modules
+```
+
+### Command-line tool
+
+### Module usage
+
+
 
 ## References
