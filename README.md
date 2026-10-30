@@ -19,13 +19,13 @@ Written in pure Hare with zero dependencies.
 ## Supported representations
 | Parsing | Formatting | Feature |
 | ------- | ---------- | ------- |
-|  |  | Scientific notation. |
-|  |  | Decimal points/commas. |
-|  |  | Space digit grouping (SI-recommended). |
-|  |  | Alternative digit grouping (comma, period, apostrophe). |
-|  |  | Long formatting in International English. |
-|  |  | Long formatting in other languages. |
-|  |  | LaTeX unit representations. |
+|x| | Scientific notation. |
+| | | Decimal points/commas. |
+| | | Space digit grouping (SI-recommended). |
+| | | Alternative digit grouping (comma, period, apostrophe). |
+| | | Long formatting in International English. |
+| | | Long formatting in other languages. |
+| | | LaTeX unit representations. |
 
 ## Installation
 
