@@ -9,12 +9,22 @@ type not_an_int = !void;
 type token_kind = enum u8 {
 	UNSPECIFIED,
 	IDENTIFIER,
-	INTEGER, SUPER_INTEGER,   // exponents
-	MULTIPLY, POWER, SOLIDUS, // operators
-	PLUS, SUPER_PLUS,
-	MINUS, SUPER_MINUS,
-	LPAREN, RPAREN,           // brackets
-	LBRACE, RBRACE,
+	INTEGER, 
+	SUPER_INTEGER,   // exponents
+	MULTIPLY, 
+	POWER, 
+	SOLIDUS, // operators
+	PLUS, 
+	SUPER_PLUS,
+	MINUS, 
+	SUPER_MINUS,
+	LPAREN, 
+	RPAREN,           // parentheses
+	LBRACE, 
+	RBRACE,           // braces
+	EXPONENT,                 // e
+	POINT, 
+	COMMA,             // delimiters
 };
 
 type token = struct {
@@ -38,6 +48,9 @@ def SPACE_NO_BREAK             : rune = '\u00A0';
 def SPACE_THIN                 : rune = '\u2009';
 def SPACE_NARROW_NO_BREAK      : rune = '\u202F';
 def SPACE_IDEOGRAPHIC          : rune = '\u3000';
+
+def FULL_STOP                  : rune = '\u002E';
+def COMMA                      : rune = '\u002C';
 
 // Mu variants
 def LETTER_MICRO_SIGN          : rune = '\u00B5'; // µ
@@ -172,6 +185,18 @@ fn peek_rune(s: *strings::iterator) (rune | done) = {
 	return next_rune(&copy);
 };
 
+fn is_exponent_prefix(r: rune) bool = {
+	if (ascii::isdigit(r)) {
+		return true;
+	};
+	return switch (r) {
+	case PLUS_SIGN, HYPHEN, HYPHEN_MINUS, MINUS_SIGN =>
+		yield true;
+	case =>
+		yield false;
+	};
+};
+
 fn next_token(s: *strings::iterator) (token | done) = {
 	for (true) {
 		const start: strings::iterator = *s;
@@ -209,6 +234,17 @@ fn next_token(s: *strings::iterator) (token | done) = {
 				yield token_kind::MULTIPLY;
 			};
 		};
+	case 'e' =>
+		yield match (peek_rune(s)) {
+		case done =>
+			yield token_kind::EXPONENT;
+		case let next: rune =>
+			yield if (is_exponent_prefix(next)) {
+				yield token_kind::EXPONENT;
+			} else {
+				yield token_kind::UNSPECIFIED;
+			};
+		};
 	case DOT_MIDDLE, DOT_OPERATOR, MULTIPLICATION_SIGN, INVISIBLE_TIMES =>
 		yield token_kind::MULTIPLY;
 	case CIRCUMFLEX_ACCENT =>
@@ -231,6 +267,10 @@ fn next_token(s: *strings::iterator) (token | done) = {
 		yield token_kind::SUPER_PLUS;
 	case SUPERSCRIPT_MINUS =>
 		yield token_kind::SUPER_MINUS;
+	case FULL_STOP =>
+		yield token_kind::POINT;
+	case COMMA =>
+		yield token_kind::COMMA;
 	case =>
 		yield token_kind::UNSPECIFIED;
 	};
