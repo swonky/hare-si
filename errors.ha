@@ -1,5 +1,7 @@
+use io;
 use strconv;
 
+export type dimension_mismatch = !void;
 export type no_match    = !str;
 export type not_implemented = !str;
 export type invalid = !void;
@@ -11,7 +13,7 @@ export type unexpected  = struct {
 	got: str,
 };
 
-export type error = !(no_match | unexpected | not_implemented | invalid | strconv::invalid | strconv::overflow);
+export type error = !(no_match | dimension_mismatch | unexpected | not_implemented | invalid | io::error | strconv::invalid | strconv::overflow);
 
 
 export fn strerror(err: error) str = {
@@ -20,8 +22,12 @@ export fn strerror(err: error) str = {
 		return "Invalid";
 	case let e: no_match =>
 		return "Unrecognised symbol";
+	case let e: dimension_mismatch =>
+		return "Dimension mismatch";
 	case let e: strconv::error =>
 		return strconv::strerror(e);
+	case let e: io::error =>
+		return io::strerror(e);
 	case =>
 		return "Uh oh";
 	};

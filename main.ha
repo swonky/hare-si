@@ -11,6 +11,86 @@ fn to_utf8(sym: unit_kind) str  = symbols_utf8[sym: size];
 fn lookup_name(sym: unit_kind) str  = unit_names[sym: size];
 fn lookup_unit(sym: unit_kind) unit = units[sym: size];
 
+fn to_superscript(i: int) (rune | void) = switch (i) {
+	case 0 => yield '\u2070';
+	case 1 => yield '\u00B9';
+	case 2 => yield '\u00B2';
+	case 3 => yield '\u00B3';
+	case 4 => yield '\u2074';
+	case 5 => yield '\u2075';
+	case 6 => yield '\u2076';
+	case 7 => yield '\u2077';
+	case 8 => yield '\u2078';
+	case 9 => yield '\u2079';
+	case => yield void;
+};
+
+
+fn print_quantity(q: quantity, u: (str | void) = void) (size | error) = {
+	let count = 0z;
+	match (u) {
+	case void =>
+		fmt::printf("{:.3e} ", q.value * q.unit.scale)!;
+		print_unit(q.unit)?;
+	case let s: str =>
+		let target: unit = parse_unit_str(s)?;
+		
+		if (!eq_dim(q.unit.dim, target.dim)) {
+			return dimension_mismatch;
+		};
+
+		const value = q.value * q.unit.scale / target.scale;
+		count += fmt::printf("{:.3e} {}\n", value, u)!;
+	};
+	return count;
+};
+
+fn print_unit(u: unit) (size | io::error) = {
+	let first = true;
+
+	const dimensions: [_]str = [
+		"kg", "m", "s", "A", "K", "mol", "cd",
+	];
+
+	const exponents: [_]int = [
+		u.dim.mass,
+		u.dim.length,
+		u.dim.time,
+		u.dim.current,
+		u.dim.temperature,
+		u.dim.substance,
+		u.dim.luminosity,
+	];
+
+	let total: size = 0;
+	for (let i = 0z; i < len(dimensions); i += 1) {
+		if (exponents[i] == 0) {
+			continue;
+		};
+
+		total += fmt::printf("{}{}", if (first) "" else "·", dimensions[i])!;
+		first = false;
+
+		if (exponents[i] != 1) {
+			let exp: int = if (exponents[i] < 0) {
+				total += fmt::printf("{}", '\u207B')!;
+				yield exponents[i]*-1;
+			} else {
+				yield exponents[i];
+			};
+			match(to_superscript(exp)) {
+			case let r: rune =>
+				total += fmt::printf("{}", r)!;
+			case =>
+				void;
+			};
+		};
+	};
+
+	fmt::println()!;
+	return total;
+};
+
 fn match_symbol(s: str) (unit_kind | void) = {
 	// TODO: logging
 	// fmt::printf("matching: {}\n", s)!;
@@ -28,6 +108,16 @@ fn match_symbol(s: str) (unit_kind | void) = {
 		};
 	};
 	return void;
+};
+
+fn eq_dim(a: dimension, b: dimension) bool = {
+	return a.mass == b.mass
+	       && a.length == b.length
+	       && a.time == b.time
+	       && a.current == b.current
+	       && a.temperature == b.temperature
+	       && a.substance == b.substance
+	       && a.luminosity == b.luminosity;
 };
 
 fn mult_dim(a: dimension, b: dimension) dimension = dimension {
@@ -368,6 +458,24 @@ fn parse(s: str) (quantity | error) = {
 	};
 };
 
+fn parse_unit_str(s: str) (unit | error) = {
+	let p = parser {
+		scanner = strings::iter(s),
+	    	current = done,
+	};
+
+	advance(&p);
+
+	const result = parse_unit(&p)?;
+
+	match (p.current) {
+	case done =>
+		return result;
+	case =>
+		return invalid;
+	};
+};
+
 fn scale10(value: f64, exp: int) f64 = {
 	let result = value;
 	if (exp > 0) {
@@ -409,17 +517,39 @@ fn print_remainder(p: *parser) void = {
 	fmt::println()!;
 };
 
-export fn main() void = {
-	if (len(os::args) < 2) {
+fn run() (void | error) = {
+	const nargs: size = len(os::args);
+	if (nargs <= 1) {
+		fmt::println("unexpected number of arguments")?;
 		return;
 	};
-	match (parse(os::args[1])) {
+
+	const qty: quantity = match (parse(os::args[1])) {
 	case let err: no_match =>
-		fmt::printf("{}: {}", strerror(err), err)!;
+		fmt::printf("{}: {}", strerror(err), err)?;
 		return;
 	case let err: error =>
-		fmt::printf("{}", strerror(err))!;
-	case let q: quantity =>
-		qprint(q)!;
+		fmt::printf("{}", strerror(err))?;
+		return;
+	case let qty: quantity =>
+		yield qty;
+	};
+
+	switch (nargs) {
+	case 2 =>
+		print_quantity(qty)?;
+	case 3 =>
+		print_quantity(qty, os::args[2])?;
+	case =>
+		fmt::println("unexpected number of arguments")?;
+	};
+};
+
+export fn main() void = {
+	match (run()) {
+	case let err: error =>
+		fmt::errorln(strerror(err))!;
+	case void =>
+		void;
 	};
 };
