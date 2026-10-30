@@ -174,7 +174,7 @@ fn div_unit(a: unit, b: unit) unit = {
 fn pow_unit(a: unit, exp: int) unit = {
 	return unit {
 		dim   = pow_dim(a.dim, exp),
-		scale = a.scale,
+		scale = math::powf64(a.scale, exp: f64),
 	};
 };
 

@@ -7,19 +7,21 @@ Written in pure Hare with zero dependencies.
 ## Features
 - [x] Parses ASCII and UTF-8 encoded unit representations.
 - [x] Parses arbitrary compound unit expressions.
-- [ ] Formats ASCII and UTF-8 encoded unit representations.
+- [x] Formats UTF-8 encoded unit representations.
+- [ ] Formats ASCII encoded unit representations.
+- [X] Conversions
 - [ ] Arithmetic
 
 ### Supported units
 - [X] SI prefixes (`Q` `R` `Y` `Z` `E` `P` `T` `G` `M` `k` `h` `da` `d` `c` `m` `µ` or `u` `n` `p` `f` `a` `z` `y` `r` `q`)
 - [x] SI base units (`kg` `m` `s` `A` `K` `mol` `cd`)
 - [x] SI derived units (`Bq` `C` `°C` or `degC` `F` `Gy` `H` `Hz` `J` `kat` `lm` `lx` `N` `Ω` or `ohm` `Pa` `rad` `S` `sr` `Sv` `T` `V` `W` `Wb`)
-- [ ] Formerly accepted non-SI units (`min` `h` `d` `au` `°` `′` `″` `as` `ha` `L` `t` `Da` `eV` `Np` `B`)
+- [x] Formerly accepted non-SI units (`min` `h` `d` `au` `°` `′` `″` `as` `ha` `L` `t` `Da` `eV` `Np` `B`)
 
 ## Supported representations
 | Parsing | Formatting | Feature |
 | ------- | ---------- | ------- |
-|x| | Scientific notation. |
+|x|x| Scientific notation. |
 | | | Decimal points/commas. |
 | | | Space digit grouping (SI-recommended). |
 | | | Alternative digit grouping (comma, period, apostrophe). |
