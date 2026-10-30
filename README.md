@@ -18,10 +18,10 @@ Written in pure Hare with zero dependencies.
 - [ ] Arithmetic
 
 ### Supported units
-- [X] SI prefixes (Q, R, Y, Z, E, P, T, G, M, k, h, da, d, c, m, µ or u, n, p, f, a, z, y, r, q)
-- [x] SI base units (kg, m, s, A, K, mol, cd)
-- [x] SI derived units (Bq, C, °C or degC, F, Gy, H, Hz, J, kat, lm, lx, N, Ω or ohm, Pa, rad, S, sr, Sv, T, V, W, Wb)
-- [ ] Formerly accepted non-SI units (min, h, d, au, °, ′, ″, as, ha, L, t, Da, eV, Np, B).
+- [X] SI prefixes (`Q` `R` `Y` `Z` `E` `P` `T` `G` `M` `k` `h` `da` `d` `c` `m` `µ` or `u` `n` `p` `f` `a` `z` `y` `r` `q`)
+- [x] SI base units (`kg` `m` `s` `A` `K` `mol` `cd`)
+- [x] SI derived units (`Bq` `C` `°C` or `degC` `F` `Gy` `H` `Hz` `J` `kat` `lm` `lx` `N` `Ω` or `ohm` `Pa` `rad` `S` `sr` `Sv` `T` `V` `W` `Wb`)
+- [ ] Formerly accepted non-SI units (`min` `h` `d` `au` `°` `′` `″` `as` `ha` `L` `t` `Da` `eV` `Np` `B`)
 
 ## Installation
 
