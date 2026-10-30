@@ -12,9 +12,8 @@ Written in pure Hare with zero dependencies.
 - [ ] Formats scientific notation.
 - [ ] Parses LaTeX unit representations.
 - [ ] Formats LaTeX unit representations.
-- [ ] Formatting in International English
-- [ ] Formatting in US English
-- [ ] Conversion
+- [ ] Long formatting in International English.
+- [ ] Long formatting in other languages.
 - [ ] Arithmetic
 
 ### Supported units
