@@ -8,12 +8,6 @@ Written in pure Hare with zero dependencies.
 - [x] Parses ASCII and UTF-8 encoded unit representations.
 - [x] Parses arbitrary compound unit expressions.
 - [ ] Formats ASCII and UTF-8 encoded unit representations.
-- [ ] Parses scientific notation.
-- [ ] Formats scientific notation.
-- [ ] Parses LaTeX unit representations.
-- [ ] Formats LaTeX unit representations.
-- [ ] Long formatting in International English.
-- [ ] Long formatting in other languages.
 - [ ] Arithmetic
 
 ### Supported units
@@ -21,6 +15,17 @@ Written in pure Hare with zero dependencies.
 - [x] SI base units (`kg` `m` `s` `A` `K` `mol` `cd`)
 - [x] SI derived units (`Bq` `C` `°C` or `degC` `F` `Gy` `H` `Hz` `J` `kat` `lm` `lx` `N` `Ω` or `ohm` `Pa` `rad` `S` `sr` `Sv` `T` `V` `W` `Wb`)
 - [ ] Formerly accepted non-SI units (`min` `h` `d` `au` `°` `′` `″` `as` `ha` `L` `t` `Da` `eV` `Np` `B`)
+
+## Supported representations
+| Parsing | Formatting | Feature |
+| ------- | ---------- | ------- |
+|  |  | Scientific notation. |
+|  |  | Decimal points/commas. |
+|  |  | Space digit grouping (SI-recommended). |
+|  |  | Alternative digit grouping (comma, period, apostrophe). |
+|  |  | Long formatting in International English. |
+|  |  | Long formatting in other languages. |
+|  |  | LaTeX unit representations. |
 
 ## Installation
 
