@@ -5,10 +5,19 @@ use strconv;
 use strings;
 use os;
 
+type no_match    = !str;
+type unspecified = !str;
+type not_implemented = !str;
+type invalid = !void;
+type expected_ = !str;
 
-type hello = enum rune {
-	WORLD = '=',
+type unexpected  = struct {
+	pos: size,
+	exp: str,
+	got: str,
 };
+
+type error = !(no_match | unexpected | invalid | strconv::invalid | strconv::overflow);
 
 // Unit prefix decimal exponents
 type prefix = enum i8 {
@@ -55,6 +64,73 @@ def prefix_scale: [_]f64 = [
 	1.0e-18, // ATTO
 	1.0e-21, // ZEPTO
 	1.0e-24, // YOCTO
+];
+
+def prefix_names: [_]str = [
+	"yotta",
+	"zetta",
+	"exa",
+	"peta",
+	"tera",
+	"giga",
+	"mega",
+	"kilo",
+	"hecto",
+	"deca",
+	"deci",
+	"centi",
+	"milli",
+	"micro",
+	"nano",
+	"pico",
+	"femto",
+	"atto",
+	"zepto",
+	"yocto",
+];
+
+def prefix_symbols_ascii: [_]rune = [
+	'Y',
+	'Z',
+	'E',
+	'P',
+	'T',
+	'G',
+	'M',
+	'k',
+	'h',
+	'd',
+	'c',
+	'm',
+	'u',
+	'n',
+	'p',
+	'f',
+	'a',
+	'z',
+	'y',
+];
+
+def prefix_symbols_utf8: [_]rune = [
+	'Y',
+	'Z',
+	'E',
+	'P',
+	'T',
+	'G',
+	'M',
+	'k',
+	'h',
+	'd',
+	'c',
+	'm',
+	'μ',
+	'n',
+	'p',
+	'f',
+	'a',
+	'z',
+	'y',
 ];
 
 type base_unit = enum {
@@ -415,7 +491,7 @@ fn lookup_prefix(c: rune) (prefix | void) = return switch (c) {
 	case 'd' => yield prefix::DECI;
 	case 'c' => yield prefix::CENTI;
 	case 'm' => yield prefix::MILLI;
-	case 'u', 'μ' => yield prefix::MICRO;
+	case 'u', 'μ', 'µ'  => yield prefix::MICRO;
 	case 'n' => yield prefix::NANO;
 	case 'p' => yield prefix::PICO;
 	case 'f' => yield prefix::FEMTO;
@@ -604,35 +680,6 @@ fn uprint(u: unit) (size | io::error) = {
 		yield nomem;
 	};
 };
-
-// fn parse_print(s: str) (void | error) = {
-// 	let scanner: strings::iterator = strings::iter(s);
-// 	let buffer: [1024]u8 = [0...];
-// 	for (let c => next_token(&scanner)) {
-// 		let text = switch (c.kind) {
-// 		case token_kind::IDENTIFIER =>
-// 			let u = match_symbol(c.text);
-// 			yield lookup_name(u);
-// 		case =>
-// 			yield c.text;
-// 		};
-// 		fmt::printf("[{}:{}] ", text, c.kind: int)!;
-// 	};
-// };
-
-type no_match    = !str;
-type unspecified = !str;
-type not_implemented = !str;
-type invalid = !void;
-type expected_ = !str;
-
-type unexpected  = struct {
-	pos: size,
-	exp: str,
-	got: str,
-};
-
-type error = !(no_match | unexpected | invalid | strconv::invalid | strconv::overflow);
 
 fn strerror(err: error) str = {
 	match (err) {
