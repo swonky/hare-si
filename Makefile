@@ -1,14 +1,21 @@
-PREFIX ?= /usr/local
-BINDIR ?= $(PREFIX)/bin
+.POSIX:
+.SUFFIXES:
+HARE = hare
+HAREFLAGS =
 
-TARGET := ./bin/si
+DESTDIR =
+PREFIX ?= /usr/local
+SRCDIR ?= $(PREFIX)/src
+
+HARESRCDIR = $(SRCDIR)/hare
+THIRDPARTYDIR = $(HARESRCDIR)/third-party
+
+TARGET := si
 SOURCES := $(wildcard *.ha)
-VERSION_FILE := version.ha
+VERSION_FILE := ./si/version.ha
 
 SEM_VERSION := 0.0.1
 GIT_VERSION := $(shell git describe --always --dirty 2>/dev/null || echo unknown)
-
-.PHONY: all build install uninstall clean FORCE
 
 all: build
 
@@ -16,7 +23,7 @@ build: $(TARGET)
 
 $(TARGET): $(SOURCES) $(VERSION_FILE)
 	@mkdir -p ./bin
-	hare build -o $@ 
+	$(HARE) build $(HAREFLAGS) -o bin/$@ cmd/$@/
 
 $(VERSION_FILE): FORCE
 	@printf 'export const sem_version: str = "%s";\nexport const git_version: str = "%s";\n' "$(SEM_VERSION)" "$(GIT_VERSION)" > $@
@@ -31,3 +38,5 @@ uninstall:
 
 clean:
 	rm -f $(TARGET)
+
+.PHONY: all build install uninstall clean FORCE

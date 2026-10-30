@@ -45,7 +45,7 @@ fn print_quantity(q: quantity, u: (str | void) = void) (size | error) = {
 	return count;
 };
 
-fn print_unit(u: unit) (size | io::error) = {
+fn print_unit(u: unit) (size | error) = {
 	let first = true;
 
 	const dimensions: [_]str = [
@@ -442,21 +442,6 @@ fn parse_quantity(p: *parser) (quantity | error) = {
 	return quantity { unit = u, value = v };
 };
 
-fn parse(s: str) (quantity | error) = {
-	let p = parser {
-		scanner = strings::iter(s),
-	    	current = done,
-	};
-
-	const result = parse_quantity(&p)?;
-
-	match (p.current) {
-	case done =>
-		return result;
-	case =>
-		return invalid;
-	};
-};
 
 fn parse_unit_str(s: str) (unit | error) = {
 	let p = parser {
@@ -517,48 +502,27 @@ fn print_remainder(p: *parser) void = {
 	fmt::println()!;
 };
 
-fn run() (void | error) = {
-	const nargs: size = len(os::args);
-	if (nargs <= 1) {
-		fmt::println("unexpected number of arguments")?;
-		return;
+export fn print(obj: (quantity | unit), u: (str | void) = void) (size | error) = {
+	match (obj) {
+	case let q: quantity =>
+		return print_quantity(q, u);
+	case let u: unit =>
+		return print_unit(u);
+	};
+};
+	
+export fn parse(s: str) (quantity | error) = {
+	let p = parser {
+		scanner = strings::iter(s),
+	    	current = done,
 	};
 
-	if (os::args[1] == "version") {
-		print_version();
-		return;
-	};
+	const result = parse_quantity(&p)?;
 
-	const qty: quantity = match (parse(os::args[1])) {
-	case let err: no_match =>
-		fmt::printf("{}: {}", strerror(err), err)?;
-		return;
-	case let err: error =>
-		fmt::printf("{}", strerror(err))?;
-		return;
-	case let qty: quantity =>
-		yield qty;
-	};
-
-	switch (nargs) {
-	case 2 =>
-		print_quantity(qty)?;
-	case 3 =>
-		print_quantity(qty, os::args[2])?;
+	match (p.current) {
+	case done =>
+		return result;
 	case =>
-		fmt::println("unexpected number of arguments")?;
-	};
-};
-
-fn print_version() void = {
-	fmt::printf("si {}-{}\n", sem_version, git_version)!;
-};
-
-export fn main() void = {
-	match (run()) {
-	case let err: error =>
-		fmt::errorln(strerror(err))!;
-	case void =>
-		void;
+		return invalid;
 	};
 };
