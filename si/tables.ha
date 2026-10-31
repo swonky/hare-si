@@ -224,7 +224,7 @@ def sym_watt                 = "W";
 def sym_weber                = "Wb";
 
 def name_ampere              = "ampere";
-def name_astronomical_unit   = "astronomical_unit";
+def name_astronomical_unit   = "astronomical unit";
 def name_becquerel           = "becquerel";
 def name_bel                 = "bel";
 def name_candela             = "candela";
@@ -444,10 +444,6 @@ def units: [_]unit = [
 // Dimensionless
 def dimensionless = dimension { ... };
 
-// Returns true if unit is dimensionless
-// fn is_dimensionless(u: unit) bool = u.dim.mass == 0 && u.dim.length == 0 && u.dim.time == 0
-// 	&& u.dim.current == 0 && u.dim.temperature == 0 && u.dim.substance == 0 && u.dim.luminosity == 0;
-
 // Base dimensions
 def mass        = dimension { mass        = 1, ...};
 def length      = dimension { length      = 1, ...};
@@ -460,7 +456,7 @@ def luminosity  = dimension { luminosity  = 1, ...};
 // Reciprocal base dimensions
 def reciprocal_mass        = dimension { mass        = -1, ...};
 def wavenumber             = dimension { length      = -1, ...};
-def reciprocal_time        = dimension { time        = -1, ...};
+def frequency             =  dimension { time        = -1, ...};
 def reciprocal_current     = dimension { current     = -1, ...};
 def reciprocal_temperature = dimension { temperature = -1, ...};
 def reciprocal_substance   = dimension { substance   = -1, ...};
@@ -477,7 +473,6 @@ def electric_charge       = dimension { time       = 1,  current    = 1,  ...   
 def electric_potential    = dimension { mass       = 1,  length     = 2,  time    = -3, current     = -1, ... };
 def energy                = dimension { mass       = 1,  length     = 2,  time    = -2, ...                   };
 def force                 = dimension { mass       = 1,  length     = 1,  time    = -2, ...                   };
-def frequency             = dimension { time       = -1, ...                                                  };
 def illuminance           = dimension { length     = -2, luminosity = 1,  ...                                 };
 def inductance            = dimension { mass       = 1,  length     = 2,  time    = -2, current     = -2, ... };
 def luminous_flux         = dimension { luminosity = 1,  ...                                                  };
@@ -504,88 +499,87 @@ def velocity                = dimension { length     = 1,  time   = -1, ...     
 def volume                  = dimension { length     = 3,  ...                                           };
 
 // Base units
-def ampere              = unit { dim = current,                scale = 1.0               };
-def candela             = unit { dim = luminosity,             scale = 1.0               };
-def kelvin              = unit { dim = temperature,            scale = 1.0               };
-def kilogram            = unit { dim = mass,                   scale = 1.0               };
-def metre               = unit { dim = length,                 scale = 1.0               };
-def mole                = unit { dim = substance,              scale = 1.0               };
-def second              = unit { dim = time,                   scale = 1.0               };
+def ampere                           = unit     { dim  = current,                 scale = 1.0               };
+def candela                          = unit     { dim  = luminosity,              scale = 1.0               };
+def kelvin                           = unit     { dim  = temperature,             scale = 1.0               };
+def kilogram                         = unit     { dim  = mass,                    scale = 1.0               };
+def metre                            = unit     { dim  = length,                  scale = 1.0               };
+def mole                             = unit     { dim  = substance,               scale = 1.0               };
+def second                           = unit     { dim  = time,                    scale = 1.0               };
 
 // Reciprocal base units
-def reciprocal_ampere   = unit { dim = reciprocal_current,     scale = 1.0               };
-def reciprocal_candela  = unit { dim = reciprocal_luminosity,  scale = 1.0               };
-def reciprocal_kelvin   = unit { dim = reciprocal_temperature, scale = 1.0               };
-def reciprocal_kilogram = unit { dim = reciprocal_mass,        scale = 1.0               };
-def reciprocal_metre    = unit { dim = wavenumber,             scale = 1.0               };
-def reciprocal_mole     = unit { dim = reciprocal_substance,   scale = 1.0               };
-def reciprocal_second   = unit { dim = reciprocal_time,        scale = 1.0               };
+def reciprocal_ampere                = unit     { dim  = reciprocal_current,      scale = 1.0               };
+def reciprocal_candela               = unit     { dim  = reciprocal_luminosity,   scale = 1.0               };
+def reciprocal_kelvin                = unit     { dim  = reciprocal_temperature,  scale = 1.0               };
+def reciprocal_kilogram              = unit     { dim  = reciprocal_mass,         scale = 1.0               };
+def reciprocal_metre                 = unit     { dim  = wavenumber,              scale = 1.0               };
+def reciprocal_mole                  = unit     { dim  = reciprocal_substance,    scale = 1.0               };
+def hertz                            = unit     { dim  = frequency,               scale = 1.0               };
 
 // Derived units
-def becquerel           = unit { dim = activity,               scale = 1.0               };
-def coulomb             = unit { dim = electric_charge,        scale = 1.0               };
-def degree_celsius      = unit { dim = temperature,            scale = 1.0               };
-def farad               = unit { dim = capacitance,            scale = 1.0               };
-def gram                = unit { dim = mass,                   scale = 1e-3              };
-def gray                = unit { dim = absorbed_dose,          scale = 1.0               };
-def henry               = unit { dim = inductance,             scale = 1.0               };
-def hertz               = unit { dim = frequency,              scale = 1.0               };
-def joule               = unit { dim = energy,                 scale = 1.0               };
-def katal               = unit { dim = catalytic_activity,     scale = 1.0               };
-def lumen               = unit { dim = luminous_flux,          scale = 1.0               };
-def lux                 = unit { dim = illuminance,            scale = 1.0               };
-def newton              = unit { dim = force,                  scale = 1.0               };
-def ohm                 = unit { dim = resistance,             scale = 1.0               };
-def pascal              = unit { dim = pressure,               scale = 1.0               };
-def radian              = unit { dim = dimensionless,          scale = 1.0               };
-def siemens             = unit { dim = conductance,            scale = 1.0               };
-def sievert             = unit { dim = dose_equivalent,        scale = 1.0               };
-def steradian           = unit { dim = dimensionless,          scale = 1.0               };
-def tesla               = unit { dim = magnetic_flux_density,  scale = 1.0               };
-def volt                = unit { dim = electric_potential,     scale = 1.0               };
-def watt                = unit { dim = power,                  scale = 1.0               };
-def weber               = unit { dim = magnetic_flux,          scale = 1.0               };
+def becquerel                        = unit     { dim  = activity,                scale = 1.0               };
+def coulomb                          = unit     { dim  = electric_charge,         scale = 1.0               };
+def degree_celsius                   = unit     { dim  = temperature,             scale = 1.0               };
+def farad                            = unit     { dim  = capacitance,             scale = 1.0               };
+def gram                             = unit     { dim  = mass,                    scale = 1e-3              };
+def gray                             = unit     { dim  = absorbed_dose,           scale = 1.0               };
+def henry                            = unit     { dim  = inductance,              scale = 1.0               };
+def joule                            = unit     { dim  = energy,                  scale = 1.0               };
+def katal                            = unit     { dim  = catalytic_activity,      scale = 1.0               };
+def lumen                            = unit     { dim  = luminous_flux,           scale = 1.0               };
+def lux                              = unit     { dim  = illuminance,             scale = 1.0               };
+def newton                           = unit     { dim  = force,                   scale = 1.0               };
+def ohm                              = unit     { dim  = resistance,              scale = 1.0               };
+def pascal                           = unit     { dim  = pressure,                scale = 1.0               };
+def radian                           = unit     { dim  = dimensionless,           scale = 1.0               };
+def siemens                          = unit     { dim  = conductance,             scale = 1.0               };
+def sievert                          = unit     { dim  = dose_equivalent,         scale = 1.0               };
+def steradian                        = unit     { dim  = dimensionless,           scale = 1.0               };
+def tesla                            = unit     { dim  = magnetic_flux_density,   scale = 1.0               };
+def volt                             = unit     { dim  = electric_potential,      scale = 1.0               };
+def watt                             = unit     { dim  = power,                   scale = 1.0               };
+def weber                            = unit     { dim  = magnetic_flux,           scale = 1.0               };
 
 // Non-SI
-def astronomical_unit   = unit { dim = length,                 scale = 149597870700.0    };
-def bel                 = unit { dim = dimensionless,          scale = 1.0               };
-def dalton              = unit { dim = mass,                   scale = 1.66053906892e-27 };
-def day                 = unit { dim = time,                   scale = 86400.0           };
-def degree              = unit { dim = dimensionless,          scale = 1.0               };
-def electronvolt        = unit { dim = energy,                 scale = 1.602176634e-19   };
-def hectare             = unit { dim = area,                   scale = 10000.0           };
-def hour                = unit { dim = time,                   scale = 3600.0            };
-def litre               = unit { dim = volume,                 scale = 0.001             };
-def minute              = unit { dim = time,                   scale = 60.0              };
-def neper               = unit { dim = dimensionless,          scale = 1.0               };
-def tonne               = unit { dim = mass,                   scale = 1000.0            };
+def astronomical_unit                = unit     { dim  = length,                  scale = 149597870700.0    };
+def bel                              = unit     { dim  = dimensionless,           scale = 1.0               };
+def dalton                           = unit     { dim  = mass,                    scale = 1.66053906892e-27 };
+def day                              = unit     { dim  = time,                    scale = 86400.0           };
+def degree                           = unit     { dim  = dimensionless,           scale = 1.0               };
+def electronvolt                     = unit     { dim  = energy,                  scale = 1.602176634e-19   };
+def hectare                          = unit     { dim  = area,                    scale = 10000.0           };
+def hour                             = unit     { dim  = time,                    scale = 3600.0            };
+def litre                            = unit     { dim  = volume,                  scale = 0.001             };
+def minute                           = unit     { dim  = time,                    scale = 60.0              };
+def neper                            = unit     { dim  = dimensionless,           scale = 1.0               };
+def tonne                            = unit     { dim  = mass,                    scale = 1000.0            };
 
 // Coherent derived units
-def ampere_per_metre          = unit { dim = magnetic_field_strength, scale = 1.0 };
-def ampere_per_square_metre   = unit { dim = current_density,         scale = 1.0 };
-def candela_per_square_metre  = unit { dim = luminance,               scale = 1.0 };
-def cubic_metre               = unit { dim = volume,                  scale = 1.0 };
-def cubic_metre_per_kilogram  = unit { dim = specific_volume,         scale = 1.0 };
-def kilogram_per_cubic_metre  = unit { dim = density,                 scale = 1.0 };
-def kilogram_per_square_metre = unit { dim = surface_density,         scale = 1.0 };
-def lumen_per_watt            = unit { dim = luminous_efficacy,       scale = 1.0 };
-def metre_per_second          = unit { dim = velocity,                scale = 1.0 };
-def metre_per_second_squared  = unit { dim = acceleration,            scale = 1.0 };
-def mole_per_cubic_metre      = unit { dim = concentration,           scale = 1.0 };
-def square_metre              = unit { dim = area,                    scale = 1.0 };
+def ampere_per_metre                 = unit     { dim  = magnetic_field_strength, scale = 1.0               };
+def ampere_per_square_metre          = unit     { dim  = current_density,         scale = 1.0               };
+def candela_per_square_metre         = unit     { dim  = luminance,               scale = 1.0               };
+def cubic_metre                      = unit     { dim  = volume,                  scale = 1.0               };
+def cubic_metre_per_kilogram         = unit     { dim  = specific_volume,         scale = 1.0               };
+def kilogram_per_cubic_metre         = unit     { dim  = density,                 scale = 1.0               };
+def kilogram_per_square_metre        = unit     { dim  = surface_density,         scale = 1.0               };
+def lumen_per_watt                   = unit     { dim  = luminous_efficacy,       scale = 1.0               };
+def metre_per_second                 = unit     { dim  = velocity,                scale = 1.0               };
+def metre_per_second_squared         = unit     { dim  = acceleration,            scale = 1.0               };
+def mole_per_cubic_metre             = unit     { dim  = concentration,           scale = 1.0               };
+def square_metre                     = unit     { dim  = area,                    scale = 1.0               };
 
 // Non-coherent derived units
-def joule_per_kelvin = unit { dim = entropy, scale = 1.0 };
-def joule_second = unit { dim = action, scale = 1.0 };
+def joule_per_kelvin                 = unit     { dim  = entropy,                 scale = 1.0               };
+def joule_second                     = unit     { dim  = action,                  scale = 1.0               };
 
 // Constants
-def speed_of_light                   = quantity { unit = metre_per_second,  value = 299792458.0     };
-def boltzmann                        = quantity { unit = joule_per_kelvin,  value = 1.380649e-23    };
-def planck                           = quantity { unit = joule_second,      value = 6.62607015e-34  };
-def elementary_charge                = quantity { unit = coulomb,           value = 1.602176634e-19 };
-def avogadro                         = quantity { unit = reciprocal_mole,   value = 6.02214076e23   };
-def hyperfine_transition_caesium_133 = quantity { unit = hertz,             value = 9192631770.0    };
-def luminous_efficacy_540_THz        = quantity { unit = lumen_per_watt,    value = 683.0           };
+def speed_of_light                   = quantity { unit = metre_per_second,        value = 299792458.0       };
+def boltzmann                        = quantity { unit = joule_per_kelvin,        value = 1.380649e-23      };
+def planck                           = quantity { unit = joule_second,            value = 6.62607015e-34    };
+def elementary_charge                = quantity { unit = coulomb,                 value = 1.602176634e-19   };
+def avogadro                         = quantity { unit = reciprocal_mole,         value = 6.02214076e23     };
+def hyperfine_transition_caesium_133 = quantity { unit = hertz,                   value = 9192631770.0      };
+def luminous_efficacy_540_THz        = quantity { unit = lumen_per_watt,          value = 683.0             };
 
 def symbol_lookup: [_]symbol = [
 	symbol { repr = "A",    kind = unit_kind::AMPERE            },
