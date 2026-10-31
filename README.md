@@ -18,16 +18,6 @@ Written in Hare with zero external dependencies.
 - [x] SI derived units (`Bq` `C` `°C` or `degC` `F` `Gy` `H` `Hz` `J` `kat` `lm` `lx` `N` `Ω` or `ohm` `Pa` `rad` `S` `sr` `Sv` `T` `V` `W` `Wb`)
 - [x] Formerly accepted non-SI units (`min` `h` `d` `au` `°` `′` `″` `as` `ha` `L` `t` `Da` `eV` `Np` `B`)
 
-| Parsing | Formatting | Feature |
-| ------- | ---------- | ------- |
-|x|x| Scientific notation. |
-| | | Decimal points/commas. |
-| | | Space digit grouping (SI-recommended). |
-| | | Alternative digit grouping (comma, period, apostrophe). |
-| | | Long formatting in International English. |
-| | | Long formatting in other languages. |
-| | | LaTeX unit representations. |
-
 ## Usage
 
 ### Prerequisites

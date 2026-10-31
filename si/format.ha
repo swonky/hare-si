@@ -44,38 +44,27 @@ fn sprint_f64(f: f64, prec: (uint|void) = void, notation: notation = notation::G
 	const s = strconv::ftosf(f, format, prec, flags)?;
 	defer free(s);
 
-	if (notation != notation::SCIENTIFIC) {
+	if (notation != notation::GENERAL && notation != notation::SCIENTIFIC) {
+		return strings::dup(s);
+	};
+	
+	let pair: (str, str) = strings::cut(s, "e");
+	if (pair.1 == "") {
+		pair = strings::cut(s, "E");
+	};
+	if (pair.1 == "") {
 		return strings::dup(s);
 	};
 
-	const bytes = strings::toutf8(s);
-	let epos = len(bytes);
-
-	for (let i = 0z; i < len(bytes); i += 1) {
-		if (bytes[i] == 'e' || bytes[i] == 'E') {
-			epos = i;
-			break;
-		};
-	};
-
-	if (epos == len(bytes)) {
-		return strings::dup(s);
-	};
-
-	let out: []u8 = [];
-	defer free(out);
-
-	append_str(&out, strings::sub(s, 0, epos))?;
-	append_str(&out, "×10")?;
-
-	const exp = match (strconv::stoi(
-		strings::sub(s, epos + 1, len(s)),
-	)) {
+	const exp = match (strconv::stoi(pair.1)) {
 	case let exp: int =>
 		yield exp;
 	case =>
 		abort("invalid exponent from strconv");
 	};
+
+	let out = strings::toutf8(pair.0);
+	append_str(&out, "×10")?;
 
 	match (append_superscript(&out, strconv::itos(exp))) {
 	case void => void;

@@ -1,2 +1,2 @@
 export const sem_version: str = "0.0.1";
-export const git_version: str = "9102e40-dirty";
+export const git_version: str = "ce18278-dirty";
