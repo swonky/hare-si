@@ -1,3 +1,4 @@
+use fmt;
 use io;
 use strconv;
 
@@ -5,7 +6,8 @@ export type dimension_mismatch = !void;
 export type no_match    = !str;
 export type not_implemented = !str;
 export type invalid = !void;
-type expected_ = !str;
+export type invalid_exponent = !rune;
+export type unexpected_token = !rune;
 
 export type unexpected  = struct {
 	pos: size,
@@ -13,7 +15,9 @@ export type unexpected  = struct {
 	got: str,
 };
 
-export type error = !(no_match | dimension_mismatch | unexpected | not_implemented | invalid | io::error | strconv::invalid | strconv::overflow);
+export type error = !(no_match | invalid_exponent | dimension_mismatch
+	| unexpected_token | not_implemented | invalid | io::error 
+	| strconv::invalid | strconv::overflow | nomem );
 
 
 export fn strerror(err: error) str = {
@@ -24,11 +28,33 @@ export fn strerror(err: error) str = {
 		return "Unrecognised symbol";
 	case let e: dimension_mismatch =>
 		return "Dimension mismatch";
+	case let e: invalid_exponent =>
+		return "Invalid exponent";
+	case let e: unexpected_token =>
+		return "Unexpected token";
 	case let e: strconv::error =>
 		return strconv::strerror(e);
 	case let e: io::error =>
 		return io::strerror(e);
+	case let e: nomem =>
+		return "Ran out of memory";
 	case =>
-		return "Uh oh";
+		return "Unhandled exception";
+	};
+};
+
+export fn printerror(err: error) (void | io::error) = {
+	const msg: str = strerror(err);
+	fmt::errorf("{}", msg)?;
+
+	match (err) {
+	case let e: no_match =>
+		fmt::errorf(": {}", e)?;
+	case let e: invalid_exponent =>
+		fmt::errorf(": {}", e)?;
+	case let e: unexpected_token =>
+		fmt::errorf(": {}", e)?;
+	case =>
+		void;
 	};
 };

@@ -197,7 +197,7 @@ fn is_exponent_prefix(r: rune) bool = {
 	};
 };
 
-fn next_token(s: *strings::iterator) (token | done) = {
+fn next_token_permissive(s: *strings::iterator) (token | done) = {
 	for (true) {
 		const start: strings::iterator = *s;
 		const c = match (next_rune(s)) {
@@ -311,3 +311,79 @@ fn next_token(s: *strings::iterator) (token | done) = {
 	return make_token(&start, s, kind);
 };
 
+fn next_token(s: *strings::iterator) (token | done) = {
+	for (true) {
+		const start: strings::iterator = *s;
+		const c = match (next_rune(s)) {
+		case done =>
+			return done;
+		case let c: rune =>
+			yield c;
+		};
+		if (!is_space(c)) {
+			*s = start;
+			break;
+		};
+	};
+
+	const start: strings::iterator = *s;
+
+	const c = match (next_rune(s)) {
+	case done =>
+		return done;
+	case let c: rune =>
+		yield c;
+	};
+
+	const kind = switch (c) {
+	case '+' =>
+		yield token_kind::PLUS;
+	case '-' =>
+		yield token_kind::MINUS;
+	case '^' =>
+		yield token_kind::POWER;
+	case '*' =>
+		yield token_kind::MULTIPLY;
+	case '/' =>
+		yield token_kind::SOLIDUS;
+	case '(' =>
+		yield token_kind::LPAREN;
+	case ')' =>
+		yield token_kind::RPAREN;
+	case =>
+		yield token_kind::UNSPECIFIED;
+	};
+
+	if (kind != token_kind::UNSPECIFIED) {
+		return make_token(&start, s, kind);
+	};
+
+	let pred: *fn(_: rune) bool = @undefined;
+
+	if (ascii::isdigit(c)) {
+		kind = token_kind::INTEGER;
+		pred = &ascii::isdigit;
+	} else if (is_ident(c)) {
+		kind = token_kind::IDENTIFIER;
+		pred = &is_ident;
+	} else {
+		abort("unrecognised character");
+	};
+
+	for (true) {
+		const c = match (peek_rune(s)) {
+		case done =>
+			break;
+		case let c: rune =>
+			yield c;
+		};
+
+		if (!pred(c)) {
+			break;
+		};
+
+		next_rune(s);
+	};
+
+	return make_token(&start, s, kind);
+};

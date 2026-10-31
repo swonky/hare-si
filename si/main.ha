@@ -11,26 +11,18 @@ fn to_utf8(sym: unit_kind) str  = symbols_utf8[sym: size];
 fn lookup_name(sym: unit_kind) str  = unit_names[sym: size];
 fn lookup_unit(sym: unit_kind) unit = units[sym: size];
 
-fn to_superscript(i: int) (rune | void) = switch (i) {
-	case 0 => yield '\u2070';
-	case 1 => yield '\u00B9';
-	case 2 => yield '\u00B2';
-	case 3 => yield '\u00B3';
-	case 4 => yield '\u2074';
-	case 5 => yield '\u2075';
-	case 6 => yield '\u2076';
-	case 7 => yield '\u2077';
-	case 8 => yield '\u2078';
-	case 9 => yield '\u2079';
-	case => yield void;
-};
 
-
-fn print_quantity(q: quantity, u: (str | void) = void) (size | error) = {
+export fn print_quantity(
+	q: quantity, 
+	u: (str | void) = void, 
+	prec: (uint | void) = void,
+	notation: notation = notation::GENERAL, 
+) (size | error) = {
 	let count = 0z;
 	match (u) {
 	case void =>
-		fmt::printf("{:.3e} ", q.value * q.unit.scale)!;
+		const value: f64 = q.value * q.unit.scale;
+		count += print_f64(value, prec, notation)!;
 		print_unit(q.unit)?;
 	case let s: str =>
 		let target: unit = parse_unit_str(s)?;
@@ -39,8 +31,14 @@ fn print_quantity(q: quantity, u: (str | void) = void) (size | error) = {
 			return dimension_mismatch;
 		};
 
-		const value = q.value * q.unit.scale / target.scale;
-		count += fmt::printf("{:.3e} {}\n", value, u)!;
+		const value: f64 = q.value * q.unit.scale / target.scale;
+		let formatted_value = sprint_f64(value, prec, notation)!;
+		defer free(formatted_value);
+
+		let formatted_unit = format_unit(s)?;
+		defer free(formatted_unit);
+
+		count += fmt::printf("{} {}\n", formatted_value, formatted_unit)!;
 	};
 	return count;
 };
@@ -78,7 +76,7 @@ fn print_unit(u: unit) (size | error) = {
 			} else {
 				yield exponents[i];
 			};
-			match(to_superscript(exp)) {
+			match(int_to_superscript(exp)) {
 			case let r: rune =>
 				total += fmt::printf("{}", r)!;
 			case =>
@@ -223,10 +221,11 @@ fn qprint(q: quantity) (size | io::error) = {
 type parser = struct {
 	scanner: strings::iterator,
 	current: (token | done),
+	advance: *fn(_: *strings::iterator) (token | done),
 };
 
 fn advance(p: *parser) (token | done) = {
-	p.current = next_token(&p.scanner);
+	p.current = p.advance(&p.scanner);
 	return p.current;
 };
 
@@ -447,6 +446,7 @@ fn parse_unit_str(s: str) (unit | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
+		advance = &next_token,
 	};
 
 	advance(&p);
@@ -515,6 +515,7 @@ export fn parse(s: str) (quantity | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
+		advance = &next_token_permissive,
 	};
 
 	const result = parse_quantity(&p)?;

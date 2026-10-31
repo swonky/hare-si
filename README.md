@@ -1,6 +1,6 @@
 # hare-si
 
-A library and command-line tool for parsing, converting, and formatting quantities using the International System of Units (SI).
+A library and CLI utility for parsing, converting, and formatting physical quantities using the International System of Units (SI).
 
 Written in Hare with zero external dependencies.
 
