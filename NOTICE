@@ -1,0 +1,12 @@
+NOTICE
+
+This project includes `si/count.ha`, derived from the pre-release edition of the Hare standard library hosted at:
+https://git.sr.ht/~sircmpwn/hare/tree/126c77c624fee173750429c3df56769bf53f5928/item/strings/count.ha
+
+This file is distributed in accordance with the Mozilla Public License 2.0 (MPL-2.0). 
+
+The original licensing terms and applicable copyright notices are retained in the source file.
+
+The Mozilla Public License 2.0 is available at:
+
+https://www.mozilla.org/MPL/2.0/

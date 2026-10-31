@@ -4,6 +4,8 @@
 HARE = hare
 HAREFLAGS =
 SCDOC = scdoc
+GROFF = groff
+COL = col
 
 DESTDIR =
 PREFIX ?= /usr/local
@@ -21,13 +23,14 @@ VERSION_FILE = ./si/version.ha
 
 MAN_SOURCE = ./docs/si.1.scd
 MAN_PAGE = ./docs/si.1
+README = ./README
 
 SEM_VERSION = 0.0.1
 GIT_VERSION = $(shell git describe --always --dirty 2>/dev/null || echo unknown)
 
 all: build
 
-build: $(TARGET) $(MAN_PAGE)
+build: $(TARGET) $(MAN_PAGE) $(README)
 
 $(TARGET): $(SOURCES) $(VERSION_FILE)
 	@mkdir -p ./bin
@@ -41,6 +44,13 @@ $(MAN_PAGE): $(MAN_SOURCE)
 		$(SCDOC) < $(MAN_SOURCE) > $@; \
 	else \
 		echo "WARNING: scdoc not found; skipping man page generation"; \
+	fi
+
+$(README): $(MAN_PAGE)
+	@if command -v $(GROFF) >/dev/null 2>&1 && command -v $(COL) >/dev/null 2>&1; then \
+		$(GROFF) -man -Tutf8 -P-cbou $(MAN_PAGE) | $(COL) -b > $@; \
+	else \
+		echo "WARNING: groff or col not found; skipping README generation"; \
 	fi
 
 FORCE:
@@ -60,6 +70,6 @@ uninstall-docs:
 	rm -f "$(DESTDIR)$(MANDIR)/man1/$(TARGET).1"
 
 clean:
-	rm -f ./bin/$(TARGET) $(MAN_PAGE)
+	rm -f ./bin/$(TARGET) $(MAN_PAGE) $(README)
 
 .PHONY: all build install install-docs uninstall uninstall-docs clean FORCE
