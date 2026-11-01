@@ -85,6 +85,7 @@ def sym_hour                 = "h";
 def sym_joule                = "J";
 def sym_katal                = "kat";
 def sym_kelvin               = "K";
+def sym_kilogram             = "kg";
 def sym_litre                = "L";
 def sym_lumen                = "lm";
 def sym_lux                  = "lx";
@@ -128,6 +129,7 @@ def name_hour                = "hour";
 def name_joule               = "joule";
 def name_katal               = "katal";
 def name_kelvin              = "kelvin";
+def name_kilogram            = "kilogram";
 def name_litre               = "litre";
 def name_lumen               = "lumen";
 def name_lux                 = "lux";
@@ -148,6 +150,16 @@ def name_tonne               = "tonne";
 def name_volt                = "volt";
 def name_watt                = "watt";
 def name_weber               = "weber";
+
+def symbols_base: [_]str = [
+	"kg",
+	sym_metre,
+	sym_second,
+	sym_ampere,
+	sym_kelvin,
+	sym_mole,
+	sym_candela,
+];
 
 def symbols_utf8: [_]str = [
 	sym_ampere,
@@ -235,6 +247,16 @@ def symbols_ascii: [_]str = [
 	sym_volt,
 	sym_watt,
 	sym_weber,
+];
+
+def base_names: [_]str = [
+	name_kilogram,
+	name_metre,
+	name_second,
+	name_ampere,
+	name_kelvin,
+	name_mole,
+	name_candela,
 ];
 
 def unit_names: [_]str = [
@@ -425,18 +447,18 @@ def watt                             = unit     { dim  = power,                 
 def weber                            = unit     { dim  = magnetic_flux,           scale = 1.0               };
 
 // Non-SI
-def astronomical_unit                = unit     { dim  = length,                  scale = 149597870700.0    };
+def astronomical_unit                = unit     { dim  = length,                  scale = 1.495978707e11    };
 def bel                              = unit     { dim  = dimensionless,           scale = 1.0               };
 def dalton                           = unit     { dim  = mass,                    scale = 1.66053906892e-27 };
-def day                              = unit     { dim  = time,                    scale = 86400.0           };
-def degree                           = unit     { dim  = dimensionless,           scale = 0.017453292519943295 };
+def day                              = unit     { dim  = time,                    scale = 8.64e4            };
+def degree                           = unit     { dim  = dimensionless,           scale = 1.7453292519943295e-2 };
 def electronvolt                     = unit     { dim  = energy,                  scale = 1.602176634e-19   };
 def hectare                          = unit     { dim  = area,                    scale = 10000.0           };
-def hour                             = unit     { dim  = time,                    scale = 3600.0            };
-def litre                            = unit     { dim  = volume,                  scale = 0.001             };
-def minute                           = unit     { dim  = time,                    scale = 60.0              };
+def hour                             = unit     { dim  = time,                    scale = 3.6e3             };
+def litre                            = unit     { dim  = volume,                  scale = 1.0e-3            };
+def minute                           = unit     { dim  = time,                    scale = 6.0e1             };
 def neper                            = unit     { dim  = dimensionless,           scale = 1.0               };
-def tonne                            = unit     { dim  = mass,                    scale = 1000.0            };
+def tonne                            = unit     { dim  = mass,                    scale = 1.0e3             };
 
 // Coherent derived units
 def ampere_per_metre                 = unit     { dim  = magnetic_field_strength, scale = 1.0               };

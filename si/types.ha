@@ -1,7 +1,7 @@
 
 // Symbol
 type symbol = struct {
-	kind: unit_kind,
+	kind: (unit_kind | prefix_kind),
 	repr: str,
 };
 

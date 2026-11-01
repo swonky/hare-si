@@ -44,7 +44,7 @@ def sym_micro_ascii = "u";
 def sym_mu          = "μ";
 
 // Unit prefix decimal exponents
-type prefix = enum i8 {
+type prefix_kind = enum i8 {
 	YOTTA, ZETTA, EXA, PETA, TERA, GIGA, MEGA, KILO, HECTO, DECA, DECI, CENTI,
 	MILLI, MICRO, NANO, PICO, FEMTO, ATTO, ZEPTO, YOCTO,
 };
@@ -70,4 +70,29 @@ def prefix_symbols_utf8: [_]str = [
 	sym_yotta, sym_zetta, sym_exa, sym_peta, sym_tera, sym_giga, sym_mega, sym_kilo, 
 	sym_hecto, sym_deca, sym_deci, sym_centi, sym_milli, sym_micro, sym_nano, 
 	sym_pico, sym_femto, sym_atto, sym_zepto, sym_yocto,
+];
+
+def prefix_lookup: [_]symbol = [
+	symbol { repr = sym_mega, kind = prefix_kind::MEGA },
+	symbol { repr = sym_giga, kind = prefix_kind::GIGA },
+	symbol { repr = sym_kilo, kind = prefix_kind::KILO },
+	symbol { repr = sym_peta, kind = prefix_kind::PETA },
+	symbol { repr = sym_tera, kind = prefix_kind::TERA },
+	symbol { repr = sym_yotta, kind = prefix_kind::YOTTA },
+	symbol { repr = sym_exa, kind = prefix_kind::EXA },
+	symbol { repr = sym_zetta, kind = prefix_kind::ZETTA },
+	symbol { repr = sym_atto, kind = prefix_kind::ATTO },
+	symbol { repr = sym_centi, kind = prefix_kind::CENTI },
+	symbol { repr = sym_deca, kind = prefix_kind::DECA },
+	symbol { repr = sym_deci, kind = prefix_kind::DECI },
+	symbol { repr = sym_femto, kind = prefix_kind::FEMTO },
+	symbol { repr = sym_hecto, kind = prefix_kind::HECTO },
+	symbol { repr = sym_milli, kind = prefix_kind::MILLI },
+	symbol { repr = sym_nano, kind = prefix_kind::NANO },
+	symbol { repr = sym_pico, kind = prefix_kind::PICO },
+	symbol { repr = sym_zepto, kind = prefix_kind::ZEPTO },
+	symbol { repr = sym_micro_ascii, kind = prefix_kind::MICRO },
+	symbol { repr = sym_yocto, kind = prefix_kind::YOCTO },
+	symbol { repr = sym_mu, kind = prefix_kind::MICRO },
+	symbol { repr = sym_micro, kind = prefix_kind::MICRO },
 ];

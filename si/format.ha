@@ -41,40 +41,45 @@ fn sprint_f64(f: f64, prec: (uint|void) = void, notation: notation = notation::G
 		yield strconv::fflags::NONE;
 	};
 
-	const s = strconv::ftosf(f, format, prec, flags)?;
-	defer free(s);
+	let formatted = strconv::ftosf(f, format, prec, flags)?;
+	// defer free(formatted);
 
 	if (notation != notation::GENERAL && notation != notation::SCIENTIFIC) {
-		return strings::dup(s);
+		return strings::dup(formatted);
 	};
 	
-	let pair: (str, str) = strings::cut(s, "e");
+	assert(formatted != "");
+	let pair: (str, str) = strings::cut(formatted, "e");
 	if (pair.1 == "") {
-		pair = strings::cut(s, "E");
+		pair = strings::cut(formatted, "E");
 	};
 	if (pair.1 == "") {
-		return strings::dup(s);
+		return strings::dup(formatted);
 	};
 
-	const exp = match (strconv::stoi(pair.1)) {
-	case let exp: int =>
-		yield exp;
+	const exponent = match (strconv::stoi(pair.1)) {
+	case let i: int =>
+		yield i;
 	case =>
+		// TODO logging
+		fmt::errorf("invalid exponent: {}\n", pair.1)!;
 		abort("invalid exponent from strconv");
 	};
+
+	assert(pair.0 != "");
 
 	let out = strings::toutf8(pair.0);
 	append_str(&out, "×10")?;
 
-	match (append_superscript(&out, strconv::itos(exp))) {
-	case void => void;
-	case nomem => return nomem;
-	case invalid_exponent => abort("invalid exponent");
-	};
+	let superscript_exponent = int_to_superscript(exponent)?;
+	defer free(superscript_exponent);
+
+	append_str(&out, superscript_exponent)?;
 
 	return strings::fromutf8(out)!;
 };
 
+// Print formatted float value to stdout.
 fn print_f64(f: f64, prec: (uint|void) = void, notation: notation = notation::GENERAL) (size | io::error) = {
 	const s = match (sprint_f64(f, prec, notation)) {
 	case let s: str =>
@@ -87,7 +92,11 @@ fn print_f64(f: f64, prec: (uint|void) = void, notation: notation = notation::GE
 	return fmt::print(s);
 };
 
-fn int_to_superscript(i: int) (rune | void) = switch (i) {
+// 
+fn digit_to_superscript(i: int) (rune | void) = {
+	assert(i < 10);
+
+	return switch (i) {
 	case 0 => yield DIGIT_SUPER_ZERO;
 	case 1 => yield DIGIT_SUPER_ONE;
 	case 2 => yield DIGIT_SUPER_TWO;
@@ -99,9 +108,43 @@ fn int_to_superscript(i: int) (rune | void) = switch (i) {
 	case 8 => yield DIGIT_SUPER_EIGHT;
 	case 9 => yield DIGIT_SUPER_NINE;
 	case => yield void;
+	};
+};
+
+// output must be freed by the caller
+fn int_to_superscript(i: int) (str | nomem) = {
+	let n = if (i < 0) -i else i;
+	let buf: [11]rune = ['\x00'...];
+	let sz = 0z;
+
+	if (i < 0) {
+		buf[sz] = '⁻';
+		sz += 1z;
+	};
+
+	if (n == 0) {
+		buf[sz] = DIGIT_SUPER_ZERO;
+		sz += 1z;
+	} else {
+		for (n > 0) {
+			buf[sz] = digit_to_superscript(n % 10) as rune;
+			sz += 1z;
+			n /= 10;
+		};
+
+		for (let j = if (i < 0) 1z else 0z; j < (sz - 1z + (if (i < 0) 1z else 0z)) / 2z; j += 1z) {
+			let k = sz - 1z - (j - (if (i < 0) 1z else 0z));
+			let tmp = buf[j];
+			buf[j] = buf[k];
+			buf[k] = tmp;
+		};
+	};
+
+	return strings::fromrunes(buf[..sz]);
 };
 
 fn rune_to_superscript(i: rune) (rune | void) = switch (i) {
+	case '-' => yield SUPERSCRIPT_MINUS;
 	case '0' => yield DIGIT_SUPER_ZERO;
 	case '1' => yield DIGIT_SUPER_ONE;
 	case '2' => yield DIGIT_SUPER_TWO;

@@ -5,12 +5,22 @@ use strconv;
 use strings;
 use os;
 
+type parser = struct {
+	scanner: strings::iterator,
+	current: (token | done),
+	advance: *fn(_: *strings::iterator) (token | done),
+};
+
+fn advance(p: *parser) (token | done) = {
+	p.current = p.advance(&p.scanner);
+	return p.current;
+};
+
 fn to_ascii(sym: unit_kind) str = symbols_ascii[sym: size];
 fn to_utf8(sym: unit_kind) str  = symbols_utf8[sym: size];
 
 fn lookup_name(sym: unit_kind) str  = unit_names[sym: size];
 fn lookup_unit(sym: unit_kind) unit = units[sym: size];
-
 
 export fn print_quantity(
 	q: quantity, 
@@ -46,10 +56,6 @@ export fn print_quantity(
 fn print_unit(u: unit) (size | error) = {
 	let first = true;
 
-	const dimensions: [_]str = [
-		"kg", "m", "s", "A", "K", "mol", "cd",
-	];
-
 	const exponents: [_]int = [
 		u.dim.mass,
 		u.dim.length,
@@ -61,12 +67,12 @@ fn print_unit(u: unit) (size | error) = {
 	];
 
 	let total: size = 0;
-	for (let i = 0z; i < len(dimensions); i += 1) {
+	for (let i = 0z; i < len(symbols_base); i += 1) {
 		if (exponents[i] == 0) {
 			continue;
 		};
 
-		total += fmt::printf("{}{}", if (first) "" else "·", dimensions[i])!;
+		total += fmt::printf("{}{}", if (first) "" else "·", symbols_base[i])!;
 		first = false;
 
 		if (exponents[i] != 1) {
@@ -77,8 +83,8 @@ fn print_unit(u: unit) (size | error) = {
 				yield exponents[i];
 			};
 			match(int_to_superscript(exp)) {
-			case let r: rune =>
-				total += fmt::printf("{}", r)!;
+			case let s: str =>
+				total += fmt::print(s)!;
 			case =>
 				void;
 			};
@@ -102,7 +108,12 @@ fn match_symbol(s: str) (unit_kind | void) = {
 		} else if (cmp > 0) {
 			hi = mid;
 		} else {
-			return symbol_lookup[mid].kind;
+			return match (symbol_lookup[mid].kind) {
+			case let k: unit_kind =>
+				yield k;
+			case =>
+				abort("invalid lookup table");
+			};
 		};
 	};
 	return void;
@@ -218,43 +229,41 @@ fn qprint(q: quantity) (size | io::error) = {
 	};
 };
 
-type parser = struct {
-	scanner: strings::iterator,
-	current: (token | done),
-	advance: *fn(_: *strings::iterator) (token | done),
-};
-
-fn advance(p: *parser) (token | done) = {
-	p.current = p.advance(&p.scanner);
-	return p.current;
-};
-
 fn parse_symbol(s: str) (unit | void) = {
 	const sz: size = count(s);
 	if (sz == 0) {
 		return void;
 	};
+
 	match (match_symbol(s)) {
 	case let kind: unit_kind =>
 		return lookup_unit(kind);
 	case =>
 		void;
 	};
+
 	if (sz == 1) {
 		return void;
 	};
 
 	for (let i = 0z; i < len(prefix_symbols_utf8); i += 1) {
-		const pref = prefix_symbols_utf8[i];
-		const psz = count(pref);
+		const pref = prefix_lookup[i];
+		const psz = count(pref.repr);
 		if (sz <= psz) {
 			continue;
 		};
-		if (!strings::hasprefix(s, pref)) {
+		if (!strings::hasprefix(s, pref.repr)) {
 			continue;
 		};
 
-		const scale = prefix_scale[i];
+		const kind = match (pref.kind) {
+		case let k: prefix_kind =>
+			yield k;
+		case =>
+			abort("invalid lookup table");
+		};
+
+		const scale = prefix_scale[kind: size];
 		const suffix = strings::sub(s, psz);
 		return match (match_symbol(suffix)) {
 		case let kind: unit_kind =>
@@ -265,7 +274,6 @@ fn parse_symbol(s: str) (unit | void) = {
 			yield void;
 		};
 	};
-
 	return void;
 };
 

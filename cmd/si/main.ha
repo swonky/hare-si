@@ -8,7 +8,7 @@ use si;
 type options = struct {
 	input:       str,
 	output:      str,
-	precision:   uint,
+	precision:   (void | uint),
 	notation:    si::notation,
 	format:      str,
 	unit:        (void | str),
@@ -104,7 +104,7 @@ fn parse_options() (options | void) = {
 	let opts = options {
 		input = "",
 		output = "pretty",
-		precision = 3,
+		precision = void,
 		notation = si::notation::GENERAL,
 		format = "",
 		unit = void,
