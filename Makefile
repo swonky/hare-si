@@ -23,14 +23,14 @@ VERSION_FILE = ./si/version.ha
 
 MAN_SOURCE = ./docs/si.1.scd
 MAN_PAGE = ./docs/si.1
-README = ./README
+MAN_TEXT = ./docs/si.1.txt
 
 SEM_VERSION = 0.0.1
 GIT_VERSION = $(shell git describe --always --dirty 2>/dev/null || echo unknown)
 
 all: build
 
-build: $(TARGET) $(MAN_PAGE) $(README)
+build: $(TARGET) $(MAN_PAGE) $(MAN_TEXT)
 
 $(TARGET): $(SOURCES) $(VERSION_FILE)
 	@mkdir -p ./bin
@@ -46,11 +46,11 @@ $(MAN_PAGE): $(MAN_SOURCE)
 		echo "WARNING: scdoc not found; skipping man page generation"; \
 	fi
 
-$(README): $(MAN_PAGE)
+$(MAN_TEXT): $(MAN_PAGE)
 	@if command -v $(GROFF) >/dev/null 2>&1 && command -v $(COL) >/dev/null 2>&1; then \
 		$(GROFF) -man -Tutf8 -P-cbou $(MAN_PAGE) | $(COL) -b > $@; \
 	else \
-		echo "WARNING: groff or col not found; skipping README generation"; \
+		echo "WARNING: groff or col not found; skipping MAN_TEXT generation"; \
 	fi
 
 FORCE:
@@ -70,6 +70,6 @@ uninstall-docs:
 	rm -f "$(DESTDIR)$(MANDIR)/man1/$(TARGET).1"
 
 clean:
-	rm -f ./bin/$(TARGET) $(MAN_PAGE) $(README)
+	rm -f ./bin/$(TARGET) $(MAN_PAGE) $(MAN_TEXT)
 
 .PHONY: all build install install-docs uninstall uninstall-docs clean FORCE

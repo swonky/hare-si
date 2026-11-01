@@ -229,7 +229,6 @@ fn advance(p: *parser) (token | done) = {
 	return p.current;
 };
 
-// Parses an entire unit expression.
 fn parse_symbol(s: str) (unit | void) = {
 	const sz: size = count(s);
 	if (sz == 0) {
@@ -244,32 +243,73 @@ fn parse_symbol(s: str) (unit | void) = {
 	if (sz == 1) {
 		return void;
 	};
-	let iter = strings::iter(s);
-	const first = match (strings::next(&iter)) {
-	case let r: rune =>
-		yield r;
-	case done =>
-		return void;
+
+	for (let i = 0z; i < len(prefix_symbols_utf8); i += 1) {
+		const pref = prefix_symbols_utf8[i];
+		const psz = count(pref);
+		if (sz <= psz) {
+			continue;
+		};
+		if (!strings::hasprefix(s, pref)) {
+			continue;
+		};
+
+		const scale = prefix_scale[i];
+		const suffix = strings::sub(s, psz);
+		return match (match_symbol(suffix)) {
+		case let kind: unit_kind =>
+			let u: unit = lookup_unit(kind);
+			u.scale *= scale;
+			yield u;
+		case void =>
+			yield void;
+		};
 	};
-	// TODO: logging
-	// fmt::printf("matching prefix: {}\n", first)!;
-	let scale = match (lookup_prefix(first)) {
-	case let pref: prefix =>
-		yield prefix_scale[pref];
-	case void =>
-		return void;
-	};
-	const suffix = strings::sub(s, 1);
-	return match (match_symbol(suffix)) {
-	case let kind: unit_kind =>
-		let u: unit = lookup_unit(kind);
-		u.scale = u.scale * scale;
-		yield u;
-	case void =>
-		yield void;
-	};
+
+	return void;
 };
 
+// // Parses an entire unit expression.
+// fn parse_symbol(s: str) (unit | void) = {
+// 	const sz: size = count(s);
+// 	if (sz == 0) {
+// 		return void;
+// 	};
+// 	match (match_symbol(s)) {
+// 	case let kind: unit_kind =>
+// 		return lookup_unit(kind);
+// 	case =>
+// 		void;
+// 	};
+// 	if (sz == 1) {
+// 		return void;
+// 	};
+// 	let iter = strings::iter(s);
+// 	const first = match (strings::next(&iter)) {
+// 	case let r: rune =>
+// 		yield r;
+// 	case done =>
+// 		return void;
+// 	};
+// 	// TODO: logging
+// 	// fmt::printf("matching prefix: {}\n", first)!;
+// 	let scale = match (lookup_prefix(first)) {
+// 	case let pref: prefix =>
+// 		yield prefix_scale[pref];
+// 	case void =>
+// 		return void;
+// 	};
+// 	const suffix = strings::sub(s, 1);
+// 	return match (match_symbol(suffix)) {
+// 	case let kind: unit_kind =>
+// 		let u: unit = lookup_unit(kind);
+// 		u.scale = u.scale * scale;
+// 		yield u;
+// 	case void =>
+// 		yield void;
+// 	};
+// };
+//
 fn parse_primary(p: *parser) (unit | error) = {
 	match (p.current) {
 	case let tok: token =>
