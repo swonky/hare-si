@@ -8,6 +8,7 @@ export type not_implemented = !str;
 export type invalid = !void;
 export type invalid_exponent = !rune;
 export type unexpected_token = !rune;
+export type divide_by_zero = !void;
 
 export type unexpected  = struct {
 	pos: size,
@@ -15,9 +16,10 @@ export type unexpected  = struct {
 	got: str,
 };
 
-export type error = !(no_match | invalid_exponent | dimension_mismatch
-	| unexpected_token | not_implemented | invalid | io::error 
-	| strconv::invalid | strconv::overflow | nomem );
+export type error = !(no_match | divide_by_zero| invalid_exponent
+	| dimension_mismatch | unexpected_token | not_implemented
+	| invalid | io::error | strconv::invalid | strconv::overflow
+	| nomem );
 
 
 export fn strerror(err: error) str = {
@@ -32,6 +34,8 @@ export fn strerror(err: error) str = {
 		return "Invalid exponent";
 	case let e: unexpected_token =>
 		return "Unexpected token";
+	case let e: divide_by_zero =>
+		return "Divide by zero";
 	case let e: strconv::error =>
 		return strconv::strerror(e);
 	case let e: io::error =>

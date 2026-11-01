@@ -1,3 +1,9 @@
+type symbol = struct {
+	kind: (unit_kind | prefix_kind),
+	repr: str,
+};
+
+
 type base_unit = enum {
 	KILOGRAM,
 	METRE,

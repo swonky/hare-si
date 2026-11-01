@@ -16,6 +16,7 @@ SRCDIR ?= $(PREFIX)/src
 
 HARESRCDIR = $(SRCDIR)/hare
 THIRDPARTYDIR = $(HARESRCDIR)/third-party
+MODULEDIR = $(DESTDIR)$(THIRDPARTYDIR)/si
 
 TARGET = si
 SOURCES = $(wildcard *.ha)
@@ -56,15 +57,30 @@ $(MAN_TEXT): $(MAN_PAGE)
 FORCE:
 
 install: build
-	install -Dm755 ./bin/$(TARGET) "$(DESTDIR)$(BINDIR)/$(TARGET)"
+	$(MAKE) install-bin
+	$(MAKE) install-lib
 	$(MAKE) install-docs
+
+install-bin:
+	install -Dm755 ./bin/$(TARGET) "$(DESTDIR)$(BINDIR)/$(TARGET)"
+
+install-lib:
+	mkdir -p $(MODULEDIR)
+	install -Dm644 ./si/* $(MODULEDIR)
 
 install-docs: $(MAN_PAGE)
 	install -Dm644 $(MAN_PAGE) "$(DESTDIR)$(MANDIR)/man1/$(TARGET).1"
 
 uninstall:
-	rm -f "$(DESTDIR)$(BINDIR)/$(TARGET)"
+	$(MAKE) uninstall-bin
+	$(MAKE) uninstall-lib
 	$(MAKE) uninstall-docs
+
+uninstall-bin:
+	rm -f "$(DESTDIR)$(BINDIR)/$(TARGET)"
+
+uninstall-lib:
+	rm -rf $(DESTDIR)$(THIRDPARTYDIR)/si
 
 uninstall-docs:
 	rm -f "$(DESTDIR)$(MANDIR)/man1/$(TARGET).1"

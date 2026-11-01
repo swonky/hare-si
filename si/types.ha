@@ -1,10 +1,3 @@
-
-// Symbol
-type symbol = struct {
-	kind: (unit_kind | prefix_kind),
-	repr: str,
-};
-
 // Dimension
 export type dimension = struct {
 	mass:        int, // mass
@@ -27,3 +20,13 @@ export type quantity = struct {
 	unit:  unit,
 	value: f64,
 };
+
+export type notation = enum u8 {
+	GENERAL,
+	FIXED,
+	SCIENTIFIC,
+	E_UPPER,
+	E_LOWER,
+};
+
+type encoding = enum u8 { ASCII, UTF8 };

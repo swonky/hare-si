@@ -3,15 +3,6 @@ use io;
 use strings;
 use strconv;
 
-export type notation = enum u8 {
-	GENERAL,
-	FIXED,
-	SCIENTIFIC,
-	E_UPPER,
-	E_LOWER,
-};
-
-type encoding = enum u8 { ASCII, UTF8 };
 
 type format_options = struct {
 	enc: encoding,
@@ -19,7 +10,11 @@ type format_options = struct {
 
 def default_format_options = format_options { enc = encoding::UTF8 };
 
-fn sprint_f64(f: f64, prec: (uint|void) = void, notation: notation = notation::GENERAL) (str | nomem) = {
+fn sprint_f64(
+	value: f64,
+	prec: (uint|void) = void,
+	notation: notation = notation::GENERAL,
+) (str | nomem) = {
 	const format = switch (notation) {
 	case notation::FIXED =>
 		yield strconv::ffmt::F;
@@ -41,7 +36,7 @@ fn sprint_f64(f: f64, prec: (uint|void) = void, notation: notation = notation::G
 		yield strconv::fflags::NONE;
 	};
 
-	let formatted = strconv::ftosf(f, format, prec, flags)?;
+	let formatted = strconv::ftosf(value, format, prec, flags)?;
 	// defer free(formatted);
 
 	if (notation != notation::GENERAL && notation != notation::SCIENTIFIC) {
@@ -80,36 +75,21 @@ fn sprint_f64(f: f64, prec: (uint|void) = void, notation: notation = notation::G
 };
 
 // Print formatted float value to stdout.
-fn print_f64(f: f64, prec: (uint|void) = void, notation: notation = notation::GENERAL) (size | io::error) = {
-	const s = match (sprint_f64(f, prec, notation)) {
+fn print_f64(
+	value: f64,
+	prec: (uint|void) = void,
+	notation: notation = notation::GENERAL,
+) (size | io::error) = {
+	const s = match (sprint_f64(value, prec, notation)) {
 	case let s: str =>
 		yield s;
 	case nomem =>
 		return nomem;
 	};
 	defer free(s);
-
 	return fmt::print(s);
 };
 
-// 
-fn digit_to_superscript(i: int) (rune | void) = {
-	assert(i < 10);
-
-	return switch (i) {
-	case 0 => yield DIGIT_SUPER_ZERO;
-	case 1 => yield DIGIT_SUPER_ONE;
-	case 2 => yield DIGIT_SUPER_TWO;
-	case 3 => yield DIGIT_SUPER_THREE;
-	case 4 => yield DIGIT_SUPER_FOUR;
-	case 5 => yield DIGIT_SUPER_FIVE;
-	case 6 => yield DIGIT_SUPER_SIX;
-	case 7 => yield DIGIT_SUPER_SEVEN;
-	case 8 => yield DIGIT_SUPER_EIGHT;
-	case 9 => yield DIGIT_SUPER_NINE;
-	case => yield void;
-	};
-};
 
 // output must be freed by the caller
 fn int_to_superscript(i: int) (str | nomem) = {
@@ -127,7 +107,8 @@ fn int_to_superscript(i: int) (str | nomem) = {
 		sz += 1z;
 	} else {
 		for (n > 0) {
-			buf[sz] = digit_to_superscript(n % 10) as rune;
+			const digit = n % 10;
+			buf[sz] = superscript_digits[digit: size];
 			sz += 1z;
 			n /= 10;
 		};

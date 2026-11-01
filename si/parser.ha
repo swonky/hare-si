@@ -16,32 +16,158 @@ fn advance(p: *parser) (token | done) = {
 	return p.current;
 };
 
+fn scale10(value: f64, exp: int) f64 = {
+	let result = value;
+	if (exp > 0) {
+		for (let i = 0; i < exp; i += 1) {
+			result *= 10.0;
+		};
+	} else {
+		for (let i = 0; i > exp; i -= 1) {
+			result /= 10.0;
+		};
+	};
+	return result;
+};
+
+fn parse_float(s: str) (f64 | strconv::invalid | strconv::overflow) = {
+	const parts: (str, str) = strings::cut(s, "e");
+	const mantissa: f64 = strconv::stof64(parts.0)?;
+
+	if (count(parts.1) == 0) {
+		return mantissa;
+	};
+
+	const exponent: int = strconv::stoi(parts.1)?;
+	return scale10(mantissa, exponent);
+};
+
 fn to_ascii(sym: unit_kind) str = symbols_ascii[sym: size];
 fn to_utf8(sym: unit_kind) str  = symbols_utf8[sym: size];
 
 fn lookup_name(sym: unit_kind) str  = unit_names[sym: size];
 fn lookup_unit(sym: unit_kind) unit = units[sym: size];
 
+fn match_symbol(s: str) (unit_kind | void) = {
+	// TODO: logging
+	// fmt::printf("matching: {}\n", s)!;
+	let lo = 0z;
+	let hi = len(symbol_lookup);
+	for (lo < hi) {
+		const mid = lo + (hi - lo) / 2z;
+		const cmp = strings::compare(symbol_lookup[mid].repr, s);
+		if (cmp < 0) {
+			lo = mid + 1z;
+		} else if (cmp > 0) {
+			hi = mid;
+		} else {
+			return match (symbol_lookup[mid].kind) {
+			case let k: unit_kind =>
+				yield k;
+			case =>
+				abort("invalid lookup table");
+			};
+		};
+	};
+	return void;
+};
+
+fn eq_dim(a: dimension, b: dimension) bool = {
+	return a.mass == b.mass
+	       && a.length == b.length
+	       && a.time == b.time
+	       && a.current == b.current
+	       && a.temperature == b.temperature
+	       && a.substance == b.substance
+	       && a.luminosity == b.luminosity;
+};
+
+fn mul_dim(a: dimension, b: dimension) dimension = dimension {
+	mass        = a.mass        + b.mass,
+	length      = a.length      + b.length,
+	time        = a.time        + b.time,
+	current     = a.current     + b.current,
+	temperature = a.temperature + b.temperature,
+	substance   = a.substance   + b.substance,
+	luminosity  = a.luminosity  + b.luminosity,
+};
+
+fn div_dim(a: dimension, b: dimension) dimension = dimension {
+	mass        = a.mass        - b.mass,
+	length      = a.length      - b.length,
+	time        = a.time        - b.time,
+	current     = a.current     - b.current,
+	temperature = a.temperature - b.temperature,
+	substance   = a.substance   - b.substance,
+	luminosity  = a.luminosity  - b.luminosity,
+};
+
+fn pow_dim(dim: dimension, exp: int) dimension = switch (exp) {
+	case 0 =>
+		yield dimensionless;
+	case 1 =>
+		yield dim;
+	case =>
+		yield dimension {
+			mass        = dim.mass        * exp,
+			length      = dim.length      * exp,
+			time        = dim.time        * exp,
+			current     = dim.current     * exp,
+			temperature = dim.temperature * exp,
+			substance   = dim.substance   * exp,
+			luminosity  = dim.luminosity  * exp,
+		};
+};
+
+// Returns the product of a and b.
+export fn mul(a: unit, b: unit) unit = {
+	return unit {
+		dim   = mul_dim(a.dim, b.dim),
+		scale = a.scale * b.scale,
+	};
+};
+
+// Returns the quotiant of a and b.
+export fn div(a: unit, b: unit) (unit | divide_by_zero) = {
+
+	if (math::isclosef64(b.scale, 0.0)) {
+		return divide_by_zero;
+	};
+	return unit {
+		dim   = div_dim(a.dim, b.dim),
+		scale = a.scale / b.scale,
+	};
+};
+
+// Returns the value of a raised to the power of b.
+export fn pow_unit(a: unit, exp: int) unit = {
+	return unit {
+		dim   = pow_dim(a.dim, exp),
+		scale = math::powf64(a.scale, exp: f64),
+	};
+};
+
+// Prints a quantity to stdout.
 export fn print_quantity(
-	q: quantity, 
-	u: (str | void) = void, 
+	qty: quantity,
+	unit_format: (str | void) = void,
 	prec: (uint | void) = void,
-	notation: notation = notation::GENERAL, 
+	notation: notation = notation::GENERAL,
 ) (size | error) = {
 	let count = 0z;
-	match (u) {
+	match (unit_format) {
 	case void =>
-		const value: f64 = q.value * q.unit.scale;
+		const value: f64 = qty.value * qty.unit.scale;
 		count += print_f64(value, prec, notation)!;
-		print_unit(q.unit)?;
+		print_unit(qty.unit)?;
 	case let s: str =>
 		let target: unit = parse_unit_str(s)?;
 		
-		if (!eq_dim(q.unit.dim, target.dim)) {
+		if (!eq_dim(qty.unit.dim, target.dim)) {
 			return dimension_mismatch;
 		};
 
-		const value: f64 = q.value * q.unit.scale / target.scale;
+		const value: f64 = qty.value * qty.unit.scale / target.scale;
 		let formatted_value = sprint_f64(value, prec, notation)!;
 		defer free(formatted_value);
 
@@ -53,7 +179,8 @@ export fn print_quantity(
 	return count;
 };
 
-fn print_unit(u: unit) (size | error) = {
+// Prints a unit to stdout.
+export fn print_unit(u: unit) (size | error) = {
 	let first = true;
 
 	const exponents: [_]int = [
@@ -95,139 +222,6 @@ fn print_unit(u: unit) (size | error) = {
 	return total;
 };
 
-fn match_symbol(s: str) (unit_kind | void) = {
-	// TODO: logging
-	// fmt::printf("matching: {}\n", s)!;
-	let lo = 0z;
-	let hi = len(symbol_lookup);
-	for (lo < hi) {
-		const mid = lo + (hi - lo) / 2z;
-		const cmp = strings::compare(symbol_lookup[mid].repr, s);
-		if (cmp < 0) {
-			lo = mid + 1z;
-		} else if (cmp > 0) {
-			hi = mid;
-		} else {
-			return match (symbol_lookup[mid].kind) {
-			case let k: unit_kind =>
-				yield k;
-			case =>
-				abort("invalid lookup table");
-			};
-		};
-	};
-	return void;
-};
-
-fn eq_dim(a: dimension, b: dimension) bool = {
-	return a.mass == b.mass
-	       && a.length == b.length
-	       && a.time == b.time
-	       && a.current == b.current
-	       && a.temperature == b.temperature
-	       && a.substance == b.substance
-	       && a.luminosity == b.luminosity;
-};
-
-fn mult_dim(a: dimension, b: dimension) dimension = dimension {
-	mass        = a.mass        + b.mass,
-	length      = a.length      + b.length,
-	time        = a.time        + b.time,
-	current     = a.current     + b.current,
-	temperature = a.temperature + b.temperature,
-	substance   = a.substance   + b.substance,
-	luminosity  = a.luminosity  + b.luminosity,
-};
-
-fn div_dim(a: dimension, b: dimension) dimension = dimension {
-	mass        = a.mass        - b.mass,
-	length      = a.length      - b.length,
-	time        = a.time        - b.time,
-	current     = a.current     - b.current,
-	temperature = a.temperature - b.temperature,
-	substance   = a.substance   - b.substance,
-	luminosity  = a.luminosity  - b.luminosity,
-};
-
-fn pow_dim(dim: dimension, exp: int) dimension = switch (exp) {
-	case 0 =>
-		yield dimensionless;
-	case 1 =>
-		yield dim;
-	case =>
-		yield dimension {
-			mass        = dim.mass        * exp,
-			length      = dim.length      * exp,
-			time        = dim.time        * exp,
-			current     = dim.current     * exp,
-			temperature = dim.temperature * exp,
-			substance   = dim.substance   * exp,
-			luminosity  = dim.luminosity  * exp,
-		};
-};
-
-fn mult_unit(a: unit, b: unit) unit = {
-	return unit {
-		dim   = mult_dim(a.dim, b.dim),
-		scale = a.scale * b.scale,
-	};
-};
-
-fn div_unit(a: unit, b: unit) unit = {
-	return unit {
-		dim   = div_dim(a.dim, b.dim),
-		scale = a.scale / b.scale,
-	};
-};
-
-fn pow_unit(a: unit, exp: int) unit = {
-	return unit {
-		dim   = pow_dim(a.dim, exp),
-		scale = math::powf64(a.scale, exp: f64),
-	};
-};
-
-fn to_json(buf: []u8, u: unit) (str | nomem) = {
-	return fmt::bsprintf(buf, "{{\"dim\":{{\"kg\":{},\"m\":{},\"s\":{},\"A\":{},\"K\":{},\"mol\":{},\"cd\":{}}},\"scale\":{}}}",
-		u.dim.mass, u.dim.length, u.dim.time, u.dim.current, u.dim.temperature, u.dim.substance, u.dim.luminosity, u.scale);
-};
-
-fn quantity_to_json(buf: []u8, q: quantity) (str | nomem) = {
-	return fmt::bsprintf(buf,
-		"{{\"value\":{},\"unit\":{{\"dim\":{{\"kg\":{},\"m\":{},\"s\":{},\"A\":{},\"K\":{},\"mol\":{},\"cd\":{}}},\"scale\":{}}}}}",
-		q.value,
-		q.unit.dim.mass,
-		q.unit.dim.length,
-		q.unit.dim.time,
-		q.unit.dim.current,
-		q.unit.dim.temperature,
-		q.unit.dim.substance,
-		q.unit.dim.luminosity,
-		q.unit.scale,
-	);
-};
-
-fn uprint(u: unit) (size | io::error) = {
-	let buf: *[512]u8 = alloc([0...])!;
-	defer free(buf);
-	return match (to_json(buf, u)) {
-	case let json_object: str =>
-		yield fmt::println(json_object);
-	case nomem =>
-		yield nomem;
-	};
-};
-
-fn qprint(q: quantity) (size | io::error) = {
-	let buf: *[512]u8 = alloc([0...])!;
-	defer free(buf);
-	return match (quantity_to_json(buf, q)) {
-	case let json_object: str =>
-		yield fmt::printf("{}\n", json_object);
-	case nomem =>
-		yield nomem;
-	};
-};
 
 fn parse_symbol(s: str) (unit | void) = {
 	const sz: size = count(s);
@@ -443,11 +437,14 @@ fn parse_unit(p: *parser) (unit | error) = {
 			case token_kind::MULTIPLY =>
 				advance(p);
 				const rhs = parse_factor(p)?;
-				result = mult_unit(result, rhs);
+				result = mul(result, rhs);
 			case token_kind::SOLIDUS =>
 				advance(p);
 				const rhs = parse_factor(p)?;
-				result = div_unit(result, rhs);
+				return match(div(result, rhs)){
+				case let u: unit => yield u;
+				case => abort("invalid lookup table");
+				};
 			case =>
 				return result;
 			};
@@ -507,47 +504,6 @@ fn parse_unit_str(s: str) (unit | error) = {
 	case =>
 		return invalid;
 	};
-};
-
-fn scale10(value: f64, exp: int) f64 = {
-	let result = value;
-	if (exp > 0) {
-		for (let i = 0; i < exp; i += 1) {
-			result *= 10.0;
-		};
-	} else {
-		for (let i = 0; i > exp; i -= 1) {
-			result /= 10.0;
-		};
-	};
-	return result;
-};
-
-fn parse_float(s: str) (f64 | strconv::invalid | strconv::overflow) = {
-	const parts: (str, str) = strings::cut(s, "e");
-	const mantissa: f64 = strconv::stof64(parts.0)?;
-
-	if (count(parts.1) == 0) {
-		return mantissa;
-	};
-
-	const exponent: int = strconv::stoi(parts.1)?;
-	return scale10(mantissa, exponent);
-};
-
-fn print_remainder(p: *parser) void = {
-	let debug: parser = *p;
-	fmt::printf("remainder=")!;
-	for (true) {
-		advance(&debug);
-		match (debug.current) {
-		case let tok: token =>
-			fmt::printf("{}", tok.text)!;
-		case done =>
-			break;
-		};
-	};
-	fmt::println()!;
 };
 
 export fn print(obj: (quantity | unit), u: (str | void) = void) (size | error) = {
