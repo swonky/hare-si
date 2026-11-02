@@ -1,0 +1,105 @@
+<!-- Creator     : groff version 1.24.1 -->
+<!-- CreationDate: Mon Nov  2 22:23:29 2026 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       pre     { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+</style>
+<title></title>
+</head>
+<body>
+
+<hr>
+
+
+<p>si &minus; parse, convert, and format physical
+quantities using SI units <b>si</b> [OPTIONS] VALUE <b><br>
+si</b> &minus;&minus;completions SHELL <b><br>
+si</b> &minus;&minus;version <b><br>
+si</b> &minus;&minus;help <b>si</b> is a command&minus;line
+utility for parsing, converting, and formatting physical
+quantities expressed using the International System of Units
+(SI). A quantity consists of a numeric value followed by a
+unit expression. Unit expressions support multiplication,
+division, exponentiation, and grouping using ASCII infix
+notation. Quantities can be converted to a specified target
+unit, with dimensional compatibility checked during
+conversion. Output can be formatted in several
+representations, including UTF&minus;8 encoded symbols,
+plain text, JSON, and LaTeX. Numeric output supports
+configurable decimal precision and notation, including
+general, fixed&minus;point, scientific, and
+E&minus;notation. <b>&minus;n</b>,
+<b>&minus;&minus;notation</b> NOTATION Set numeric notation.
+Supported values are <b>general</b>, <b>fixed</b>,
+<b>scientific</b>, <b>e</b>, and <b>E</b>. <b>&minus;o</b>,
+<b>&minus;&minus;output</b> FORMAT Set output format.
+Supported values are <b>ascii</b>, <b>utf</b>, <b>json</b>.
+<b>&minus;p</b>, <b>&minus;&minus;precision</b> INTEGER Set
+decimal precision (default: 3). <b>&minus;u</b>,
+<b>&minus;&minus;unit</b> UNIT Convert the quantity to the
+specified target unit representation. <b>&minus;c</b>,
+<b>&minus;&minus;completions</b> SHELL Generate shell
+completions for Bash or Zsh. <b>&minus;v</b>,
+<b>&minus;&minus;version</b> Display version information.
+<b>&minus;h</b>, <b>&minus;&minus;help</b> Display help
+information. The &lsquo;&minus;u&lsquo;,
+&lsquo;&minus;&minus;unit&lsquo; option accepts a restricted
+syntax for specifying the target unit representation.
+Expressions must use ASCII unit symbols (eg. kg, us, ohm)
+and the following operators: Symbols Multiplication *
+Division / Exponentiation ^ Positive exponent + Negative
+exponent &minus; Grouping () Valid examples <b>kg*m/s^2
+mol/L uF/cm^2 kW</b>h m^3/s Unicode operator variants,
+superscript exponents, alternative multiplication symbols,
+and alternative spellings of unit symbols are not supported.
+The parser accepts numeric quantities using
+fixed&minus;point or scientific notation. Unit expressions
+are parsed more permissively than the format syntax in order
+to accommodate common variations in notation. Valid examples
+uohm*m^&minus;2 &minus;&gt; &micro;&Omega;&middot;m⁻&sup2;
+&mu;ohm*m**&minus;2 &minus;&gt;
+&micro;&Omega;&middot;m⁻&sup2;
+&micro;&Omega;&middot;m⁻&sup2; &minus;&gt;
+&micro;&Omega;&middot;m⁻&sup2; u&Omega;&times;m^&minus;2
+&minus;&gt; &micro;&Omega;&middot;m⁻&sup2;
+&mu;&Omega;&sdot;m⁻&sup2; &minus;&gt;
+&micro;&Omega;&middot;m⁻&sup2; In addition to ASCII
+representations, the parser accepts the following
+UTF&minus;8 encoded characters: Multiplication ASTERISK
+(U+002A) ASTERISK OPERATOR (U+2217) STAR OPERATOR (U+22C6)
+MULTIPLICATION SIGN (U+00D7) MIDDLE DOT (U+00B7) HYPHENATION
+POINT (U+2027) BULLET OPERATOR (U+2219) DOT OPERATOR
+(U+22C5) LATIN LETTER SINOLOGICAL DOT (U+A78F)
+Exponentiation CIRCUMFLEX ACCENT (U+005E) ASTERISK ASTERISK
+(U+002A U+002A) Superscript digits SUPERSCRIPT ZERO (U+2070)
+SUPERSCRIPT ONE (U+00B9) SUPERSCRIPT TWO (U+00B2)
+SUPERSCRIPT THREE (U+00B3) SUPERSCRIPT FOUR (U+2074)
+SUPERSCRIPT FIVE (U+2075) SUPERSCRIPT SIX (U+2076)
+SUPERSCRIPT SEVEN (U+2077) SUPERSCRIPT EIGHT (U+2078)
+SUPERSCRIPT NINE (U+2079) Exponent signs PLUS SIGN (U+002B)
+SUPERSCRIPT PLUS SIGN (U+207A) HYPHEN&minus;MINUS (U+002D)
+HYPHEN (U+2010) MINUS SIGN (U+2212) SUPERSCRIPT MINUS
+(U+207B) Grouping LEFT PARENTHESIS (U+0028) RIGHT
+PARENTHESIS (U+0029) LEFT CURLY BRACKET (U+007B) RIGHT CURLY
+BRACKET (U+007D) Micro prefix MICRO SIGN (U+00B5) GREEK
+SMALL LETTER MU (U+03BC) Ohm &lsquo;OHM SIGN&lsquo; (U+2126)
+&lsquo;GREEK CAPITAL LETTER OMEGA&lsquo; (U+03A9) These
+variations are accepted when parsing input quantities. They
+do not necessarily apply to target unit expressions or
+determine how units are formatted in output. Whitespace is
+permitted between expression components. (C) 2026 Tom
+Spencer <br>
+tcs.git@pm.me <br>
+ https://codeberg.org/swonky/hare&minus;si</p>
+<hr>
+</body>
+</html>
