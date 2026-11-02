@@ -40,6 +40,7 @@ make install-docs
 make install-completions \
     BASH_DIR="$HOME/.local/share/bash-completion/completions" \
     ZSH_DIR="$HOME/.local/share/zsh/site-functions"
+```
 
 Both `BASH_DIR` and `ZSH_DIR` are optional. Completion scripts are installed only when its respective target directory is explicitly specified.
 
