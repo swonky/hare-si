@@ -29,16 +29,13 @@ Numeric output supports configurable decimal precision and notation, including g
 	Set numeric notation. Supported values are *general*, *fixed*, *scientific*, *e*, and *E*.
 
 *-o*, *--output* FORMAT
-	Set output format. Supported values are *pretty*, *plain*, *json*, and *latex*.
+	Set output format. Supported values are *ascii*, *utf*, *json*.
 
 *-p*, *--precision* INTEGER
 	Set decimal precision (default: 3).
 
 *-u*, *--unit* UNIT
 	Convert the quantity to the specified target unit representation.
-
-*-s*, *--strict*
-	Enforce strict parsing rules for quantities.
 
 *-c*, *--completions* SHELL
 	Generate shell completions for Bash or Zsh.

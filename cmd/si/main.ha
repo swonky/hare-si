@@ -29,7 +29,7 @@ Arguments:
 Options:
   -c, --completions  SHELL     Generate shell completions (bash or zsh).
   -n, --notation     NOTATION  Numeric notation (general, fixed, scientific, e, E).
-  -o, --output       FORMAT    Output format (pretty, plain, json, or latex).
+  -o, --output       FORMAT    Output format (ascii, utf, json).
   -p, --precision    INTEGER   Decimal precision (default: 3).
   -u, --unit         UNIT      Target unit representation.
 
@@ -52,6 +52,52 @@ Examples:
   si -o plain -u g '1.5 kg'
   si -p=6 -n=e '1.5 kg'
   si -- 1.5 kg*m/s^2
+`;
+
+const BASH_COMPLETIONS = `
+_si() {
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    opts="-n --notation -o --output -p --precision -u --unit -c --completions -v --version -h --help"
+
+    case "$prev" in
+        -n|--notation)
+            COMPREPLY=( $(compgen -W "general fixed scientific e E" -- "$cur") )
+            return 0
+            ;;
+        -o|--output)
+            COMPREPLY=( $(compgen -W "ascii utf json" -- "$cur") )
+            return 0
+            ;;
+        -c|--completions)
+            COMPREPLY=( $(compgen -W "bash zsh" -- "$cur") )
+            return 0
+            ;;
+        -p|--precision|-u|--unit)
+            return 0
+            ;;
+    esac
+
+    COMPREPLY=( $(compgen -W "$opts" -- "$cur") )
+}
+
+complete -F _si si
+`;
+
+const ZSH_COMPLETIONS = `
+#compdef si
+
+_arguments -s -S \
+    '(-n --notation)'{-n,--notation}'[Set numeric notation]:notation:(general fixed scientific e E)' \
+    '(-o --output)'{-o,--output}'[Set output format]:format:(ascii utf json)' \
+    '(-p --precision)'{-p,--precision}'[Set decimal precision]:precision:' \
+    '(-u --unit)'{-u,--unit}'[Convert to target unit representation]:unit:' \
+    '(-c --completions)'{-c,--completions}'[Generate shell completions]:shell:(bash zsh)' \
+    '(-v --version)'{-v,--version}'[Display version information]' \
+    '(-h --help)'{-h,--help}'[Display help information]'
 `;
 
 fn print_help() void = {
@@ -105,7 +151,7 @@ fn parse_encoding(s: str) (si::encoding | str) = {
 	switch (s) {
 	case "ascii" =>
 		return si::encoding::ASCII;
-	case "utf8" =>
+	case "utf" =>
 		return si::encoding::UTF8;
 	case "json" =>
 		return si::encoding::JSON;
@@ -285,11 +331,27 @@ fn parse_options() (options | void) = {
 		i += 1;
 	};
 
-	if (len(input) == 0) {
-		fmt::errorln("no input provided")!;
-		print_help();
-		return void;
+	match (opts.completions) {
+	case void => 
+		if (len(input) == 0) {
+			fmt::errorln("no input provided")!;
+			print_help();
+			return void;
+		};
+	case let shell: str => 
+		switch (shell) {
+		case "bash" =>
+			fmt::print(BASH_COMPLETIONS)!;
+			return void;
+		case "zsh" =>
+			fmt::print(ZSH_COMPLETIONS)!;
+			return void;
+		case =>
+			fmt::errorf("Unsupported shell: {}", shell)!;
+			return void;
+		};
 	};
+
 
 	opts.input = strings::fromutf8(input)!;
 	return opts;
