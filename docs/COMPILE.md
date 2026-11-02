@@ -13,33 +13,38 @@
 
 ## Building
 
-Display options
+Clone this repository and build from source:
+```sh
+git clone --depth=1 https://codeberg.org/swonky/hare-si.git
+cd hare-git
+make
+make install
+```
 
+For more options, run `make help`:
 ```sh
 make help
-```
 
-Build the executable and generate available documentation:
+Usage: make [target] [VARIABLE=value]
 
-```sh
-make
-```
+Targets:
+  all                   Build everything (default)
+  build                 Build executable and documentation
+  completions           Generate embedded shell completions
+  install               Install all components
+  install-bin           Install executable
+  install-lib           Install Hare module
+  install-docs          Install man page
+  install-completions   Install shell completions
+  uninstall             Remove installed components
+  clean                 Remove generated build artifacts
 
-Install all components:
-
-```sh
-make install PREFIX="/usr/local"
-```
-
-Or, install individual components:
-
-```sh
-make install-bin
-make install-lib
-make install-docs
-make install-completions \
-    BASH_DIR="$HOME/.local/share/bash-completion/completions" \
-    ZSH_DIR="$HOME/.local/share/zsh/site-functions"
+Variables:
+  PREFIX                Installation prefix (default: /usr/local)
+  DESTDIR               Staging directory
+  HARESRCDIR            Hare source directory
+  BASH_DIR              Bash completion directory
+  ZSH_DIR               Zsh completion directory
 ```
 
 Both `BASH_DIR` and `ZSH_DIR` are optional. Completion scripts are installed only when its respective target directory is explicitly specified.
