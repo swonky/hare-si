@@ -1,6 +1,6 @@
 # hare-si
 
-> [!WARNING] hare-si is currently unstable and under active development. Breaking changes and incomplete functionality should be expected.
+> WARNING: hare-si is currently unstable and under active development. Breaking changes and incomplete functionality should be expected.
 
 A module and command-line utility for parsing, converting, and formatting physical quantities expressed using the International System of Units (SI).
 
