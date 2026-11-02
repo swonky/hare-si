@@ -1,4 +1,4 @@
-// Dimension
+// Represents the dimensional exponents of the seven SI base dimensions.
 export type dimension = struct {
 	mass:        int, // mass
 	length:      int, // length
@@ -9,18 +9,19 @@ export type dimension = struct {
 	luminosity:  int, // luminous intensity
 };
 
-// Unit
+// Represents a unit of measurement by its physical [[dimension]] and scale.
 export type unit = struct {
 	dim:   dimension,
 	scale: f64,
 };
 
-// Quantity
+// Represents a physical quantity as a unit and numerical value.
 export type quantity = struct {
 	unit:  unit,
 	value: f64,
 };
 
+// Specifies the notation used to format floating-point values.
 export type notation = enum u8 {
 	GENERAL,
 	FIXED,
@@ -29,7 +30,8 @@ export type notation = enum u8 {
 	E_LOWER,
 };
 
-export type encoding = enum u8 { 
+// Specifies the character encoding options.
+export type encoding = enum u8 {
 	ASCII,
 	UTF8,
 	JSON,

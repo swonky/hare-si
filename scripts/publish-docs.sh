@@ -6,15 +6,27 @@
 
 set -eu
 
+WORKTREE=/tmp/pages
+
+cleanup() {
+    if git worktree list --porcelain | grep -Fqx "worktree $WORKTREE"; then
+        git worktree remove --force "$WORKTREE" || {
+            echo "Warning: failed to remove worktree $WORKTREE" >&2
+            return 1
+        }
+    fi
+}
+
+trap cleanup EXIT
+trap 'exit 1' HUP INT TERM
+
 mkdir -p docs
 haredoc -Fhtml si > docs/haredoc.html
 
-git worktree add /tmp/pages pages
+git worktree add "$WORKTREE" pages
 
-cp -a docs/*.html /tmp/pages/
+cp -a docs/*.html "$WORKTREE/"
 
-git -C /tmp/pages add -A
-git -C /tmp/pages commit -m "Update documentation"
-git -C /tmp/pages push origin pages
-
-git worktree remove /tmp/pages
+git -C "$WORKTREE" add -A
+git -C "$WORKTREE" commit -m "Update documentation"
+git -C "$WORKTREE" push origin pages

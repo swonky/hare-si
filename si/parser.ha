@@ -72,83 +72,6 @@ fn match_symbol(s: str) (unit_kind | void) = {
 	return void;
 };
 
-fn eq_dim(a: dimension, b: dimension) bool = {
-	return a.mass == b.mass
-	       && a.length == b.length
-	       && a.time == b.time
-	       && a.current == b.current
-	       && a.temperature == b.temperature
-	       && a.substance == b.substance
-	       && a.luminosity == b.luminosity;
-};
-
-fn mul_dim(a: dimension, b: dimension) dimension = dimension {
-	mass        = a.mass        + b.mass,
-	length      = a.length      + b.length,
-	time        = a.time        + b.time,
-	current     = a.current     + b.current,
-	temperature = a.temperature + b.temperature,
-	substance   = a.substance   + b.substance,
-	luminosity  = a.luminosity  + b.luminosity,
-};
-
-fn div_dim(a: dimension, b: dimension) dimension = dimension {
-	mass        = a.mass        - b.mass,
-	length      = a.length      - b.length,
-	time        = a.time        - b.time,
-	current     = a.current     - b.current,
-	temperature = a.temperature - b.temperature,
-	substance   = a.substance   - b.substance,
-	luminosity  = a.luminosity  - b.luminosity,
-};
-
-fn pow_dim(dim: dimension, exp: int) dimension = switch (exp) {
-	case 0 =>
-		yield dimensionless;
-	case 1 =>
-		yield dim;
-	case =>
-		yield dimension {
-			mass        = dim.mass        * exp,
-			length      = dim.length      * exp,
-			time        = dim.time        * exp,
-			current     = dim.current     * exp,
-			temperature = dim.temperature * exp,
-			substance   = dim.substance   * exp,
-			luminosity  = dim.luminosity  * exp,
-		};
-};
-
-// Returns the product of a and b.
-export fn mul(a: unit, b: unit) unit = {
-	return unit {
-		dim   = mul_dim(a.dim, b.dim),
-		scale = a.scale * b.scale,
-	};
-};
-
-// Returns the quotiant of a and b.
-export fn div(a: unit, b: unit) (unit | divide_by_zero) = {
-
-	if (math::isclosef64(b.scale, 0.0)) {
-		return divide_by_zero;
-	};
-	return unit {
-		dim   = div_dim(a.dim, b.dim),
-		scale = a.scale / b.scale,
-	};
-};
-
-// Returns the value of a raised to the power of b.
-export fn pow_unit(a: unit, exp: int) unit = {
-	return unit {
-		dim   = pow_dim(a.dim, exp),
-		scale = math::powf64(a.scale, exp: f64),
-	};
-};
-
-
-
 fn parse_symbol(s: str) (unit | void) = {
 	const sz: size = count(s);
 	if (sz == 0) {
@@ -197,47 +120,6 @@ fn parse_symbol(s: str) (unit | void) = {
 	return void;
 };
 
-// // Parses an entire unit expression.
-// fn parse_symbol(s: str) (unit | void) = {
-// 	const sz: size = count(s);
-// 	if (sz == 0) {
-// 		return void;
-// 	};
-// 	match (match_symbol(s)) {
-// 	case let kind: unit_kind =>
-// 		return lookup_unit(kind);
-// 	case =>
-// 		void;
-// 	};
-// 	if (sz == 1) {
-// 		return void;
-// 	};
-// 	let iter = strings::iter(s);
-// 	const first = match (strings::next(&iter)) {
-// 	case let r: rune =>
-// 		yield r;
-// 	case done =>
-// 		return void;
-// 	};
-// 	// TODO: logging
-// 	// fmt::printf("matching prefix: {}\n", first)!;
-// 	let scale = match (lookup_prefix(first)) {
-// 	case let pref: prefix =>
-// 		yield prefix_scale[pref];
-// 	case void =>
-// 		return void;
-// 	};
-// 	const suffix = strings::sub(s, 1);
-// 	return match (match_symbol(suffix)) {
-// 	case let kind: unit_kind =>
-// 		let u: unit = lookup_unit(kind);
-// 		u.scale = u.scale * scale;
-// 		yield u;
-// 	case void =>
-// 		yield void;
-// 	};
-// };
-//
 fn parse_primary(p: *parser) (unit | error) = {
 	match (p.current) {
 	case let tok: token =>
@@ -323,11 +205,11 @@ fn parse_factor(p: *parser) (unit | error) = {
 		};
 
 		advance(p);
-		yield pow_unit(result, sign * strconv::stoi8(tok.text)?);
+		yield powu(result, sign * strconv::stoi8(tok.text)?);
 
 	case token_kind::SUPER_INTEGER =>
 		advance(p);
-		yield pow_unit(result, strconv::stoi8(tok.text)?);
+		yield powu(result, strconv::stoi8(tok.text)?);
 
 	case token_kind::SUPER_PLUS, token_kind::SUPER_MINUS =>
 		const sign: i8 = if (tok.kind == token_kind::SUPER_MINUS) -1 else 1;
@@ -344,7 +226,7 @@ fn parse_factor(p: *parser) (unit | error) = {
 		};
 
 		advance(p);
-		yield pow_unit(result, sign * strconv::stoi8(tok.text)?);
+		yield powu(result, sign * strconv::stoi8(tok.text)?);
 
 	case =>
 		yield result;
@@ -363,11 +245,11 @@ fn parse_unit(p: *parser) (unit | error) = {
 			case token_kind::MULTIPLY =>
 				advance(p);
 				const rhs = parse_factor(p)?;
-				result = mul(result, rhs);
+				result = mulu(result, rhs);
 			case token_kind::SOLIDUS =>
 				advance(p);
 				const rhs = parse_factor(p)?;
-				return match(div(result, rhs)){
+				return match(divu(result, rhs)){
 				case let u: unit => yield u;
 				case => abort("invalid lookup table");
 				};
@@ -432,15 +314,6 @@ fn parse_unit_str(s: str) (unit | error) = {
 	};
 };
 
-// export fn print(obj: (quantity | unit), u: (str | void) = void) (size | error) = {
-// 	match (obj) {
-// 	case let q: quantity =>
-// 		return print_quantity(q, u);
-// 	case let u: unit =>
-// 		return print_unit(u);
-// 	};
-// };
-	
 export fn parse(s: str) (quantity | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
