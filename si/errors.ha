@@ -1,6 +1,8 @@
+use encoding::utf8;
 use fmt;
 use io;
 use strconv;
+
 
 export type dimension_mismatch = !void;
 export type no_match    = !str;
@@ -16,10 +18,10 @@ export type unexpected  = struct {
 	got: str,
 };
 
-export type error = !(no_match | divide_by_zero| invalid_exponent
+export type error = !( no_match | divide_by_zero| invalid_exponent
 	| dimension_mismatch | unexpected_token | not_implemented
 	| invalid | io::error | strconv::invalid | strconv::overflow
-	| nomem );
+	| utf8::invalid | nomem );
 
 
 export fn strerror(err: error) str = {
@@ -36,6 +38,8 @@ export fn strerror(err: error) str = {
 		return "Unexpected token";
 	case let e: divide_by_zero =>
 		return "Divide by zero";
+	case let e: utf8::invalid =>
+		return utf8::strerror(e);
 	case let e: strconv::error =>
 		return strconv::strerror(e);
 	case let e: io::error =>

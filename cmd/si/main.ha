@@ -8,7 +8,7 @@ use si;
 
 type options = struct {
 	input:       str,
-	output:      str,
+	output:      si::encoding,
 	precision:   (void | uint),
 	notation:    si::notation,
 	format:      str,
@@ -97,14 +97,27 @@ fn parse_notation(s: str) (si::notation | str) = {
 	case "E" =>
 		return si::notation::E_UPPER;
 	case =>
-		return "invalid notation";
+		return "Invalid notation";
+	};
+};
+
+fn parse_encoding(s: str) (si::encoding | str) = {
+	switch (s) {
+	case "ascii" =>
+		return si::encoding::ASCII;
+	case "utf8" =>
+		return si::encoding::UTF8;
+	case "json" =>
+		return si::encoding::JSON;
+	case =>
+		return "Invalid encoding";
 	};
 };
 
 fn parse_options() (options | void) = {
 	let opts = options {
 		input = "",
-		output = "pretty",
+		output = si::encoding::UTF8,
 		precision = void,
 		notation = si::notation::GENERAL,
 		format = "",
@@ -218,7 +231,13 @@ fn parse_options() (options | void) = {
 
 			switch (option) {
 			case "output" =>
-				opts.output = s;
+				opts.output = match (parse_encoding(s)) {
+				case let n: si::encoding => yield n;
+				case let err: str =>
+					fmt::errorln(err)!;
+					print_help();
+					return void;
+				};
 			case "precision" =>
 				opts.precision = match (parse_precision(s)) {
 				case let n: uint => yield n;
@@ -286,6 +305,12 @@ fn run(opts: options) (void | si::error) = {
 		return;
 	case let qty: si::quantity =>
 		yield qty;
+	};
+
+	if (opts.output == si::encoding::JSON) {
+		si::encodejson(os::stdout, qty)?;
+		fmt::println()?;
+		return;
 	};
 
 	si::fprintqln(
