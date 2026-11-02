@@ -1,4 +1,4 @@
-si(1) ["(C) 2026" ["General Commands Manual"]]
+si(1) ["v0.0.1" ["General Commands Manual"]]
 
 # NAME
 
@@ -46,18 +46,97 @@ Numeric output supports configurable decimal precision and notation, including g
 *-h*, *--help*
 	Display help information.
 
-# UNIT FORMAT EXPRESSIONS
+# UNIT FORMATTING SYNTAX
 
-Unit expressions use ASCII infix notation.
-```
-*	Multiplication
-/	Division
-^	Exponentiation
--	Negative exponent
-+	Positive exponent
-()	Grouping
-```
+The `-u`, `--unit` option accepts a restricted syntax for specifying the target unit representation. 
+Expressions must use ASCII unit symbols (eg. kg, us, ohm) and the following operators:
+
+**Symbols**
+- Multiplication       \*
+- Division             /
+- Exponentiation       ^
+- Positive exponent    +
+- Negative exponent    -
+- Grouping             ()
+
+**Valid examples***
+- kg\*m/s^2
+- mol/L
+- uF/cm^2
+- kW*h
+- m^3/s
+
+Unicode operator variants, superscript exponents, alternative multiplication symbols, and alternative spellings of unit symbols are not supported.
+
+# UNIT PARSING SYNTAX
+
+The parser accepts numeric quantities using fixed-point or scientific notation.
+
+Unit expressions are parsed more permissively than the format syntax in order to accommodate common variations in notation.
+
+**Valid examples**
+- uohm\*m^-2  -> µΩ·m⁻²
+- μohm\*m\*\*-2 -> µΩ·m⁻²
+- µΩ·m⁻²     -> µΩ·m⁻²
+- uΩ×m^−2    -> µΩ·m⁻²
+- μΩ⋅m⁻²     -> µΩ·m⁻²
+
+In addition to ASCII representations, the parser accepts the following UTF-8 encoded characters:
+
+**Multiplication**
+- ASTERISK                     (U+002A)
+- ASTERISK OPERATOR            (U+2217)
+- STAR OPERATOR                (U+22C6)
+- MULTIPLICATION SIGN          (U+00D7)
+- MIDDLE DOT                   (U+00B7)
+- HYPHENATION POINT            (U+2027)
+- BULLET OPERATOR              (U+2219)
+- DOT OPERATOR                 (U+22C5)
+- LATIN LETTER SINOLOGICAL DOT (U+A78F)
+
+**Exponentiation**
+- CIRCUMFLEX ACCENT            (U+005E)
+- ASTERISK ASTERISK            (U+002A U+002A)
+
+**Superscript digits**
+- SUPERSCRIPT ZERO             (U+2070)
+- SUPERSCRIPT ONE              (U+00B9)
+- SUPERSCRIPT TWO              (U+00B2)
+- SUPERSCRIPT THREE            (U+00B3)
+- SUPERSCRIPT FOUR             (U+2074)
+- SUPERSCRIPT FIVE             (U+2075)
+- SUPERSCRIPT SIX              (U+2076)
+- SUPERSCRIPT SEVEN            (U+2077)
+- SUPERSCRIPT EIGHT            (U+2078)
+- SUPERSCRIPT NINE             (U+2079)
+
+**Exponent signs**
+- PLUS SIGN                    (U+002B)
+- SUPERSCRIPT PLUS SIGN        (U+207A)
+- HYPHEN-MINUS                 (U+002D)
+- HYPHEN                       (U+2010)
+- MINUS SIGN                   (U+2212)
+- SUPERSCRIPT MINUS            (U+207B)
+
+**Grouping**
+- LEFT PARENTHESIS             (U+0028)
+- RIGHT PARENTHESIS            (U+0029)
+- LEFT CURLY BRACKET           (U+007B)
+- RIGHT CURLY BRACKET          (U+007D)
+
+**Micro prefix**
+- MICRO SIGN                   (U+00B5)
+- GREEK SMALL LETTER MU        (U+03BC)
+
+**Ohm**
+- `OHM SIGN`                   (U+2126)
+- `GREEK CAPITAL LETTER OMEGA` (U+03A9)
+
+These variations are accepted when parsing input quantities. They do not necessarily apply to target unit expressions or determine how units are formatted in output.
+
+Whitespace is permitted between expression components.
 
 # AUTHORS
-
-Written by Tom Spencer.
+(C) 2026 Tom Spencer++
+tcs.git@pm.me++
+https://codeberg.org/swonky/hare-si

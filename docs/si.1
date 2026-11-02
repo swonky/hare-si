@@ -5,7 +5,7 @@
 .nh
 .ad l
 .\" Begin generated content:
-.TH "si" "1" "2026\-11\-02" "(C) 2026" "General Commands Manual"
+.TH "si" "1" "2026\-11\-02" "v0.0.1" "General Commands Manual"
 .PP
 .SH NAME
 .PP
@@ -70,20 +70,170 @@ Display version information.\&
 Display help information.\&
 .PP
 .RE
-.SH UNIT FORMAT EXPRESSIONS
+.SH UNIT FORMATTING SYNTAX
 .PP
-Unit expressions use ASCII infix notation.\&
-.nf
-.RS 4
-*	Multiplication
-/	Division
-^	Exponentiation
-\-	Negative exponent
-+	Positive exponent
-()	Grouping
-.fi
-.RE
+The `\-u`, `\-\-unit` option accepts a restricted syntax for specifying the target unit representation.\& 
+Expressions must use ASCII unit symbols (eg.\& kg, us, ohm) and the following operators:
+.PP
+\fB\fRSymbols\fB\fR
+.PD 0
+.IP \(bu 4
+Multiplication       *
+.IP \(bu 4
+Division             /
+.IP \(bu 4
+Exponentiation       \(ha
+.IP \(bu 4
+Positive exponent    +
+.IP \(bu 4
+Negative exponent    \-
+.IP \(bu 4
+Grouping             ()
+.PD
+.PP
+\fB\fRValid examples\fB\fR\fB
+.PD 0
+.IP \(bu 4
+kg*m/s\(ha2
+.IP \(bu 4
+mol/L
+.IP \(bu 4
+uF/cm\(ha2
+.IP \(bu 4
+kW\fRh
+.IP \(bu 4
+m\(ha3/s
+.PD
+.PP
+Unicode operator variants, superscript exponents, alternative multiplication symbols, and alternative spellings of unit symbols are not supported.\&
+.PP
+.SH UNIT PARSING SYNTAX
+.PP
+The parser accepts numeric quantities using fixed\-point or scientific notation.\&
+.PP
+Unit expressions are parsed more permissively than the format syntax in order to accommodate common variations in notation.\&
+.PP
+\fB\fRValid examples\fB\fR
+.PD 0
+.IP \(bu 4
+uohm*m\(ha\-2  \-> µΩ·m⁻²
+.IP \(bu 4
+μohm*m**\-2 \-> µΩ·m⁻²
+.IP \(bu 4
+µΩ·m⁻²     \-> µΩ·m⁻²
+.IP \(bu 4
+uΩ×m\(ha−2    \-> µΩ·m⁻²
+.IP \(bu 4
+μΩ⋅m⁻²     \-> µΩ·m⁻²
+.PD
+.PP
+In addition to ASCII representations, the parser accepts the following UTF\-8 encoded characters:
+.PP
+\fB\fRMultiplication\fB\fR
+.PD 0
+.IP \(bu 4
+ASTERISK                     (U+002A)
+.IP \(bu 4
+ASTERISK OPERATOR            (U+2217)
+.IP \(bu 4
+STAR OPERATOR                (U+22C6)
+.IP \(bu 4
+MULTIPLICATION SIGN          (U+00D7)
+.IP \(bu 4
+MIDDLE DOT                   (U+00B7)
+.IP \(bu 4
+HYPHENATION POINT            (U+2027)
+.IP \(bu 4
+BULLET OPERATOR              (U+2219)
+.IP \(bu 4
+DOT OPERATOR                 (U+22C5)
+.IP \(bu 4
+LATIN LETTER SINOLOGICAL DOT (U+A78F)
+.PD
+.PP
+\fB\fRExponentiation\fB\fR
+.PD 0
+.IP \(bu 4
+CIRCUMFLEX ACCENT            (U+005E)
+.IP \(bu 4
+ASTERISK ASTERISK            (U+002A U+002A)
+.PD
+.PP
+\fB\fRSuperscript digits\fB\fR
+.PD 0
+.IP \(bu 4
+SUPERSCRIPT ZERO             (U+2070)
+.IP \(bu 4
+SUPERSCRIPT ONE              (U+00B9)
+.IP \(bu 4
+SUPERSCRIPT TWO              (U+00B2)
+.IP \(bu 4
+SUPERSCRIPT THREE            (U+00B3)
+.IP \(bu 4
+SUPERSCRIPT FOUR             (U+2074)
+.IP \(bu 4
+SUPERSCRIPT FIVE             (U+2075)
+.IP \(bu 4
+SUPERSCRIPT SIX              (U+2076)
+.IP \(bu 4
+SUPERSCRIPT SEVEN            (U+2077)
+.IP \(bu 4
+SUPERSCRIPT EIGHT            (U+2078)
+.IP \(bu 4
+SUPERSCRIPT NINE             (U+2079)
+.PD
+.PP
+\fB\fRExponent signs\fB\fR
+.PD 0
+.IP \(bu 4
+PLUS SIGN                    (U+002B)
+.IP \(bu 4
+SUPERSCRIPT PLUS SIGN        (U+207A)
+.IP \(bu 4
+HYPHEN\-MINUS                 (U+002D)
+.IP \(bu 4
+HYPHEN                       (U+2010)
+.IP \(bu 4
+MINUS SIGN                   (U+2212)
+.IP \(bu 4
+SUPERSCRIPT MINUS            (U+207B)
+.PD
+.PP
+\fB\fRGrouping\fB\fR
+.PD 0
+.IP \(bu 4
+LEFT PARENTHESIS             (U+0028)
+.IP \(bu 4
+RIGHT PARENTHESIS            (U+0029)
+.IP \(bu 4
+LEFT CURLY BRACKET           (U+007B)
+.IP \(bu 4
+RIGHT CURLY BRACKET          (U+007D)
+.PD
+.PP
+\fB\fRMicro prefix\fB\fR
+.PD 0
+.IP \(bu 4
+MICRO SIGN                   (U+00B5)
+.IP \(bu 4
+GREEK SMALL LETTER MU        (U+03BC)
+.PD
+.PP
+\fB\fROhm\fB\fR
+.PD 0
+.IP \(bu 4
+`OHM SIGN`                   (U+2126)
+.IP \(bu 4
+`GREEK CAPITAL LETTER OMEGA` (U+03A9)
+.PD
+.PP
+These variations are accepted when parsing input quantities.\& They do not necessarily apply to target unit expressions or determine how units are formatted in output.\&
+.PP
+Whitespace is permitted between expression components.\&
 .PP
 .SH AUTHORS
-.PP
-Written by Tom Spencer.\&
+(C) 2026 Tom Spencer
+.br
+tcs.\&git@pm.\&me
+.br
+https://codeberg.\&org/swonky/hare\-si
