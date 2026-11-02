@@ -2,8 +2,33 @@ si
 
 A module for parsing, converting, and formatting physical quantities expressed in the International System of Units.
 
-# Parsing
+Decimal prefixes (name: exponent `symbol`)
 
-# Formatting
+quetta: +30 `Q`     ; ronna: +27 `R`  ; yotta: +24 `Y` ; zetta:  +21 `Z` ; exa:   +18 `E` ;
+peta:   +15 `P`     ; tera:  +12 `T`  ; giga:  +9  `G` ; mega:   +6  `M` ; kilo:  +3  `k` ;
+hecto:  +2  `h`     ; deca:  +1  `da` ; deci:  −1  `d` ; centi:  −2  `c` ; milli: −3  `m` ;
+nano:   −9  `n`     ; pico:  −12 `p`  ; femto: −15 `f` ; atto:   −18 `a` ; zepto: −21 `z` ;
+micro:  −6  `u`/`µ` ; yocto: −24 `y`  ; ronto: −27 `r` ; quecto: −30 `q`.
 
+Micro: UTF-8 output uses `GREEK SMALL LETTER MU (U+00B5)`. Parser also accepts `MICRO SIGN (U+00B5)`.
 
+SI units (name: `symbol`)
+
+Ampere:  `A` ; Becquerel: `Bq`  ; Candela:   `cd` ; Coulomb: `C`       ; Farad:  `F`  ; Gram:   `g`   ; Gray:   `Gy` ;
+Henry:   `H` ; Hertz:     `Hz`  ; Joule:     `J`  ; Katal:   `kat`     ; Kelvin: `K`  ; Lumen:  `lm`  ; Lux:    `lx` ;
+Metre:   `m` ; Mole:      `mol` ; Newton:    `N`  ; Ohm:     `ohm`/`Ω` ; Pascal: `Pa` ; Radian: `rad` ; Second: `s`  ;
+Siemens: `S` ; Sievert:   `Sv`  ; Steradian: `sr` ; Tesla:   `T`       ; Volt:   `V`  ; Watt:   `W`   ; Weber:  `Wb`.
+
+Ohm: UTF-8 output uses `OHM SIGN (U+2126)`. Parser also accepts `GREEK CAPITAL LETTER OMEGA (U+03A9)`.
+
+Non-SI units (name: `symbol`)
+
+Astronomical unit: `au`        ; Bel:          `B`  ; Dalton:  `Da` ; Day:  `d` ; Degree: `deg`/`°` ;
+Degree Celsius:    `degC`/`°C` ; Electronvolt: `eV` ; Hectare: `ha` ; Hour: `h` ; Litre:  `L`       ;
+Minute:            `min`       ; Neper:        `Np` ; Tonne:   `t`.
+
+Notes:
+
+- 'Bel' and 'Neper' are logarithmic units and do not currently convert.
+- 'Degree' and 'Degree Celsius' uses `DEGREE SIGN (U+00B0)`.
+- 'Litre' also accepts lowercase `l`.

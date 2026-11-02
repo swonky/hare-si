@@ -42,6 +42,7 @@ fn make_token(
 		text = strings::slice(start, end),
 	};
 };
+
 fn is_space(c: rune) bool = {
 	if (ascii::isspace(c)) {
 		return true;

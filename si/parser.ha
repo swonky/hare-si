@@ -314,6 +314,22 @@ fn parse_unit_str(s: str) (unit | error) = {
 	};
 };
 
+// Parses a string representation of a physical quantity.
+//
+// The input must contain a valid numeric value followed by a valid unit expression.
+// Leading and trailing whitespace are permitted.
+//
+// Examples:
+//   parse("67 m");
+//   parse("1.21 GW");
+//   parse("9.80665 m/s^2");
+//   parse("32°C");
+//   parse("1.5 kΩ");
+//   parse("1.5 kohm");
+//   parse("6.022e23 mol**-1");
+//   parse("20 m²");
+//
+// Returns the parsed quantity on success, or an error if the input is invalid.
 export fn parse(s: str) (quantity | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
