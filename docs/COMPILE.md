@@ -13,13 +13,17 @@
 
 ## Building
 
+Display options
+
+```sh
+make help
+```
+
 Build the executable and generate available documentation:
 
 ```sh
 make
 ```
-
-## Installation
 
 Install all components:
 
