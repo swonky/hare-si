@@ -240,12 +240,16 @@ details pre {
 <span class='keyword'>const</span> <a href='#SEM_VERSION'>SEM_VERSION</a>: <span class='type'>str</span>;
 </pre><h4>Functions</h4>
 <pre>
-<span class='keyword'>fn</span> <a href='#div'>div</a>(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>unit</span> <span class='type'>|</span> <span class='type'>divide_by_zero</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#divd'>divd</a>(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>dimension</span>;
+<span class='keyword'>fn</span> <a href='#divu'>divu</a>(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>unit</span> <span class='type'>|</span> <span class='type'>divide_by_zero</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#encodejson'>encodejson</a>(out: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#equal'>equal</a>(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>bool</span>;
 <span class='keyword'>fn</span> <a href='#fprintq'>fprintq</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#fprintu'>fprintu</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
-<span class='keyword'>fn</span> <a href='#mul'>mul</a>(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>unit</span>;
-<span class='keyword'>fn</span> <a href='#pow_unit'>pow_unit</a>(a: <span class='type'>unit</span>, exp: <span class='type'>int</span>) <span class='type'>unit</span>;
+<span class='keyword'>fn</span> <a href='#muld'>muld</a>(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>dimension</span>;
+<span class='keyword'>fn</span> <a href='#mulu'>mulu</a>(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>unit</span>;
+<span class='keyword'>fn</span> <a href='#powd'>powd</a>(x: <span class='type'>dimension</span>, p: <span class='type'>int</span>) <span class='type'>dimension</span>;
+<span class='keyword'>fn</span> <a href='#powu'>powu</a>(a: <span class='type'>unit</span>, exp: <span class='type'>int</span>) <span class='type'>unit</span>;
 <span class='keyword'>fn</span> <a href='#tojson'>tojson</a>(obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 
 <span class='comment'>// Undocumented functions:</span>
@@ -413,16 +417,30 @@ details pre {
 </section>
 <h3>Functions</h3>
 <section class='member'>
-<h4 id='div'><span class='heading-body'>fn div</span><span class='heading-extra'><a href='#div'>[permalink]</a></span></h4>
+<h4 id='divd'><span class='heading-body'>fn divd</span><span class='heading-extra'><a href='#divd'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> div(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>unit</span> <span class='type'>|</span> <span class='type'>divide_by_zero</span><span class='type'>)</span>;</pre>
-<p>Returns the quotiant of a and b.
+<span class='keyword'>fn</span> divd(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>dimension</span>;</pre>
+<p>Returns the quotiant of units a and b.
+</section>
+<section class='member'>
+<h4 id='divu'><span class='heading-body'>fn divu</span><span class='heading-extra'><a href='#divu'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> divu(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>unit</span> <span class='type'>|</span> <span class='type'>divide_by_zero</span><span class='type'>)</span>;</pre>
+<p>Returns the quotiant of units a and b.
 </section>
 <section class='member'>
 <h4 id='encodejson'><span class='heading-body'>fn encodejson</span><span class='heading-extra'><a href='#encodejson'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>fn</span> encodejson(out: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
 <p>Writes JSON encoded representation of a quantity or unit.
+</section>
+<section class='member'>
+<h4 id='equal'><span class='heading-body'>fn equal</span><span class='heading-extra'><a href='#equal'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> equal(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>bool</span>;</pre>
+<p>math
+<p>Arithmetic operations for constructing derived dimensions and units.
+<p>Returns true if dimensions a and b are equal.
 </section>
 <section class='member'>
 <h4 id='fprintq'><span class='heading-body'>fn fprintq</span><span class='heading-extra'><a href='#fprintq'>[permalink]</a></span></h4>
@@ -437,16 +455,28 @@ details pre {
 <p>Prints a unit to stdout.
 </section>
 <section class='member'>
-<h4 id='mul'><span class='heading-body'>fn mul</span><span class='heading-extra'><a href='#mul'>[permalink]</a></span></h4>
+<h4 id='muld'><span class='heading-body'>fn muld</span><span class='heading-extra'><a href='#muld'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> mul(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>unit</span>;</pre>
-<p>Returns the product of a and b.
+<span class='keyword'>fn</span> muld(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>dimension</span>;</pre>
+<p>Returns the product of units a and b.
 </section>
 <section class='member'>
-<h4 id='pow_unit'><span class='heading-body'>fn pow_unit</span><span class='heading-extra'><a href='#pow_unit'>[permalink]</a></span></h4>
+<h4 id='mulu'><span class='heading-body'>fn mulu</span><span class='heading-extra'><a href='#mulu'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> pow_unit(a: <span class='type'>unit</span>, exp: <span class='type'>int</span>) <span class='type'>unit</span>;</pre>
-<p>Returns the value of a raised to the power of b.
+<span class='keyword'>fn</span> mulu(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>unit</span>;</pre>
+<p>Returns the product of units a and b.
+</section>
+<section class='member'>
+<h4 id='powd'><span class='heading-body'>fn powd</span><span class='heading-extra'><a href='#powd'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> powd(x: <span class='type'>dimension</span>, p: <span class='type'>int</span>) <span class='type'>dimension</span>;</pre>
+<p>Returns the dimension x raised to the power of p
+</section>
+<section class='member'>
+<h4 id='powu'><span class='heading-body'>fn powu</span><span class='heading-extra'><a href='#powu'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> powu(a: <span class='type'>unit</span>, exp: <span class='type'>int</span>) <span class='type'>unit</span>;</pre>
+<p>Returns the unit a raised to the power of b.
 </section>
 <section class='member'>
 <h4 id='tojson'><span class='heading-body'>fn tojson</span><span class='heading-extra'><a href='#tojson'>[permalink]</a></span></h4>
