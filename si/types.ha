@@ -6,7 +6,7 @@ export type dimension = struct {
 	current:     int, // electric current
 	temperature: int, // thermodynamic temperature
 	substance:   int, // amount of substance
-	luminosity:  int,  // luminous intensity
+	luminosity:  int, // luminous intensity
 };
 
 // Unit

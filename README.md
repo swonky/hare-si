@@ -16,6 +16,7 @@ Implemented in Hare, with no external library dependencies.
 ## Documentation
 
 - [Installation](./docs/COMPILE.md)
-- [Command manual](./docs/si.1.txt)
+- [Module documentation](https://swonky.codeberg.page/hare-si/haredoc.html)
+- [Command manual](https://swonky.codeberg.page/hare-si/man.html)
 - [Supported units](./docs/UNITS.md)
 - [Mozilla Public License Version 2.0](./COPYING)
