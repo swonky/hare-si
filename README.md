@@ -15,6 +15,7 @@ Implemented in Hare, with no external library dependencies.
 
 ## Documentation
 
-- [Compiling](./docs/COMPILE.md)
+- [Installation](./docs/COMPILE.md)
 - [Command manual](./docs/si.1.txt)
 - [Supported units](./docs/UNITS.md)
+- [Mozilla Public License Version 2.0](./COPYING)
