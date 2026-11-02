@@ -1,21 +1,16 @@
 use fmt;
 use io;
+use os;
 use strings;
 use strconv;
-
-
-type format_options = struct {
-	enc: encoding,
-};
-
-def default_format_options = format_options { enc = encoding::UTF8 };
 
 fn sprint_f64(
 	value: f64,
 	prec: (uint|void) = void,
-	notation: notation = notation::GENERAL,
+	repr: notation = notation::GENERAL,
+	enc: encoding = encoding::UTF8,
 ) (str | nomem) = {
-	const format = switch (notation) {
+	const format = switch (repr) {
 	case notation::FIXED =>
 		yield strconv::ffmt::F;
 	case notation::SCIENTIFIC, notation::E_UPPER, notation::E_LOWER =>
@@ -24,7 +19,7 @@ fn sprint_f64(
 		yield strconv::ffmt::G;
 	};
 
-	const flags = switch (notation) {
+	const flags = switch (repr) {
 	case notation::E_UPPER =>
 		yield strconv::fflags::UPPER_EXP
 			| strconv::fflags::SHOW_POS_EXP
@@ -39,7 +34,7 @@ fn sprint_f64(
 	let formatted = strconv::ftosf(value, format, prec, flags)?;
 	// defer free(formatted);
 
-	if (notation != notation::GENERAL && notation != notation::SCIENTIFIC) {
+	if (repr != notation::GENERAL && repr != notation::SCIENTIFIC) {
 		return strings::dup(formatted);
 	};
 	
@@ -78,9 +73,9 @@ fn sprint_f64(
 fn print_f64(
 	value: f64,
 	prec: (uint|void) = void,
-	notation: notation = notation::GENERAL,
+	repr: notation = notation::GENERAL,
 ) (size | io::error) = {
-	const s = match (sprint_f64(value, prec, notation)) {
+	const s = match (sprint_f64(value, prec, repr)) {
 	case let s: str =>
 		yield s;
 	case nomem =>
@@ -159,7 +154,7 @@ fn append_str(out: *[]u8, s: str) (void | nomem) = {
 	append(out, u...)?;
 };
 
-fn format_unit(input: str, opts: format_options = default_format_options) (str | error) = {
+fn format_unit(input: str) (str | error) = {
 	let p = parser {
 		scanner = strings::iter(input),
 		current = done,
@@ -244,4 +239,97 @@ fn format_unit(input: str, opts: format_options = default_format_options) (str |
 	};
 
 	return strings::fromutf8(out)!;
+};
+
+// Prints a quantity to stdout.
+export fn fprintq(
+	h: io::handle,
+	qty: quantity,
+	unit_format: (str | void) = void,
+	prec: (uint | void) = void,
+	repr: notation = notation::GENERAL,
+) (size | error) = {
+	let count = 0z;
+	match (unit_format) {
+	case void =>
+		const value: f64 = qty.value * qty.unit.scale;
+		count += print_f64(value, prec, repr)!;
+		count += fprintu(h, qty.unit)?;
+	case let s: str =>
+		let target: unit = parse_unit_str(s)?;
+		
+		if (!eq_dim(qty.unit.dim, target.dim)) {
+			return dimension_mismatch;
+		};
+
+		const value: f64 = qty.value * qty.unit.scale / target.scale;
+		let formatted_value = sprint_f64(value, prec, repr)!;
+		defer free(formatted_value);
+
+		let formatted_unit = format_unit(s)?;
+		defer free(formatted_unit);
+
+		count += fmt::fprintf(os::stdout, "{} {}", formatted_value, formatted_unit)!;
+	};
+	return count;
+};
+
+// Prints a unit to stdout.
+export fn fprintu(h: io::handle, u: unit) (size | error) = {
+	let first = true;
+
+	const exponents: [_]int = [
+		u.dim.mass,
+		u.dim.length,
+		u.dim.time,
+		u.dim.current,
+		u.dim.temperature,
+		u.dim.substance,
+		u.dim.luminosity,
+	];
+
+	let total: size = 0;
+	for (let i = 0z; i < len(symbols_base); i += 1) {
+		if (exponents[i] == 0) {
+			continue;
+		};
+
+		total += fmt::fprintf(h, "{}{}", if (first) "" else "·", symbols_base[i])!;
+		first = false;
+
+		if (exponents[i] != 1) {
+			let exp: int = if (exponents[i] < 0) {
+				total += fmt::fprintf(h, "{}", '\u207B')!;
+				yield exponents[i]*-1;
+			} else {
+				yield exponents[i];
+			};
+			match(int_to_superscript(exp)) {
+			case let s: str =>
+				total += fmt::fprint(h, s)!;
+			case =>
+				void;
+			};
+		};
+	};
+
+	return total;
+};
+
+export fn fprintqln(
+	h: io::handle,
+	qty: quantity,
+	unit_format: (str | void) = void,
+	prec: (uint | void) = void,
+	repr: notation = notation::GENERAL,
+) (size | error) = {
+	let count = fprintq(h, qty, unit_format, prec, repr)?;
+	count += fmt::fprint(h, "\n")?;
+	return count;
+};
+
+export fn fprintuln(h: io::handle, u: unit) (size | error) = {
+	let count = fprintu(h, u)?;
+	count += fmt::fprint(h, "\n")?;
+	return count;
 };

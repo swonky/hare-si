@@ -147,80 +147,6 @@ export fn pow_unit(a: unit, exp: int) unit = {
 	};
 };
 
-// Prints a quantity to stdout.
-export fn print_quantity(
-	qty: quantity,
-	unit_format: (str | void) = void,
-	prec: (uint | void) = void,
-	notation: notation = notation::GENERAL,
-) (size | error) = {
-	let count = 0z;
-	match (unit_format) {
-	case void =>
-		const value: f64 = qty.value * qty.unit.scale;
-		count += print_f64(value, prec, notation)!;
-		print_unit(qty.unit)?;
-	case let s: str =>
-		let target: unit = parse_unit_str(s)?;
-		
-		if (!eq_dim(qty.unit.dim, target.dim)) {
-			return dimension_mismatch;
-		};
-
-		const value: f64 = qty.value * qty.unit.scale / target.scale;
-		let formatted_value = sprint_f64(value, prec, notation)!;
-		defer free(formatted_value);
-
-		let formatted_unit = format_unit(s)?;
-		defer free(formatted_unit);
-
-		count += fmt::printf("{} {}\n", formatted_value, formatted_unit)!;
-	};
-	return count;
-};
-
-// Prints a unit to stdout.
-export fn print_unit(u: unit) (size | error) = {
-	let first = true;
-
-	const exponents: [_]int = [
-		u.dim.mass,
-		u.dim.length,
-		u.dim.time,
-		u.dim.current,
-		u.dim.temperature,
-		u.dim.substance,
-		u.dim.luminosity,
-	];
-
-	let total: size = 0;
-	for (let i = 0z; i < len(symbols_base); i += 1) {
-		if (exponents[i] == 0) {
-			continue;
-		};
-
-		total += fmt::printf("{}{}", if (first) "" else "·", symbols_base[i])!;
-		first = false;
-
-		if (exponents[i] != 1) {
-			let exp: int = if (exponents[i] < 0) {
-				total += fmt::printf("{}", '\u207B')!;
-				yield exponents[i]*-1;
-			} else {
-				yield exponents[i];
-			};
-			match(int_to_superscript(exp)) {
-			case let s: str =>
-				total += fmt::print(s)!;
-			case =>
-				void;
-			};
-		};
-	};
-
-	fmt::println()!;
-	return total;
-};
 
 
 fn parse_symbol(s: str) (unit | void) = {
@@ -506,14 +432,14 @@ fn parse_unit_str(s: str) (unit | error) = {
 	};
 };
 
-export fn print(obj: (quantity | unit), u: (str | void) = void) (size | error) = {
-	match (obj) {
-	case let q: quantity =>
-		return print_quantity(q, u);
-	case let u: unit =>
-		return print_unit(u);
-	};
-};
+// export fn print(obj: (quantity | unit), u: (str | void) = void) (size | error) = {
+// 	match (obj) {
+// 	case let q: quantity =>
+// 		return print_quantity(q, u);
+// 	case let u: unit =>
+// 		return print_unit(u);
+// 	};
+// };
 	
 export fn parse(s: str) (quantity | error) = {
 	let p = parser {

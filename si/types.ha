@@ -29,4 +29,8 @@ export type notation = enum u8 {
 	E_LOWER,
 };
 
-type encoding = enum u8 { ASCII, UTF8 };
+export type encoding = enum u8 { 
+	ASCII,
+	UTF8,
+	JSON,
+};

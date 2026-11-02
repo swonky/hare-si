@@ -1,4 +1,5 @@
 use fmt;
+use io;
 use os;
 use strconv;
 use strings;
@@ -287,7 +288,9 @@ fn run(opts: options) (void | si::error) = {
 		yield qty;
 	};
 
-	si::print_quantity(qty,
+	si::fprintqln(
+		os::stdout,
+		qty,
 		opts.unit,
 		opts.precision,
 		opts.notation,
