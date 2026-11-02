@@ -215,12 +215,12 @@ details pre {
 <h4>Types</h4>
 <pre>
 <span class='keyword'>type</span> <a href='#dimension'>dimension</a>;
+<span class='keyword'>type</span> <a href='#encoding'>encoding</a>;
+<span class='keyword'>type</span> <a href='#notation'>notation</a>;
 <span class='keyword'>type</span> <a href='#quantity'>quantity</a>;
 <span class='keyword'>type</span> <a href='#unit'>unit</a>;
 
 <span class='comment'>// Undocumented types:</span>
-<span class='keyword'>type</span> <a href='#encoding'>encoding</a>;
-<span class='keyword'>type</span> <a href='#notation'>notation</a>;
 <span class='keyword'>type</span> <a href='#unexpected'>unexpected</a>;
 </pre><h4>Errors</h4>
 <pre>
@@ -275,42 +275,20 @@ details pre {
 <span class='comment'>	</span><span class='comment'>//</span><span class='comment'> luminous intensity</span><span class='comment'>
 </span>	luminosity: <span class='type'>int</span>,
 };</pre>
-<p>Dimension
-</section>
-<section class='member'>
-<h4 id='quantity'><span class='heading-body'>type quantity</span><span class='heading-extra'><a href='#quantity'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>type</span> quantity = <span class='type'>struct</span> {
-	unit: <span class='type'>unit</span>,
-	value: <span class='type'>f64</span>,
-};</pre>
-<p>Quantity
-</section>
-<section class='member'>
-<h4 id='unit'><span class='heading-body'>type unit</span><span class='heading-extra'><a href='#unit'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>type</span> unit = <span class='type'>struct</span> {
-	dim: <span class='type'>dimension</span>,
-	scale: <span class='type'>f64</span>,
-};</pre>
-<p>Unit
+<p>Represents the dimensional exponents of the seven SI base dimensions.
 </section>
 <section class='member'>
 <h4 id='encoding'><span class='heading-body'>type encoding</span><span class='heading-extra'><a href='#encoding'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>type</span> encoding = <span class='type'>enum</span> <span class='type'>u8</span> {
 	ASCII,
 	UTF8,
 	JSON,
 };</pre>
-</details>
+<p>Specifies the character encoding options.
 </section>
 <section class='member'>
 <h4 id='notation'><span class='heading-body'>type notation</span><span class='heading-extra'><a href='#notation'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>type</span> notation = <span class='type'>enum</span> <span class='type'>u8</span> {
 	GENERAL,
@@ -319,7 +297,25 @@ details pre {
 	E_UPPER,
 	E_LOWER,
 };</pre>
-</details>
+<p>Specifies the notation used to format floating-point values.
+</section>
+<section class='member'>
+<h4 id='quantity'><span class='heading-body'>type quantity</span><span class='heading-extra'><a href='#quantity'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>type</span> quantity = <span class='type'>struct</span> {
+	unit: <span class='type'>unit</span>,
+	value: <span class='type'>f64</span>,
+};</pre>
+<p>Represents a physical quantity as a unit and numerical value.
+</section>
+<section class='member'>
+<h4 id='unit'><span class='heading-body'>type unit</span><span class='heading-extra'><a href='#unit'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>type</span> unit = <span class='type'>struct</span> {
+	dim: <span class='type'>dimension</span>,
+	scale: <span class='type'>f64</span>,
+};</pre>
+<p>Represents a unit of measurement by its physical <a href='#dimension' class='ref'>dimension</a> and scale.
 </section>
 <section class='member'>
 <h4 id='unexpected'><span class='heading-body'>type unexpected</span><span class='heading-extra'><a href='#unexpected'>[permalink]</a></span></h4>
