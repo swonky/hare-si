@@ -15,6 +15,7 @@ type options = struct {
 	unit:        (void | str),
 	strict:      bool,
 	completions: (void | str),
+	version:     bool,
 };
 
 const HELP = `
@@ -58,7 +59,15 @@ fn print_help() void = {
 	fmt::fprint(os::stdout, HELP)!;
 };
 
-fn print_version() void = {
+fn print_version(opts: options) void = {
+	if (opts.output == si::encoding::JSON) {
+		fmt::printf(
+			"{{\"version\":\"{}\",\"git_version\":\"{}\"}}\n",
+			si::SEM_VERSION,
+			si::GIT_VERSION,
+		)!;
+		return;
+	};
 	fmt::printf("si {}-{}\n", si::SEM_VERSION, si::GIT_VERSION)!;
 };
 
@@ -124,6 +133,7 @@ fn parse_options() (options | void) = {
 		unit = void,
 		strict = false,
 		completions = void,
+		version = false,
 	};
 
 	let input: []u8 = [];
@@ -149,12 +159,13 @@ fn parse_options() (options | void) = {
 
 		if (arg == "-h" || arg == "--help") {
 			print_help();
-			return void;
+			return;
 		};
 
 		if (arg == "-v" || arg == "--version") {
-			print_version();
-			return void;
+			opts.version = true;
+			i += 1;
+			continue;
 		};
 
 		if (arg == "-s" || arg == "--strict") {
@@ -283,6 +294,11 @@ fn parse_options() (options | void) = {
 		append_input(&input, arg);
 		have_input = true;
 		i += 1;
+	};
+
+	if (opts.version) {
+		print_version(opts);
+		return;
 	};
 
 	match (opts.completions) {
