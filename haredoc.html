@@ -208,8 +208,20 @@ details pre {
 <div class='readme'>
 <p>si
 <p>A module for parsing, converting, and formatting physical quantities expressed in the International System of Units.
-<p># Parsing
-<p># Formatting
+<p>Decimal prefixes (name: exponent `symbol`)
+<p>quetta: +30 `Q` ; ronna: +27 `R` ; yotta: +24 `Y` ; zetta: +21 `Z` ; exa: +18 `E` ; peta: +15 `P` ; tera: +12 `T` ; giga: +9 `G` ; mega: +6 `M` ; kilo: +3 `k` ; hecto: +2 `h` ; deca: +1 `da` ; deci: −1 `d` ; centi: −2 `c` ; milli: −3 `m` ; nano: −9 `n` ; pico: −12 `p` ; femto: −15 `f` ; atto: −18 `a` ; zepto: −21 `z` ; micro: −6 `u`/`µ` ; yocto: −24 `y` ; ronto: −27 `r` ; quecto: −30 `q`.
+<p>Micro: UTF-8 output uses `GREEK SMALL LETTER MU (U+00B5)`. Parser also accepts `MICRO SIGN (U+00B5)`.
+<p>SI units (name: `symbol`)
+<p>Ampere: `A` ; Becquerel: `Bq` ; Candela: `cd` ; Coulomb: `C` ; Farad: `F` ; Gram: `g` ; Gray: `Gy` ; Henry: `H` ; Hertz: `Hz` ; Joule: `J` ; Katal: `kat` ; Kelvin: `K` ; Lumen: `lm` ; Lux: `lx` ; Metre: `m` ; Mole: `mol` ; Newton: `N` ; Ohm: `ohm`/`Ω` ; Pascal: `Pa` ; Radian: `rad` ; Second: `s` ; Siemens: `S` ; Sievert: `Sv` ; Steradian: `sr` ; Tesla: `T` ; Volt: `V` ; Watt: `W` ; Weber: `Wb`.
+<p>Ohm: UTF-8 output uses `OHM SIGN (U+2126)`. Parser also accepts `GREEK CAPITAL LETTER OMEGA (U+03A9)`.
+<p>Non-SI units (name: `symbol`)
+<p>Astronomical unit: `au` ; Bel: `B` ; Dalton: `Da` ; Day: `d` ; Degree: `deg`/`°` ; Degree Celsius: `degC`/`°C` ; Electronvolt: `eV` ; Hectare: `ha` ; Hour: `h` ; Litre: `L` ; Minute: `min` ; Neper: `Np` ; Tonne: `t`.
+<p>Notes:
+<ul>
+<li>&apos;Bel&apos; and &apos;Neper&apos; are logarithmic units and do not currently convert.
+<li>&apos;Degree&apos; and &apos;Degree Celsius&apos; uses `DEGREE SIGN (U+00B0)`.
+<li>&apos;Litre&apos; also accepts lowercase `l`.
+</ul>
 </div>
 <h3>Index</h3>
 <h4>Types</h4>
@@ -248,6 +260,7 @@ details pre {
 <span class='keyword'>fn</span> <a href='#fprintu'>fprintu</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#muld'>muld</a>(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>dimension</span>;
 <span class='keyword'>fn</span> <a href='#mulu'>mulu</a>(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>unit</span>;
+<span class='keyword'>fn</span> <a href='#parse'>parse</a>(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#powd'>powd</a>(x: <span class='type'>dimension</span>, p: <span class='type'>int</span>) <span class='type'>dimension</span>;
 <span class='keyword'>fn</span> <a href='#powu'>powu</a>(a: <span class='type'>unit</span>, exp: <span class='type'>int</span>) <span class='type'>unit</span>;
 <span class='keyword'>fn</span> <a href='#tojson'>tojson</a>(obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
@@ -256,7 +269,6 @@ details pre {
 <span class='keyword'>fn</span> <a href='#count'>count</a>(s: <span class='type'>str</span>) <span class='type'>size</span>;
 <span class='keyword'>fn</span> <a href='#fprintqln'>fprintqln</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#fprintuln'>fprintuln</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
-<span class='keyword'>fn</span> <a href='#parse'>parse</a>(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#printerror'>printerror</a>(err: <span class='type'>error</span>) <span class='type'>(</span><span class='type'>void</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#strerror'>strerror</a>(err: <span class='type'>error</span>) <span class='type'>str</span>;
 </pre><h3>Types</h3>
@@ -467,6 +479,15 @@ details pre {
 <p>Returns the product of units a and b.
 </section>
 <section class='member'>
+<h4 id='parse'><span class='heading-body'>fn parse</span><span class='heading-extra'><a href='#parse'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> parse(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
+<p>Parses a string representation of a physical quantity.
+<p>The input must contain a valid numeric value followed by a valid unit expression. Leading and trailing whitespace are permitted.
+<p>Examples: parse(&quot;67 m&quot;); parse(&quot;1.21 GW&quot;); parse(&quot;9.80665 m/s^2&quot;); parse(&quot;32°C&quot;); parse(&quot;1.5 kΩ&quot;); parse(&quot;1.5 kohm&quot;); parse(&quot;6.022e23 mol**-1&quot;); parse(&quot;20 m²&quot;);
+<p>Returns the parsed quantity on success, or an error if the input is invalid.
+</section>
+<section class='member'>
 <h4 id='powd'><span class='heading-body'>fn powd</span><span class='heading-extra'><a href='#powd'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>fn</span> powd(x: <span class='type'>dimension</span>, p: <span class='type'>int</span>) <span class='type'>dimension</span>;</pre>
@@ -506,14 +527,6 @@ details pre {
 <summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>fn</span> fprintuln(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='parse'><span class='heading-body'>fn parse</span><span class='heading-extra'><a href='#parse'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>fn</span> parse(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
 </details>
 </section>
 <section class='member'>
