@@ -319,6 +319,7 @@ fn run(opts: options) (void | si::error) = {
 		opts.unit,
 		opts.precision,
 		opts.notation,
+		opts.output,
 	)?;
 };
 

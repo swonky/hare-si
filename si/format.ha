@@ -58,8 +58,14 @@ fn sprint_f64(
 
 	assert(pair.0 != "");
 
+	let scale = switch (enc) {
+		case encoding::ASCII => yield "*10";
+		case encoding::UTF8 => yield "×10";
+		case => abort("invalid encoding");
+	};
+
 	let out = strings::toutf8(pair.0);
-	append_str(&out, "×10")?;
+	append_str(&out, scale)?;
 
 	let superscript_exponent = int_to_superscript(exponent)?;
 	defer free(superscript_exponent);
@@ -154,7 +160,7 @@ fn append_str(out: *[]u8, s: str) (void | nomem) = {
 	append(out, u...)?;
 };
 
-fn format_unit(input: str) (str | error) = {
+fn format_unit(input: str, enc: encoding) (str | error) = {
 	let p = parser {
 		scanner = strings::iter(input),
 		current = done,
@@ -201,20 +207,30 @@ fn format_unit(input: str) (str | error) = {
 
 		switch (tok.kind) {
 		case token_kind::IDENTIFIER =>
-			if (len(tok.text) > 1 && strings::hasprefix(tok.text, "u")) {
-				append_str(&out, "µ")?;
-				append_str(&out, strings::sub(tok.text, 1))?;
+			let text = tok.text;
+			if (len(text) > 1 && strings::hasprefix(text, "u")) {
+				append_str(&out, if (enc == encoding::UTF8) "µ" else "u")?;
+				text = strings::sub(text, 1);
+			};
+
+			const suffix = if (strings::hassuffix(text, "ohm")) {
+				yield if (enc == encoding::UTF8) "Ω" else "ohm";
+			} else if (strings::hassuffix(text, "degC")) {
+				yield if (enc == encoding::UTF8) "°C" else "degC";
+			} else if (strings::hassuffix(text, "deg")) {
+				yield if (enc == encoding::UTF8) "°" else "deg";
 			} else {
-				const text = switch (tok.text) {
-				case "ohm" =>
-					yield "Ω";
-				case "degC" =>
-					yield "°C";
-				case "deg" =>
-					yield "°";
-				case =>
-					yield tok.text;
-				};
+				yield "";
+			};
+
+			if (len(suffix) > 0) {
+				append_str(&out, strings::sub(text, 0, len(text) - len(
+					if (strings::hassuffix(text, "ohm")) "ohm"
+					else if (strings::hassuffix(text, "degC")) "degC"
+					else "deg"
+				)))?;
+				append_str(&out, suffix)?;
+			} else {
 				append_str(&out, text)?;
 			};
 		case token_kind::INTEGER =>
@@ -224,7 +240,11 @@ fn format_unit(input: str) (str | error) = {
 		case token_kind::MINUS =>
 			append_str(&out, "−")?;
 		case token_kind::POWER =>
-			exponent = true;
+			if (enc == encoding::ASCII) {
+				append_str(&out, "^")?;
+			} else {
+				exponent = true;
+			};
 		case token_kind::MULTIPLY =>
 			append_str(&out, "·")?;
 		case token_kind::SOLIDUS =>
@@ -234,7 +254,7 @@ fn format_unit(input: str) (str | error) = {
 		case token_kind::RPAREN =>
 			append_str(&out, ")")?;
 		case =>
-			return '0': unexpected_token;
+			append_str(&out, tok.text)?;
 		};
 	};
 
@@ -248,6 +268,7 @@ export fn fprintq(
 	unit_format: (str | void) = void,
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
+	enc: encoding = encoding::UTF8,
 ) (size | error) = {
 	let count = 0z;
 	match (unit_format) {
@@ -266,7 +287,7 @@ export fn fprintq(
 		let formatted_value = sprint_f64(value, prec, repr)!;
 		defer free(formatted_value);
 
-		let formatted_unit = format_unit(s)?;
+		let formatted_unit = format_unit(s, enc)?;
 		defer free(formatted_unit);
 
 		count += fmt::fprintf(os::stdout, "{} {}", formatted_value, formatted_unit)!;
@@ -322,8 +343,9 @@ export fn fprintqln(
 	unit_format: (str | void) = void,
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
+	enc: encoding = encoding::UTF8,
 ) (size | error) = {
-	let count = fprintq(h, qty, unit_format, prec, repr)?;
+	let count = fprintq(h, qty, unit_format, prec, repr, enc)?;
 	count += fmt::fprint(h, "\n")?;
 	return count;
 };
