@@ -1,3 +1,4 @@
+use math;
 // math
 //
 // Arithmetic operations for constructing derived dimensions and units.
@@ -36,20 +37,20 @@ export fn divd(a: dimension, b: dimension) dimension = dimension {
 };
 
 // Returns the dimension x raised to the power of p
-export fn powd(x: dimension, p: int) dimension = switch (exp) {
+export fn powd(x: dimension, p: int) dimension = switch (p) {
 	case 0 =>
-		yield dimensionless;
+		yield DIMENSIONLESS;
 	case 1 =>
 		yield x;
 	case =>
 		yield dimension {
-			mass        = x.mass        * exp,
-			length      = x.length      * exp,
-			time        = x.time        * exp,
-			current     = x.current     * exp,
-			temperature = x.temperature * exp,
-			substance   = x.substance   * exp,
-			luminosity  = x.luminosity  * exp,
+			mass        = x.mass        * p,
+			length      = x.length      * p,
+			time        = x.time        * p,
+			current     = x.current     * p,
+			temperature = x.temperature * p,
+			substance   = x.substance   * p,
+			luminosity  = x.luminosity  * p,
 		};
 };
 
@@ -73,10 +74,10 @@ export fn divu(a: unit, b: unit) (unit | divide_by_zero) = {
 	};
 };
 
-// Returns the unit a raised to the power of b.
-export fn powu(a: unit, exp: int) unit = {
+// Returns the unit x raised to the power of p.
+export fn powu(x: unit, p: int) unit = {
 	return unit {
-		dim   = powd(a.dim, exp),
-		scale = math::powf64(a.scale, exp: f64),
+		dim   = powd(x.dim, p),
+		scale = math::powf64(x.scale, p: f64),
 	};
 };

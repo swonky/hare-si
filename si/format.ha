@@ -261,7 +261,7 @@ fn format_unit(input: str, enc: encoding) (str | error) = {
 	return strings::fromutf8(out)!;
 };
 
-// Prints a quantity to stdout.
+// Prints a quantity to an [io::handle]. Returns the number of bytes printed.
 export fn fprintq(
 	h: io::handle,
 	qty: quantity,
@@ -279,7 +279,7 @@ export fn fprintq(
 	case let s: str =>
 		let target: unit = parse_unit_str(s)?;
 		
-		if (!eq_dim(qty.unit.dim, target.dim)) {
+		if (!equal(qty.unit.dim, target.dim)) {
 			return dimension_mismatch;
 		};
 
@@ -295,7 +295,7 @@ export fn fprintq(
 	return count;
 };
 
-// Prints a unit to stdout.
+// Prints a unit to an [io::handle]. Returns the number of bytes printed.
 export fn fprintu(h: io::handle, u: unit) (size | error) = {
 	let first = true;
 

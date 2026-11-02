@@ -310,188 +310,188 @@ def unit_names: [_]str = [
 ];
 
 def units: [_]unit = [
-	ampere,
-	astronomical_unit,
-	becquerel,
-	bel,
-	candela,
-	coulomb,
-	dalton,
-	day,
-	degree,
-	degree_celsius,
-	electronvolt,
-	farad,
-	gram,
-	gray,
-	hectare,
-	henry,
-	hertz,
-	hour,
-	joule,
-	katal,
-	kelvin,
-	litre,
-	lumen,
-	lux,
-	metre,
-	minute,
-	mole,
-	neper,
-	newton,
-	ohm,
-	pascal,
-	radian,
-	second,
-	siemens,
-	sievert,
-	steradian,
-	tesla,
-	tonne,
-	volt,
-	watt,
-	weber,
+	AMPERE,
+	ASTRONOMICAL_UNIT,
+	BECQUEREL,
+	BEL,
+	CANDELA,
+	COULOMB,
+	DALTON,
+	DAY,
+	DEGREE,
+	DEGREE_CELSIUS,
+	ELECTRONVOLT,
+	FARAD,
+	GRAM,
+	GRAY,
+	HECTARE,
+	HENRY,
+	HERTZ,
+	HOUR,
+	JOULE,
+	KATAL,
+	KELVIN,
+	LITRE,
+	LUMEN,
+	LUX,
+	METRE,
+	MINUTE,
+	MOLE,
+	NEPER,
+	NEWTON,
+	OHM,
+	PASCAL,
+	RADIAN,
+	SECOND,
+	SIEMENS,
+	SIEVERT,
+	STERADIAN,
+	TESLA,
+	TONNE,
+	VOLT,
+	WATT,
+	WEBER,
 ];
 
 // Dimensionless
-def dimensionless = dimension { ... };
+export def DIMENSIONLESS = dimension { ... };
 
 // Base dimensions
-def mass        = dimension { mass        = 1, ...};
-def length      = dimension { length      = 1, ...};
-def time        = dimension { time        = 1, ...};
-def current     = dimension { current     = 1, ...};
-def temperature = dimension { temperature = 1, ...};
-def substance   = dimension { substance   = 1, ...};
-def luminosity  = dimension { luminosity  = 1, ...};
+export def MASS                    = dimension { mass        = 1,  ... };
+export def LENGTH                  = dimension { length      = 1,  ... };
+export def TIME                    = dimension { time        = 1,  ... };
+export def CURRENT                 = dimension { current     = 1,  ... };
+export def TEMPERATURE             = dimension { temperature = 1,  ... };
+export def SUBSTANCE               = dimension { substance   = 1,  ... };
+export def LUMINOSITY              = dimension { luminosity  = 1,  ... };
 
-// Reciprocal base dimensions
-def reciprocal_mass        = dimension { mass        = -1, ...};
-def wavenumber             = dimension { length      = -1, ...};
-def frequency             =  dimension { time        = -1, ...};
-def reciprocal_current     = dimension { current     = -1, ...};
-def reciprocal_temperature = dimension { temperature = -1, ...};
-def reciprocal_substance   = dimension { substance   = -1, ...};
-def reciprocal_luminosity  = dimension { luminosity  = -1, ...};
+// ReciprocAL BASE DIMENSIONS
+export def RECIPROCAL_MASS         = dimension { mass        = -1, ... };
+export def WAVENUMBER              = dimension { length      = -1, ... };
+export def FREQUENCY               = dimension { time        = -1, ... };
+export def RECIPROCAL_CURRENT      = dimension { current     = -1, ... };
+export def RECIPROCAL_TEMPERATURE  = dimension { temperature = -1, ... };
+export def RECIPROCAL_SUBSTANCE    = dimension { substance   = -1, ... };
+export def RECIPROCAL_LUMINOSITY   = dimension { luminosity  = -1, ... };
 
-// Derived dimensions with named symbols
-def absorbed_dose         = dimension { length     = 2,  time       = -2, ...                                 };
-def activity              = dimension { time       = -1, ...                                                  };
-def capacitance           = dimension { mass       = -1, length     = -2, time    = 4,  current     = 2,  ... };
-def catalytic_activity    = dimension { time       = -1, substance  = 1,  ...                                 };
-def conductance           = dimension { mass       = -1, length     = -2, time    = 3,  current     = 2,  ... };
-def dose_equivalent       = dimension { length     = 2,  time       = -2, ...                                 };
-def electric_charge       = dimension { time       = 1,  current    = 1,  ...                                 };
-def electric_potential    = dimension { mass       = 1,  length     = 2,  time    = -3, current     = -1, ... };
-def energy                = dimension { mass       = 1,  length     = 2,  time    = -2, ...                   };
-def force                 = dimension { mass       = 1,  length     = 1,  time    = -2, ...                   };
-def illuminance           = dimension { length     = -2, luminosity = 1,  ...                                 };
-def inductance            = dimension { mass       = 1,  length     = 2,  time    = -2, current     = -2, ... };
-def luminous_flux         = dimension { luminosity = 1,  ...                                                  };
-def magnetic_flux         = dimension { mass       = 1,  length     = 2,  time    = -2, current     = -1, ... };
-def magnetic_flux_density = dimension { mass       = 1,  time       = -2, current = -1, ...                   };
-def power                 = dimension { mass       = 1,  length     = 2,  time    = -3, ...                   };
-def pressure              = dimension { mass       = 1,  length     = -1, time    = -2, ...                   };
-def resistance            = dimension { mass       = 1,  length     = 2,  time    = -3, current     = -2, ... };
+// Derived DIMENSIONS WITH NAMED SYmbols
+export def ABSORBED_DOSE           = dimension { length      = 2,  time       = -2, ...                                 };
+export def ACTIVITY                = dimension { time        = -1, ...                                                  };
+export def CAPACITANCE             = dimension { mass        = -1, length     = -2, time    = 4,  current     = 2,  ... };
+export def CATALYTIC_ACTIVITY      = dimension { time        = -1, substance  = 1,  ...                                 };
+export def CONDUCTANCE             = dimension { mass        = -1, length     = -2, time    = 3,  current     = 2,  ... };
+export def DOSE_EQUIVALENT         = dimension { length      = 2,  time       = -2, ...                                 };
+export def ELECTRIC_CHARGE         = dimension { time        = 1,  current    = 1,  ...                                 };
+export def ELECTRIC_POTENTIAL      = dimension { mass        = 1,  length     = 2,  time    = -3, current     = -1, ... };
+export def ENERGY                  = dimension { mass        = 1,  length     = 2,  time    = -2, ...                   };
+export def FORCE                   = dimension { mass        = 1,  length     = 1,  time    = -2, ...                   };
+export def ILLUMINANCE             = dimension { length      = -2, luminosity = 1,  ...                                 };
+export def INDUCTANCE              = dimension { mass        = 1,  length     = 2,  time    = -2, current     = -2, ... };
+export def LUMINOUS_FLUX           = dimension { luminosity  = 1,  ...                                                  };
+export def MAGNETIC_FLUX           = dimension { mass        = 1,  length     = 2,  time    = -2, current     = -1, ... };
+export def MAGNETIC_FLUX_DENSITY   = dimension { mass        = 1,  time       = -2, current = -1, ...                   };
+export def POWER                   = dimension { mass        = 1,  length     = 2,  time    = -3, ...                   };
+export def PRESSURE                = dimension { mass        = 1,  length     = -1, time    = -2, ...                   };
+export def RESISTANCE              = dimension { mass        = 1,  length     = 2,  time    = -3, current     = -2, ... };
 
-// Derived dimensions with compound units
-def acceleration            = dimension { length     = 1,  time   = -2, ...                              };
-def action                  = dimension { mass       = 1,  length = 2,  time = -1, ...                   };
-def area                    = dimension { length     = 2,  ...                                           };
-def concentration           = dimension { substance  = 1,  length = -3, ...                              };
-def current_density         = dimension { current    = 1,  length = -2, ...                              };
-def density                 = dimension { mass       = 1,  length = -3, ...                              };
-def entropy                 = dimension { mass       = 1,  length = 2,  time = -2, temperature = -1, ... };
-def luminance               = dimension { luminosity = 1,  length = -2, ...                              };
-def luminous_efficacy       = dimension { mass       = -1, length = -2, time = 3,  luminosity  = 1,  ... };
-def magnetic_field_strength = dimension { current    = 1,  length = -1, ...                              };
-def specific_volume         = dimension { mass       = -1, length = 3,  ...                              };
-def surface_density         = dimension { mass       = 1,  length = -2, ...                              };
-def velocity                = dimension { length     = 1,  time   = -1, ...                              };
-def volume                  = dimension { length     = 3,  ...                                           };
+// Derived DIMENSIONS WITH COMPOUND units
+export def ACCELERATION            = dimension { length      = 1,  time       = -2, ...                                 };
+export def ACTION                  = dimension { mass        = 1,  length     = 2,  time    = -1, ...                   };
+export def AREA                    = dimension { length      = 2,  ...                                                  };
+export def CONCENTRATION           = dimension { substance   = 1,  length     = -3, ...                                 };
+export def CURRENT_DENSITY         = dimension { current     = 1,  length     = -2, ...                                 };
+export def DENSITY                 = dimension { mass        = 1,  length     = -3, ...                                 };
+export def ENTROPY                 = dimension { mass        = 1,  length     = 2,  time    = -2, temperature = -1, ... };
+export def LUMINANCE               = dimension { luminosity  = 1,  length     = -2, ...                                 };
+export def LUMINOUS_EFFICACY       = dimension { mass        = -1, length     = -2, time    = 3,  luminosity  = 1,  ... };
+export def MAGNETIC_FIELD_STRENGTH = dimension { current     = 1,  length     = -1, ...                                 };
+export def SPECIFIC_VOLUME         = dimension { mass        = -1, length     = 3,  ...                                 };
+export def SURFACE_DENSITY         = dimension { mass        = 1,  length     = -2, ...                                 };
+export def VELOCITY                = dimension { length      = 1,  time       = -1, ...                                 };
+export def VOLUME                  = dimension { length      = 3,  ...                                                  };
 
 // Base units
-def ampere                           = unit     { dim  = current,                 scale = 1.0               };
-def candela                          = unit     { dim  = luminosity,              scale = 1.0               };
-def kelvin                           = unit     { dim  = temperature,             scale = 1.0               };
-def kilogram                         = unit     { dim  = mass,                    scale = 1.0               };
-def metre                            = unit     { dim  = length,                  scale = 1.0               };
-def mole                             = unit     { dim  = substance,               scale = 1.0               };
-def second                           = unit     { dim  = time,                    scale = 1.0               };
+export def AMPERE                           = unit     { dim  = CURRENT,                 scale = 1.0                    };
+export def CANDELA                          = unit     { dim  = LUMINOSITY,              scale = 1.0                    };
+export def KELVIN                           = unit     { dim  = TEMPERATURE,             scale = 1.0                    };
+export def KILOGRAM                         = unit     { dim  = MASS,                    scale = 1.0                    };
+export def METRE                            = unit     { dim  = LENGTH,                  scale = 1.0                    };
+export def MOLE                             = unit     { dim  = SUBSTANCE,               scale = 1.0                    };
+export def SECOND                           = unit     { dim  = TIME,                    scale = 1.0                    };
 
 // Reciprocal base units
-def reciprocal_ampere                = unit     { dim  = reciprocal_current,      scale = 1.0               };
-def reciprocal_candela               = unit     { dim  = reciprocal_luminosity,   scale = 1.0               };
-def reciprocal_kelvin                = unit     { dim  = reciprocal_temperature,  scale = 1.0               };
-def reciprocal_kilogram              = unit     { dim  = reciprocal_mass,         scale = 1.0               };
-def reciprocal_metre                 = unit     { dim  = wavenumber,              scale = 1.0               };
-def reciprocal_mole                  = unit     { dim  = reciprocal_substance,    scale = 1.0               };
-def hertz                            = unit     { dim  = frequency,               scale = 1.0               };
+export def RECIPROCAL_AMPERE                = unit     { dim  = RECIPROCAL_CURRENT,      scale = 1.0                    };
+export def RECIPROCAL_CANDELA               = unit     { dim  = RECIPROCAL_LUMINOSITY,   scale = 1.0                    };
+export def RECIPROCAL_KELVIN                = unit     { dim  = RECIPROCAL_TEMPERATURE,  scale = 1.0                    };
+export def RECIPROCAL_KILOGRAM              = unit     { dim  = RECIPROCAL_MASS,         scale = 1.0                    };
+export def RECIPROCAL_METRE                 = unit     { dim  = WAVENUMBER,              scale = 1.0                    };
+export def RECIPROCAL_MOLE                  = unit     { dim  = RECIPROCAL_SUBSTANCE,    scale = 1.0                    };
+export def HERTZ                            = unit     { dim  = FREQUENCY,               scale = 1.0                    };
 
 // Derived units
-def becquerel                        = unit     { dim  = activity,                scale = 1.0               };
-def coulomb                          = unit     { dim  = electric_charge,         scale = 1.0               };
-def degree_celsius                   = unit     { dim  = temperature,             scale = 1.0               };
-def farad                            = unit     { dim  = capacitance,             scale = 1.0               };
-def gram                             = unit     { dim  = mass,                    scale = 1e-3              };
-def gray                             = unit     { dim  = absorbed_dose,           scale = 1.0               };
-def henry                            = unit     { dim  = inductance,              scale = 1.0               };
-def joule                            = unit     { dim  = energy,                  scale = 1.0               };
-def katal                            = unit     { dim  = catalytic_activity,      scale = 1.0               };
-def lumen                            = unit     { dim  = luminous_flux,           scale = 1.0               };
-def lux                              = unit     { dim  = illuminance,             scale = 1.0               };
-def newton                           = unit     { dim  = force,                   scale = 1.0               };
-def ohm                              = unit     { dim  = resistance,              scale = 1.0               };
-def pascal                           = unit     { dim  = pressure,                scale = 1.0               };
-def radian                           = unit     { dim  = dimensionless,           scale = 1.0               };
-def siemens                          = unit     { dim  = conductance,             scale = 1.0               };
-def sievert                          = unit     { dim  = dose_equivalent,         scale = 1.0               };
-def steradian                        = unit     { dim  = dimensionless,           scale = 1.0               };
-def tesla                            = unit     { dim  = magnetic_flux_density,   scale = 1.0               };
-def volt                             = unit     { dim  = electric_potential,      scale = 1.0               };
-def watt                             = unit     { dim  = power,                   scale = 1.0               };
-def weber                            = unit     { dim  = magnetic_flux,           scale = 1.0               };
+export def BECQUEREL                        = unit     { dim  = ACTIVITY,                scale = 1.0                    };
+export def COULOMB                          = unit     { dim  = ELECTRIC_CHARGE,         scale = 1.0                    };
+export def DEGREE_CELSIUS                   = unit     { dim  = TEMPERATURE,             scale = 1.0                    };
+export def FARAD                            = unit     { dim  = CAPACITANCE,             scale = 1.0                    };
+export def GRAM                             = unit     { dim  = MASS,                    scale = 1e-3                   };
+export def GRAY                             = unit     { dim  = ABSORBED_DOSE,           scale = 1.0                    };
+export def HENRY                            = unit     { dim  = INDUCTANCE,              scale = 1.0                    };
+export def JOULE                            = unit     { dim  = ENERGY,                  scale = 1.0                    };
+export def KATAL                            = unit     { dim  = CATALYTIC_ACTIVITY,      scale = 1.0                    };
+export def LUMEN                            = unit     { dim  = LUMINOUS_FLUX,           scale = 1.0                    };
+export def LUX                              = unit     { dim  = ILLUMINANCE,             scale = 1.0                    };
+export def NEWTON                           = unit     { dim  = FORCE,                   scale = 1.0                    };
+export def OHM                              = unit     { dim  = RESISTANCE,              scale = 1.0                    };
+export def PASCAL                           = unit     { dim  = PRESSURE,                scale = 1.0                    };
+export def RADIAN                           = unit     { dim  = DIMENSIONLESS,           scale = 1.0                    };
+export def SIEMENS                          = unit     { dim  = CONDUCTANCE,             scale = 1.0                    };
+export def SIEVERT                          = unit     { dim  = DOSE_EQUIVALENT,         scale = 1.0                    };
+export def STERADIAN                        = unit     { dim  = DIMENSIONLESS,           scale = 1.0                    };
+export def TESLA                            = unit     { dim  = MAGNETIC_FLUX_DENSITY,   scale = 1.0                    };
+export def VOLT                             = unit     { dim  = ELECTRIC_POTENTIAL,      scale = 1.0                    };
+export def WATT                             = unit     { dim  = POWER,                   scale = 1.0                    };
+export def WEBER                            = unit     { dim  = MAGNETIC_FLUX,           scale = 1.0                    };
 
 // Non-SI
-def astronomical_unit                = unit     { dim  = length,                  scale = 1.495978707e11    };
-def bel                              = unit     { dim  = dimensionless,           scale = 1.0               };
-def dalton                           = unit     { dim  = mass,                    scale = 1.66053906892e-27 };
-def day                              = unit     { dim  = time,                    scale = 8.64e4            };
-def degree                           = unit     { dim  = dimensionless,           scale = 1.7453292519943295e-2 };
-def electronvolt                     = unit     { dim  = energy,                  scale = 1.602176634e-19   };
-def hectare                          = unit     { dim  = area,                    scale = 10000.0           };
-def hour                             = unit     { dim  = time,                    scale = 3.6e3             };
-def litre                            = unit     { dim  = volume,                  scale = 1.0e-3            };
-def minute                           = unit     { dim  = time,                    scale = 6.0e1             };
-def neper                            = unit     { dim  = dimensionless,           scale = 1.0               };
-def tonne                            = unit     { dim  = mass,                    scale = 1.0e3             };
+export def ASTRONOMICAL_UNIT                = unit     { dim  = LENGTH,                  scale = 1.495978707e11         };
+export def BEL                              = unit     { dim  = DIMENSIONLESS,           scale = 1.0                    };
+export def DALTON                           = unit     { dim  = MASS,                    scale = 1.66053906892e-27      };
+export def DAY                              = unit     { dim  = TIME,                    scale = 8.64e4                 };
+export def DEGREE                           = unit     { dim  = DIMENSIONLESS,           scale = 1.7453292519943295e-2  };
+export def ELECTRONVOLT                     = unit     { dim  = ENERGY,                  scale = 1.602176634e-19        };
+export def HECTARE                          = unit     { dim  = AREA,                    scale = 10000.0                };
+export def HOUR                             = unit     { dim  = TIME,                    scale = 3.6e3                  };
+export def LITRE                            = unit     { dim  = VOLUME,                  scale = 1.0e-3                 };
+export def MINUTE                           = unit     { dim  = TIME,                    scale = 6.0e1                  };
+export def NEPER                            = unit     { dim  = DIMENSIONLESS,           scale = 1.0                    };
+export def TONNE                            = unit     { dim  = MASS,                    scale = 1.0e3                  };
 
 // Coherent derived units
-def ampere_per_metre                 = unit     { dim  = magnetic_field_strength, scale = 1.0               };
-def ampere_per_square_metre          = unit     { dim  = current_density,         scale = 1.0               };
-def candela_per_square_metre         = unit     { dim  = luminance,               scale = 1.0               };
-def cubic_metre                      = unit     { dim  = volume,                  scale = 1.0               };
-def cubic_metre_per_kilogram         = unit     { dim  = specific_volume,         scale = 1.0               };
-def kilogram_per_cubic_metre         = unit     { dim  = density,                 scale = 1.0               };
-def kilogram_per_square_metre        = unit     { dim  = surface_density,         scale = 1.0               };
-def lumen_per_watt                   = unit     { dim  = luminous_efficacy,       scale = 1.0               };
-def metre_per_second                 = unit     { dim  = velocity,                scale = 1.0               };
-def metre_per_second_squared         = unit     { dim  = acceleration,            scale = 1.0               };
-def mole_per_cubic_metre             = unit     { dim  = concentration,           scale = 1.0               };
-def square_metre                     = unit     { dim  = area,                    scale = 1.0               };
+export def AMPERE_PER_METRE                 = unit     { dim  = MAGNETIC_FIELD_STRENGTH, scale = 1.0                    };
+export def AMPERE_PER_SQUARE_METRE          = unit     { dim  = CURRENT_DENSITY,         scale = 1.0                    };
+export def CANDELA_PER_SQUARE_METRE         = unit     { dim  = LUMINANCE,               scale = 1.0                    };
+export def CUBIC_METRE                      = unit     { dim  = VOLUME,                  scale = 1.0                    };
+export def CUBIC_METRE_PER_KILOGRAM         = unit     { dim  = SPECIFIC_VOLUME,         scale = 1.0                    };
+export def KILOGRAM_PER_CUBIC_METRE         = unit     { dim  = DENSITY,                 scale = 1.0                    };
+export def KILOGRAM_PER_SQUARE_METRE        = unit     { dim  = SURFACE_DENSITY,         scale = 1.0                    };
+export def LUMEN_PER_WATT                   = unit     { dim  = LUMINOUS_EFFICACY,       scale = 1.0                    };
+export def METRE_PER_SECOND                 = unit     { dim  = VELOCITY,                scale = 1.0                    };
+export def METRE_PER_SECOND_SQUARED         = unit     { dim  = ACCELERATION,            scale = 1.0                    };
+export def MOLE_PER_CUBIC_METRE             = unit     { dim  = CONCENTRATION,           scale = 1.0                    };
+export def SQUARE_METRE                     = unit     { dim  = AREA,                    scale = 1.0                    };
 
 // Non-coherent derived units
-def joule_per_kelvin                 = unit     { dim  = entropy,                 scale = 1.0               };
-def joule_second                     = unit     { dim  = action,                  scale = 1.0               };
+export def JOULE_PER_KELVIN                 = unit     { dim  = ENTROPY,                 scale = 1.0                    };
+export def JOULE_SECOND                     = unit     { dim  = ACTION,                  scale = 1.0                    };
 
 // Constants
-def speed_of_light                   = quantity { unit = metre_per_second,        value = 299792458.0       };
-def boltzmann                        = quantity { unit = joule_per_kelvin,        value = 1.380649e-23      };
-def planck                           = quantity { unit = joule_second,            value = 6.62607015e-34    };
-def elementary_charge                = quantity { unit = coulomb,                 value = 1.602176634e-19   };
-def avogadro                         = quantity { unit = reciprocal_mole,         value = 6.02214076e23     };
-def hyperfine_transition_caesium_133 = quantity { unit = hertz,                   value = 9192631770.0      };
-def luminous_efficacy_540_THz        = quantity { unit = lumen_per_watt,          value = 683.0             };
+export def SPEED_OF_LIGHT                   = quantity { unit = METRE_PER_SECOND,        value = 299792458.0            };
+export def BOLTZMANN                        = quantity { unit = JOULE_PER_KELVIN,        value = 1.380649e-23           };
+export def PLANCK                           = quantity { unit = JOULE_SECOND,            value = 6.62607015e-34         };
+export def ELEMENTARY_CHARGE                = quantity { unit = COULOMB,                 value = 1.602176634e-19        };
+export def AVOGADRO                         = quantity { unit = RECIPROCAL_MOLE,         value = 6.02214076e23          };
+export def HYPERFINE_TRANSITION_CAESIUM_133 = quantity { unit = HERTZ,                   value = 9192631770.0           };
+export def LUMINOUS_EFFICACY_540_THZ        = quantity { unit = LUMEN_PER_WATT,          value = 683.0                  };
 
 def symbol_lookup: [_]symbol = [
 	symbol { repr = "A",    kind = unit_kind::AMPERE            },
