@@ -1,5 +1,5 @@
 <!-- Creator     : groff version 1.24.1 -->
-<!-- CreationDate: Mon Nov  2 22:23:29 2026 -->
+<!-- CreationDate: Mon Nov  2 22:28:12 2026 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -13,93 +13,907 @@
        table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
        h1      { text-align: center }
 </style>
-<title></title>
+<title>si</title>
+
 </head>
 <body>
+
+<h1 align="center">si</h1>
+
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#UNIT FORMATTING SYNTAX">UNIT FORMATTING SYNTAX</a><br>
+<a href="#UNIT PARSING SYNTAX">UNIT PARSING SYNTAX</a><br>
+<a href="#AUTHORS">AUTHORS</a><br>
 
 <hr>
 
 
-<p>si &minus; parse, convert, and format physical
-quantities using SI units <b>si</b> [OPTIONS] VALUE <b><br>
-si</b> &minus;&minus;completions SHELL <b><br>
-si</b> &minus;&minus;version <b><br>
-si</b> &minus;&minus;help <b>si</b> is a command&minus;line
-utility for parsing, converting, and formatting physical
-quantities expressed using the International System of Units
-(SI). A quantity consists of a numeric value followed by a
-unit expression. Unit expressions support multiplication,
-division, exponentiation, and grouping using ASCII infix
-notation. Quantities can be converted to a specified target
-unit, with dimensional compatibility checked during
-conversion. Output can be formatted in several
-representations, including UTF&minus;8 encoded symbols,
-plain text, JSON, and LaTeX. Numeric output supports
-configurable decimal precision and notation, including
-general, fixed&minus;point, scientific, and
-E&minus;notation. <b>&minus;n</b>,
-<b>&minus;&minus;notation</b> NOTATION Set numeric notation.
-Supported values are <b>general</b>, <b>fixed</b>,
-<b>scientific</b>, <b>e</b>, and <b>E</b>. <b>&minus;o</b>,
-<b>&minus;&minus;output</b> FORMAT Set output format.
-Supported values are <b>ascii</b>, <b>utf</b>, <b>json</b>.
-<b>&minus;p</b>, <b>&minus;&minus;precision</b> INTEGER Set
-decimal precision (default: 3). <b>&minus;u</b>,
-<b>&minus;&minus;unit</b> UNIT Convert the quantity to the
-specified target unit representation. <b>&minus;c</b>,
-<b>&minus;&minus;completions</b> SHELL Generate shell
-completions for Bash or Zsh. <b>&minus;v</b>,
-<b>&minus;&minus;version</b> Display version information.
-<b>&minus;h</b>, <b>&minus;&minus;help</b> Display help
-information. The &lsquo;&minus;u&lsquo;,
-&lsquo;&minus;&minus;unit&lsquo; option accepts a restricted
-syntax for specifying the target unit representation.
-Expressions must use ASCII unit symbols (eg. kg, us, ohm)
-and the following operators: Symbols Multiplication *
-Division / Exponentiation ^ Positive exponent + Negative
-exponent &minus; Grouping () Valid examples <b>kg*m/s^2
-mol/L uF/cm^2 kW</b>h m^3/s Unicode operator variants,
-superscript exponents, alternative multiplication symbols,
-and alternative spellings of unit symbols are not supported.
-The parser accepts numeric quantities using
-fixed&minus;point or scientific notation. Unit expressions
+<h2>NAME
+<a name="NAME"></a>
+</h2>
+
+
+<p style="margin-left:6%; margin-top: 1em">si - parse,
+convert, and format physical quantities using SI units</p>
+
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
+
+
+<p style="margin-left:6%; margin-top: 1em"><b>si</b>
+[OPTIONS] VALUE <b><br>
+si</b> --completions SHELL <b><br>
+si</b> --version <b><br>
+si</b> --help</p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
+
+
+<p style="margin-left:6%; margin-top: 1em"><b>si</b> is a
+command-line utility for parsing, converting, and formatting
+physical quantities expressed using the International System
+of Units (SI).</p>
+
+<p style="margin-left:6%; margin-top: 1em">A quantity
+consists of a numeric value followed by a unit expression.
+Unit expressions support multiplication, division,
+exponentiation, and grouping using ASCII infix notation.</p>
+
+<p style="margin-left:6%; margin-top: 1em">Quantities can
+be converted to a specified target unit, with dimensional
+compatibility checked during conversion. Output can be
+formatted in several representations, including UTF-8
+encoded symbols, plain text, JSON, and LaTeX.</p>
+
+<p style="margin-left:6%; margin-top: 1em">Numeric output
+supports configurable decimal precision and notation,
+including general, fixed-point, scientific, and
+E-notation.</p>
+
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
+
+
+<p style="margin-left:6%; margin-top: 1em"><b>-n</b>,
+<b>--notation</b> NOTATION</p>
+
+<p style="margin-left:11%;">Set numeric notation. Supported
+values are <b>general</b>, <b>fixed</b>, <b>scientific</b>,
+<b>e</b>, and <b>E</b>.</p>
+
+<p style="margin-left:6%; margin-top: 1em"><b>-o</b>,
+<b>--output</b> FORMAT</p>
+
+<p style="margin-left:11%;">Set output format. Supported
+values are <b>ascii</b>, <b>utf</b>, <b>json</b>.</p>
+
+<p style="margin-left:6%; margin-top: 1em"><b>-p</b>,
+<b>--precision</b> INTEGER</p>
+
+<p style="margin-left:11%;">Set decimal precision (default:
+3).</p>
+
+<p style="margin-left:6%; margin-top: 1em"><b>-u</b>,
+<b>--unit</b> UNIT</p>
+
+<p style="margin-left:11%;">Convert the quantity to the
+specified target unit representation.</p>
+
+<p style="margin-left:6%; margin-top: 1em"><b>-c</b>,
+<b>--completions</b> SHELL</p>
+
+<p style="margin-left:11%;">Generate shell completions for
+Bash or Zsh.</p>
+
+<p style="margin-left:6%; margin-top: 1em"><b>-v</b>,
+<b>--version</b></p>
+
+<p style="margin-left:11%;">Display version
+information.</p>
+
+<p style="margin-left:6%; margin-top: 1em"><b>-h</b>,
+<b>--help</b></p>
+
+<p style="margin-left:11%;">Display help information.</p>
+
+<h2>UNIT FORMATTING SYNTAX
+<a name="UNIT FORMATTING SYNTAX"></a>
+</h2>
+
+
+<p style="margin-left:6%; margin-top: 1em">The
+&lsquo;-u&lsquo;, &lsquo;--unit&lsquo; option accepts a
+restricted syntax for specifying the target unit
+representation. Expressions must use ASCII unit symbols (eg.
+kg, us, ohm) and the following operators:</p>
+
+<p style="margin-left:6%; margin-top: 1em">Symbols</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p>&bull;</p></td>
+<td width="3%"></td>
+<td width="29%">
+
+
+<p>Multiplication *</p></td>
+<td width="60%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="29%">
+
+
+<p style="margin-top: 1em">Division /</p></td>
+<td width="60%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="29%">
+
+
+<p style="margin-top: 1em">Exponentiation ^</p></td>
+<td width="60%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="29%">
+
+
+<p style="margin-top: 1em">Positive exponent +</p></td>
+<td width="60%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="29%">
+
+
+<p style="margin-top: 1em">Negative exponent -</p></td>
+<td width="60%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="29%">
+
+
+<p style="margin-top: 1em">Grouping ()</p></td>
+<td width="60%">
+</td></tr>
+</table>
+
+<p style="margin-left:6%; margin-top: 1em">Valid
+examples</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="10%">
+
+
+<p style="margin-top: 1em">kg*m/s^2</p></td>
+<td width="79%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="10%">
+
+
+<p style="margin-top: 1em">mol/L</p></td>
+<td width="79%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="10%">
+
+
+<p style="margin-top: 1em">uF/cm^2</p></td>
+<td width="79%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="10%">
+
+
+<p style="margin-top: 1em">kWh</p></td>
+<td width="79%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="10%">
+
+
+<p style="margin-top: 1em">m^3/s</p></td>
+<td width="79%">
+</td></tr>
+</table>
+
+<p style="margin-left:6%; margin-top: 1em">Unicode operator
+variants, superscript exponents, alternative multiplication
+symbols, and alternative spellings of unit symbols are not
+supported.</p>
+
+<h2>UNIT PARSING SYNTAX
+<a name="UNIT PARSING SYNTAX"></a>
+</h2>
+
+
+<p style="margin-left:6%; margin-top: 1em">The parser
+accepts numeric quantities using fixed-point or scientific
+notation.</p>
+
+<p style="margin-left:6%; margin-top: 1em">Unit expressions
 are parsed more permissively than the format syntax in order
-to accommodate common variations in notation. Valid examples
-uohm*m^&minus;2 &minus;&gt; &micro;&Omega;&middot;m⁻&sup2;
-&mu;ohm*m**&minus;2 &minus;&gt;
-&micro;&Omega;&middot;m⁻&sup2;
-&micro;&Omega;&middot;m⁻&sup2; &minus;&gt;
-&micro;&Omega;&middot;m⁻&sup2; u&Omega;&times;m^&minus;2
-&minus;&gt; &micro;&Omega;&middot;m⁻&sup2;
-&mu;&Omega;&sdot;m⁻&sup2; &minus;&gt;
-&micro;&Omega;&middot;m⁻&sup2; In addition to ASCII
-representations, the parser accepts the following
-UTF&minus;8 encoded characters: Multiplication ASTERISK
-(U+002A) ASTERISK OPERATOR (U+2217) STAR OPERATOR (U+22C6)
-MULTIPLICATION SIGN (U+00D7) MIDDLE DOT (U+00B7) HYPHENATION
-POINT (U+2027) BULLET OPERATOR (U+2219) DOT OPERATOR
-(U+22C5) LATIN LETTER SINOLOGICAL DOT (U+A78F)
-Exponentiation CIRCUMFLEX ACCENT (U+005E) ASTERISK ASTERISK
-(U+002A U+002A) Superscript digits SUPERSCRIPT ZERO (U+2070)
-SUPERSCRIPT ONE (U+00B9) SUPERSCRIPT TWO (U+00B2)
-SUPERSCRIPT THREE (U+00B3) SUPERSCRIPT FOUR (U+2074)
-SUPERSCRIPT FIVE (U+2075) SUPERSCRIPT SIX (U+2076)
-SUPERSCRIPT SEVEN (U+2077) SUPERSCRIPT EIGHT (U+2078)
-SUPERSCRIPT NINE (U+2079) Exponent signs PLUS SIGN (U+002B)
-SUPERSCRIPT PLUS SIGN (U+207A) HYPHEN&minus;MINUS (U+002D)
-HYPHEN (U+2010) MINUS SIGN (U+2212) SUPERSCRIPT MINUS
-(U+207B) Grouping LEFT PARENTHESIS (U+0028) RIGHT
-PARENTHESIS (U+0029) LEFT CURLY BRACKET (U+007B) RIGHT CURLY
-BRACKET (U+007D) Micro prefix MICRO SIGN (U+00B5) GREEK
-SMALL LETTER MU (U+03BC) Ohm &lsquo;OHM SIGN&lsquo; (U+2126)
-&lsquo;GREEK CAPITAL LETTER OMEGA&lsquo; (U+03A9) These
-variations are accepted when parsing input quantities. They
-do not necessarily apply to target unit expressions or
-determine how units are formatted in output. Whitespace is
-permitted between expression components. (C) 2026 Tom
+to accommodate common variations in notation.</p>
+
+<p style="margin-left:6%; margin-top: 1em">Valid
+examples</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="25%">
+
+
+<p style="margin-top: 1em">uohm*m^-2 -&gt;
+&micro;&Omega;&middot;m⁻&sup2;</p> </td>
+<td width="64%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="25%">
+
+
+<p style="margin-top: 1em">&mu;ohm*m**-2 -&gt;
+&micro;&Omega;&middot;m⁻&sup2;</p> </td>
+<td width="64%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="25%">
+
+
+
+<p style="margin-top: 1em">&micro;&Omega;&middot;m⁻&sup2;
+-&gt; &micro;&Omega;&middot;m⁻&sup2;</p></td>
+<td width="64%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="25%">
+
+
+<p style="margin-top: 1em">u&Omega;&times;m^&minus;2 -&gt;
+&micro;&Omega;&middot;m⁻&sup2;</p> </td>
+<td width="64%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="25%">
+
+
+<p style="margin-top: 1em">&mu;&Omega;&sdot;m⁻&sup2;
+-&gt; &micro;&Omega;&middot;m⁻&sup2;</p></td>
+<td width="64%">
+</td></tr>
+</table>
+
+<p style="margin-left:6%; margin-top: 1em">In addition to
+ASCII representations, the parser accepts the following
+UTF-8 encoded characters:</p>
+
+
+<p style="margin-left:6%; margin-top: 1em">Multiplication</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">ASTERISK (U+002A)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">ASTERISK OPERATOR (U+2217)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">STAR OPERATOR (U+22C6)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">MULTIPLICATION SIGN (U+00D7)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">MIDDLE DOT (U+00B7)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">HYPHENATION POINT (U+2027)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">BULLET OPERATOR (U+2219)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">DOT OPERATOR (U+22C5)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">LATIN LETTER SINOLOGICAL DOT
+(U+A78F)</p> </td>
+<td width="42%">
+</td></tr>
+</table>
+
+
+<p style="margin-left:6%; margin-top: 1em">Exponentiation</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="55%">
+
+
+<p style="margin-top: 1em">CIRCUMFLEX ACCENT (U+005E)</p></td>
+<td width="34%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="55%">
+
+
+<p style="margin-top: 1em">ASTERISK ASTERISK (U+002A
+U+002A)</p> </td>
+<td width="34%">
+</td></tr>
+</table>
+
+<p style="margin-left:6%; margin-top: 1em">Superscript
+digits</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT ZERO (U+2070)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT ONE (U+00B9)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT TWO (U+00B2)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT THREE (U+00B3)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT FOUR (U+2074)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT FIVE (U+2075)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT SIX (U+2076)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT SEVEN (U+2077)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT EIGHT (U+2078)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT NINE (U+2079)</p></td>
+<td width="42%">
+</td></tr>
+</table>
+
+<p style="margin-left:6%; margin-top: 1em">Exponent
+signs</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">PLUS SIGN (U+002B)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT PLUS SIGN
+(U+207A)</p> </td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">HYPHEN-MINUS (U+002D)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">HYPHEN (U+2010)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">MINUS SIGN (U+2212)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">SUPERSCRIPT MINUS (U+207B)</p></td>
+<td width="42%">
+</td></tr>
+</table>
+
+<p style="margin-left:6%; margin-top: 1em">Grouping</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">LEFT PARENTHESIS (U+0028)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">RIGHT PARENTHESIS (U+0029)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">LEFT CURLY BRACKET (U+007B)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">RIGHT CURLY BRACKET (U+007D)</p></td>
+<td width="42%">
+</td></tr>
+</table>
+
+<p style="margin-left:6%; margin-top: 1em">Micro prefix</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">MICRO SIGN (U+00B5)</p></td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">GREEK SMALL LETTER MU
+(U+03BC)</p> </td>
+<td width="42%">
+</td></tr>
+</table>
+
+<p style="margin-left:6%; margin-top: 1em">Ohm</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">&lsquo;OHM SIGN&lsquo;
+(U+2126)</p> </td>
+<td width="42%">
+</td></tr>
+<tr valign="top" align="left">
+<td width="6%"></td>
+<td width="2%">
+
+
+<p style="margin-top: 1em">&bull;</p></td>
+<td width="3%"></td>
+<td width="47%">
+
+
+<p style="margin-top: 1em">&lsquo;GREEK CAPITAL LETTER
+OMEGA&lsquo; (U+03A9)</p></td>
+<td width="42%">
+</td></tr>
+</table>
+
+<p style="margin-left:6%; margin-top: 1em">These variations
+are accepted when parsing input quantities. They do not
+necessarily apply to target unit expressions or determine
+how units are formatted in output.</p>
+
+<p style="margin-left:6%; margin-top: 1em">Whitespace is
+permitted between expression components.</p>
+
+<h2>AUTHORS
+<a name="AUTHORS"></a>
+</h2>
+
+
+<p style="margin-left:6%; margin-top: 1em">(C) 2026 Tom
 Spencer <br>
 tcs.git@pm.me <br>
- https://codeberg.org/swonky/hare&minus;si</p>
+ https://codeberg.org/swonky/hare-si</p>
 <hr>
 </body>
 </html>
