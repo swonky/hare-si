@@ -1,10 +1,10 @@
-
 .SUFFIXES:
 
 HARE = hare
 HAREFLAGS =
 SCDOC = scdoc
 GROFF = groff
+HAREDOC = haredoc
 COL = col
 
 DESTDIR =
@@ -32,26 +32,37 @@ MAN_SOURCE = ./docs/si.1.scd
 MAN_PAGE = ./docs/si.1
 MAN_TEXT = ./docs/si.1.txt
 
+HAREDOC_PAGE = ./docs/haredoc.html
+
 SEM_VERSION = 0.0.1
 GIT_VERSION = $(shell if command -v git >/dev/null 2>&1; then git describe --always --dirty 2>/dev/null || printf 'unknown'; else printf 'unknown'; fi)
 
 # Optional documentation dependencies.
+HAVE_HAREDOC = $(shell command -v $(HAREDOC) >/dev/null 2>&1 && echo yes)
 HAVE_SCDOC = $(shell command -v $(SCDOC) >/dev/null 2>&1 && echo yes)
 HAVE_GROFF = $(shell command -v $(GROFF) >/dev/null 2>&1 && command -v $(COL) >/dev/null 2>&1 && echo yes)
 
 DOC_TARGETS =
 
+ifeq ($(HAVE_HAREDOC),yes)
+DOC_TARGETS += $(HAREDOC_PAGE)
+endif
+
 ifeq ($(HAVE_SCDOC),yes)
 DOC_TARGETS += $(MAN_PAGE)
+endif
 
 ifeq ($(HAVE_GROFF),yes)
 DOC_TARGETS += $(MAN_TEXT)
 endif
-endif
 
 all: build
 
-build: $(COMPLETIONS_HA) $(TARGET) $(DOC_TARGETS)
+build: $(COMPLETIONS_HA) $(TARGET)
+
+docs: $(DOC_TARGETS)
+
+completions: $(COMPLETIONS_HA)
 
 # Generate cmd/si/completions.ha (embedded shell completions)
 $(COMPLETIONS_HA): $(BASH_SOURCE) $(ZSH_SOURCE)
@@ -77,16 +88,23 @@ $(VERSION_FILE): FORCE
 		-e 's|^export const GIT_VERSION: str = .*;|export const GIT_VERSION: str = "$(GIT_VERSION)";|' \
 		"$@"
 
-# Generate man page
+# Generate HTML documentation.
+$(HAREDOC_PAGE): $(SOURCES)
+	@mkdir -p "$(@D)"
+	$(HAREDOC) -F html si > "$@"
+
+# Generate man page.
 $(MAN_PAGE): $(MAN_SOURCE)
+	@mkdir -p "$(@D)"
 	$(SCDOC) < "$(MAN_SOURCE)" > "$@"
 
+# Generate plain-text man page.
 $(MAN_TEXT): $(MAN_PAGE)
 	$(GROFF) -man -Kutf8 -Tutf8 -P-cbou "$(MAN_PAGE)" | $(COL) -b > "$@"
 
 FORCE:
 
-install: build install-bin install-lib install-docs install-completions
+install: build docs install-bin install-lib install-docs install-completions
 
 install-bin:
 	install -Dm755 "./bin/$(TARGET)" "$(DESTDIR)$(BINDIR)/$(TARGET)"
@@ -141,8 +159,9 @@ help:
 		'Usage: make [target] [VARIABLE=value]' \
 		'' \
 		'Targets:' \
-		'  all                   Build everything (default)' \
-		'  build                 Build executable and documentation' \
+		'  all                   Build executable (default)' \
+		'  build                 Build executable' \
+		'  docs                  Build available documentation' \
 		'  completions           Generate embedded shell completions' \
 		'  install               Install all components' \
 		'  install-bin           Install executable' \
@@ -159,7 +178,6 @@ help:
 		'  BASH_DIR              Bash completion directory' \
 		'  ZSH_DIR               Zsh completion directory'
 
-.PHONY: all build install install-bin install-lib install-docs \
-        install-completions uninstall uninstall-bin uninstall-lib \
-        uninstall-docs uninstall-completions clean help FORCE
-
+.PHONY: all build docs completions install install-bin install-lib \
+        install-docs install-completions uninstall uninstall-bin \
+        uninstall-lib uninstall-docs uninstall-completions clean help FORCE

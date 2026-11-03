@@ -6,17 +6,22 @@ A module and command-line utility for parsing, converting, and formatting physic
 
 Implemented in Hare, with no external library dependencies.
 
+Distributed under the Mozilla Public License Version 2.0.
+
 ## Features
 
 - Parses quantities from ASCII and UTF-8 strings into structured representations.
 - Formats quantities with configurable units, precision, numeric notation, and symbol encoding.
 - Converts quantities between dimensionally compatible units.
+- Arithmetic operations.
 - Supports all SI base units, derived units, and selected non-SI units.
+- Supports JSON serialisation.
 
 ## Documentation
 
-- [Installation](./docs/COMPILE.md)
+- [Repository](https://codeberg.org/swonky/hare-si)
+- [Installation](https://codeberg.org/swonky/hare-si/docs/COMPILE.md)
 - [Module documentation](https://swonky.codeberg.page/hare-si/haredoc.html)
-- [Command manual](https://swonky.codeberg.page/hare-si/man.html)
-- [Supported units](./docs/UNITS.md)
-- [Mozilla Public License Version 2.0](./COPYING)
+- [CLI manpage](https://swonky.codeberg.page/hare-si/man.html)
+- [List of supported units and symbols](https://codeberg.org/swonky/hare-si/docs/UNITS.md)
+- [License](./COPYING)

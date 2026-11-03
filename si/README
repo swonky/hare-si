@@ -1,27 +1,31 @@
 si: A module for parsing, converting, and formatting physical quantities expressed 
 with the International System of Units.
 
+Repository: https://codeberg.org/swonky/hare-si.git
+
 All symbols are case sensitive unless otherwise indicated.
 
-Decimal prefix symbols [symbol(exponent)]
+Decimal prefix symbols [symbol=exponent]
 
-	Q=+30, R=+27, Y=+24, Z=+21, E=+18, P=+15,
-	T=+12, G=+09, M=+06, k=+03, h=+02, da=+01,
-	d=−01, c=−02, m=−03, µ=−06, n=−09, p=−12,
-	f=−15, a=−18, z=−21, y=−24, r=−27, q=−30
+	Q | +30 | R | +27 | Y | +24 | Z | +21 | E | +18 | P  | +15
+	T | +12 | G | +09 | M | +06 | k | +03 | h | +02 | da | +01
+	d | −01 | c | −02 | m | −03 | µ | −06 | n | −09 | p  | −12
+	f | −15 | a | −18 | z | −21 | y | −24 | r | −27 | q  | −30
 
 Notes:
 - Formatted ASCII output for 'micro' uses 'LATIN SMALL LETTER U (U+0075)'
 - Formattted UTF-8 output for 'micro' uses 'GREEK SMALL LETTER MU (U+03BC)'.
 - Parser for 'micro' also accepts 'MICRO SIGN (U+00B5)'.
 
-SI unit symbols [name=symbol]
+SI unit symbols
 
-	Ampere=A, Becquerel=Bq, Candela=cd, Coulomb=C, Farad=F,
-	Gram=g, Gray=Gy, Henry=H, Hertz=Hz, Joule=J, Katal=kat,
-	Kelvin=K, Lumen=lm, Lux=lx, Metre=m, Mole=mol, Newton=N,
-	Ohm=ohm/Ω, Pascal=Pa, Radian=rad, Second=s, Siemens=S,
-	Sievert=Sv, Steradian=sr, Tesla=T, Volt=V, Watt=W, Weber=Wb
+	Ampere | A  | Becquerel | Bq    | Candela | cd  | Coulomb   | C
+	Farad  | F  | Gram      | g     | Gray    | Gy  | Henry     | H
+	Hertz  | Hz | Joule     | J     | Katal   | kat | Kelvin    | K
+	Lumen  | lm | Lux       | lx    | Metre   | m   | Mole      | mol
+	Newton | N  | Ohm       | ohm/Ω | Pascal  | Pa  | Radian    | rad
+	Second | s  | Siemens   | S     | Sievert | Sv  | Steradian | sr
+	Tesla  | T  | Volt      | V     | Watt    | W   | Weber     | Wb
 
 Notes:
 - UTF-8 output for 'ohm' uses 'GREEK CAPITAL LETTER OMEGA (U+03A9)'.
@@ -29,9 +33,19 @@ Notes:
 
 Non-SI unit symbols [name=symbol]
 
-	Astronomical unit=au, Bel=B, Dalton=Da, Day=d, Degree=deg/°,
-	Degree Celsius=degC/°C, Electronvolt=eV, Hectare=ha, Hour=h,
-	Litre=L, Minute=min, Neper=Np, Tonne=t
+	Astronomical unit | au      |
+	Bel               | B       |
+	Dalton            | Da      |
+	Day               | d       |
+	Degree            | deg/°   |
+	Degree Celsius    | degC/°C |
+	Electronvolt      | eV      |
+	Hectare           | ha      |
+	Hour              | h       |
+	Litre             | L       |
+	Minute            | min     |
+	Neper             | Np      |
+	Tonne             | t       |
 
 Notes:
 - Logarithmic units 'Bel' and 'Neper' do not currently support conversion.

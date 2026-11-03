@@ -207,12 +207,13 @@ details pre {
 <main><h2><span class='heading-body'>si</span><span class='heading-extra'>+x86_64 +linux </span></h2>
 <div class='readme'>
 <p>si: A module for parsing, converting, and formatting physical quantities expressed with the International System of Units.
+<p>Repository: https://codeberg.org/swonky/hare-si.git
 <p>All symbols are case sensitive unless otherwise indicated.
-<p>Decimal prefix symbols [symbol(exponent)]
-<pre class='sample'>Q=+30, R=+27, Y=+24, Z=+21, E=+18, P=+15,
-T=+12, G=+09, M=+06, k=+03, h=+02, da=+01,
-d=−01, c=−02, m=−03, µ=−06, n=−09, p=−12,
-f=−15, a=−18, z=−21, y=−24, r=−27, q=−30
+<p>Decimal prefix symbols [symbol=exponent]
+<pre class='sample'>Q | +30 | R | +27 | Y | +24 | Z | +21 | E | +18 | P  | +15
+T | +12 | G | +09 | M | +06 | k | +03 | h | +02 | da | +01
+d | −01 | c | −02 | m | −03 | µ | −06 | n | −09 | p  | −12
+f | −15 | a | −18 | z | −21 | y | −24 | r | −27 | q  | −30
 </pre>
 <p>Notes:
 <ul>
@@ -220,12 +221,14 @@ f=−15, a=−18, z=−21, y=−24, r=−27, q=−30
 <li>Formattted UTF-8 output for &apos;micro&apos; uses &apos;GREEK SMALL LETTER MU (U+03BC)&apos;.
 <li>Parser for &apos;micro&apos; also accepts &apos;MICRO SIGN (U+00B5)&apos;.
 </ul>
-<p>SI unit symbols [name=symbol]
-<pre class='sample'>Ampere=A, Becquerel=Bq, Candela=cd, Coulomb=C, Farad=F,
-Gram=g, Gray=Gy, Henry=H, Hertz=Hz, Joule=J, Katal=kat,
-Kelvin=K, Lumen=lm, Lux=lx, Metre=m, Mole=mol, Newton=N,
-Ohm=ohm/Ω, Pascal=Pa, Radian=rad, Second=s, Siemens=S,
-Sievert=Sv, Steradian=sr, Tesla=T, Volt=V, Watt=W, Weber=Wb
+<p>SI unit symbols
+<pre class='sample'>Ampere | A  | Becquerel | Bq    | Candela | cd  | Coulomb   | C
+Farad  | F  | Gram      | g     | Gray    | Gy  | Henry     | H
+Hertz  | Hz | Joule     | J     | Katal   | kat | Kelvin    | K
+Lumen  | lm | Lux       | lx    | Metre   | m   | Mole      | mol
+Newton | N  | Ohm       | ohm/Ω | Pascal  | Pa  | Radian    | rad
+Second | s  | Siemens   | S     | Sievert | Sv  | Steradian | sr
+Tesla  | T  | Volt      | V     | Watt    | W   | Weber     | Wb
 </pre>
 <p>Notes:
 <ul>
@@ -233,9 +236,19 @@ Sievert=Sv, Steradian=sr, Tesla=T, Volt=V, Watt=W, Weber=Wb
 <li>Parser for &apos;ohm&apos; also accepts &apos;OHM SIGN (U+2126)&apos;.
 </ul>
 <p>Non-SI unit symbols [name=symbol]
-<pre class='sample'>Astronomical unit=au, Bel=B, Dalton=Da, Day=d, Degree=deg/°,
-Degree Celsius=degC/°C, Electronvolt=eV, Hectare=ha, Hour=h,
-Litre=L, Minute=min, Neper=Np, Tonne=t
+<pre class='sample'>Astronomical unit | au      |
+Bel               | B       |
+Dalton            | Da      |
+Day               | d       |
+Degree            | deg/°   |
+Degree Celsius    | degC/°C |
+Electronvolt      | eV      |
+Hectare           | ha      |
+Hour              | h       |
+Litre             | L       |
+Minute            | min     |
+Neper             | Np      |
+Tonne             | t       |
 </pre>
 <p>Notes:
 <ul>
@@ -797,7 +810,7 @@ Litre=L, Minute=min, Neper=Np, Tonne=t
 <span class='keyword'>fn</span> <a href='#encodejson'>encodejson</a>(out: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#equal'>equal</a>(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>bool</span>;
 <span class='keyword'>fn</span> <a href='#fprintq'>fprintq</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
-<span class='keyword'>fn</span> <a href='#fprintu'>fprintu</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#fprintqln'>fprintqln</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#muld'>muld</a>(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>dimension</span>;
 <span class='keyword'>fn</span> <a href='#mulq'>mulq</a>(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>quantity</span>;
 <span class='keyword'>fn</span> <a href='#mulu'>mulu</a>(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>unit</span>;
@@ -810,8 +823,6 @@ Litre=L, Minute=min, Neper=Np, Tonne=t
 <span class='keyword'>fn</span> <a href='#tojson'>tojson</a>(obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 
 <span class='comment'>// Undocumented functions:</span>
-<span class='keyword'>fn</span> <a href='#fprintqln'>fprintqln</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
-<span class='keyword'>fn</span> <a href='#fprintuln'>fprintuln</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#printerror'>printerror</a>(err: <span class='type'>error</span>) <span class='type'>(</span><span class='type'>void</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#strerror'>strerror</a>(err: <span class='type'>error</span>) <span class='type'>str</span>;
 </pre><h3>Types</h3>
@@ -962,7 +973,7 @@ Litre=L, Minute=min, Neper=Np, Tonne=t
 	time = -2,
 	...
 };</pre>
-<p>Derived DIMENSIONS WITH NAMED SYmbols
+<p>Derived dimensions with named symbols
 </section>
 <section class='member'>
 <h4 id='ACCELERATION'><span class='heading-body'>def ACCELERATION</span><span class='heading-extra'><a href='#ACCELERATION'>[permalink]</a></span></h4>
@@ -972,7 +983,7 @@ Litre=L, Minute=min, Neper=Np, Tonne=t
 	time = -2,
 	...
 };</pre>
-<p>Derived DIMENSIONS WITH COMPOUND units
+<p>Derived dimensions with compound units
 </section>
 <section class='member'>
 <h4 id='AMPERE'><span class='heading-body'>def AMPERE</span><span class='heading-extra'><a href='#AMPERE'>[permalink]</a></span></h4>
@@ -1052,7 +1063,7 @@ Litre=L, Minute=min, Neper=Np, Tonne=t
 	mass = -1,
 	...
 };</pre>
-<p>ReciprocAL BASE DIMENSIONS
+<p>ReciprocAL base dimensions
 </section>
 <section class='member'>
 <h4 id='SPEED_OF_LIGHT'><span class='heading-body'>def SPEED_OF_LIGHT</span><span class='heading-extra'><a href='#SPEED_OF_LIGHT'>[permalink]</a></span></h4>
@@ -2311,13 +2322,13 @@ Litre=L, Minute=min, Neper=Np, Tonne=t
 <h4 id='fprintq'><span class='heading-body'>fn fprintq</span><span class='heading-extra'><a href='#fprintq'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>fn</span> fprintq(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
-<p>Prints a quantity to an [io::handle]. Returns the number of bytes printed.
+<p>Prints a quantity to an <a href='../io#handle' class='ref'>io::handle</a>, optionally using a specified unit format, precision, numeric notation, and character encoding. Returns the number of bytes printed.
 </section>
 <section class='member'>
-<h4 id='fprintu'><span class='heading-body'>fn fprintu</span><span class='heading-extra'><a href='#fprintu'>[permalink]</a></span></h4>
+<h4 id='fprintqln'><span class='heading-body'>fn fprintqln</span><span class='heading-extra'><a href='#fprintqln'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> fprintu(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
-<p>Prints a unit to an [io::handle]. Returns the number of bytes printed.
+<span class='keyword'>fn</span> fprintqln(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
+<p>Prints a quantity followed by a newline to an <a href='../io#handle' class='ref'>io::handle</a>. Accepts the same formatting options as <a href='#fprintq' class='ref'>fprintq</a>. Returns the number of bytes printed.
 </section>
 <section class='member'>
 <h4 id='muld'><span class='heading-body'>fn muld</span><span class='heading-extra'><a href='#muld'>[permalink]</a></span></h4>
@@ -2405,22 +2416,6 @@ strpunit(&quot;m²&quot;);
 <pre class='decl'>
 <span class='keyword'>fn</span> tojson(obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
 <p>Returns JSON encoded string representation of a quantity or unit.
-</section>
-<section class='member'>
-<h4 id='fprintqln'><span class='heading-body'>fn fprintqln</span><span class='heading-extra'><a href='#fprintqln'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>fn</span> fprintqln(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='fprintuln'><span class='heading-body'>fn fprintuln</span><span class='heading-extra'><a href='#fprintuln'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>fn</span> fprintuln(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
-</details>
 </section>
 <section class='member'>
 <h4 id='printerror'><span class='heading-body'>fn printerror</span><span class='heading-extra'><a href='#printerror'>[permalink]</a></span></h4>

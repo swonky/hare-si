@@ -365,7 +365,7 @@ export def TEMPERATURE             = dimension { temperature = 1,  ... };
 export def SUBSTANCE               = dimension { substance   = 1,  ... };
 export def LUMINOSITY              = dimension { luminosity  = 1,  ... };
 
-// ReciprocAL BASE DIMENSIONS
+// ReciprocAL base dimensions
 export def RECIPROCAL_MASS         = dimension { mass        = -1, ... };
 export def WAVENUMBER              = dimension { length      = -1, ... };
 export def FREQUENCY               = dimension { time        = -1, ... };
@@ -374,7 +374,7 @@ export def RECIPROCAL_TEMPERATURE  = dimension { temperature = -1, ... };
 export def RECIPROCAL_SUBSTANCE    = dimension { substance   = -1, ... };
 export def RECIPROCAL_LUMINOSITY   = dimension { luminosity  = -1, ... };
 
-// Derived DIMENSIONS WITH NAMED SYmbols
+// Derived dimensions with named symbols
 export def ABSORBED_DOSE           = dimension { length      = 2,  time       = -2, ...                                 };
 export def ACTIVITY                = dimension { time        = -1, ...                                                  };
 export def CAPACITANCE             = dimension { mass        = -1, length     = -2, time    = 4,  current     = 2,  ... };
@@ -394,7 +394,7 @@ export def POWER                   = dimension { mass        = 1,  length     = 
 export def PRESSURE                = dimension { mass        = 1,  length     = -1, time    = -2, ...                   };
 export def RESISTANCE              = dimension { mass        = 1,  length     = 2,  time    = -3, current     = -2, ... };
 
-// Derived DIMENSIONS WITH COMPOUND units
+// Derived dimensions with compound units
 export def ACCELERATION            = dimension { length      = 1,  time       = -2, ...                                 };
 export def ACTION                  = dimension { mass        = 1,  length     = 2,  time    = -1, ...                   };
 export def AREA                    = dimension { length      = 2,  ...                                                  };
