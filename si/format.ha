@@ -261,7 +261,9 @@ fn format_unit(input: str, enc: encoding) (str | error) = {
 	return strings::fromutf8(out)!;
 };
 
-// Prints a quantity to an [io::handle]. Returns the number of bytes printed.
+// Prints a quantity to an [[io::handle]], optionally using a specified unit
+// format, precision, numeric notation, and character encoding. Returns the
+// number of bytes printed.
 export fn fprintq(
 	h: io::handle,
 	qty: quantity,
@@ -295,8 +297,7 @@ export fn fprintq(
 	return count;
 };
 
-// Prints a unit to an [io::handle]. Returns the number of bytes printed.
-export fn fprintu(h: io::handle, u: unit) (size | error) = {
+fn fprintu(h: io::handle, u: unit) (size | error) = {
 	let first = true;
 
 	const exponents: [_]int = [
@@ -337,6 +338,8 @@ export fn fprintu(h: io::handle, u: unit) (size | error) = {
 	return total;
 };
 
+// Prints a quantity followed by a newline to an [[io::handle]]. Accepts the
+// same formatting options as [[fprintq]]. Returns the number of bytes printed.
 export fn fprintqln(
 	h: io::handle,
 	qty: quantity,
@@ -350,7 +353,9 @@ export fn fprintqln(
 	return count;
 };
 
-export fn fprintuln(h: io::handle, u: unit) (size | error) = {
+// Prints a unit followed by a newline to an [[io::handle]]. Returns the
+// number of bytes printed.
+fn fprintuln(h: io::handle, u: unit) (size | error) = {
 	let count = fprintu(h, u)?;
 	count += fmt::fprint(h, "\n")?;
 	return count;

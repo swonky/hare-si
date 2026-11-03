@@ -3,4 +3,4 @@ export const SEM_VERSION: str = "0.0.1";
 
 // Git commit identifier of the current build.
 // Appended with "-dirty" when the working tree contains uncommitted changes.
-export const GIT_VERSION: str = "3acd33e-dirty";
+export const GIT_VERSION: str = "727b5ec-dirty";
