@@ -37,6 +37,7 @@ type unit_kind = enum int {
 	DEGREE_CELSIUS,
 	ELECTRONVOLT,
 	FARAD,
+	GAUSS,
 	GRAM,
 	GRAY,
 	HECTARE,
@@ -82,6 +83,7 @@ def sym_degree_celsius_utf8  = "°C";
 def sym_degree_utf8          = "°";
 def sym_electronvolt         = "eV";
 def sym_farad                = "F";
+def sym_gauss                = "G";
 def sym_gram                 = "g";
 def sym_gray                 = "Gy";
 def sym_hectare              = "ha";
@@ -126,6 +128,7 @@ def name_degree              = "degree";
 def name_degree_celsius      = "degree Celsius";
 def name_electronvolt        = "electronvolt";
 def name_farad               = "farad";
+def name_gauss               = "gauss";
 def name_gram                = "gram";
 def name_gray                = "gray";
 def name_hectare             = "hectare";
@@ -180,6 +183,7 @@ def symbols_utf8: [_]str = [
 	sym_degree_celsius_utf8,
 	sym_electronvolt,
 	sym_farad,
+	sym_gauss,
 	sym_gram,
 	sym_gray,
 	sym_hectare,
@@ -224,6 +228,7 @@ def symbols_ascii: [_]str = [
 	sym_degree_celsius_ascii,
 	sym_electronvolt,
 	sym_farad,
+	sym_gauss,
 	sym_gram,
 	sym_gray,
 	sym_hectare,
@@ -278,6 +283,7 @@ def unit_names: [_]str = [
 	name_degree_celsius,
 	name_electronvolt,
 	name_farad,
+	name_gauss,
 	name_gram,
 	name_gray,
 	name_hectare,
@@ -322,6 +328,7 @@ def units: [_]unit = [
 	DEGREE_CELSIUS,
 	ELECTRONVOLT,
 	FARAD,
+	GAUSS,
 	GRAM,
 	GRAY,
 	HECTARE,
@@ -354,9 +361,11 @@ def units: [_]unit = [
 ];
 
 // Dimensionless
+
 export def DIMENSIONLESS = dimension { ... };
 
 // Base dimensions
+
 export def MASS                    = dimension { mass        = 1,  ... };
 export def LENGTH                  = dimension { length      = 1,  ... };
 export def TIME                    = dimension { time        = 1,  ... };
@@ -366,6 +375,7 @@ export def SUBSTANCE               = dimension { substance   = 1,  ... };
 export def LUMINOSITY              = dimension { luminosity  = 1,  ... };
 
 // ReciprocAL base dimensions
+
 export def RECIPROCAL_MASS         = dimension { mass        = -1, ... };
 export def WAVENUMBER              = dimension { length      = -1, ... };
 export def FREQUENCY               = dimension { time        = -1, ... };
@@ -375,6 +385,7 @@ export def RECIPROCAL_SUBSTANCE    = dimension { substance   = -1, ... };
 export def RECIPROCAL_LUMINOSITY   = dimension { luminosity  = -1, ... };
 
 // Derived dimensions with named symbols
+
 export def ABSORBED_DOSE           = dimension { length      = 2,  time       = -2, ...                                 };
 export def ACTIVITY                = dimension { time        = -1, ...                                                  };
 export def CAPACITANCE             = dimension { mass        = -1, length     = -2, time    = 4,  current     = 2,  ... };
@@ -395,6 +406,7 @@ export def PRESSURE                = dimension { mass        = 1,  length     = 
 export def RESISTANCE              = dimension { mass        = 1,  length     = 2,  time    = -3, current     = -2, ... };
 
 // Derived dimensions with compound units
+
 export def ACCELERATION            = dimension { length      = 1,  time       = -2, ...                                 };
 export def ACTION                  = dimension { mass        = 1,  length     = 2,  time    = -1, ...                   };
 export def AREA                    = dimension { length      = 2,  ...                                                  };
@@ -411,6 +423,7 @@ export def VELOCITY                = dimension { length      = 1,  time       = 
 export def VOLUME                  = dimension { length      = 3,  ...                                                  };
 
 // Base units
+
 export def AMPERE                           = unit     { dim  = CURRENT,                 scale = 1.0                    };
 export def CANDELA                          = unit     { dim  = LUMINOSITY,              scale = 1.0                    };
 export def KELVIN                           = unit     { dim  = TEMPERATURE,             scale = 1.0                    };
@@ -420,6 +433,7 @@ export def MOLE                             = unit     { dim  = SUBSTANCE,      
 export def SECOND                           = unit     { dim  = TIME,                    scale = 1.0                    };
 
 // Reciprocal base units
+
 export def RECIPROCAL_AMPERE                = unit     { dim  = RECIPROCAL_CURRENT,      scale = 1.0                    };
 export def RECIPROCAL_CANDELA               = unit     { dim  = RECIPROCAL_LUMINOSITY,   scale = 1.0                    };
 export def RECIPROCAL_KELVIN                = unit     { dim  = RECIPROCAL_TEMPERATURE,  scale = 1.0                    };
@@ -429,6 +443,7 @@ export def RECIPROCAL_MOLE                  = unit     { dim  = RECIPROCAL_SUBST
 export def HERTZ                            = unit     { dim  = FREQUENCY,               scale = 1.0                    };
 
 // Derived units
+
 export def BECQUEREL                        = unit     { dim  = ACTIVITY,                scale = 1.0                    };
 export def COULOMB                          = unit     { dim  = ELECTRIC_CHARGE,         scale = 1.0                    };
 export def DEGREE_CELSIUS                   = unit     { dim  = TEMPERATURE,             scale = 1.0                    };
@@ -453,12 +468,14 @@ export def WATT                             = unit     { dim  = POWER,          
 export def WEBER                            = unit     { dim  = MAGNETIC_FLUX,           scale = 1.0                    };
 
 // Non-SI
+
 export def ASTRONOMICAL_UNIT                = unit     { dim  = LENGTH,                  scale = 1.495978707e11         };
 export def BEL                              = unit     { dim  = DIMENSIONLESS,           scale = 1.0                    };
 export def DALTON                           = unit     { dim  = MASS,                    scale = 1.66053906892e-27      };
 export def DAY                              = unit     { dim  = TIME,                    scale = 8.64e4                 };
 export def DEGREE                           = unit     { dim  = DIMENSIONLESS,           scale = 1.7453292519943295e-2  };
 export def ELECTRONVOLT                     = unit     { dim  = ENERGY,                  scale = 1.602176634e-19        };
+export def GAUSS                            = unit     { dim  = MAGNETIC_FLUX_DENSITY,   scale = 1.0e-4                 };
 export def HECTARE                          = unit     { dim  = AREA,                    scale = 10000.0                };
 export def HOUR                             = unit     { dim  = TIME,                    scale = 3.6e3                  };
 export def LITRE                            = unit     { dim  = VOLUME,                  scale = 1.0e-3                 };
@@ -467,6 +484,7 @@ export def NEPER                            = unit     { dim  = DIMENSIONLESS,  
 export def TONNE                            = unit     { dim  = MASS,                    scale = 1.0e3                  };
 
 // Coherent derived units
+
 export def AMPERE_PER_METRE                 = unit     { dim  = MAGNETIC_FIELD_STRENGTH, scale = 1.0                    };
 export def AMPERE_PER_SQUARE_METRE          = unit     { dim  = CURRENT_DENSITY,         scale = 1.0                    };
 export def CANDELA_PER_SQUARE_METRE         = unit     { dim  = LUMINANCE,               scale = 1.0                    };
@@ -481,10 +499,12 @@ export def MOLE_PER_CUBIC_METRE             = unit     { dim  = CONCENTRATION,  
 export def SQUARE_METRE                     = unit     { dim  = AREA,                    scale = 1.0                    };
 
 // Non-coherent derived units
+
 export def JOULE_PER_KELVIN                 = unit     { dim  = ENTROPY,                 scale = 1.0                    };
 export def JOULE_SECOND                     = unit     { dim  = ACTION,                  scale = 1.0                    };
 
 // Constants
+
 export def SPEED_OF_LIGHT                   = quantity { unit = METRE_PER_SECOND,        value = 299792458.0            };
 export def BOLTZMANN                        = quantity { unit = JOULE_PER_KELVIN,        value = 1.380649e-23           };
 export def PLANCK                           = quantity { unit = JOULE_SECOND,            value = 6.62607015e-34         };
@@ -500,6 +520,7 @@ def symbol_lookup: [_]symbol = [
 	symbol { repr = "C",    kind = unit_kind::COULOMB           },
 	symbol { repr = "Da",   kind = unit_kind::DALTON            },
 	symbol { repr = "F",    kind = unit_kind::FARAD             },
+	symbol { repr = "G",    kind = unit_kind::GAUSS             },
 	symbol { repr = "Gy",   kind = unit_kind::GRAY              },
 	symbol { repr = "H",    kind = unit_kind::HENRY             },
 	symbol { repr = "Hz",   kind = unit_kind::HERTZ             },

@@ -1,29 +1,38 @@
+// Error types and handlers.
 use encoding::utf8;
 use fmt;
 use io;
 use strconv;
 
-
+// The dimensions of two units or quantities do not match.
 export type dimension_mismatch = !void;
-export type no_match    = !str;
-export type not_implemented = !str;
+
+// No matching unit or prefix was found.
+export type no_match = !str;
+
+// The requested operation is not implemented.
+export type not_implemented = !void;
+
+// The input is invalid.
 export type invalid = !void;
+
+// An invalid exponent was encountered.
 export type invalid_exponent = !rune;
+
+// An unexpected token was encountered during parsing.
 export type unexpected_token = !rune;
+
+// Division by zero was attempted.
 export type divide_by_zero = !void;
 
-export type unexpected  = struct {
-	pos: size,
-	exp: str,
-	got: str,
-};
-
+// Represents any error that can occur in the si library
 export type error = !( no_match | divide_by_zero| invalid_exponent
 	| dimension_mismatch | unexpected_token | not_implemented
 	| invalid | io::error | strconv::invalid | strconv::overflow
 	| utf8::invalid | nomem );
 
-
+// Returns a human-readable description of an error.
+// Returned value should NOT be freed by the caller.
 export fn strerror(err: error) str = {
 	match (err) {
 	case let e: invalid =>
@@ -51,6 +60,7 @@ export fn strerror(err: error) str = {
 	};
 };
 
+// Prints the human readable description of the error to stderr.
 export fn printerror(err: error) (void | io::error) = {
 	const msg: str = strerror(err);
 	fmt::errorf("{}", msg)?;

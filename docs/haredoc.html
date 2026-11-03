@@ -266,12 +266,8 @@ Tonne             | t       |
 <span class='keyword'>type</span> <a href='#notation'>notation</a>;
 <span class='keyword'>type</span> <a href='#quantity'>quantity</a>;
 <span class='keyword'>type</span> <a href='#unit'>unit</a>;
-
-<span class='comment'>// Undocumented types:</span>
-<span class='keyword'>type</span> <a href='#unexpected'>unexpected</a>;
 </pre><h4>Errors</h4>
 <pre>
-<span class='comment'>// Undocumented Errors:</span>
 <span class='keyword'>type</span> <a href='#dimension_mismatch'>dimension_mismatch</a>;
 <span class='keyword'>type</span> <a href='#divide_by_zero'>divide_by_zero</a>;
 <span class='keyword'>type</span> <a href='#error'>error</a>;
@@ -282,6 +278,7 @@ Tonne             | t       |
 <span class='keyword'>type</span> <a href='#unexpected_token'>unexpected_token</a>;
 </pre><h4>Constants</h4>
 <pre>
+<span class='comment'>// Undocumented constants:</span>
 <span class='keyword'>def</span> <a href='#ABSORBED_DOSE'>ABSORBED_DOSE</a> = dimension {
 	length = 2,
 	time = -2,
@@ -292,47 +289,6 @@ Tonne             | t       |
 	time = -2,
 	...
 };
-<span class='keyword'>def</span> <a href='#AMPERE'>AMPERE</a> = unit {
-	dim = CURRENT,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#AMPERE_PER_METRE'>AMPERE_PER_METRE</a> = unit {
-	dim = MAGNETIC_FIELD_STRENGTH,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#ASTRONOMICAL_UNIT'>ASTRONOMICAL_UNIT</a> = unit {
-	dim = LENGTH,
-	scale = 149597870700.0,
-};
-<span class='keyword'>def</span> <a href='#BECQUEREL'>BECQUEREL</a> = unit {
-	dim = ACTIVITY,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#DIMENSIONLESS'>DIMENSIONLESS</a> = dimension {
-	...
-};
-<span class='keyword'>def</span> <a href='#JOULE_PER_KELVIN'>JOULE_PER_KELVIN</a> = unit {
-	dim = ENTROPY,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#MASS'>MASS</a> = dimension {
-	mass = 1,
-	...
-};
-<span class='keyword'>def</span> <a href='#RECIPROCAL_AMPERE'>RECIPROCAL_AMPERE</a> = unit {
-	dim = RECIPROCAL_CURRENT,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#RECIPROCAL_MASS'>RECIPROCAL_MASS</a> = dimension {
-	mass = -1,
-	...
-};
-<span class='keyword'>def</span> <a href='#SPEED_OF_LIGHT'>SPEED_OF_LIGHT</a> = quantity {
-	unit = METRE_PER_SECOND,
-	value = 299792458.0,
-};
-
-<span class='comment'>// Undocumented constants:</span>
 <span class='keyword'>def</span> <a href='#ACTION'>ACTION</a> = dimension {
 	mass = 1,
 	length = 2,
@@ -343,6 +299,14 @@ Tonne             | t       |
 	time = -1,
 	...
 };
+<span class='keyword'>def</span> <a href='#AMPERE'>AMPERE</a> = unit {
+	dim = CURRENT,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#AMPERE_PER_METRE'>AMPERE_PER_METRE</a> = unit {
+	dim = MAGNETIC_FIELD_STRENGTH,
+	scale = 1.0,
+};
 <span class='keyword'>def</span> <a href='#AMPERE_PER_SQUARE_METRE'>AMPERE_PER_SQUARE_METRE</a> = unit {
 	dim = CURRENT_DENSITY,
 	scale = 1.0,
@@ -351,9 +315,17 @@ Tonne             | t       |
 	length = 2,
 	...
 };
+<span class='keyword'>def</span> <a href='#ASTRONOMICAL_UNIT'>ASTRONOMICAL_UNIT</a> = unit {
+	dim = LENGTH,
+	scale = 149597870700.0,
+};
 <span class='keyword'>def</span> <a href='#AVOGADRO'>AVOGADRO</a> = quantity {
 	unit = RECIPROCAL_MOLE,
 	value = 6.02214076e23,
+};
+<span class='keyword'>def</span> <a href='#BECQUEREL'>BECQUEREL</a> = unit {
+	dim = ACTIVITY,
+	scale = 1.0,
 };
 <span class='keyword'>def</span> <a href='#BEL'>BEL</a> = unit {
 	dim = DIMENSIONLESS,
@@ -437,6 +409,9 @@ Tonne             | t       |
 	length = -3,
 	...
 };
+<span class='keyword'>def</span> <a href='#DIMENSIONLESS'>DIMENSIONLESS</a> = dimension {
+	...
+};
 <span class='keyword'>def</span> <a href='#DOSE_EQUIVALENT'>DOSE_EQUIVALENT</a> = dimension {
 	length = 2,
 	time = -2,
@@ -489,6 +464,10 @@ Tonne             | t       |
 	time = -1,
 	...
 };
+<span class='keyword'>def</span> <a href='#GAUSS'>GAUSS</a> = unit {
+	dim = MAGNETIC_FLUX_DENSITY,
+	scale = 1.0e-4,
+};
 <span class='keyword'>def</span> <a href='#GRAM'>GRAM</a> = unit {
 	dim = MASS,
 	scale = 1.0e-3,
@@ -531,6 +510,10 @@ Tonne             | t       |
 };
 <span class='keyword'>def</span> <a href='#JOULE'>JOULE</a> = unit {
 	dim = ENERGY,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#JOULE_PER_KELVIN'>JOULE_PER_KELVIN</a> = unit {
+	dim = ENTROPY,
 	scale = 1.0,
 };
 <span class='keyword'>def</span> <a href='#JOULE_SECOND'>JOULE_SECOND</a> = unit {
@@ -619,6 +602,10 @@ Tonne             | t       |
 	current = -1,
 	...
 };
+<span class='keyword'>def</span> <a href='#MASS'>MASS</a> = dimension {
+	mass = 1,
+	...
+};
 <span class='keyword'>def</span> <a href='#METRE'>METRE</a> = unit {
 	dim = LENGTH,
 	scale = 1.0,
@@ -679,6 +666,10 @@ Tonne             | t       |
 	dim = DIMENSIONLESS,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#RECIPROCAL_AMPERE'>RECIPROCAL_AMPERE</a> = unit {
+	dim = RECIPROCAL_CURRENT,
+	scale = 1.0,
+};
 <span class='keyword'>def</span> <a href='#RECIPROCAL_CANDELA'>RECIPROCAL_CANDELA</a> = unit {
 	dim = RECIPROCAL_LUMINOSITY,
 	scale = 1.0,
@@ -697,6 +688,10 @@ Tonne             | t       |
 };
 <span class='keyword'>def</span> <a href='#RECIPROCAL_LUMINOSITY'>RECIPROCAL_LUMINOSITY</a> = dimension {
 	luminosity = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#RECIPROCAL_MASS'>RECIPROCAL_MASS</a> = dimension {
+	mass = -1,
 	...
 };
 <span class='keyword'>def</span> <a href='#RECIPROCAL_METRE'>RECIPROCAL_METRE</a> = unit {
@@ -738,6 +733,10 @@ Tonne             | t       |
 	mass = -1,
 	length = 3,
 	...
+};
+<span class='keyword'>def</span> <a href='#SPEED_OF_LIGHT'>SPEED_OF_LIGHT</a> = quantity {
+	unit = METRE_PER_SECOND,
+	value = 299792458.0,
 };
 <span class='keyword'>def</span> <a href='#SQUARE_METRE'>SQUARE_METRE</a> = unit {
 	dim = AREA,
@@ -817,14 +816,12 @@ Tonne             | t       |
 <span class='keyword'>fn</span> <a href='#powd'>powd</a>(x: <span class='type'>dimension</span>, p: <span class='type'>int</span>) <span class='type'>dimension</span>;
 <span class='keyword'>fn</span> <a href='#powq'>powq</a>(x: <span class='type'>quantity</span>, p: <span class='type'>int</span>) <span class='type'>quantity</span>;
 <span class='keyword'>fn</span> <a href='#powu'>powu</a>(x: <span class='type'>unit</span>, p: <span class='type'>int</span>) <span class='type'>unit</span>;
+<span class='keyword'>fn</span> <a href='#printerror'>printerror</a>(err: <span class='type'>error</span>) <span class='type'>(</span><span class='type'>void</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#strerror'>strerror</a>(err: <span class='type'>error</span>) <span class='type'>str</span>;
 <span class='keyword'>fn</span> <a href='#strpquantity'>strpquantity</a>(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#strpunit'>strpunit</a>(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>unit</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#subq'>subq</a>(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#tojson'>tojson</a>(obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
-
-<span class='comment'>// Undocumented functions:</span>
-<span class='keyword'>fn</span> <a href='#printerror'>printerror</a>(err: <span class='type'>error</span>) <span class='type'>(</span><span class='type'>void</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span><span class='type'>)</span>;
-<span class='keyword'>fn</span> <a href='#strerror'>strerror</a>(err: <span class='type'>error</span>) <span class='type'>str</span>;
 </pre><h3>Types</h3>
 <section class='member'>
 <h4 id='dimension'><span class='heading-body'>type dimension</span><span class='heading-extra'><a href='#dimension'>[permalink]</a></span></h4>
@@ -887,192 +884,79 @@ Tonne             | t       |
 };</pre>
 <p>Represents a unit of measurement by its physical <a href='#dimension' class='ref'>dimension</a> and scale.
 </section>
-<section class='member'>
-<h4 id='unexpected'><span class='heading-body'>type unexpected</span><span class='heading-extra'><a href='#unexpected'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>type</span> unexpected = <span class='type'>struct</span> {
-	pos: <span class='type'>size</span>,
-	exp: <span class='type'>str</span>,
-	got: <span class='type'>str</span>,
-};</pre>
-</details>
-</section>
 <h3>Errors</h3>
 <section class='member'>
 <h4 id='dimension_mismatch'><span class='heading-body'>type dimension_mismatch</span><span class='heading-extra'><a href='#dimension_mismatch'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>type</span> dimension_mismatch = <span class='type'>!</span><span class='type'>void</span>;</pre>
-</details>
+<p>The dimensions of two units or quantities do not match.
 </section>
 <section class='member'>
 <h4 id='divide_by_zero'><span class='heading-body'>type divide_by_zero</span><span class='heading-extra'><a href='#divide_by_zero'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>type</span> divide_by_zero = <span class='type'>!</span><span class='type'>void</span>;</pre>
-</details>
+<p>Division by zero was attempted.
 </section>
 <section class='member'>
 <h4 id='error'><span class='heading-body'>type error</span><span class='heading-extra'><a href='#error'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>type</span> error = <span class='type'>!</span><span class='type'>(</span><span class='type'>no_match</span> <span class='type'>|</span> <span class='type'>divide_by_zero</span> <span class='type'>|</span> <span class='type'>invalid_exponent</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span> <span class='type'>|</span> <span class='type'>unexpected_token</span> <span class='type'>|</span> <span class='type'>not_implemented</span> <span class='type'>|</span> <span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span> <span class='type'>|</span> <span class='type'>strconv</span><span class='type'>::</span><span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>strconv</span><span class='type'>::</span><span class='type'>overflow</span> <span class='type'>|</span> <span class='type'>utf8</span><span class='type'>::</span><span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>nomem</span><span class='type'>)</span>;</pre>
-</details>
+<p>Represents any error that can occur in the si library
 </section>
 <section class='member'>
 <h4 id='invalid'><span class='heading-body'>type invalid</span><span class='heading-extra'><a href='#invalid'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>type</span> invalid = <span class='type'>!</span><span class='type'>void</span>;</pre>
-</details>
+<p>The input is invalid.
 </section>
 <section class='member'>
 <h4 id='invalid_exponent'><span class='heading-body'>type invalid_exponent</span><span class='heading-extra'><a href='#invalid_exponent'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>type</span> invalid_exponent = <span class='type'>!</span><span class='type'>rune</span>;</pre>
-</details>
+<p>An invalid exponent was encountered.
 </section>
 <section class='member'>
 <h4 id='no_match'><span class='heading-body'>type no_match</span><span class='heading-extra'><a href='#no_match'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>type</span> no_match = <span class='type'>!</span><span class='type'>str</span>;</pre>
-</details>
+<p>No matching unit or prefix was found.
 </section>
 <section class='member'>
 <h4 id='not_implemented'><span class='heading-body'>type not_implemented</span><span class='heading-extra'><a href='#not_implemented'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
-<span class='keyword'>type</span> not_implemented = <span class='type'>!</span><span class='type'>str</span>;</pre>
-</details>
+<span class='keyword'>type</span> not_implemented = <span class='type'>!</span><span class='type'>void</span>;</pre>
+<p>The requested operation is not implemented.
 </section>
 <section class='member'>
 <h4 id='unexpected_token'><span class='heading-body'>type unexpected_token</span><span class='heading-extra'><a href='#unexpected_token'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>type</span> unexpected_token = <span class='type'>!</span><span class='type'>rune</span>;</pre>
-</details>
+<p>An unexpected token was encountered during parsing.
 </section>
 <h3>Constants</h3>
 <section class='member'>
 <h4 id='ABSORBED_DOSE'><span class='heading-body'>def ABSORBED_DOSE</span><span class='heading-extra'><a href='#ABSORBED_DOSE'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>def</span> ABSORBED_DOSE = dimension {
 	length = 2,
 	time = -2,
 	...
 };</pre>
-<p>Derived dimensions with named symbols
+</details>
 </section>
 <section class='member'>
 <h4 id='ACCELERATION'><span class='heading-body'>def ACCELERATION</span><span class='heading-extra'><a href='#ACCELERATION'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>def</span> ACCELERATION = dimension {
 	length = 1,
 	time = -2,
 	...
 };</pre>
-<p>Derived dimensions with compound units
-</section>
-<section class='member'>
-<h4 id='AMPERE'><span class='heading-body'>def AMPERE</span><span class='heading-extra'><a href='#AMPERE'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> AMPERE = unit {
-	dim = CURRENT,
-	scale = 1.0,
-};</pre>
-<p>Base units
-</section>
-<section class='member'>
-<h4 id='AMPERE_PER_METRE'><span class='heading-body'>def AMPERE_PER_METRE</span><span class='heading-extra'><a href='#AMPERE_PER_METRE'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> AMPERE_PER_METRE = unit {
-	dim = MAGNETIC_FIELD_STRENGTH,
-	scale = 1.0,
-};</pre>
-<p>Coherent derived units
-</section>
-<section class='member'>
-<h4 id='ASTRONOMICAL_UNIT'><span class='heading-body'>def ASTRONOMICAL_UNIT</span><span class='heading-extra'><a href='#ASTRONOMICAL_UNIT'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> ASTRONOMICAL_UNIT = unit {
-	dim = LENGTH,
-	scale = 149597870700.0,
-};</pre>
-<p>Non-SI
-</section>
-<section class='member'>
-<h4 id='BECQUEREL'><span class='heading-body'>def BECQUEREL</span><span class='heading-extra'><a href='#BECQUEREL'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> BECQUEREL = unit {
-	dim = ACTIVITY,
-	scale = 1.0,
-};</pre>
-<p>Derived units
-</section>
-<section class='member'>
-<h4 id='DIMENSIONLESS'><span class='heading-body'>def DIMENSIONLESS</span><span class='heading-extra'><a href='#DIMENSIONLESS'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> DIMENSIONLESS = dimension {
-	...
-};</pre>
-<p>Dimensionless
-</section>
-<section class='member'>
-<h4 id='JOULE_PER_KELVIN'><span class='heading-body'>def JOULE_PER_KELVIN</span><span class='heading-extra'><a href='#JOULE_PER_KELVIN'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> JOULE_PER_KELVIN = unit {
-	dim = ENTROPY,
-	scale = 1.0,
-};</pre>
-<p>Non-coherent derived units
-</section>
-<section class='member'>
-<h4 id='MASS'><span class='heading-body'>def MASS</span><span class='heading-extra'><a href='#MASS'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> MASS = dimension {
-	mass = 1,
-	...
-};</pre>
-<p>Base dimensions
-</section>
-<section class='member'>
-<h4 id='RECIPROCAL_AMPERE'><span class='heading-body'>def RECIPROCAL_AMPERE</span><span class='heading-extra'><a href='#RECIPROCAL_AMPERE'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> RECIPROCAL_AMPERE = unit {
-	dim = RECIPROCAL_CURRENT,
-	scale = 1.0,
-};</pre>
-<p>Reciprocal base units
-</section>
-<section class='member'>
-<h4 id='RECIPROCAL_MASS'><span class='heading-body'>def RECIPROCAL_MASS</span><span class='heading-extra'><a href='#RECIPROCAL_MASS'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> RECIPROCAL_MASS = dimension {
-	mass = -1,
-	...
-};</pre>
-<p>ReciprocAL base dimensions
-</section>
-<section class='member'>
-<h4 id='SPEED_OF_LIGHT'><span class='heading-body'>def SPEED_OF_LIGHT</span><span class='heading-extra'><a href='#SPEED_OF_LIGHT'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> SPEED_OF_LIGHT = quantity {
-	unit = METRE_PER_SECOND,
-	value = 299792458.0,
-};</pre>
-<p>Constants
+</details>
 </section>
 <section class='member'>
 <h4 id='ACTION'><span class='heading-body'>def ACTION</span><span class='heading-extra'><a href='#ACTION'>[permalink]</a></span></h4>
@@ -1099,6 +983,28 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='AMPERE'><span class='heading-body'>def AMPERE</span><span class='heading-extra'><a href='#AMPERE'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> AMPERE = unit {
+	dim = CURRENT,
+	scale = 1.0,
+};</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='AMPERE_PER_METRE'><span class='heading-body'>def AMPERE_PER_METRE</span><span class='heading-extra'><a href='#AMPERE_PER_METRE'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> AMPERE_PER_METRE = unit {
+	dim = MAGNETIC_FIELD_STRENGTH,
+	scale = 1.0,
+};</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='AMPERE_PER_SQUARE_METRE'><span class='heading-body'>def AMPERE_PER_SQUARE_METRE</span><span class='heading-extra'><a href='#AMPERE_PER_SQUARE_METRE'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1121,6 +1027,17 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='ASTRONOMICAL_UNIT'><span class='heading-body'>def ASTRONOMICAL_UNIT</span><span class='heading-extra'><a href='#ASTRONOMICAL_UNIT'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> ASTRONOMICAL_UNIT = unit {
+	dim = LENGTH,
+	scale = 149597870700.0,
+};</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='AVOGADRO'><span class='heading-body'>def AVOGADRO</span><span class='heading-extra'><a href='#AVOGADRO'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1128,6 +1045,17 @@ Tonne             | t       |
 <span class='keyword'>def</span> AVOGADRO = quantity {
 	unit = RECIPROCAL_MOLE,
 	value = 6.02214076e23,
+};</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='BECQUEREL'><span class='heading-body'>def BECQUEREL</span><span class='heading-extra'><a href='#BECQUEREL'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> BECQUEREL = unit {
+	dim = ACTIVITY,
+	scale = 1.0,
 };</pre>
 </details>
 </section>
@@ -1340,6 +1268,16 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='DIMENSIONLESS'><span class='heading-body'>def DIMENSIONLESS</span><span class='heading-extra'><a href='#DIMENSIONLESS'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> DIMENSIONLESS = dimension {
+	...
+};</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='DOSE_EQUIVALENT'><span class='heading-body'>def DOSE_EQUIVALENT</span><span class='heading-extra'><a href='#DOSE_EQUIVALENT'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1462,6 +1400,17 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='GAUSS'><span class='heading-body'>def GAUSS</span><span class='heading-extra'><a href='#GAUSS'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> GAUSS = unit {
+	dim = MAGNETIC_FLUX_DENSITY,
+	scale = 1.0e-4,
+};</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='GRAM'><span class='heading-body'>def GRAM</span><span class='heading-extra'><a href='#GRAM'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1571,6 +1520,17 @@ Tonne             | t       |
 <pre class='decl'>
 <span class='keyword'>def</span> JOULE = unit {
 	dim = ENERGY,
+	scale = 1.0,
+};</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='JOULE_PER_KELVIN'><span class='heading-body'>def JOULE_PER_KELVIN</span><span class='heading-extra'><a href='#JOULE_PER_KELVIN'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> JOULE_PER_KELVIN = unit {
+	dim = ENTROPY,
 	scale = 1.0,
 };</pre>
 </details>
@@ -1795,6 +1755,17 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='MASS'><span class='heading-body'>def MASS</span><span class='heading-extra'><a href='#MASS'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> MASS = dimension {
+	mass = 1,
+	...
+};</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='METRE'><span class='heading-body'>def METRE</span><span class='heading-extra'><a href='#METRE'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1953,6 +1924,17 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='RECIPROCAL_AMPERE'><span class='heading-body'>def RECIPROCAL_AMPERE</span><span class='heading-extra'><a href='#RECIPROCAL_AMPERE'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> RECIPROCAL_AMPERE = unit {
+	dim = RECIPROCAL_CURRENT,
+	scale = 1.0,
+};</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='RECIPROCAL_CANDELA'><span class='heading-body'>def RECIPROCAL_CANDELA</span><span class='heading-extra'><a href='#RECIPROCAL_CANDELA'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -2003,6 +1985,17 @@ Tonne             | t       |
 <pre class='decl'>
 <span class='keyword'>def</span> RECIPROCAL_LUMINOSITY = dimension {
 	luminosity = -1,
+	...
+};</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='RECIPROCAL_MASS'><span class='heading-body'>def RECIPROCAL_MASS</span><span class='heading-extra'><a href='#RECIPROCAL_MASS'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> RECIPROCAL_MASS = dimension {
+	mass = -1,
 	...
 };</pre>
 </details>
@@ -2107,6 +2100,17 @@ Tonne             | t       |
 	mass = -1,
 	length = 3,
 	...
+};</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='SPEED_OF_LIGHT'><span class='heading-body'>def SPEED_OF_LIGHT</span><span class='heading-extra'><a href='#SPEED_OF_LIGHT'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> SPEED_OF_LIGHT = quantity {
+	unit = METRE_PER_SECOND,
+	value = 299792458.0,
 };</pre>
 </details>
 </section>
@@ -2367,6 +2371,18 @@ Tonne             | t       |
 <p>Returns the quantity x raised to the integer power p.
 </section>
 <section class='member'>
+<h4 id='printerror'><span class='heading-body'>fn printerror</span><span class='heading-extra'><a href='#printerror'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> printerror(err: <span class='type'>error</span>) <span class='type'>(</span><span class='type'>void</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span><span class='type'>)</span>;</pre>
+<p>Prints the human readable description of the error to stderr.
+</section>
+<section class='member'>
+<h4 id='strerror'><span class='heading-body'>fn strerror</span><span class='heading-extra'><a href='#strerror'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> strerror(err: <span class='type'>error</span>) <span class='type'>str</span>;</pre>
+<p>Returns a human-readable description of an error. Returned value should NOT be freed by the caller.
+</section>
+<section class='member'>
 <h4 id='strpquantity'><span class='heading-body'>fn strpquantity</span><span class='heading-extra'><a href='#strpquantity'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>fn</span> strpquantity(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
@@ -2416,20 +2432,4 @@ strpunit(&quot;m²&quot;);
 <pre class='decl'>
 <span class='keyword'>fn</span> tojson(obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
 <p>Returns JSON encoded string representation of a quantity or unit.
-</section>
-<section class='member'>
-<h4 id='printerror'><span class='heading-body'>fn printerror</span><span class='heading-extra'><a href='#printerror'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>fn</span> printerror(err: <span class='type'>error</span>) <span class='type'>(</span><span class='type'>void</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span><span class='type'>)</span>;</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='strerror'><span class='heading-body'>fn strerror</span><span class='heading-extra'><a href='#strerror'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>fn</span> strerror(err: <span class='type'>error</span>) <span class='type'>str</span>;</pre>
-</details>
 </section>
