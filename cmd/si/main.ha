@@ -328,7 +328,7 @@ fn parse_options() (options | void) = {
 };
 
 fn run(opts: options) (void | si::error) = {
-	const qty = match (si::parse(opts.input)) {
+	const qty = match (si::strpquantity(opts.input)) {
 	case let err: si::no_match =>
 		fmt::errorfln("{}: {}", si::strerror(err), err)?;
 		return;

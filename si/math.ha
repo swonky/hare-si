@@ -25,7 +25,7 @@ export fn muld(a: dimension, b: dimension) dimension = dimension {
 	luminosity  = a.luminosity  + b.luminosity,
 };
 
-// Returns the quotiant of units a and b.
+// Returns the quotient of units a and b.
 export fn divd(a: dimension, b: dimension) dimension = dimension {
 	mass        = a.mass        - b.mass,
 	length      = a.length      - b.length,
@@ -74,10 +74,61 @@ export fn divu(a: unit, b: unit) (unit | divide_by_zero) = {
 	};
 };
 
-// Returns the unit x raised to the power of p.
+// Returns the quantity x raised to the integer power p.
 export fn powu(x: unit, p: int) unit = {
 	return unit {
-		dim   = powd(x.dim, p),
-		scale = math::powf64(x.scale, p: f64),
+		dim = powd(x.dim, p),
+		scale = if (p == 0) 1.0 else math::powf64(x.scale, p: f64),
 	};
+};
+
+// Returns the sum of quantities a and b, converting b to a's unit.
+// If b is an f64, it is treated as a value in a's unit.
+export fn addq(a: quantity, b: (quantity | f64)) (quantity | dimension_mismatch) = match (b) {
+case let qty: quantity =>
+	yield if (!equal(a.unit.dim, qty.unit.dim)) dimension_mismatch else quantity {
+		unit = a.unit,
+		value = a.value + qty.value * qty.unit.scale / a.unit.scale,
+	};
+case let f: f64 =>
+	yield quantity { unit = a.unit, value = a.value + f };
+};
+
+// Returns the difference of quantities a and b, converting b to a's unit.
+// If b is an f64, it is treated as a value in a's unit.
+export fn subq(a: quantity, b: (quantity | f64)) (quantity | dimension_mismatch) = match (b) {
+case let qty: quantity =>
+	yield if (!equal(a.unit.dim, qty.unit.dim)) dimension_mismatch else quantity {
+		unit = a.unit,
+		value = a.value - qty.value * qty.unit.scale / a.unit.scale,
+	};
+case let f: f64 =>
+	yield quantity { unit = a.unit, value = a.value - f };
+};
+
+// Returns the product of quantities a and b, or scales a by b if b is an f64.
+export fn mulq(a: quantity, b: (quantity | f64)) quantity = match (b) {
+	case let qty: quantity =>
+		yield quantity { unit = mulu(a.unit, qty.unit), value = a.value * qty.value };
+	case let f: f64 =>
+		yield quantity { unit = a.unit, value = a.value * f };
+};
+
+// Returns the quotient of quantities a and b, or scales a by 1/b if b is an f64.
+export fn divq(a: quantity, b: (quantity | f64)) (quantity | divide_by_zero) = match (b) {
+	case let qty: quantity =>
+		yield if (qty.value != 0.0) divide_by_zero else quantity {
+			unit = divu(a.unit, qty.unit)?,
+			value = a.value / qty.value,
+		};
+	case let f: f64 =>
+		yield if (f != 0.0) divide_by_zero else quantity {
+			unit = a.unit,
+			value = a.value / f,
+		};
+};
+
+// Returns quantity x raised to the integer power p.
+export fn powq(x: quantity, p: int) quantity = {
+	return quantity { unit = powu(x.unit, p), value = math::powf64(x.value, p: f64) };
 };

@@ -277,7 +277,7 @@ export fn fprintq(
 		count += print_f64(value, prec, repr)!;
 		count += fprintu(h, qty.unit)?;
 	case let s: str =>
-		let target: unit = parse_unit_str(s)?;
+		let target: unit = strpunit(s)?;
 		
 		if (!equal(qty.unit.dim, target.dim)) {
 			return dimension_mismatch;

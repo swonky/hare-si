@@ -79,11 +79,11 @@ UNIT PARSING SYNTAX
      der to accommodate common variations in notation.
 
      Valid examples
-     •	 uohm*m^-2  -> ÂµÎ©Â·mâ»Â²
-     •	 Î¼ohm*m**-2 -> ÂµÎ©Â·mâ»Â²
-     •	 ÂµÎ©Â·mâ»Â²	 -> ÂµÎ©Â·mâ»Â²
-     •	 uÎ©Ãm^â2    -> ÂµÎ©Â·mâ»Â²
-     •	 Î¼Î©âmâ»Â²	-> ÂµÎ©Â·mâ»Â²
+     •	 uohm*m^-2  -> µΩ·m⁻²
+     •	 μohm*m**-2 -> µΩ·m⁻²
+     •	 µΩ·m⁻²	    -> µΩ·m⁻²
+     •	 uΩ×m^−2    -> µΩ·m⁻²
+     •	 μΩ⋅m⁻²	    -> µΩ·m⁻²
 
      In	 addition  to  ASCII  representations,	the parser accepts the following
      UTF-8 encoded characters:
@@ -148,4 +148,4 @@ AUTHORS
      tcs.git@pm.me
      https://codeberg.org/swonky/hare-si
 
-v0.0.1				   2026-11-02				   si(1)
+v0.0.1				   2026-11-03				   si(1)

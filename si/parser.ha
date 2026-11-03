@@ -295,7 +295,25 @@ fn parse_quantity(p: *parser) (quantity | error) = {
 };
 
 
-fn parse_unit_str(s: str) (unit | error) = {
+// Parses a unit expression. Accepts fixed-point and scientific notation, with 
+// permissive unit syntax including alternative multiplication operators 
+// (*, ×, ·, ⋅), exponent notation (^, **, superscripts), exponent signs (+, −),
+// grouping (( ), { }), ASCII or UTF-8 encoded symbols, alternative micro (µ, μ) 
+// and ohm (Ω, Ω) symbols. Whitespace is permitted.
+//
+// Valid examples:
+// 	strpunit("m");
+// 	strpunit("m/s^2");
+// 	strpunit("°C");
+// 	strpunit("kΩ");
+// 	strpunit("kohm");
+// 	strpunit("mol**-1");
+// 	strpunit("m²");
+//
+// Returns the parsed [[unit]] on success, or an [[error]] if the input is invalid.
+//
+// - see also: [[strpquantity]]
+export fn strpunit(s: str) (unit | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
@@ -314,23 +332,26 @@ fn parse_unit_str(s: str) (unit | error) = {
 	};
 };
 
-// Parses a string representation of a physical quantity.
+// Parses a numeric quantity and unit expression. Accepts fixed-point and
+// scientific notation, with permissive unit syntax including alternative
+// multiplication operators (*, ×, ·, ⋅), exponent notation (^, **, superscripts),
+// exponent signs (+, −), grouping (( ), { }), ASCII or UTF-8 encoded symbols, 
+// alternative micro (µ, μ) and ohm (Ω, Ω) symbols. Whitespace is permitted.
 //
-// The input must contain a valid numeric value followed by a valid unit expression.
-// Leading and trailing whitespace are permitted.
+// Valid examples:
+// 	strpquantity("67 m");
+// 	strpquantity("1.21 GW");
+// 	strpquantity("9.80665 m/s^2");
+// 	strpquantity("32°C");
+// 	strpquantity("1.5 kΩ");
+// 	strpquantity("1.5 kohm");
+// 	strpquantity("6.022e23 mol**-1");
+// 	strpquantity("20 m²");
 //
-// Examples:
-//   parse("67 m");
-//   parse("1.21 GW");
-//   parse("9.80665 m/s^2");
-//   parse("32°C");
-//   parse("1.5 kΩ");
-//   parse("1.5 kohm");
-//   parse("6.022e23 mol**-1");
-//   parse("20 m²");
+// Returns the parsed [[quantity]] on success, or an [[error]] if the input is invalid.
 //
-// Returns the parsed quantity on success, or an error if the input is invalid.
-export fn parse(s: str) (quantity | error) = {
+// - see also: [[strpunit]]
+export fn strpquantity(s: str) (quantity | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
