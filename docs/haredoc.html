@@ -273,6 +273,9 @@ details pre {
 	dim = ACTIVITY,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#DIMENSIONLESS'>DIMENSIONLESS</a> = dimension {
+	...
+};
 <span class='keyword'>def</span> <a href='#JOULE_PER_KELVIN'>JOULE_PER_KELVIN</a> = unit {
 	dim = ENTROPY,
 	scale = 1.0,
@@ -292,9 +295,6 @@ details pre {
 <span class='keyword'>def</span> <a href='#SPEED_OF_LIGHT'>SPEED_OF_LIGHT</a> = quantity {
 	unit = METRE_PER_SECOND,
 	value = 299792458.0,
-};
-<span class='keyword'>def</span> <a href='#dimensionless'>dimensionless</a> = dimension {
-	...
 };
 
 <span class='comment'>// Undocumented constants:</span>
@@ -764,7 +764,6 @@ details pre {
 };
 </pre><h4>Globals</h4>
 <pre>
-<span class='comment'>// Undocumented globals:</span>
 <span class='keyword'>const</span> <a href='#GIT_VERSION'>GIT_VERSION</a>: <span class='type'>str</span>;
 <span class='keyword'>const</span> <a href='#SEM_VERSION'>SEM_VERSION</a>: <span class='type'>str</span>;
 </pre><h4>Functions</h4>
@@ -985,6 +984,14 @@ details pre {
 <p>Derived units
 </section>
 <section class='member'>
+<h4 id='DIMENSIONLESS'><span class='heading-body'>def DIMENSIONLESS</span><span class='heading-extra'><a href='#DIMENSIONLESS'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> DIMENSIONLESS = dimension {
+	...
+};</pre>
+<p>Dimensionless
+</section>
+<section class='member'>
 <h4 id='JOULE_PER_KELVIN'><span class='heading-body'>def JOULE_PER_KELVIN</span><span class='heading-extra'><a href='#JOULE_PER_KELVIN'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>def</span> JOULE_PER_KELVIN = unit {
@@ -1028,14 +1035,6 @@ details pre {
 	value = 299792458.0,
 };</pre>
 <p>Constants
-</section>
-<section class='member'>
-<h4 id='dimensionless'><span class='heading-body'>def dimensionless</span><span class='heading-extra'><a href='#dimensionless'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>def</span> dimensionless = dimension {
-	...
-};</pre>
-<p>Dimensionless
 </section>
 <section class='member'>
 <h4 id='ACTION'><span class='heading-body'>def ACTION</span><span class='heading-extra'><a href='#ACTION'>[permalink]</a></span></h4>
@@ -2232,19 +2231,15 @@ details pre {
 <h3>Globals</h3>
 <section class='member'>
 <h4 id='GIT_VERSION'><span class='heading-body'>let GIT_VERSION</span><span class='heading-extra'><a href='#GIT_VERSION'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>const</span> GIT_VERSION: <span class='type'>str</span>;</pre>
-</details>
+<p>Git commit identifier of the current build. Appended with &quot;-dirty&quot; when the working tree contains uncommitted changes.
 </section>
 <section class='member'>
 <h4 id='SEM_VERSION'><span class='heading-body'>let SEM_VERSION</span><span class='heading-extra'><a href='#SEM_VERSION'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>const</span> SEM_VERSION: <span class='type'>str</span>;</pre>
-</details>
+<p>Semantic version of the current release.
 </section>
 <h3>Functions</h3>
 <section class='member'>
@@ -2277,13 +2272,13 @@ details pre {
 <h4 id='fprintq'><span class='heading-body'>fn fprintq</span><span class='heading-extra'><a href='#fprintq'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>fn</span> fprintq(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
-<p>Prints a quantity to stdout.
+<p>Prints a quantity to an [io::handle]. Returns the number of bytes printed.
 </section>
 <section class='member'>
 <h4 id='fprintu'><span class='heading-body'>fn fprintu</span><span class='heading-extra'><a href='#fprintu'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>fn</span> fprintu(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
-<p>Prints a unit to stdout.
+<p>Prints a unit to an [io::handle]. Returns the number of bytes printed.
 </section>
 <section class='member'>
 <h4 id='muld'><span class='heading-body'>fn muld</span><span class='heading-extra'><a href='#muld'>[permalink]</a></span></h4>
