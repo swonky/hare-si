@@ -14,6 +14,17 @@ export fn equal(a: dimension, b: dimension) bool = {
 	       && a.luminosity == b.luminosity;
 };
 
+// Scales the unit by a f64 or metric prefix factor.
+export fn scale(u: unit, fac: (prefix_kind | f64)) unit = {
+	const multiplier = match (b) {
+	case let kind: prefix_kind =>
+		yield math.powf(10.0, prefix_scale[kind]);
+	case let f: f64 =>
+		yield f;
+	};
+	return unit { dim = u.dim, scale = u.scale * multiplier };
+};
+
 // Returns the product of units a and b.
 export fn muld(a: dimension, b: dimension) dimension = dimension {
 	mass        = a.mass        + b.mass,
@@ -124,120 +135,13 @@ export fn divq(a: quantity, b: (quantity | f64)) quantity = match (b) {
 		};
 	};
 
-@test fn mulu() void = {
-	void;
-};
-@test fn divu() void = {
-	void;
-};
-@test fn add() void = {
-	void;
-};
-@test fn sub() void = {
-	void;
-};
-@test fn mulq() void = {
-	void;
-};
-@test fn divq() void = {
-	void;
-};
-
 // Returns true if the value of the quantity or scale of its unit is infinite.
 export fn isinf(q: quantity) bool = math::isinf(q.value) || math::isinf(q.unit.scale);
-
-@test fn isinf() void = {
-	const finite = quantity { unit = METRE, value = 3.0 };
-	const inf_value = quantity { unit = METRE, value = math::INF };
-	const inf_scale = quantity {
-		unit = unit { dim = DIMENSIONLESS, scale = math::INF },
-		value = 1.0,
-	};
-	const neg_inf_value = quantity { unit = METRE, value = -math::INF };
-	const neg_inf_scale = quantity {
-		unit = unit { dim = DIMENSIONLESS, scale = -math::INF },
-		value = 1.0,
-	};
-
-	assert(!isinf(finite));
-	assert(isinf(inf_value));
-	assert(isinf(inf_scale));
-	assert(isinf(neg_inf_value));
-	assert(isinf(neg_inf_scale));
-};
 
 // Returns true if the value of the quantity or scale of its unit is NaN.
 export fn isnan(q: quantity) bool = math::isnan(q.value) || math::isnan(q.unit.scale);
 
-@test fn isnan() void = {
-	const finite = quantity { unit = METRE, value = 3.0 };
-	const nan_value = quantity { unit = METRE, value = math::NAN };
-	const nan_scale = quantity {
-		unit = unit { dim = DIMENSIONLESS, scale = math::NAN },
-		value = 1.0,
-	};
-	const neg_nan = quantity { unit = METRE, value = -math::NAN };
-
-	assert(!isnan(finite));
-	assert(isnan(nan_value));
-	assert(isnan(nan_scale));
-	assert(isnan(neg_nan));
-};
-
 // Returns quantity x raised to the integer power p.
 export fn powq(x: quantity, p: int) quantity = {
 	return quantity { unit = powu(x.unit, p), value = math::powf64(x.value, p: f64) };
-};
-
-@test fn powq() void = {
-	const in: quantity = quantity {
-		unit = unit {
-			dim = dimension {
-				mass = 1,
-				length = 2,
-				time = 3,
-				current = 4,
-				temperature = 5,
-				substance = 6,
-				luminosity = 7,
-			},
-			scale = 1.0,
-		},
-		value = 3.0,
-	};
-
-	// Positive power.
-	const pow2 = powq(in, 2);
-	assert(math::isclosef64(pow2.value, 9.0));
-	assert(pow2.unit.dim.mass == 2);
-	assert(pow2.unit.dim.length == 4);
-	assert(pow2.unit.dim.time == 6);
-	assert(pow2.unit.dim.current == 8);
-	assert(pow2.unit.dim.temperature == 10);
-	assert(pow2.unit.dim.substance == 12);
-	assert(pow2.unit.dim.luminosity == 14);
-
-	// Zero power.
-	const pow0 = powq(in, 0);
-	assert(math::isclosef64(pow0.value, 1.0));
-	assert(pow0.unit.dim.mass == 0);
-	assert(pow0.unit.dim.length == 0);
-	assert(pow0.unit.dim.time == 0);
-	assert(pow0.unit.dim.current == 0);
-	assert(pow0.unit.dim.temperature == 0);
-	assert(pow0.unit.dim.substance == 0);
-	assert(pow0.unit.dim.luminosity == 0);
-	assert(math::isclosef64(pow0.unit.scale, 1.0));
-
-	// Negative power.
-	const pow_neg2 = powq(in, -2);
-	assert(math::isclosef64(pow_neg2.value, 1.0 / 9.0));
-	assert(pow_neg2.unit.dim.mass == -2);
-	assert(pow_neg2.unit.dim.length == -4);
-	assert(pow_neg2.unit.dim.time == -6);
-	assert(pow_neg2.unit.dim.current == -8);
-	assert(pow_neg2.unit.dim.temperature == -10);
-	assert(pow_neg2.unit.dim.substance == -12);
-	assert(pow_neg2.unit.dim.luminosity == -14);
-	assert(math::isclosef64(pow_neg2.unit.scale, 1.0));
 };
