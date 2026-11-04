@@ -478,38 +478,44 @@ export def DAY = unit { dim = TIME, scale = 8.64e4 };
 export def DYNE = unit { dim = FORCE, scale = 1.0e-5 };
 
 // The erg is a CGS unit commonly used in classical mechanics, astrophysics, and
-// other areas of physics to express energy. See [[JOULE]].
+// other areas of physics to express energy.
+// The SI counterpart unit is the [[JOULE]].
 export def ERG = unit { dim = ENERGY, scale = 1.0e-7 };
 
 // The gal is a CGS unit commonly used in geophysics and gravimetry to express
-// acceleration. See [[METRE_PER_SECOND_SQUARED]].
+// acceleration.
+// The SI counterpart unit is the [[METRE_PER_SECOND_SQUARED]]
 export def GAL = unit { dim = ACCELERATION, scale = 1.0e-2 };
 
 // The gauss is a CGS unit commonly used in physics and engineering to express
-// magnetic flux density. See [[TESLA]].
+// magnetic flux density.
+// The SI counterpart unit is the [[TESLA]]
 export def GAUSS = unit { dim = MAGNETIC_FLUX_DENSITY, scale = 1.0e-4 };
 
 // The hectare is non-SI metric unit commonly used to express areas of land.
-// See [[SQUARE_METRE]].
+// The SI counterpart unit is the [[SQUARE_METRE]]
 export def HECTARE = unit { dim = AREA, scale = 10000.0 };
 
-// The hour is non-SI unit of time. See [[SECOND]].
+// The hour is non-SI unit of time.
+// The SI counterpart unit is the [[SECOND]]
 export def HOUR = unit { dim = TIME, scale = 3.6e3 };
 
 // The maxwell is a CGS electromagnetic unit used to express magnetic flux.
-// See [[WEBER]].
+// The SI counterpart unit is the [[WEBER]]
 export def MAXWELL = unit { dim = MAGNETIC_FLUX, scale = 1.0e-8 };
 
 // The minute is non-SI unit of time.
-// See [[SECOND]].
+// The SI counterpart unit is the [[SECOND]]
 export def MINUTE = unit { dim = TIME, scale = 6.0e1 };
 
 // Millimetres of mercury are widely used in medicine and meteorology to express
-// pressure. See [[PASCAL]]
+// pressure.
+// The SI counterpart unit is the [[PASCAL]]
 export def MILLIMETRES_OF_MERCURY = unit { dim = PRESSURE, scale = 1.33322e2 };
 
 // The oersted is a CGS electromagnetic unit used to express magnetic field
-// strength. See [[HENRY]].
+// strength.
+// The SI counterpart unit is the [[HENRY]].
 export def OERSTED = unit {
 	dim = MAGNETIC_FIELD_STRENGTH, scale = 7.957747155e1,
 };
@@ -520,43 +526,259 @@ export def POISE = unit { dim = DYNAMIC_VISCOSITY, scale = 1.0e-1 };
 
 // The roentgen is a non-SI unit historically used in radiology and radiation
 // protection to express [[EXPOSURE]].
-// The equivilent SI unit is [[COULOMB_PER_KILOGRAM]].
+// The SI counterpart unit is the [[COULOMB_PER_KILOGRAM]].
 export def ROENTGEN = unit { dim = EXPOSURE, scale = 2.58e-4 };
 
 // The rad is a non-SI unit historically used in radiobiology and radiation
 // dosimetry to express absorbed dose.
+// The SI counterpart unit is the [[GRAY]].
 export def RAD = unit { dim = ABSORBED_DOSE, scale = 1.0e-2 };
 
-// The rem is a non-SI unit historically used in radiation protection to
-// express equivalent dose.
+// The rem (or Roentgen equivalent man) is a non-SI unit historically used in
+// radiation protection to express equivalent dose.
+// The SI counterpart unit is the [[SIEVERT]].
 export def REM = unit { dim = DOSE_EQUIVALENT, scale = 1.0e-2 };
 
 // The stokes is a CGS unit commonly used in fluid mechanics to express
 // viscosity.
+// The SI counterpart unit is the [[SQUARE_METRE_PER_SECOND]].
 export def STOKES = unit { dim = KINEMATIC_VISCOSITY, scale = 1.0e-4 };
 
-// The torr is non-SI unit historically used in physics. See [[PASCAL]].
+// The torr is non-SI unit historically used in physics.
+// The SI counterpart unit is the [[PASCAL]].
 export def TORR = unit { dim = PRESSURE, scale = 1.33322368421e2 };
 
-// Common scaled units
 
+// The gram is a scaled SI unit of mass.
+// The corresponding unscaled SI unit is the [[KILOGRAM]].
 export def GRAM = unit { dim = MASS, scale = 1.0e-3 };
 
+// The kilometre is a scaled SI unit of length.
+// The corresponding unscaled SI unit is the [[METRE]].
 export def KILOMETRE = unit { dim = LENGTH, scale = 1.0e3 };
+
+// The centimetre is a scaled SI unit of length.
+// The corresponding unscaled SI unit is the [[METRE]].
 export def CENTIMETRE = unit { dim = LENGTH, scale = 1.0e-2 };
+
+// The millimetre is a scaled SI unit of length.
+// The corresponding unscaled SI unit is the [[METRE]].
 export def MILLIMETRE = unit { dim = LENGTH, scale = 1.0e-3 };
+
+// The micrometre is a scaled SI unit of length.
+// The corresponding unscaled SI unit is the [[METRE]].
 export def MICROMETRE = unit { dim = LENGTH, scale = 1.0e-6 };
+
+// The micron is an alternative name for the [[MICROMETRE]].
 export def MICRON = MICROMETRE;
+
+// The nanometre is a scaled SI unit of length.
+// The corresponding unscaled SI unit is the [[METRE]].
 export def NANOMETRE = unit { dim = LENGTH, scale = 1.0e-9 };
+
+// The picometre is a scaled SI unit of length.
+// The corresponding unscaled SI unit is the [[METRE]].
 export def PICOMETRE = unit { dim = LENGTH, scale = 1.0e-12 };
 
+// The milliampere is a scaled SI unit of electric current.
+// The corresponding unscaled SI unit is the [[AMPERE]].
 export def MILLIAMPERE = unit { dim = CURRENT, scale = 1.0e-3 };
+
+// The microampere is a scaled SI unit of electric current.
+// The corresponding unscaled SI unit is the [[AMPERE]].
 export def MICROAMPERE = unit { dim = CURRENT, scale = 1.0e-6 };
 
+// The millisecond is a scaled SI unit of time.
+// The corresponding unscaled SI unit is the [[SECOND]].
 export def MILLISECOND = unit { dim = TIME, scale = 1.0e-3 };
+
+// The microsecond is a scaled SI unit of time.
+// The corresponding unscaled SI unit is the [[SECOND]].
 export def MICROSECOND = unit { dim = TIME, scale = 1.0e-6 };
+
+// The nanosecond is a scaled SI unit of time.
+// The corresponding unscaled SI unit is the [[SECOND]].
 export def NANOSECOND = unit { dim = TIME, scale = 1.0e-9 };
 // Coherent derived units
+
+// The milligram is a scaled SI unit of mass.
+// The corresponding unscaled SI unit is the [[KILOGRAM]].
+export def MILLIGRAM = unit { dim = MASS, scale = 1.0e-6 };
+
+// The microgram is a scaled SI unit of mass.
+// The corresponding unscaled SI unit is the [[KILOGRAM]].
+export def MICROGRAM = unit { dim = MASS, scale = 1.0e-9 };
+
+// The decimetre is a scaled SI unit of length.
+// The corresponding unscaled SI unit is the [[METRE]].
+export def DECIMETRE = unit { dim = LENGTH, scale = 1.0e-1 };
+
+// The decametre is a scaled SI unit of length.
+// The corresponding unscaled SI unit is the [[METRE]].
+export def DECAMETRE = unit { dim = LENGTH, scale = 1.0e1 };
+
+// The hectometre is a scaled SI unit of length.
+// The corresponding unscaled SI unit is the [[METRE]].
+export def HECTOMETRE = unit { dim = LENGTH, scale = 1.0e2 };
+
+// The square kilometre is a scaled SI unit of area.
+// The corresponding unscaled SI unit is the [[SQUARE_METRE]].
+export def SQUARE_KILOMETRE = unit { dim = AREA, scale = 1.0e6 };
+
+// The square centimetre is a scaled SI unit of area.
+// The corresponding unscaled SI unit is the [[SQUARE_METRE]].
+export def SQUARE_CENTIMETRE = unit { dim = AREA, scale = 1.0e-4 };
+
+// The square millimetre is a scaled SI unit of area.
+// The corresponding unscaled SI unit is the [[SQUARE_METRE]].
+export def SQUARE_MILLIMETRE = unit { dim = AREA, scale = 1.0e-6 };
+
+// The cubic centimetre is a scaled SI unit of volume.
+// The corresponding unscaled SI unit is the [[CUBIC_METRE]].
+export def CUBIC_CENTIMETRE = unit { dim = VOLUME, scale = 1.0e-6 };
+
+// The cubic millimetre is a scaled SI unit of volume.
+// The corresponding unscaled SI unit is the [[CUBIC_METRE]].
+export def CUBIC_MILLIMETRE = unit { dim = VOLUME, scale = 1.0e-9 };
+
+// The kilopascal is a scaled SI unit of pressure.
+// The corresponding unscaled SI unit is the [[PASCAL]].
+export def KILOPASCAL = unit { dim = PRESSURE, scale = 1.0e3 };
+
+// The megapascal is a scaled SI unit of pressure.
+// The corresponding unscaled SI unit is the [[PASCAL]].
+export def MEGAPASCAL = unit { dim = PRESSURE, scale = 1.0e6 };
+
+// The gigapascal is a scaled SI unit of pressure.
+// The corresponding unscaled SI unit is the [[PASCAL]].
+export def GIGAPASCAL = unit { dim = PRESSURE, scale = 1.0e9 };
+
+// The hectopascal is a scaled SI unit of pressure.
+// The corresponding unscaled SI unit is the [[PASCAL]].
+export def HECTOPASCAL = unit { dim = PRESSURE, scale = 1.0e2 };
+
+// The millipascal is a scaled SI unit of pressure.
+// The corresponding unscaled SI unit is the [[PASCAL]].
+export def MILLIPASCAL = unit { dim = PRESSURE, scale = 1.0e-3 };
+
+// The kilonewton is a scaled SI unit of force.
+// The corresponding unscaled SI unit is the [[NEWTON]].
+export def KILONEWTON = unit { dim = FORCE, scale = 1.0e3 };
+
+// The meganewton is a scaled SI unit of force.
+// The corresponding unscaled SI unit is the [[NEWTON]].
+export def MEGANEWTON = unit { dim = FORCE, scale = 1.0e6 };
+
+// The millinewton is a scaled SI unit of force.
+// The corresponding unscaled SI unit is the [[NEWTON]].
+export def MILLINEWTON = unit { dim = FORCE, scale = 1.0e-3 };
+
+// The kilojoule is a scaled SI unit of energy.
+// The corresponding unscaled SI unit is the [[JOULE]].
+export def KILOJOULE = unit { dim = ENERGY, scale = 1.0e3 };
+
+// The megajoule is a scaled SI unit of energy.
+// The corresponding unscaled SI unit is the [[JOULE]].
+export def MEGAJOULE = unit { dim = ENERGY, scale = 1.0e6 };
+
+// The gigajoule is a scaled SI unit of energy.
+// The corresponding unscaled SI unit is the [[JOULE]].
+export def GIGAJOULE = unit { dim = ENERGY, scale = 1.0e9 };
+
+// The millijoule is a scaled SI unit of energy.
+// The corresponding unscaled SI unit is the [[JOULE]].
+export def MILLIJOULE = unit { dim = ENERGY, scale = 1.0e-3 };
+
+// The milliwatt is a scaled SI unit of power.
+// The corresponding unscaled SI unit is the [[WATT]].
+export def MILLIWATT = unit { dim = POWER, scale = 1.0e-3 };
+
+// The kilowatt is a scaled SI unit of power.
+// The corresponding unscaled SI unit is the [[WATT]].
+export def KILOWATT = unit { dim = POWER, scale = 1.0e3 };
+
+// The megawatt is a scaled SI unit of power.
+// The corresponding unscaled SI unit is the [[WATT]].
+export def MEGAWATT = unit { dim = POWER, scale = 1.0e6 };
+
+// The gigawatt is a scaled SI unit of power.
+// The corresponding unscaled SI unit is the [[WATT]].
+export def GIGAWATT = unit { dim = POWER, scale = 1.0e9 };
+
+// The kilohertz is a scaled SI unit of frequency.
+// The corresponding unscaled SI unit is the [[HERTZ]].
+export def KILOHERTZ = unit { dim = FREQUENCY, scale = 1.0e3 };
+
+// The megahertz is a scaled SI unit of frequency.
+// The corresponding unscaled SI unit is the [[HERTZ]].
+export def MEGAHERTZ = unit { dim = FREQUENCY, scale = 1.0e6 };
+
+// The gigahertz is a scaled SI unit of frequency.
+// The corresponding unscaled SI unit is the [[HERTZ]].
+export def GIGAHERTZ = unit { dim = FREQUENCY, scale = 1.0e9 };
+
+// The millicoulomb is a scaled SI unit of electric charge.
+// The corresponding unscaled SI unit is the [[COULOMB]].
+export def MILLICOULOMB = unit { dim = ELECTRIC_CHARGE, scale = 1.0e-3 };
+
+// The microcoulomb is a scaled SI unit of electric charge.
+// The corresponding unscaled SI unit is the [[COULOMB]].
+export def MICROCOULOMB = unit { dim = ELECTRIC_CHARGE, scale = 1.0e-6 };
+
+// The millivolt is a scaled SI unit of electric potential.
+// The corresponding unscaled SI unit is the [[VOLT]].
+export def MILLIVOLT = unit { dim = ELECTRIC_POTENTIAL, scale = 1.0e-3 };
+
+// The kilovolt is a scaled SI unit of electric potential.
+// The corresponding unscaled SI unit is the [[VOLT]].
+export def KILOVOLT = unit { dim = ELECTRIC_POTENTIAL, scale = 1.0e3 };
+
+// The kiloohm is a scaled SI unit of electrical resistance.
+// The corresponding unscaled SI unit is the [[OHM]].
+export def KILOOHM = unit { dim = RESISTANCE, scale = 1.0e3 };
+
+// The megaohm is a scaled SI unit of electrical resistance.
+// The corresponding unscaled SI unit is the [[OHM]].
+export def MEGAOHM = unit { dim = RESISTANCE, scale = 1.0e6 };
+
+// The milliohm is a scaled SI unit of electrical resistance.
+// The corresponding unscaled SI unit is the [[OHM]].
+export def MILLIOHM = unit { dim = RESISTANCE, scale = 1.0e-3 };
+
+// The microfarad is a scaled SI unit of capacitance.
+// The corresponding unscaled SI unit is the [[FARAD]].
+export def MICROFARAD = unit { dim = CAPACITANCE, scale = 1.0e-6 };
+
+// The nanofarad is a scaled SI unit of capacitance.
+// The corresponding unscaled SI unit is the [[FARAD]].
+export def NANOFARAD = unit { dim = CAPACITANCE, scale = 1.0e-9 };
+
+// The picofarad is a scaled SI unit of capacitance.
+// The corresponding unscaled SI unit is the [[FARAD]].
+export def PICOFARAD = unit { dim = CAPACITANCE, scale = 1.0e-12 };
+
+// The millitesla is a scaled SI unit of magnetic flux density.
+// The corresponding unscaled SI unit is the [[TESLA]].
+export def MILLITESLA = unit { dim = MAGNETIC_FLUX_DENSITY, scale = 1.0e-3 };
+
+// The microtesla is a scaled SI unit of magnetic flux density.
+// The corresponding unscaled SI unit is the [[TESLA]].
+export def MICROTESLA = unit { dim = MAGNETIC_FLUX_DENSITY, scale = 1.0e-6 };
+
+// The milliweber is a scaled SI unit of magnetic flux.
+// The corresponding unscaled SI unit is the [[WEBER]].
+export def MILLIWEBER = unit { dim = MAGNETIC_FLUX, scale = 1.0e-3 };
+
+// The millipascal-second is a scaled SI unit of dynamic viscosity.
+// The corresponding unscaled SI unit is the [[PASCAL_SECOND]].
+export def MILLIPASCAL_SECOND = unit { dim = DYNAMIC_VISCOSITY, scale = 1.0e-3 };
+
+// The square millimetre per second is a scaled SI unit of kinematic viscosity.
+// The corresponding unscaled SI unit is the [[SQUARE_METRE_PER_SECOND]].
+export def SQUARE_MILLIMETRE_PER_SECOND = unit {
+    dim = KINEMATIC_VISCOSITY,
+    scale = 1.0e-6,
+};
 
 export def AMPERE_PER_METRE = unit { dim = MAGNETIC_FIELD_STRENGTH, scale = 1.0 };
 export def AMPERE_PER_SQUARE_METRE = unit { dim = CURRENT_DENSITY, scale = 1.0 };
@@ -572,12 +794,15 @@ export def MOLE_PER_CUBIC_METRE = unit { dim = CONCENTRATION, scale = 1.0 };
 export def SQUARE_METRE = unit { dim = AREA, scale = 1.0 };
 
 export def COULOMB_PER_KILOGRAM = unit { dim = EXPOSURE, scale = 1.0 };
+
 // The pascal-second is the coherent SI unit of [[DYNAMIC_VISCOSITY]].
 export def PASCAL_SECOND = unit { dim = DYNAMIC_VISCOSITY, scale = 1.0 };
 
+// The newton-metre is the coherent SI unit of [[TORQUE]].
 export def NEWTON_METRE = unit { dim = TORQUE, scale = 1.0 };
-export def NEWTON_PER_METRE = unit { dim = SURFACE_TENSION, scale = 1.0 };
 
+// The newton per metre is the coherent SI unit of [[SURFACE_TENSION]].
+export def NEWTON_PER_METRE = unit { dim = SURFACE_TENSION, scale = 1.0 };
 
 // The square metre per second is the coherent SI unit of [[KINEMATIC_VISCOSITY]].
 export def SQUARE_METRE_PER_SECOND = unit { dim = KINEMATIC_VISCOSITY, scale = 1.0 };
@@ -587,8 +812,6 @@ export def JOULE_PER_KELVIN = unit { dim = ENTROPY, scale = 1.0 };
 
 // The joule-second is the coherent SI unit of [[ACTION]].
 export def JOULE_SECOND = unit { dim = ACTION, scale = 1.0 };
-
-// Constants
 
 def symbol_lookup: [_]symbol = [
 	symbol { repr = "A", kind = unit_kind::AMPERE },

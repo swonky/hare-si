@@ -264,12 +264,12 @@ Tonne             | t       |
 <span class='keyword'>type</span> <a href='#dimension'>dimension</a>;
 <span class='keyword'>type</span> <a href='#encoding'>encoding</a>;
 <span class='keyword'>type</span> <a href='#notation'>notation</a>;
+<span class='keyword'>type</span> <a href='#prefix_kind'>prefix_kind</a>;
 <span class='keyword'>type</span> <a href='#quantity'>quantity</a>;
 <span class='keyword'>type</span> <a href='#unit'>unit</a>;
 </pre><h4>Errors</h4>
 <pre>
 <span class='keyword'>type</span> <a href='#dimension_mismatch'>dimension_mismatch</a>;
-<span class='keyword'>type</span> <a href='#divide_by_zero'>divide_by_zero</a>;
 <span class='keyword'>type</span> <a href='#error'>error</a>;
 <span class='keyword'>type</span> <a href='#invalid'>invalid</a>;
 <span class='keyword'>type</span> <a href='#invalid_exponent'>invalid_exponent</a>;
@@ -335,12 +335,24 @@ Tonne             | t       |
 	substance = 1,
 	...
 };
+<span class='keyword'>def</span> <a href='#CENTIMETRE'>CENTIMETRE</a> = unit {
+	dim = LENGTH,
+	scale = 0.01,
+};
 <span class='keyword'>def</span> <a href='#CONDUCTANCE'>CONDUCTANCE</a> = dimension {
 	mass = -1,
 	length = -2,
 	time = 3,
 	current = 2,
 	...
+};
+<span class='keyword'>def</span> <a href='#CUBIC_CENTIMETRE'>CUBIC_CENTIMETRE</a> = unit {
+	dim = VOLUME,
+	scale = 1.0e-6,
+};
+<span class='keyword'>def</span> <a href='#CUBIC_MILLIMETRE'>CUBIC_MILLIMETRE</a> = unit {
+	dim = VOLUME,
+	scale = 1.0e-9,
 };
 <span class='keyword'>def</span> <a href='#CURIE'>CURIE</a> = unit {
 	dim = ACTIVITY,
@@ -357,6 +369,14 @@ Tonne             | t       |
 <span class='keyword'>def</span> <a href='#DAY'>DAY</a> = unit {
 	dim = TIME,
 	scale = 86400.0,
+};
+<span class='keyword'>def</span> <a href='#DECAMETRE'>DECAMETRE</a> = unit {
+	dim = LENGTH,
+	scale = 10.0,
+};
+<span class='keyword'>def</span> <a href='#DECIMETRE'>DECIMETRE</a> = unit {
+	dim = LENGTH,
+	scale = 0.1,
 };
 <span class='keyword'>def</span> <a href='#DEGREE'>DEGREE</a> = unit {
 	dim = DIMENSIONLESS,
@@ -434,9 +454,37 @@ Tonne             | t       |
 	dim = MAGNETIC_FLUX_DENSITY,
 	scale = 1.0e-4,
 };
+<span class='keyword'>def</span> <a href='#GIGAHERTZ'>GIGAHERTZ</a> = unit {
+	dim = FREQUENCY,
+	scale = 1.0e9,
+};
+<span class='keyword'>def</span> <a href='#GIGAJOULE'>GIGAJOULE</a> = unit {
+	dim = ENERGY,
+	scale = 1.0e9,
+};
+<span class='keyword'>def</span> <a href='#GIGAPASCAL'>GIGAPASCAL</a> = unit {
+	dim = PRESSURE,
+	scale = 1.0e9,
+};
+<span class='keyword'>def</span> <a href='#GIGAWATT'>GIGAWATT</a> = unit {
+	dim = POWER,
+	scale = 1.0e9,
+};
+<span class='keyword'>def</span> <a href='#GRAM'>GRAM</a> = unit {
+	dim = MASS,
+	scale = 1.0e-3,
+};
 <span class='keyword'>def</span> <a href='#HECTARE'>HECTARE</a> = unit {
 	dim = AREA,
 	scale = 1.0e4,
+};
+<span class='keyword'>def</span> <a href='#HECTOMETRE'>HECTOMETRE</a> = unit {
+	dim = LENGTH,
+	scale = 100.0,
+};
+<span class='keyword'>def</span> <a href='#HECTOPASCAL'>HECTOPASCAL</a> = unit {
+	dim = PRESSURE,
+	scale = 100.0,
 };
 <span class='keyword'>def</span> <a href='#HOUR'>HOUR</a> = unit {
 	dim = TIME,
@@ -465,6 +513,38 @@ Tonne             | t       |
 <span class='keyword'>def</span> <a href='#JOULE_SECOND'>JOULE_SECOND</a> = unit {
 	dim = ACTION,
 	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#KILOHERTZ'>KILOHERTZ</a> = unit {
+	dim = FREQUENCY,
+	scale = 1.0e3,
+};
+<span class='keyword'>def</span> <a href='#KILOJOULE'>KILOJOULE</a> = unit {
+	dim = ENERGY,
+	scale = 1.0e3,
+};
+<span class='keyword'>def</span> <a href='#KILOMETRE'>KILOMETRE</a> = unit {
+	dim = LENGTH,
+	scale = 1.0e3,
+};
+<span class='keyword'>def</span> <a href='#KILONEWTON'>KILONEWTON</a> = unit {
+	dim = FORCE,
+	scale = 1.0e3,
+};
+<span class='keyword'>def</span> <a href='#KILOOHM'>KILOOHM</a> = unit {
+	dim = RESISTANCE,
+	scale = 1.0e3,
+};
+<span class='keyword'>def</span> <a href='#KILOPASCAL'>KILOPASCAL</a> = unit {
+	dim = PRESSURE,
+	scale = 1.0e3,
+};
+<span class='keyword'>def</span> <a href='#KILOVOLT'>KILOVOLT</a> = unit {
+	dim = ELECTRIC_POTENTIAL,
+	scale = 1.0e3,
+};
+<span class='keyword'>def</span> <a href='#KILOWATT'>KILOWATT</a> = unit {
+	dim = POWER,
+	scale = 1.0e3,
 };
 <span class='keyword'>def</span> <a href='#KINEMATIC_VISCOSITY'>KINEMATIC_VISCOSITY</a> = dimension {
 	length = 2,
@@ -512,16 +592,145 @@ Tonne             | t       |
 	dim = MAGNETIC_FLUX,
 	scale = 1.0e-8,
 };
+<span class='keyword'>def</span> <a href='#MEGAHERTZ'>MEGAHERTZ</a> = unit {
+	dim = FREQUENCY,
+	scale = 1.0e6,
+};
+<span class='keyword'>def</span> <a href='#MEGAJOULE'>MEGAJOULE</a> = unit {
+	dim = ENERGY,
+	scale = 1.0e6,
+};
+<span class='keyword'>def</span> <a href='#MEGANEWTON'>MEGANEWTON</a> = unit {
+	dim = FORCE,
+	scale = 1.0e6,
+};
+<span class='keyword'>def</span> <a href='#MEGAOHM'>MEGAOHM</a> = unit {
+	dim = RESISTANCE,
+	scale = 1.0e6,
+};
+<span class='keyword'>def</span> <a href='#MEGAPASCAL'>MEGAPASCAL</a> = unit {
+	dim = PRESSURE,
+	scale = 1.0e6,
+};
+<span class='keyword'>def</span> <a href='#MEGAWATT'>MEGAWATT</a> = unit {
+	dim = POWER,
+	scale = 1.0e6,
+};
+<span class='keyword'>def</span> <a href='#MICROAMPERE'>MICROAMPERE</a> = unit {
+	dim = CURRENT,
+	scale = 1.0e-6,
+};
+<span class='keyword'>def</span> <a href='#MICROCOULOMB'>MICROCOULOMB</a> = unit {
+	dim = ELECTRIC_CHARGE,
+	scale = 1.0e-6,
+};
+<span class='keyword'>def</span> <a href='#MICROFARAD'>MICROFARAD</a> = unit {
+	dim = CAPACITANCE,
+	scale = 1.0e-6,
+};
+<span class='keyword'>def</span> <a href='#MICROGRAM'>MICROGRAM</a> = unit {
+	dim = MASS,
+	scale = 1.0e-9,
+};
+<span class='keyword'>def</span> <a href='#MICROMETRE'>MICROMETRE</a> = unit {
+	dim = LENGTH,
+	scale = 1.0e-6,
+};
+<span class='keyword'>def</span> <a href='#MICRON'>MICRON</a> = MICROMETRE;
+<span class='keyword'>def</span> <a href='#MICROSECOND'>MICROSECOND</a> = unit {
+	dim = TIME,
+	scale = 1.0e-6,
+};
+<span class='keyword'>def</span> <a href='#MICROTESLA'>MICROTESLA</a> = unit {
+	dim = MAGNETIC_FLUX_DENSITY,
+	scale = 1.0e-6,
+};
+<span class='keyword'>def</span> <a href='#MILLIAMPERE'>MILLIAMPERE</a> = unit {
+	dim = CURRENT,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLICOULOMB'>MILLICOULOMB</a> = unit {
+	dim = ELECTRIC_CHARGE,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLIGRAM'>MILLIGRAM</a> = unit {
+	dim = MASS,
+	scale = 1.0e-6,
+};
+<span class='keyword'>def</span> <a href='#MILLIJOULE'>MILLIJOULE</a> = unit {
+	dim = ENERGY,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLIMETRE'>MILLIMETRE</a> = unit {
+	dim = LENGTH,
+	scale = 1.0e-3,
+};
 <span class='keyword'>def</span> <a href='#MILLIMETRES_OF_MERCURY'>MILLIMETRES_OF_MERCURY</a> = unit {
 	dim = PRESSURE,
 	scale = 133.322,
+};
+<span class='keyword'>def</span> <a href='#MILLINEWTON'>MILLINEWTON</a> = unit {
+	dim = FORCE,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLIOHM'>MILLIOHM</a> = unit {
+	dim = RESISTANCE,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLIPASCAL'>MILLIPASCAL</a> = unit {
+	dim = PRESSURE,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLIPASCAL_SECOND'>MILLIPASCAL_SECOND</a> = unit {
+	dim = DYNAMIC_VISCOSITY,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLISECOND'>MILLISECOND</a> = unit {
+	dim = TIME,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLITESLA'>MILLITESLA</a> = unit {
+	dim = MAGNETIC_FLUX_DENSITY,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLIVOLT'>MILLIVOLT</a> = unit {
+	dim = ELECTRIC_POTENTIAL,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLIWATT'>MILLIWATT</a> = unit {
+	dim = POWER,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#MILLIWEBER'>MILLIWEBER</a> = unit {
+	dim = MAGNETIC_FLUX,
+	scale = 1.0e-3,
 };
 <span class='keyword'>def</span> <a href='#MINUTE'>MINUTE</a> = unit {
 	dim = TIME,
 	scale = 60.0,
 };
+<span class='keyword'>def</span> <a href='#NANOFARAD'>NANOFARAD</a> = unit {
+	dim = CAPACITANCE,
+	scale = 1.0e-9,
+};
+<span class='keyword'>def</span> <a href='#NANOMETRE'>NANOMETRE</a> = unit {
+	dim = LENGTH,
+	scale = 1.0e-9,
+};
+<span class='keyword'>def</span> <a href='#NANOSECOND'>NANOSECOND</a> = unit {
+	dim = TIME,
+	scale = 1.0e-9,
+};
 <span class='keyword'>def</span> <a href='#NEPER'>NEPER</a> = unit {
 	dim = DIMENSIONLESS,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#NEWTON_METRE'>NEWTON_METRE</a> = unit {
+	dim = TORQUE,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#NEWTON_PER_METRE'>NEWTON_PER_METRE</a> = unit {
+	dim = SURFACE_TENSION,
 	scale = 1.0,
 };
 <span class='keyword'>def</span> <a href='#OERSTED'>OERSTED</a> = unit {
@@ -531,6 +740,14 @@ Tonne             | t       |
 <span class='keyword'>def</span> <a href='#PASCAL_SECOND'>PASCAL_SECOND</a> = unit {
 	dim = DYNAMIC_VISCOSITY,
 	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#PICOFARAD'>PICOFARAD</a> = unit {
+	dim = CAPACITANCE,
+	scale = 1.0e-12,
+};
+<span class='keyword'>def</span> <a href='#PICOMETRE'>PICOMETRE</a> = unit {
+	dim = LENGTH,
+	scale = 1.0e-12,
 };
 <span class='keyword'>def</span> <a href='#PLANCK'>PLANCK</a> = quantity {
 	unit = JOULE_SECOND,
@@ -595,9 +812,25 @@ Tonne             | t       |
 	unit = METRE_PER_SECOND,
 	value = 299792458.0,
 };
+<span class='keyword'>def</span> <a href='#SQUARE_CENTIMETRE'>SQUARE_CENTIMETRE</a> = unit {
+	dim = AREA,
+	scale = 1.0e-4,
+};
+<span class='keyword'>def</span> <a href='#SQUARE_KILOMETRE'>SQUARE_KILOMETRE</a> = unit {
+	dim = AREA,
+	scale = 1.0e6,
+};
 <span class='keyword'>def</span> <a href='#SQUARE_METRE_PER_SECOND'>SQUARE_METRE_PER_SECOND</a> = unit {
 	dim = KINEMATIC_VISCOSITY,
 	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#SQUARE_MILLIMETRE'>SQUARE_MILLIMETRE</a> = unit {
+	dim = AREA,
+	scale = 1.0e-6,
+};
+<span class='keyword'>def</span> <a href='#SQUARE_MILLIMETRE_PER_SECOND'>SQUARE_MILLIMETRE_PER_SECOND</a> = unit {
+	dim = KINEMATIC_VISCOSITY,
+	scale = 1.0e-6,
 };
 <span class='keyword'>def</span> <a href='#STOKES'>STOKES</a> = unit {
 	dim = KINEMATIC_VISCOSITY,
@@ -703,6 +936,10 @@ Tonne             | t       |
 	length = -3,
 	...
 };
+<span class='keyword'>def</span> <a href='#DIMENSIONLESS_UNIT'>DIMENSIONLESS_UNIT</a> = unit {
+	dim = DIMENSIONLESS,
+	scale = 1.0,
+};
 <span class='keyword'>def</span> <a href='#ENTROPY'>ENTROPY</a> = dimension {
 	mass = 1,
 	length = 2,
@@ -713,10 +950,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> <a href='#FARAD'>FARAD</a> = unit {
 	dim = CAPACITANCE,
 	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#GRAM'>GRAM</a> = unit {
-	dim = MASS,
-	scale = 1.0e-3,
 };
 <span class='keyword'>def</span> <a href='#GRAY'>GRAY</a> = unit {
 	dim = ABSORBED_DOSE,
@@ -873,9 +1106,21 @@ Tonne             | t       |
 	length = -2,
 	...
 };
+<span class='keyword'>def</span> <a href='#SURFACE_TENSION'>SURFACE_TENSION</a> = dimension {
+	mass = 1,
+	length = 0,
+	time = -2,
+	...
+};
 <span class='keyword'>def</span> <a href='#TESLA'>TESLA</a> = unit {
 	dim = MAGNETIC_FLUX_DENSITY,
 	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#TORQUE'>TORQUE</a> = dimension {
+	mass = 1,
+	length = 2,
+	time = -2,
+	...
 };
 <span class='keyword'>def</span> <a href='#VELOCITY'>VELOCITY</a> = dimension {
 	length = 1,
@@ -904,14 +1149,17 @@ Tonne             | t       |
 <span class='keyword'>const</span> <a href='#SEM_VERSION'>SEM_VERSION</a>: <span class='type'>str</span>;
 </pre><h4>Functions</h4>
 <pre>
-<span class='keyword'>fn</span> <a href='#addq'>addq</a>(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#add'>add</a>(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#divd'>divd</a>(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>dimension</span>;
-<span class='keyword'>fn</span> <a href='#divq'>divq</a>(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>divide_by_zero</span><span class='type'>)</span>;
-<span class='keyword'>fn</span> <a href='#divu'>divu</a>(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>unit</span> <span class='type'>|</span> <span class='type'>divide_by_zero</span><span class='type'>)</span>;
-<span class='keyword'>fn</span> <a href='#encodejson'>encodejson</a>(out: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#divq'>divq</a>(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>quantity</span>;
+<span class='keyword'>fn</span> <a href='#divu'>divu</a>(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>unit</span>;
+<span class='keyword'>fn</span> <a href='#encodejson'>encodejson</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#equal'>equal</a>(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>bool</span>;
 <span class='keyword'>fn</span> <a href='#fprintq'>fprintq</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#fprintqln'>fprintqln</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#isclose'>isclose</a>(a: <span class='type'>quantity</span>, b: <span class='type'>quantity</span>, tol: <span class='type'>f64</span> = math::STANDARD_TOL) <span class='type'>(</span><span class='type'>bool</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#isinf'>isinf</a>(q: <span class='type'>quantity</span>) <span class='type'>bool</span>;
+<span class='keyword'>fn</span> <a href='#isnan'>isnan</a>(q: <span class='type'>quantity</span>) <span class='type'>bool</span>;
 <span class='keyword'>fn</span> <a href='#muld'>muld</a>(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>dimension</span>;
 <span class='keyword'>fn</span> <a href='#mulq'>mulq</a>(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>quantity</span>;
 <span class='keyword'>fn</span> <a href='#mulu'>mulu</a>(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>unit</span>;
@@ -919,10 +1167,11 @@ Tonne             | t       |
 <span class='keyword'>fn</span> <a href='#powq'>powq</a>(x: <span class='type'>quantity</span>, p: <span class='type'>int</span>) <span class='type'>quantity</span>;
 <span class='keyword'>fn</span> <a href='#powu'>powu</a>(x: <span class='type'>unit</span>, p: <span class='type'>int</span>) <span class='type'>unit</span>;
 <span class='keyword'>fn</span> <a href='#printerror'>printerror</a>(err: <span class='type'>error</span>) <span class='type'>(</span><span class='type'>void</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#scale'>scale</a>(u: <span class='type'>unit</span>, fac: <span class='type'>(</span><span class='type'>prefix_kind</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>unit</span>;
 <span class='keyword'>fn</span> <a href='#strerror'>strerror</a>(err: <span class='type'>error</span>) <span class='type'>str</span>;
 <span class='keyword'>fn</span> <a href='#strpquantity'>strpquantity</a>(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#strpunit'>strpunit</a>(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>unit</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
-<span class='keyword'>fn</span> <a href='#subq'>subq</a>(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#sub'>sub</a>(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#tojson'>tojson</a>(obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 </pre><h3>Types</h3>
 <section class='member'>
@@ -969,6 +1218,33 @@ Tonne             | t       |
 <p>Specifies the notation used to format floating-point values.
 </section>
 <section class='member'>
+<h4 id='prefix_kind'><span class='heading-body'>type prefix_kind</span><span class='heading-extra'><a href='#prefix_kind'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>type</span> prefix_kind = <span class='type'>enum</span> <span class='type'>i8</span> {
+	YOTTA,
+	ZETTA,
+	EXA,
+	PETA,
+	TERA,
+	GIGA,
+	MEGA,
+	KILO,
+	HECTO,
+	DECA,
+	DECI,
+	CENTI,
+	MILLI,
+	MICRO,
+	NANO,
+	PICO,
+	FEMTO,
+	ATTO,
+	ZEPTO,
+	YOCTO,
+};</pre>
+<p>Unit prefix decimal exponents
+</section>
+<section class='member'>
 <h4 id='quantity'><span class='heading-body'>type quantity</span><span class='heading-extra'><a href='#quantity'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>type</span> quantity = <span class='type'>struct</span> {
@@ -994,15 +1270,9 @@ Tonne             | t       |
 <p>The dimensions of two units or quantities do not match.
 </section>
 <section class='member'>
-<h4 id='divide_by_zero'><span class='heading-body'>type divide_by_zero</span><span class='heading-extra'><a href='#divide_by_zero'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>type</span> divide_by_zero = <span class='type'>!</span><span class='type'>void</span>;</pre>
-<p>Division by zero was attempted.
-</section>
-<section class='member'>
 <h4 id='error'><span class='heading-body'>type error</span><span class='heading-extra'><a href='#error'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>type</span> error = <span class='type'>!</span><span class='type'>(</span><span class='type'>no_match</span> <span class='type'>|</span> <span class='type'>divide_by_zero</span> <span class='type'>|</span> <span class='type'>invalid_exponent</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span> <span class='type'>|</span> <span class='type'>unexpected_token</span> <span class='type'>|</span> <span class='type'>not_implemented</span> <span class='type'>|</span> <span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span> <span class='type'>|</span> <span class='type'>strconv</span><span class='type'>::</span><span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>strconv</span><span class='type'>::</span><span class='type'>overflow</span> <span class='type'>|</span> <span class='type'>utf8</span><span class='type'>::</span><span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>nomem</span><span class='type'>)</span>;</pre>
+<span class='keyword'>type</span> error = <span class='type'>!</span><span class='type'>(</span><span class='type'>no_match</span> <span class='type'>|</span> <span class='type'>invalid_exponent</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span> <span class='type'>|</span> <span class='type'>unexpected_token</span> <span class='type'>|</span> <span class='type'>not_implemented</span> <span class='type'>|</span> <span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span> <span class='type'>|</span> <span class='type'>strconv</span><span class='type'>::</span><span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>strconv</span><span class='type'>::</span><span class='type'>overflow</span> <span class='type'>|</span> <span class='type'>utf8</span><span class='type'>::</span><span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>nomem</span><span class='type'>)</span>;</pre>
 <p>Represents any error that can occur in the si library
 </section>
 <section class='member'>
@@ -1159,6 +1429,15 @@ Tonne             | t       |
 <p>The SI derived dimension of catalytic activity. Its SI unit is <a href='#KATAL' class='ref'>KATAL</a>.
 </section>
 <section class='member'>
+<h4 id='CENTIMETRE'><span class='heading-body'>def CENTIMETRE</span><span class='heading-extra'><a href='#CENTIMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> CENTIMETRE = unit {
+	dim = LENGTH,
+	scale = 0.01,
+};</pre>
+<p>The centimetre is a scaled SI unit of length. The corresponding unscaled SI unit is the <a href='#METRE' class='ref'>METRE</a>.
+</section>
+<section class='member'>
 <h4 id='CONDUCTANCE'><span class='heading-body'>def CONDUCTANCE</span><span class='heading-extra'><a href='#CONDUCTANCE'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>def</span> CONDUCTANCE = dimension {
@@ -1169,6 +1448,24 @@ Tonne             | t       |
 	...
 };</pre>
 <p>The SI derived dimension of electrical conductance. Its SI unit is <a href='#SIEMENS' class='ref'>SIEMENS</a>.
+</section>
+<section class='member'>
+<h4 id='CUBIC_CENTIMETRE'><span class='heading-body'>def CUBIC_CENTIMETRE</span><span class='heading-extra'><a href='#CUBIC_CENTIMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> CUBIC_CENTIMETRE = unit {
+	dim = VOLUME,
+	scale = 1.0e-6,
+};</pre>
+<p>The cubic centimetre is a scaled SI unit of volume. The corresponding unscaled SI unit is the <a href='#CUBIC_METRE' class='ref'>CUBIC_METRE</a>.
+</section>
+<section class='member'>
+<h4 id='CUBIC_MILLIMETRE'><span class='heading-body'>def CUBIC_MILLIMETRE</span><span class='heading-extra'><a href='#CUBIC_MILLIMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> CUBIC_MILLIMETRE = unit {
+	dim = VOLUME,
+	scale = 1.0e-9,
+};</pre>
+<p>The cubic millimetre is a scaled SI unit of volume. The corresponding unscaled SI unit is the <a href='#CUBIC_METRE' class='ref'>CUBIC_METRE</a>.
 </section>
 <section class='member'>
 <h4 id='CURIE'><span class='heading-body'>def CURIE</span><span class='heading-extra'><a href='#CURIE'>[permalink]</a></span></h4>
@@ -1205,6 +1502,24 @@ Tonne             | t       |
 	scale = 86400.0,
 };</pre>
 <p>The day is a non-SI unit of time. See <a href='#SECOND' class='ref'>SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='DECAMETRE'><span class='heading-body'>def DECAMETRE</span><span class='heading-extra'><a href='#DECAMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> DECAMETRE = unit {
+	dim = LENGTH,
+	scale = 10.0,
+};</pre>
+<p>The decametre is a scaled SI unit of length. The corresponding unscaled SI unit is the <a href='#METRE' class='ref'>METRE</a>.
+</section>
+<section class='member'>
+<h4 id='DECIMETRE'><span class='heading-body'>def DECIMETRE</span><span class='heading-extra'><a href='#DECIMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> DECIMETRE = unit {
+	dim = LENGTH,
+	scale = 0.1,
+};</pre>
+<p>The decimetre is a scaled SI unit of length. The corresponding unscaled SI unit is the <a href='#METRE' class='ref'>METRE</a>.
 </section>
 <section class='member'>
 <h4 id='DEGREE'><span class='heading-body'>def DEGREE</span><span class='heading-extra'><a href='#DEGREE'>[permalink]</a></span></h4>
@@ -1311,7 +1626,7 @@ Tonne             | t       |
 	dim = ENERGY,
 	scale = 1.0e-7,
 };</pre>
-<p>The erg is a CGS unit commonly used in classical mechanics, astrophysics, and other areas of physics to express energy. See <a href='#JOULE' class='ref'>JOULE</a>.
+<p>The erg is a CGS unit commonly used in classical mechanics, astrophysics, and other areas of physics to express energy. The SI counterpart unit is the <a href='#JOULE' class='ref'>JOULE</a>.
 </section>
 <section class='member'>
 <h4 id='EXPOSURE'><span class='heading-body'>def EXPOSURE</span><span class='heading-extra'><a href='#EXPOSURE'>[permalink]</a></span></h4>
@@ -1351,7 +1666,7 @@ Tonne             | t       |
 	dim = ACCELERATION,
 	scale = 0.01,
 };</pre>
-<p>The gal is a CGS unit commonly used in geophysics and gravimetry to express acceleration. See <a href='#METRE_PER_SECOND_SQUARED' class='ref'>METRE_PER_SECOND_SQUARED</a>.
+<p>The gal is a CGS unit commonly used in geophysics and gravimetry to express acceleration. The SI counterpart unit is the <a href='#METRE_PER_SECOND_SQUARED' class='ref'>METRE_PER_SECOND_SQUARED</a>
 </section>
 <section class='member'>
 <h4 id='GAUSS'><span class='heading-body'>def GAUSS</span><span class='heading-extra'><a href='#GAUSS'>[permalink]</a></span></h4>
@@ -1360,7 +1675,52 @@ Tonne             | t       |
 	dim = MAGNETIC_FLUX_DENSITY,
 	scale = 1.0e-4,
 };</pre>
-<p>The gauss is a CGS unit commonly used in physics and engineering to express magnetic flux density. See <a href='#TESLA' class='ref'>TESLA</a>.
+<p>The gauss is a CGS unit commonly used in physics and engineering to express magnetic flux density. The SI counterpart unit is the <a href='#TESLA' class='ref'>TESLA</a>
+</section>
+<section class='member'>
+<h4 id='GIGAHERTZ'><span class='heading-body'>def GIGAHERTZ</span><span class='heading-extra'><a href='#GIGAHERTZ'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> GIGAHERTZ = unit {
+	dim = FREQUENCY,
+	scale = 1.0e9,
+};</pre>
+<p>The gigahertz is a scaled SI unit of frequency. The corresponding unscaled SI unit is the <a href='#HERTZ' class='ref'>HERTZ</a>.
+</section>
+<section class='member'>
+<h4 id='GIGAJOULE'><span class='heading-body'>def GIGAJOULE</span><span class='heading-extra'><a href='#GIGAJOULE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> GIGAJOULE = unit {
+	dim = ENERGY,
+	scale = 1.0e9,
+};</pre>
+<p>The gigajoule is a scaled SI unit of energy. The corresponding unscaled SI unit is the <a href='#JOULE' class='ref'>JOULE</a>.
+</section>
+<section class='member'>
+<h4 id='GIGAPASCAL'><span class='heading-body'>def GIGAPASCAL</span><span class='heading-extra'><a href='#GIGAPASCAL'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> GIGAPASCAL = unit {
+	dim = PRESSURE,
+	scale = 1.0e9,
+};</pre>
+<p>The gigapascal is a scaled SI unit of pressure. The corresponding unscaled SI unit is the <a href='#PASCAL' class='ref'>PASCAL</a>.
+</section>
+<section class='member'>
+<h4 id='GIGAWATT'><span class='heading-body'>def GIGAWATT</span><span class='heading-extra'><a href='#GIGAWATT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> GIGAWATT = unit {
+	dim = POWER,
+	scale = 1.0e9,
+};</pre>
+<p>The gigawatt is a scaled SI unit of power. The corresponding unscaled SI unit is the <a href='#WATT' class='ref'>WATT</a>.
+</section>
+<section class='member'>
+<h4 id='GRAM'><span class='heading-body'>def GRAM</span><span class='heading-extra'><a href='#GRAM'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> GRAM = unit {
+	dim = MASS,
+	scale = 1.0e-3,
+};</pre>
+<p>The gram is a scaled SI unit of mass. The corresponding unscaled SI unit is the <a href='#KILOGRAM' class='ref'>KILOGRAM</a>.
 </section>
 <section class='member'>
 <h4 id='HECTARE'><span class='heading-body'>def HECTARE</span><span class='heading-extra'><a href='#HECTARE'>[permalink]</a></span></h4>
@@ -1369,7 +1729,25 @@ Tonne             | t       |
 	dim = AREA,
 	scale = 1.0e4,
 };</pre>
-<p>The hectare is non-SI metric unit commonly used to express areas of land. See <a href='#SQUARE_METRE' class='ref'>SQUARE_METRE</a>.
+<p>The hectare is non-SI metric unit commonly used to express areas of land. The SI counterpart unit is the <a href='#SQUARE_METRE' class='ref'>SQUARE_METRE</a>
+</section>
+<section class='member'>
+<h4 id='HECTOMETRE'><span class='heading-body'>def HECTOMETRE</span><span class='heading-extra'><a href='#HECTOMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> HECTOMETRE = unit {
+	dim = LENGTH,
+	scale = 100.0,
+};</pre>
+<p>The hectometre is a scaled SI unit of length. The corresponding unscaled SI unit is the <a href='#METRE' class='ref'>METRE</a>.
+</section>
+<section class='member'>
+<h4 id='HECTOPASCAL'><span class='heading-body'>def HECTOPASCAL</span><span class='heading-extra'><a href='#HECTOPASCAL'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> HECTOPASCAL = unit {
+	dim = PRESSURE,
+	scale = 100.0,
+};</pre>
+<p>The hectopascal is a scaled SI unit of pressure. The corresponding unscaled SI unit is the <a href='#PASCAL' class='ref'>PASCAL</a>.
 </section>
 <section class='member'>
 <h4 id='HOUR'><span class='heading-body'>def HOUR</span><span class='heading-extra'><a href='#HOUR'>[permalink]</a></span></h4>
@@ -1378,7 +1756,7 @@ Tonne             | t       |
 	dim = TIME,
 	scale = 3600.0,
 };</pre>
-<p>The hour is non-SI unit of time. See <a href='#SECOND' class='ref'>SECOND</a>.
+<p>The hour is non-SI unit of time. The SI counterpart unit is the <a href='#SECOND' class='ref'>SECOND</a>
 </section>
 <section class='member'>
 <h4 id='HYPERFINE_TRANSITION_CAESIUM_133'><span class='heading-body'>def HYPERFINE_TRANSITION_CAESIUM_133</span><span class='heading-extra'><a href='#HYPERFINE_TRANSITION_CAESIUM_133'>[permalink]</a></span></h4>
@@ -1428,6 +1806,78 @@ Tonne             | t       |
 	scale = 1.0,
 };</pre>
 <p>The joule-second is the coherent SI unit of <a href='#ACTION' class='ref'>ACTION</a>.
+</section>
+<section class='member'>
+<h4 id='KILOHERTZ'><span class='heading-body'>def KILOHERTZ</span><span class='heading-extra'><a href='#KILOHERTZ'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> KILOHERTZ = unit {
+	dim = FREQUENCY,
+	scale = 1.0e3,
+};</pre>
+<p>The kilohertz is a scaled SI unit of frequency. The corresponding unscaled SI unit is the <a href='#HERTZ' class='ref'>HERTZ</a>.
+</section>
+<section class='member'>
+<h4 id='KILOJOULE'><span class='heading-body'>def KILOJOULE</span><span class='heading-extra'><a href='#KILOJOULE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> KILOJOULE = unit {
+	dim = ENERGY,
+	scale = 1.0e3,
+};</pre>
+<p>The kilojoule is a scaled SI unit of energy. The corresponding unscaled SI unit is the <a href='#JOULE' class='ref'>JOULE</a>.
+</section>
+<section class='member'>
+<h4 id='KILOMETRE'><span class='heading-body'>def KILOMETRE</span><span class='heading-extra'><a href='#KILOMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> KILOMETRE = unit {
+	dim = LENGTH,
+	scale = 1.0e3,
+};</pre>
+<p>The kilometre is a scaled SI unit of length. The corresponding unscaled SI unit is the <a href='#METRE' class='ref'>METRE</a>.
+</section>
+<section class='member'>
+<h4 id='KILONEWTON'><span class='heading-body'>def KILONEWTON</span><span class='heading-extra'><a href='#KILONEWTON'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> KILONEWTON = unit {
+	dim = FORCE,
+	scale = 1.0e3,
+};</pre>
+<p>The kilonewton is a scaled SI unit of force. The corresponding unscaled SI unit is the <a href='#NEWTON' class='ref'>NEWTON</a>.
+</section>
+<section class='member'>
+<h4 id='KILOOHM'><span class='heading-body'>def KILOOHM</span><span class='heading-extra'><a href='#KILOOHM'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> KILOOHM = unit {
+	dim = RESISTANCE,
+	scale = 1.0e3,
+};</pre>
+<p>The kiloohm is a scaled SI unit of electrical resistance. The corresponding unscaled SI unit is the <a href='#OHM' class='ref'>OHM</a>.
+</section>
+<section class='member'>
+<h4 id='KILOPASCAL'><span class='heading-body'>def KILOPASCAL</span><span class='heading-extra'><a href='#KILOPASCAL'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> KILOPASCAL = unit {
+	dim = PRESSURE,
+	scale = 1.0e3,
+};</pre>
+<p>The kilopascal is a scaled SI unit of pressure. The corresponding unscaled SI unit is the <a href='#PASCAL' class='ref'>PASCAL</a>.
+</section>
+<section class='member'>
+<h4 id='KILOVOLT'><span class='heading-body'>def KILOVOLT</span><span class='heading-extra'><a href='#KILOVOLT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> KILOVOLT = unit {
+	dim = ELECTRIC_POTENTIAL,
+	scale = 1.0e3,
+};</pre>
+<p>The kilovolt is a scaled SI unit of electric potential. The corresponding unscaled SI unit is the <a href='#VOLT' class='ref'>VOLT</a>.
+</section>
+<section class='member'>
+<h4 id='KILOWATT'><span class='heading-body'>def KILOWATT</span><span class='heading-extra'><a href='#KILOWATT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> KILOWATT = unit {
+	dim = POWER,
+	scale = 1.0e3,
+};</pre>
+<p>The kilowatt is a scaled SI unit of power. The corresponding unscaled SI unit is the <a href='#WATT' class='ref'>WATT</a>.
 </section>
 <section class='member'>
 <h4 id='KINEMATIC_VISCOSITY'><span class='heading-body'>def KINEMATIC_VISCOSITY</span><span class='heading-extra'><a href='#KINEMATIC_VISCOSITY'>[permalink]</a></span></h4>
@@ -1523,7 +1973,175 @@ Tonne             | t       |
 	dim = MAGNETIC_FLUX,
 	scale = 1.0e-8,
 };</pre>
-<p>The maxwell is a CGS electromagnetic unit used to express magnetic flux. See <a href='#WEBER' class='ref'>WEBER</a>.
+<p>The maxwell is a CGS electromagnetic unit used to express magnetic flux. The SI counterpart unit is the <a href='#WEBER' class='ref'>WEBER</a>
+</section>
+<section class='member'>
+<h4 id='MEGAHERTZ'><span class='heading-body'>def MEGAHERTZ</span><span class='heading-extra'><a href='#MEGAHERTZ'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MEGAHERTZ = unit {
+	dim = FREQUENCY,
+	scale = 1.0e6,
+};</pre>
+<p>The megahertz is a scaled SI unit of frequency. The corresponding unscaled SI unit is the <a href='#HERTZ' class='ref'>HERTZ</a>.
+</section>
+<section class='member'>
+<h4 id='MEGAJOULE'><span class='heading-body'>def MEGAJOULE</span><span class='heading-extra'><a href='#MEGAJOULE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MEGAJOULE = unit {
+	dim = ENERGY,
+	scale = 1.0e6,
+};</pre>
+<p>The megajoule is a scaled SI unit of energy. The corresponding unscaled SI unit is the <a href='#JOULE' class='ref'>JOULE</a>.
+</section>
+<section class='member'>
+<h4 id='MEGANEWTON'><span class='heading-body'>def MEGANEWTON</span><span class='heading-extra'><a href='#MEGANEWTON'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MEGANEWTON = unit {
+	dim = FORCE,
+	scale = 1.0e6,
+};</pre>
+<p>The meganewton is a scaled SI unit of force. The corresponding unscaled SI unit is the <a href='#NEWTON' class='ref'>NEWTON</a>.
+</section>
+<section class='member'>
+<h4 id='MEGAOHM'><span class='heading-body'>def MEGAOHM</span><span class='heading-extra'><a href='#MEGAOHM'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MEGAOHM = unit {
+	dim = RESISTANCE,
+	scale = 1.0e6,
+};</pre>
+<p>The megaohm is a scaled SI unit of electrical resistance. The corresponding unscaled SI unit is the <a href='#OHM' class='ref'>OHM</a>.
+</section>
+<section class='member'>
+<h4 id='MEGAPASCAL'><span class='heading-body'>def MEGAPASCAL</span><span class='heading-extra'><a href='#MEGAPASCAL'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MEGAPASCAL = unit {
+	dim = PRESSURE,
+	scale = 1.0e6,
+};</pre>
+<p>The megapascal is a scaled SI unit of pressure. The corresponding unscaled SI unit is the <a href='#PASCAL' class='ref'>PASCAL</a>.
+</section>
+<section class='member'>
+<h4 id='MEGAWATT'><span class='heading-body'>def MEGAWATT</span><span class='heading-extra'><a href='#MEGAWATT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MEGAWATT = unit {
+	dim = POWER,
+	scale = 1.0e6,
+};</pre>
+<p>The megawatt is a scaled SI unit of power. The corresponding unscaled SI unit is the <a href='#WATT' class='ref'>WATT</a>.
+</section>
+<section class='member'>
+<h4 id='MICROAMPERE'><span class='heading-body'>def MICROAMPERE</span><span class='heading-extra'><a href='#MICROAMPERE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MICROAMPERE = unit {
+	dim = CURRENT,
+	scale = 1.0e-6,
+};</pre>
+<p>The microampere is a scaled SI unit of electric current. The corresponding unscaled SI unit is the <a href='#AMPERE' class='ref'>AMPERE</a>.
+</section>
+<section class='member'>
+<h4 id='MICROCOULOMB'><span class='heading-body'>def MICROCOULOMB</span><span class='heading-extra'><a href='#MICROCOULOMB'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MICROCOULOMB = unit {
+	dim = ELECTRIC_CHARGE,
+	scale = 1.0e-6,
+};</pre>
+<p>The microcoulomb is a scaled SI unit of electric charge. The corresponding unscaled SI unit is the <a href='#COULOMB' class='ref'>COULOMB</a>.
+</section>
+<section class='member'>
+<h4 id='MICROFARAD'><span class='heading-body'>def MICROFARAD</span><span class='heading-extra'><a href='#MICROFARAD'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MICROFARAD = unit {
+	dim = CAPACITANCE,
+	scale = 1.0e-6,
+};</pre>
+<p>The microfarad is a scaled SI unit of capacitance. The corresponding unscaled SI unit is the <a href='#FARAD' class='ref'>FARAD</a>.
+</section>
+<section class='member'>
+<h4 id='MICROGRAM'><span class='heading-body'>def MICROGRAM</span><span class='heading-extra'><a href='#MICROGRAM'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MICROGRAM = unit {
+	dim = MASS,
+	scale = 1.0e-9,
+};</pre>
+<p>The microgram is a scaled SI unit of mass. The corresponding unscaled SI unit is the <a href='#KILOGRAM' class='ref'>KILOGRAM</a>.
+</section>
+<section class='member'>
+<h4 id='MICROMETRE'><span class='heading-body'>def MICROMETRE</span><span class='heading-extra'><a href='#MICROMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MICROMETRE = unit {
+	dim = LENGTH,
+	scale = 1.0e-6,
+};</pre>
+<p>The micrometre is a scaled SI unit of length. The corresponding unscaled SI unit is the <a href='#METRE' class='ref'>METRE</a>.
+</section>
+<section class='member'>
+<h4 id='MICRON'><span class='heading-body'>def MICRON</span><span class='heading-extra'><a href='#MICRON'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MICRON = MICROMETRE;</pre>
+<p>The micron is an alternative name for the <a href='#MICROMETRE' class='ref'>MICROMETRE</a>.
+</section>
+<section class='member'>
+<h4 id='MICROSECOND'><span class='heading-body'>def MICROSECOND</span><span class='heading-extra'><a href='#MICROSECOND'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MICROSECOND = unit {
+	dim = TIME,
+	scale = 1.0e-6,
+};</pre>
+<p>The microsecond is a scaled SI unit of time. The corresponding unscaled SI unit is the <a href='#SECOND' class='ref'>SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='MICROTESLA'><span class='heading-body'>def MICROTESLA</span><span class='heading-extra'><a href='#MICROTESLA'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MICROTESLA = unit {
+	dim = MAGNETIC_FLUX_DENSITY,
+	scale = 1.0e-6,
+};</pre>
+<p>The microtesla is a scaled SI unit of magnetic flux density. The corresponding unscaled SI unit is the <a href='#TESLA' class='ref'>TESLA</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIAMPERE'><span class='heading-body'>def MILLIAMPERE</span><span class='heading-extra'><a href='#MILLIAMPERE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIAMPERE = unit {
+	dim = CURRENT,
+	scale = 1.0e-3,
+};</pre>
+<p>The milliampere is a scaled SI unit of electric current. The corresponding unscaled SI unit is the <a href='#AMPERE' class='ref'>AMPERE</a>.
+</section>
+<section class='member'>
+<h4 id='MILLICOULOMB'><span class='heading-body'>def MILLICOULOMB</span><span class='heading-extra'><a href='#MILLICOULOMB'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLICOULOMB = unit {
+	dim = ELECTRIC_CHARGE,
+	scale = 1.0e-3,
+};</pre>
+<p>The millicoulomb is a scaled SI unit of electric charge. The corresponding unscaled SI unit is the <a href='#COULOMB' class='ref'>COULOMB</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIGRAM'><span class='heading-body'>def MILLIGRAM</span><span class='heading-extra'><a href='#MILLIGRAM'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIGRAM = unit {
+	dim = MASS,
+	scale = 1.0e-6,
+};</pre>
+<p>The milligram is a scaled SI unit of mass. The corresponding unscaled SI unit is the <a href='#KILOGRAM' class='ref'>KILOGRAM</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIJOULE'><span class='heading-body'>def MILLIJOULE</span><span class='heading-extra'><a href='#MILLIJOULE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIJOULE = unit {
+	dim = ENERGY,
+	scale = 1.0e-3,
+};</pre>
+<p>The millijoule is a scaled SI unit of energy. The corresponding unscaled SI unit is the <a href='#JOULE' class='ref'>JOULE</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIMETRE'><span class='heading-body'>def MILLIMETRE</span><span class='heading-extra'><a href='#MILLIMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIMETRE = unit {
+	dim = LENGTH,
+	scale = 1.0e-3,
+};</pre>
+<p>The millimetre is a scaled SI unit of length. The corresponding unscaled SI unit is the <a href='#METRE' class='ref'>METRE</a>.
 </section>
 <section class='member'>
 <h4 id='MILLIMETRES_OF_MERCURY'><span class='heading-body'>def MILLIMETRES_OF_MERCURY</span><span class='heading-extra'><a href='#MILLIMETRES_OF_MERCURY'>[permalink]</a></span></h4>
@@ -1532,7 +2150,88 @@ Tonne             | t       |
 	dim = PRESSURE,
 	scale = 133.322,
 };</pre>
-<p>Millimetres of mercury are widely used in medicine and meteorology to express pressure. See <a href='#PASCAL' class='ref'>PASCAL</a>
+<p>Millimetres of mercury are widely used in medicine and meteorology to express pressure. The SI counterpart unit is the <a href='#PASCAL' class='ref'>PASCAL</a>
+</section>
+<section class='member'>
+<h4 id='MILLINEWTON'><span class='heading-body'>def MILLINEWTON</span><span class='heading-extra'><a href='#MILLINEWTON'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLINEWTON = unit {
+	dim = FORCE,
+	scale = 1.0e-3,
+};</pre>
+<p>The millinewton is a scaled SI unit of force. The corresponding unscaled SI unit is the <a href='#NEWTON' class='ref'>NEWTON</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIOHM'><span class='heading-body'>def MILLIOHM</span><span class='heading-extra'><a href='#MILLIOHM'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIOHM = unit {
+	dim = RESISTANCE,
+	scale = 1.0e-3,
+};</pre>
+<p>The milliohm is a scaled SI unit of electrical resistance. The corresponding unscaled SI unit is the <a href='#OHM' class='ref'>OHM</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIPASCAL'><span class='heading-body'>def MILLIPASCAL</span><span class='heading-extra'><a href='#MILLIPASCAL'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIPASCAL = unit {
+	dim = PRESSURE,
+	scale = 1.0e-3,
+};</pre>
+<p>The millipascal is a scaled SI unit of pressure. The corresponding unscaled SI unit is the <a href='#PASCAL' class='ref'>PASCAL</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIPASCAL_SECOND'><span class='heading-body'>def MILLIPASCAL_SECOND</span><span class='heading-extra'><a href='#MILLIPASCAL_SECOND'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIPASCAL_SECOND = unit {
+	dim = DYNAMIC_VISCOSITY,
+	scale = 1.0e-3,
+};</pre>
+<p>The millipascal-second is a scaled SI unit of dynamic viscosity. The corresponding unscaled SI unit is the <a href='#PASCAL_SECOND' class='ref'>PASCAL_SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='MILLISECOND'><span class='heading-body'>def MILLISECOND</span><span class='heading-extra'><a href='#MILLISECOND'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLISECOND = unit {
+	dim = TIME,
+	scale = 1.0e-3,
+};</pre>
+<p>The millisecond is a scaled SI unit of time. The corresponding unscaled SI unit is the <a href='#SECOND' class='ref'>SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='MILLITESLA'><span class='heading-body'>def MILLITESLA</span><span class='heading-extra'><a href='#MILLITESLA'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLITESLA = unit {
+	dim = MAGNETIC_FLUX_DENSITY,
+	scale = 1.0e-3,
+};</pre>
+<p>The millitesla is a scaled SI unit of magnetic flux density. The corresponding unscaled SI unit is the <a href='#TESLA' class='ref'>TESLA</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIVOLT'><span class='heading-body'>def MILLIVOLT</span><span class='heading-extra'><a href='#MILLIVOLT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIVOLT = unit {
+	dim = ELECTRIC_POTENTIAL,
+	scale = 1.0e-3,
+};</pre>
+<p>The millivolt is a scaled SI unit of electric potential. The corresponding unscaled SI unit is the <a href='#VOLT' class='ref'>VOLT</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIWATT'><span class='heading-body'>def MILLIWATT</span><span class='heading-extra'><a href='#MILLIWATT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIWATT = unit {
+	dim = POWER,
+	scale = 1.0e-3,
+};</pre>
+<p>The milliwatt is a scaled SI unit of power. The corresponding unscaled SI unit is the <a href='#WATT' class='ref'>WATT</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIWEBER'><span class='heading-body'>def MILLIWEBER</span><span class='heading-extra'><a href='#MILLIWEBER'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIWEBER = unit {
+	dim = MAGNETIC_FLUX,
+	scale = 1.0e-3,
+};</pre>
+<p>The milliweber is a scaled SI unit of magnetic flux. The corresponding unscaled SI unit is the <a href='#WEBER' class='ref'>WEBER</a>.
 </section>
 <section class='member'>
 <h4 id='MINUTE'><span class='heading-body'>def MINUTE</span><span class='heading-extra'><a href='#MINUTE'>[permalink]</a></span></h4>
@@ -1541,7 +2240,34 @@ Tonne             | t       |
 	dim = TIME,
 	scale = 60.0,
 };</pre>
-<p>The minute is non-SI unit of time. See <a href='#SECOND' class='ref'>SECOND</a>.
+<p>The minute is non-SI unit of time. The SI counterpart unit is the <a href='#SECOND' class='ref'>SECOND</a>
+</section>
+<section class='member'>
+<h4 id='NANOFARAD'><span class='heading-body'>def NANOFARAD</span><span class='heading-extra'><a href='#NANOFARAD'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> NANOFARAD = unit {
+	dim = CAPACITANCE,
+	scale = 1.0e-9,
+};</pre>
+<p>The nanofarad is a scaled SI unit of capacitance. The corresponding unscaled SI unit is the <a href='#FARAD' class='ref'>FARAD</a>.
+</section>
+<section class='member'>
+<h4 id='NANOMETRE'><span class='heading-body'>def NANOMETRE</span><span class='heading-extra'><a href='#NANOMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> NANOMETRE = unit {
+	dim = LENGTH,
+	scale = 1.0e-9,
+};</pre>
+<p>The nanometre is a scaled SI unit of length. The corresponding unscaled SI unit is the <a href='#METRE' class='ref'>METRE</a>.
+</section>
+<section class='member'>
+<h4 id='NANOSECOND'><span class='heading-body'>def NANOSECOND</span><span class='heading-extra'><a href='#NANOSECOND'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> NANOSECOND = unit {
+	dim = TIME,
+	scale = 1.0e-9,
+};</pre>
+<p>The nanosecond is a scaled SI unit of time. The corresponding unscaled SI unit is the <a href='#SECOND' class='ref'>SECOND</a>.
 </section>
 <section class='member'>
 <h4 id='NEPER'><span class='heading-body'>def NEPER</span><span class='heading-extra'><a href='#NEPER'>[permalink]</a></span></h4>
@@ -1553,13 +2279,31 @@ Tonne             | t       |
 <p>The neper is a non-SI relative logarithmic unit used in acoustics, telecommunications, and signal processing to express ratios of field quantities. This unit is dimensionless and does not support conversion. See also: <a href='#BEL' class='ref'>BEL</a>.
 </section>
 <section class='member'>
+<h4 id='NEWTON_METRE'><span class='heading-body'>def NEWTON_METRE</span><span class='heading-extra'><a href='#NEWTON_METRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> NEWTON_METRE = unit {
+	dim = TORQUE,
+	scale = 1.0,
+};</pre>
+<p>The newton-metre is the coherent SI unit of <a href='#TORQUE' class='ref'>TORQUE</a>.
+</section>
+<section class='member'>
+<h4 id='NEWTON_PER_METRE'><span class='heading-body'>def NEWTON_PER_METRE</span><span class='heading-extra'><a href='#NEWTON_PER_METRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> NEWTON_PER_METRE = unit {
+	dim = SURFACE_TENSION,
+	scale = 1.0,
+};</pre>
+<p>The newton per metre is the coherent SI unit of <a href='#SURFACE_TENSION' class='ref'>SURFACE_TENSION</a>.
+</section>
+<section class='member'>
 <h4 id='OERSTED'><span class='heading-body'>def OERSTED</span><span class='heading-extra'><a href='#OERSTED'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>def</span> OERSTED = unit {
 	dim = MAGNETIC_FIELD_STRENGTH,
 	scale = 79.57747155,
 };</pre>
-<p>The oersted is a CGS electromagnetic unit used to express magnetic field strength. See <a href='#HENRY' class='ref'>HENRY</a>.
+<p>The oersted is a CGS electromagnetic unit used to express magnetic field strength. The SI counterpart unit is the <a href='#HENRY' class='ref'>HENRY</a>.
 </section>
 <section class='member'>
 <h4 id='PASCAL_SECOND'><span class='heading-body'>def PASCAL_SECOND</span><span class='heading-extra'><a href='#PASCAL_SECOND'>[permalink]</a></span></h4>
@@ -1569,6 +2313,24 @@ Tonne             | t       |
 	scale = 1.0,
 };</pre>
 <p>The pascal-second is the coherent SI unit of <a href='#DYNAMIC_VISCOSITY' class='ref'>DYNAMIC_VISCOSITY</a>.
+</section>
+<section class='member'>
+<h4 id='PICOFARAD'><span class='heading-body'>def PICOFARAD</span><span class='heading-extra'><a href='#PICOFARAD'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> PICOFARAD = unit {
+	dim = CAPACITANCE,
+	scale = 1.0e-12,
+};</pre>
+<p>The picofarad is a scaled SI unit of capacitance. The corresponding unscaled SI unit is the <a href='#FARAD' class='ref'>FARAD</a>.
+</section>
+<section class='member'>
+<h4 id='PICOMETRE'><span class='heading-body'>def PICOMETRE</span><span class='heading-extra'><a href='#PICOMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> PICOMETRE = unit {
+	dim = LENGTH,
+	scale = 1.0e-12,
+};</pre>
+<p>The picometre is a scaled SI unit of length. The corresponding unscaled SI unit is the <a href='#METRE' class='ref'>METRE</a>.
 </section>
 <section class='member'>
 <h4 id='PLANCK'><span class='heading-body'>def PLANCK</span><span class='heading-extra'><a href='#PLANCK'>[permalink]</a></span></h4>
@@ -1617,7 +2379,7 @@ Tonne             | t       |
 	dim = ABSORBED_DOSE,
 	scale = 0.01,
 };</pre>
-<p>The rad is a non-SI unit historically used in radiobiology and radiation dosimetry to express absorbed dose.
+<p>The rad is a non-SI unit historically used in radiobiology and radiation dosimetry to express absorbed dose. The SI counterpart unit is the <a href='#GRAY' class='ref'>GRAY</a>.
 </section>
 <section class='member'>
 <h4 id='RECIPROCAL_CURRENT'><span class='heading-body'>def RECIPROCAL_CURRENT</span><span class='heading-extra'><a href='#RECIPROCAL_CURRENT'>[permalink]</a></span></h4>
@@ -1671,7 +2433,7 @@ Tonne             | t       |
 	dim = DOSE_EQUIVALENT,
 	scale = 0.01,
 };</pre>
-<p>The rem is a non-SI unit historically used in radiation protection to express equivalent dose.
+<p>The rem (or Roentgen equivalent man) is a non-SI unit historically used in radiation protection to express equivalent dose. The SI counterpart unit is the <a href='#SIEVERT' class='ref'>SIEVERT</a>.
 </section>
 <section class='member'>
 <h4 id='RESISTANCE'><span class='heading-body'>def RESISTANCE</span><span class='heading-extra'><a href='#RESISTANCE'>[permalink]</a></span></h4>
@@ -1692,7 +2454,7 @@ Tonne             | t       |
 	dim = EXPOSURE,
 	scale = 2.58e-4,
 };</pre>
-<p>The roentgen is a non-SI unit historically used in radiology and radiation protection to express <a href='#EXPOSURE' class='ref'>EXPOSURE</a>. The equivilent SI unit is <a href='#COULOMB_PER_KILOGRAM' class='ref'>COULOMB_PER_KILOGRAM</a>.
+<p>The roentgen is a non-SI unit historically used in radiology and radiation protection to express <a href='#EXPOSURE' class='ref'>EXPOSURE</a>. The SI counterpart unit is the <a href='#COULOMB_PER_KILOGRAM' class='ref'>COULOMB_PER_KILOGRAM</a>.
 </section>
 <section class='member'>
 <h4 id='SPEED_OF_LIGHT'><span class='heading-body'>def SPEED_OF_LIGHT</span><span class='heading-extra'><a href='#SPEED_OF_LIGHT'>[permalink]</a></span></h4>
@@ -1704,6 +2466,24 @@ Tonne             | t       |
 <p>The speed of light in vacuum, an exact defining constant of the SI. Its SI unit is <a href='#METRE_PER_SECOND' class='ref'>METRE_PER_SECOND</a>.
 </section>
 <section class='member'>
+<h4 id='SQUARE_CENTIMETRE'><span class='heading-body'>def SQUARE_CENTIMETRE</span><span class='heading-extra'><a href='#SQUARE_CENTIMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> SQUARE_CENTIMETRE = unit {
+	dim = AREA,
+	scale = 1.0e-4,
+};</pre>
+<p>The square centimetre is a scaled SI unit of area. The corresponding unscaled SI unit is the <a href='#SQUARE_METRE' class='ref'>SQUARE_METRE</a>.
+</section>
+<section class='member'>
+<h4 id='SQUARE_KILOMETRE'><span class='heading-body'>def SQUARE_KILOMETRE</span><span class='heading-extra'><a href='#SQUARE_KILOMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> SQUARE_KILOMETRE = unit {
+	dim = AREA,
+	scale = 1.0e6,
+};</pre>
+<p>The square kilometre is a scaled SI unit of area. The corresponding unscaled SI unit is the <a href='#SQUARE_METRE' class='ref'>SQUARE_METRE</a>.
+</section>
+<section class='member'>
 <h4 id='SQUARE_METRE_PER_SECOND'><span class='heading-body'>def SQUARE_METRE_PER_SECOND</span><span class='heading-extra'><a href='#SQUARE_METRE_PER_SECOND'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>def</span> SQUARE_METRE_PER_SECOND = unit {
@@ -1713,13 +2493,31 @@ Tonne             | t       |
 <p>The square metre per second is the coherent SI unit of <a href='#KINEMATIC_VISCOSITY' class='ref'>KINEMATIC_VISCOSITY</a>.
 </section>
 <section class='member'>
+<h4 id='SQUARE_MILLIMETRE'><span class='heading-body'>def SQUARE_MILLIMETRE</span><span class='heading-extra'><a href='#SQUARE_MILLIMETRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> SQUARE_MILLIMETRE = unit {
+	dim = AREA,
+	scale = 1.0e-6,
+};</pre>
+<p>The square millimetre is a scaled SI unit of area. The corresponding unscaled SI unit is the <a href='#SQUARE_METRE' class='ref'>SQUARE_METRE</a>.
+</section>
+<section class='member'>
+<h4 id='SQUARE_MILLIMETRE_PER_SECOND'><span class='heading-body'>def SQUARE_MILLIMETRE_PER_SECOND</span><span class='heading-extra'><a href='#SQUARE_MILLIMETRE_PER_SECOND'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> SQUARE_MILLIMETRE_PER_SECOND = unit {
+	dim = KINEMATIC_VISCOSITY,
+	scale = 1.0e-6,
+};</pre>
+<p>The square millimetre per second is a scaled SI unit of kinematic viscosity. The corresponding unscaled SI unit is the <a href='#SQUARE_METRE_PER_SECOND' class='ref'>SQUARE_METRE_PER_SECOND</a>.
+</section>
+<section class='member'>
 <h4 id='STOKES'><span class='heading-body'>def STOKES</span><span class='heading-extra'><a href='#STOKES'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>def</span> STOKES = unit {
 	dim = KINEMATIC_VISCOSITY,
 	scale = 1.0e-4,
 };</pre>
-<p>The stokes is a CGS unit commonly used in fluid mechanics to express viscosity.
+<p>The stokes is a CGS unit commonly used in fluid mechanics to express viscosity. The SI counterpart unit is the <a href='#SQUARE_METRE_PER_SECOND' class='ref'>SQUARE_METRE_PER_SECOND</a>.
 </section>
 <section class='member'>
 <h4 id='SUBSTANCE'><span class='heading-body'>def SUBSTANCE</span><span class='heading-extra'><a href='#SUBSTANCE'>[permalink]</a></span></h4>
@@ -1764,7 +2562,7 @@ Tonne             | t       |
 	dim = PRESSURE,
 	scale = 133.322368421,
 };</pre>
-<p>The torr is non-SI unit historically used in physics. See <a href='#PASCAL' class='ref'>PASCAL</a>.
+<p>The torr is non-SI unit historically used in physics. The SI counterpart unit is the <a href='#PASCAL' class='ref'>PASCAL</a>.
 </section>
 <section class='member'>
 <h4 id='WAVENUMBER'><span class='heading-body'>def WAVENUMBER</span><span class='heading-extra'><a href='#WAVENUMBER'>[permalink]</a></span></h4>
@@ -1969,6 +2767,17 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='DIMENSIONLESS_UNIT'><span class='heading-body'>def DIMENSIONLESS_UNIT</span><span class='heading-extra'><a href='#DIMENSIONLESS_UNIT'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> DIMENSIONLESS_UNIT = unit {
+	dim = DIMENSIONLESS,
+	scale = 1.0,
+};</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='ENTROPY'><span class='heading-body'>def ENTROPY</span><span class='heading-extra'><a href='#ENTROPY'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1990,17 +2799,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> FARAD = unit {
 	dim = CAPACITANCE,
 	scale = 1.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='GRAM'><span class='heading-body'>def GRAM</span><span class='heading-extra'><a href='#GRAM'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> GRAM = unit {
-	dim = MASS,
-	scale = 1.0e-3,
 };</pre>
 </details>
 </section>
@@ -2419,6 +3217,19 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='SURFACE_TENSION'><span class='heading-body'>def SURFACE_TENSION</span><span class='heading-extra'><a href='#SURFACE_TENSION'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> SURFACE_TENSION = dimension {
+	mass = 1,
+	length = 0,
+	time = -2,
+	...
+};</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='TESLA'><span class='heading-body'>def TESLA</span><span class='heading-extra'><a href='#TESLA'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -2426,6 +3237,19 @@ Tonne             | t       |
 <span class='keyword'>def</span> TESLA = unit {
 	dim = MAGNETIC_FLUX_DENSITY,
 	scale = 1.0,
+};</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='TORQUE'><span class='heading-body'>def TORQUE</span><span class='heading-extra'><a href='#TORQUE'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> TORQUE = dimension {
+	mass = 1,
+	length = 2,
+	time = -2,
+	...
 };</pre>
 </details>
 </section>
@@ -2500,9 +3324,9 @@ Tonne             | t       |
 </section>
 <h3>Functions</h3>
 <section class='member'>
-<h4 id='addq'><span class='heading-body'>fn addq</span><span class='heading-extra'><a href='#addq'>[permalink]</a></span></h4>
+<h4 id='add'><span class='heading-body'>fn add</span><span class='heading-extra'><a href='#add'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> addq(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;</pre>
+<span class='keyword'>fn</span> add(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;</pre>
 <p>Returns the sum of quantities a and b, converting b to a&apos;s unit. If b is an f64, it is treated as a value in a&apos;s unit.
 </section>
 <section class='member'>
@@ -2514,27 +3338,25 @@ Tonne             | t       |
 <section class='member'>
 <h4 id='divq'><span class='heading-body'>fn divq</span><span class='heading-extra'><a href='#divq'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> divq(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>divide_by_zero</span><span class='type'>)</span>;</pre>
+<span class='keyword'>fn</span> divq(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>quantity</span>;</pre>
 <p>Returns the quotient of quantities a and b, or scales a by 1/b if b is an f64.
 </section>
 <section class='member'>
 <h4 id='divu'><span class='heading-body'>fn divu</span><span class='heading-extra'><a href='#divu'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> divu(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>(</span><span class='type'>unit</span> <span class='type'>|</span> <span class='type'>divide_by_zero</span><span class='type'>)</span>;</pre>
-<p>Returns the quotiant of units a and b.
+<span class='keyword'>fn</span> divu(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>unit</span>;</pre>
+<p>Returns the quotient of units a and b.
 </section>
 <section class='member'>
 <h4 id='encodejson'><span class='heading-body'>fn encodejson</span><span class='heading-extra'><a href='#encodejson'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> encodejson(out: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
+<span class='keyword'>fn</span> encodejson(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
 <p>Writes JSON encoded representation of a quantity or unit.
 </section>
 <section class='member'>
 <h4 id='equal'><span class='heading-body'>fn equal</span><span class='heading-extra'><a href='#equal'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>fn</span> equal(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>bool</span>;</pre>
-<p>math
-<p>Arithmetic operations for constructing derived dimensions and units.
 <p>Returns true if dimensions a and b are equal.
 </section>
 <section class='member'>
@@ -2548,6 +3370,24 @@ Tonne             | t       |
 <pre class='decl'>
 <span class='keyword'>fn</span> fprintqln(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
 <p>Prints a quantity followed by a newline to an <a href='../io#handle' class='ref'>io::handle</a>. Accepts the same formatting options as <a href='#fprintq' class='ref'>fprintq</a>. Returns the number of bytes printed.
+</section>
+<section class='member'>
+<h4 id='isclose'><span class='heading-body'>fn isclose</span><span class='heading-extra'><a href='#isclose'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> isclose(a: <span class='type'>quantity</span>, b: <span class='type'>quantity</span>, tol: <span class='type'>f64</span> = math::STANDARD_TOL) <span class='type'>(</span><span class='type'>bool</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;</pre>
+<p>Returns whether a and b are within tol of each other.
+</section>
+<section class='member'>
+<h4 id='isinf'><span class='heading-body'>fn isinf</span><span class='heading-extra'><a href='#isinf'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> isinf(q: <span class='type'>quantity</span>) <span class='type'>bool</span>;</pre>
+<p>Returns true if the value of the quantity or scale of its unit is infinite.
+</section>
+<section class='member'>
+<h4 id='isnan'><span class='heading-body'>fn isnan</span><span class='heading-extra'><a href='#isnan'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> isnan(q: <span class='type'>quantity</span>) <span class='type'>bool</span>;</pre>
+<p>Returns true if the value of the quantity or scale of its unit is NaN.
 </section>
 <section class='member'>
 <h4 id='muld'><span class='heading-body'>fn muld</span><span class='heading-extra'><a href='#muld'>[permalink]</a></span></h4>
@@ -2590,6 +3430,12 @@ Tonne             | t       |
 <pre class='decl'>
 <span class='keyword'>fn</span> printerror(err: <span class='type'>error</span>) <span class='type'>(</span><span class='type'>void</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span><span class='type'>)</span>;</pre>
 <p>Prints the human readable description of the error to stderr.
+</section>
+<section class='member'>
+<h4 id='scale'><span class='heading-body'>fn scale</span><span class='heading-extra'><a href='#scale'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> scale(u: <span class='type'>unit</span>, fac: <span class='type'>(</span><span class='type'>prefix_kind</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>unit</span>;</pre>
+<p>Scales the unit by a f64 or metric prefix factor.
 </section>
 <section class='member'>
 <h4 id='strerror'><span class='heading-body'>fn strerror</span><span class='heading-extra'><a href='#strerror'>[permalink]</a></span></h4>
@@ -2637,9 +3483,9 @@ strpunit(&quot;m²&quot;);
 </ul>
 </section>
 <section class='member'>
-<h4 id='subq'><span class='heading-body'>fn subq</span><span class='heading-extra'><a href='#subq'>[permalink]</a></span></h4>
+<h4 id='sub'><span class='heading-body'>fn sub</span><span class='heading-extra'><a href='#sub'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> subq(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;</pre>
+<span class='keyword'>fn</span> sub(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;</pre>
 <p>Returns the difference of quantities a and b, converting b to a&apos;s unit. If b is an f64, it is treated as a value in a&apos;s unit.
 </section>
 <section class='member'>

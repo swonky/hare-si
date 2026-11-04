@@ -49,8 +49,6 @@ fn lookup_name(sym: unit_kind) str  = unit_names[sym: size];
 fn lookup_unit(sym: unit_kind) unit = units[sym: size];
 
 fn match_symbol(s: str) (unit_kind | void) = {
-	// TODO: logging
-	// fmt::printf("matching: {}\n", s)!;
 	let lo = 0z;
 	let hi = len(symbol_lookup);
 	for (lo < hi) {
