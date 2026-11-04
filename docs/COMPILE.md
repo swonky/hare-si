@@ -34,26 +34,26 @@ make help
 Usage: make [target] [VARIABLE=value]
 
 Targets:
-all Build everything
+all                 Build everything
 (default)
-check Run test suite
-build Build executable and documentation
-completions Generate embedded shell completions
-install Install all components
-install-bin Install executable
-install-lib Install Hare module
-install-docs Install man page
+check               Run test suite
+build               Build executable and documentation
+completions         Generate embedded shell completions
+install             Install all components
+install-bin         Install executable
+install-lib         Install Hare module
+install-docs        Install man page
 install-completions Install shell completions
-uninstall Remove installed components
-clean Remove generated build artifacts
+uninstall           Remove installed components
+clean               Remove generated build artifacts
 
 Variables:
-PREFIX Installation prefix
-(default: /usr/local)
-DESTDIR Staging directory
-HARESRCDIR Hare source directory
-BASH_DIR Bash completion directory
-ZSH_DIR Zsh completion directory
+PREFIX              Installation prefix
+(default:           /usr/local)
+DESTDIR             Staging directory
+HARESRCDIR          Hare source directory
+BASH_DIR            Bash completion directory
+ZSH_DIR             Zsh completion directory
 ```
 
 Both `BASH_DIR` and `ZSH_DIR` are optional. Completion scripts are installed only when its respective target directory is explicitly specified.
