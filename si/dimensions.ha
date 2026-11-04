@@ -179,8 +179,14 @@ export def LUMINOUS_EFFICACY       = dimension { mass        = -1, length     = 
 export def MAGNETIC_FIELD_STRENGTH = dimension { current     = 1,  length     = -1, ...                                 };
 export def SPECIFIC_VOLUME         = dimension { mass        = -1, length     = 3,  ...                                 };
 export def SURFACE_DENSITY         = dimension { mass        = 1,  length     = -2, ...                                 };
+
+export def TORQUE = dimension { mass = 1, length = 2, time = -2, ... };
+
+export def SURFACE_TENSION = dimension { mass = 1, length = 0, time = -2, ... };
+
 export def VELOCITY                = dimension { length      = 1,  time       = -1, ...                                 };
 export def VOLUME                  = dimension { length      = 3,  ...                                                  };
+
 
 // The SI derived dimension of dynamic viscosity. Its SI unit is [[PASCAL_SECOND]].
 export def DYNAMIC_VISCOSITY = dimension {

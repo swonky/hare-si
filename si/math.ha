@@ -14,14 +14,30 @@ export fn equal(a: dimension, b: dimension) bool = {
 	       && a.luminosity == b.luminosity;
 };
 
+//Returns whether a and b are within tol of each other.
+export fn isclose(
+	a: quantity,
+	b: quantity,
+	tol: f64 = math::STANDARD_TOL,
+) (bool | dimension_mismatch) = {
+	if (!equal(a.unit.dim, b.unit.dim)) {
+		return dimension_mismatch;
+	};
+	const av = a.value * a.unit.scale;
+	const bv = b.value * b.unit.scale;
+
+	return math::isclosef64(av, bv, tol);
+};
+
 // Scales the unit by a f64 or metric prefix factor.
 export fn scale(u: unit, fac: (prefix_kind | f64)) unit = {
-	const multiplier = match (b) {
+	const multiplier = match (fac) {
 	case let kind: prefix_kind =>
-		yield math.powf(10.0, prefix_scale[kind]);
+		yield prefix_scale[kind];
 	case let f: f64 =>
 		yield f;
 	};
+
 	return unit { dim = u.dim, scale = u.scale * multiplier };
 };
 
@@ -73,7 +89,7 @@ export fn mulu(a: unit, b: unit) unit = {
 	};
 };
 
-// Returns the quotiant of units a and b.
+// Returns the quotient of units a and b.
 export fn divu(a: unit, b: unit) unit = {
 	return unit {
 		dim   = divd(a.dim, b.dim),
@@ -91,57 +107,81 @@ export fn powu(x: unit, p: int) unit = {
 
 // Returns the sum of quantities a and b, converting b to a's unit.
 // If b is an f64, it is treated as a value in a's unit.
-export fn add(a: quantity, b: (quantity | f64)) (quantity | dimension_mismatch) = match (b) {
-case let qty: quantity =>
-	yield if (!equal(a.unit.dim, qty.unit.dim)) dimension_mismatch else quantity {
-		unit = a.unit,
-		value = a.value + qty.value * qty.unit.scale / a.unit.scale,
+export fn add(
+	a: quantity,
+	b: (quantity | f64),
+) (quantity | dimension_mismatch) = {
+	const value = match (b) {
+	case let qty: quantity =>
+		if (!equal(a.unit.dim, qty.unit.dim)) {
+			return dimension_mismatch;
+		};
+		yield a.value + qty.value * qty.unit.scale / a.unit.scale;
+	case let f: f64 =>
+		yield a.value + f;
 	};
-case let f: f64 =>
-	yield quantity { unit = a.unit, value = a.value + f };
+	return quantity { unit = a.unit, value = value };
 };
 
 // Returns the difference of quantities a and b, converting b to a's unit.
 // If b is an f64, it is treated as a value in a's unit.
-export fn sub(a: quantity, b: (quantity | f64)) (quantity | dimension_mismatch) = match (b) {
-case let qty: quantity =>
-	yield if (!equal(a.unit.dim, qty.unit.dim)) dimension_mismatch else quantity {
-		unit = a.unit,
-		value = a.value - qty.value * qty.unit.scale / a.unit.scale,
+export fn sub(
+	a: quantity,
+	b: (quantity | f64),
+) (quantity | dimension_mismatch) = {
+	const value = match (b) {
+	case let qty: quantity =>
+		if (!equal(a.unit.dim, qty.unit.dim)) {
+			return dimension_mismatch;
+		};
+		yield a.value - qty.value * qty.unit.scale / a.unit.scale;
+	case let f: f64 =>
+		yield a.value - f;
 	};
-case let f: f64 =>
-	yield quantity { unit = a.unit, value = a.value - f };
+	return quantity { unit = a.unit, value = value };
 };
 
 // Returns the product of quantities a and b, or scales a by b if b is an f64.
-export fn mulq(a: quantity, b: (quantity | f64)) quantity = match (b) {
+export fn mulq(a: quantity, b: (quantity | f64)) quantity = {
+	return match (b) {
 	case let qty: quantity =>
-		yield quantity { unit = mulu(a.unit, qty.unit), value = a.value * qty.value };
+		const u = mulu(a.unit, qty.unit);
+		const v = a.value * qty.value;
+		yield quantity { unit = u, value = v };
 	case let f: f64 =>
-		yield quantity { unit = a.unit, value = a.value * f };
+		const u = a.unit;
+		const v = a.value * f;
+		yield quantity { unit = u, value = v };
+	};
 };
 
 // Returns the quotient of quantities a and b, or scales a by 1/b if b is an f64.
-export fn divq(a: quantity, b: (quantity | f64)) quantity = match (b) {
+export fn divq(a: quantity, b: (quantity | f64)) quantity = {
+	return match (b) {
 	case let qty: quantity =>
-		yield quantity {
-			value = a.value / qty.value,
-			unit = divu(a.unit, qty.unit),
-		};
+		const u = divu(a.unit, qty.unit);
+		const v = a.value / qty.value;
+		yield quantity { unit = u, value = v };
 	case let f: f64 =>
-		yield quantity {
-			value = a.value / f,
-			unit = a.unit,
-		};
+		const u = a.unit;
+		const v = a.value / f;
+		yield quantity { unit = u, value = v };
 	};
+};
 
 // Returns true if the value of the quantity or scale of its unit is infinite.
-export fn isinf(q: quantity) bool = math::isinf(q.value) || math::isinf(q.unit.scale);
+export fn isinf(q: quantity) bool = {
+	return math::isinf(q.value) || math::isinf(q.unit.scale);
+};
 
 // Returns true if the value of the quantity or scale of its unit is NaN.
-export fn isnan(q: quantity) bool = math::isnan(q.value) || math::isnan(q.unit.scale);
+export fn isnan(q: quantity) bool = {
+	return math::isnan(q.value) || math::isnan(q.unit.scale);
+};
 
 // Returns quantity x raised to the integer power p.
 export fn powq(x: quantity, p: int) quantity = {
-	return quantity { unit = powu(x.unit, p), value = math::powf64(x.value, p: f64) };
+	const u = powu(x.unit, p);
+	const v = math::powf64(x.value, p: f64);
+	return quantity { unit = u, value = v };
 };

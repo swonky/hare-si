@@ -44,7 +44,7 @@ def sym_micro_ascii = "u";
 def sym_mu          = "μ";
 
 // Unit prefix decimal exponents
-type prefix_kind = enum i8 {
+export type prefix_kind = enum i8 {
 	YOTTA, ZETTA, EXA, PETA, TERA, GIGA, MEGA, KILO, HECTO, DECA, DECI, CENTI,
 	MILLI, MICRO, NANO, PICO, FEMTO, ATTO, ZEPTO, YOCTO,
 };

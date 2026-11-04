@@ -362,6 +362,8 @@ def units: [_]unit = [
 	WEBER,
 ];
 
+export def DIMENSIONLESS_UNIT = unit { dim = DIMENSIONLESS, scale = 1.0 };
+
 // Base units
 
 export def AMPERE = unit { dim = CURRENT, scale = 1.0 };
@@ -388,7 +390,6 @@ export def BECQUEREL = unit { dim = ACTIVITY, scale = 1.0 };
 export def COULOMB = unit { dim = ELECTRIC_CHARGE, scale = 1.0 };
 export def DEGREE_CELSIUS = unit { dim = TEMPERATURE, scale = 1.0 };
 export def FARAD = unit { dim = CAPACITANCE, scale = 1.0 };
-export def GRAM = unit { dim = MASS, scale = 1e-3 };
 export def GRAY = unit { dim = ABSORBED_DOSE, scale = 1.0 };
 export def HENRY = unit { dim = INDUCTANCE, scale = 1.0 };
 export def JOULE = unit { dim = ENERGY, scale = 1.0 };
@@ -537,7 +538,24 @@ export def STOKES = unit { dim = KINEMATIC_VISCOSITY, scale = 1.0e-4 };
 // The torr is non-SI unit historically used in physics. See [[PASCAL]].
 export def TORR = unit { dim = PRESSURE, scale = 1.33322368421e2 };
 
+// Common scaled units
 
+export def GRAM = unit { dim = MASS, scale = 1.0e-3 };
+
+export def KILOMETRE = unit { dim = LENGTH, scale = 1.0e3 };
+export def CENTIMETRE = unit { dim = LENGTH, scale = 1.0e-2 };
+export def MILLIMETRE = unit { dim = LENGTH, scale = 1.0e-3 };
+export def MICROMETRE = unit { dim = LENGTH, scale = 1.0e-6 };
+export def MICRON = MICROMETRE;
+export def NANOMETRE = unit { dim = LENGTH, scale = 1.0e-9 };
+export def PICOMETRE = unit { dim = LENGTH, scale = 1.0e-12 };
+
+export def MILLIAMPERE = unit { dim = CURRENT, scale = 1.0e-3 };
+export def MICROAMPERE = unit { dim = CURRENT, scale = 1.0e-6 };
+
+export def MILLISECOND = unit { dim = TIME, scale = 1.0e-3 };
+export def MICROSECOND = unit { dim = TIME, scale = 1.0e-6 };
+export def NANOSECOND = unit { dim = TIME, scale = 1.0e-9 };
 // Coherent derived units
 
 export def AMPERE_PER_METRE = unit { dim = MAGNETIC_FIELD_STRENGTH, scale = 1.0 };
@@ -556,6 +574,10 @@ export def SQUARE_METRE = unit { dim = AREA, scale = 1.0 };
 export def COULOMB_PER_KILOGRAM = unit { dim = EXPOSURE, scale = 1.0 };
 // The pascal-second is the coherent SI unit of [[DYNAMIC_VISCOSITY]].
 export def PASCAL_SECOND = unit { dim = DYNAMIC_VISCOSITY, scale = 1.0 };
+
+export def NEWTON_METRE = unit { dim = TORQUE, scale = 1.0 };
+export def NEWTON_PER_METRE = unit { dim = SURFACE_TENSION, scale = 1.0 };
+
 
 // The square metre per second is the coherent SI unit of [[KINEMATIC_VISCOSITY]].
 export def SQUARE_METRE_PER_SECOND = unit { dim = KINEMATIC_VISCOSITY, scale = 1.0 };
