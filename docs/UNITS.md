@@ -1,8 +1,9 @@
 # Supported units of measurement
 
 ## Decimal prefixes
+
 | Prefix | Exponent (×10ⁿ) | Symbol (ASCII) | Symbol (UTF-8) | Notes                                                                                                   |
-| ---    | ---             | ---            | ---            | ---                                                                                                     |
+| ------ | --------------- | -------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
 | quetta | +30             | `Q`            | `Q`            |                                                                                                         |
 | ronna  | +27             | `R`            | `R`            |                                                                                                         |
 | yotta  | +24             | `Y`            | `Y`            |                                                                                                         |
@@ -29,50 +30,52 @@
 | quecto | −30             | `q`            | `q`            |                                                                                                         |
 
 ## SI units
-| Unit              | Symbol (ASCII) | Symbol (UTF-8) | Notes                                                                                        |
-| ---               | ---            | ---            | ---                                                                                          |
-| Ampere            | `A`            | `A`            |                                                                                              |
-| Becquerel         | `Bq`           | `Bq`           |                                                                                              |
-| Candela           | `cd`           | `cd`           |                                                                                              |
-| Coulomb           | `C`            | `C`            |                                                                                              |
-| Farad             | `F`            | `F`            |                                                                                              |
-| Gram              | `g`            | `g`            |                                                                                              |
-| Gray              | `Gy`           | `Gy`           |                                                                                              |
-| Henry             | `H`            | `H`            |                                                                                              |
-| Hertz             | `Hz`           | `Hz`           |                                                                                              |
-| Joule             | `J`            | `J`            |                                                                                              |
-| Katal             | `kat`          | `kat`          |                                                                                              |
-| Kelvin            | `K`            | `K`            |                                                                                              |
-| Lumen             | `lm`           | `lm`           |                                                                                              |
-| Lux               | `lx`           | `lx`           |                                                                                              |
-| Metre             | `m`            | `m`            |                                                                                              |
-| Mole              | `mol`          | `mol`          |                                                                                              |
-| Newton            | `N`            | `N`            |                                                                                              |
-| Ohm               | `ohm`          | `Ω`            | Formatted as `OHM SIGN (U+2126)`. Parser also accepts `GREEK CAPITAL LETTER OMEGA (U+03A9)`. |
-| Pascal            | `Pa`           | `Pa`           |                                                                                              |
-| Radian            | `rad`          | `rad`          |                                                                                              |
-| Second            | `s`            | `s`            |                                                                                              |
-| Siemens           | `S`            | `S`            |                                                                                              |
-| Sievert           | `Sv`           | `Sv`           |                                                                                              |
-| Steradian         | `sr`           | `sr`           |                                                                                              |
-| Tesla             | `T`            | `T`            |                                                                                              |
-| Volt              | `V`            | `V`            |                                                                                              |
-| Watt              | `W`            | `W`            |                                                                                              |
-| Weber             | `Wb`           | `Wb`           |                                                                                              |
+
+| Unit      | Symbol (ASCII) | Symbol (UTF-8) | Notes                                                                                        |
+| --------- | -------------- | -------------- | -------------------------------------------------------------------------------------------- |
+| Ampere    | `A`            | `A`            |                                                                                              |
+| Becquerel | `Bq`           | `Bq`           |                                                                                              |
+| Candela   | `cd`           | `cd`           |                                                                                              |
+| Coulomb   | `C`            | `C`            |                                                                                              |
+| Farad     | `F`            | `F`            |                                                                                              |
+| Gram      | `g`            | `g`            |                                                                                              |
+| Gray      | `Gy`           | `Gy`           |                                                                                              |
+| Henry     | `H`            | `H`            |                                                                                              |
+| Hertz     | `Hz`           | `Hz`           |                                                                                              |
+| Joule     | `J`            | `J`            |                                                                                              |
+| Katal     | `kat`          | `kat`          |                                                                                              |
+| Kelvin    | `K`            | `K`            |                                                                                              |
+| Lumen     | `lm`           | `lm`           |                                                                                              |
+| Lux       | `lx`           | `lx`           |                                                                                              |
+| Metre     | `m`            | `m`            |                                                                                              |
+| Mole      | `mol`          | `mol`          |                                                                                              |
+| Newton    | `N`            | `N`            |                                                                                              |
+| Ohm       | `ohm`          | `Ω`            | Formatted as `OHM SIGN (U+2126)`. Parser also accepts `GREEK CAPITAL LETTER OMEGA (U+03A9)`. |
+| Pascal    | `Pa`           | `Pa`           |                                                                                              |
+| Radian    | `rad`          | `rad`          |                                                                                              |
+| Second    | `s`            | `s`            |                                                                                              |
+| Siemens   | `S`            | `S`            |                                                                                              |
+| Sievert   | `Sv`           | `Sv`           |                                                                                              |
+| Steradian | `sr`           | `sr`           |                                                                                              |
+| Tesla     | `T`            | `T`            |                                                                                              |
+| Volt      | `V`            | `V`            |                                                                                              |
+| Watt      | `W`            | `W`            |                                                                                              |
+| Weber     | `Wb`           | `Wb`           |                                                                                              |
 
 ## Non-SI units
-| Unit              | Symbol (ASCII) | Symbol (UTF-8) | Notes                                                                                        |
-| ---               | ---            | ---            | ---                                                                                          |
-| Astronomical unit | `au`           | `au`           |                                                                                              |
-| Bel               | `B`            | `B`            | Logarithmic units do not currently convert                                                   |
-| Dalton            | `Da`           | `Da`           |                                                                                              |
-| Day               | `d`            | `d`            |                                                                                              |
-| Degree            | `deg`          | `°`            | Represented by `DEGREE SIGN U+00B0`.                                                         |
-| Degree Celsius    | `degC`         | `°C`           | see 'Degree'                                                                                 |
-| Electronvolt      | `eV`           | `eV`           |                                                                                              |
-| Hectare           | `ha`           | `ha`           |                                                                                              |
-| Hour              | `h`            | `h`            |                                                                                              |
-| Litre             | `L`            | `L`            | Parser also accepts lowercase `l`.                                                           |
-| Minute            | `min`          | `min`          |                                                                                              |
-| Neper             | `Np`           | `Np`           | Logarithmic units do not currently convert                                                   |
-| Tonne             | `t`            | `t`            |                                                                                              |
+
+| Unit              | Symbol (ASCII) | Symbol (UTF-8) | Notes                                      |
+| ----------------- | -------------- | -------------- | ------------------------------------------ |
+| Astronomical unit | `au`           | `au`           |                                            |
+| Bel               | `B`            | `B`            | Logarithmic units do not currently convert |
+| Dalton            | `Da`           | `Da`           |                                            |
+| Day               | `d`            | `d`            |                                            |
+| Degree            | `deg`          | `°`            | Represented by `DEGREE SIGN U+00B0`.       |
+| Degree Celsius    | `degC`         | `°C`           | see 'Degree'                               |
+| Electronvolt      | `eV`           | `eV`           |                                            |
+| Hectare           | `ha`           | `ha`           |                                            |
+| Hour              | `h`            | `h`            |                                            |
+| Litre             | `L`            | `L`            | Parser also accepts lowercase `l`.         |
+| Minute            | `min`          | `min`          |                                            |
+| Neper             | `Np`           | `Np`           | Logarithmic units do not currently convert |
+| Tonne             | `t`            | `t`            |                                            |

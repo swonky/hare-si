@@ -181,6 +181,6 @@ help:
 		'  BASH_DIR              Bash completion directory' \
 		'  ZSH_DIR               Zsh completion directory'
 
-.PHONY: all build docs completions install install-bin install-lib \
+.PHONY: all build check docs completions install install-bin install-lib \
         install-docs install-completions uninstall uninstall-bin \
         uninstall-lib uninstall-docs uninstall-completions clean help FORCE
