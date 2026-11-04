@@ -5,7 +5,7 @@ use fmt;
 use io;
 use memio;
 
-fn unit_to_json(out: io::handle, u: unit) (size | io::error) = return fmt::fprintf(out,
+fn unit_to_json(out: io::handle, u: unit) (size | io::error) = fmt::fprintf(out,
 	"{{\"dim\":{{\"kg\":{},\"m\":{},\"s\":{},\"A\":{},\"K\":{},\"mol\":{},\"cd\":{}}},\"scale\":{}}}",
 	u.dim.mass,
 	u.dim.length,
@@ -31,11 +31,11 @@ fn quantity_to_json(out: io::handle, q: quantity) (size | io::error) = fmt::fpri
 );
 
 // Writes JSON encoded representation of a quantity or unit.
-export fn encodejson(out: io::handle, obj: (quantity | unit)) (size | error) = match (obj) {
+export fn encodejson(h: io::handle, obj: (quantity | unit)) (size | error) = match (obj) {
 	case let q: quantity =>
-		yield quantity_to_json(out, q)?;
+		yield quantity_to_json(h, q)?;
 	case let u: unit =>
-		yield unit_to_json(out, u)?;
+		yield unit_to_json(h, u)?;
 };
 
 // Returns JSON encoded string representation of a quantity or unit.

@@ -278,54 +278,38 @@ Tonne             | t       |
 <span class='keyword'>type</span> <a href='#unexpected_token'>unexpected_token</a>;
 </pre><h4>Constants</h4>
 <pre>
-<span class='comment'>// Undocumented constants:</span>
 <span class='keyword'>def</span> <a href='#ABSORBED_DOSE'>ABSORBED_DOSE</a> = dimension {
 	length = 2,
 	time = -2,
-	...
-};
-<span class='keyword'>def</span> <a href='#ACCELERATION'>ACCELERATION</a> = dimension {
-	length = 1,
-	time = -2,
-	...
-};
-<span class='keyword'>def</span> <a href='#ACTION'>ACTION</a> = dimension {
-	mass = 1,
-	length = 2,
-	time = -1,
 	...
 };
 <span class='keyword'>def</span> <a href='#ACTIVITY'>ACTIVITY</a> = dimension {
 	time = -1,
 	...
 };
-<span class='keyword'>def</span> <a href='#AMPERE'>AMPERE</a> = unit {
-	dim = CURRENT,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#AMPERE_PER_METRE'>AMPERE_PER_METRE</a> = unit {
-	dim = MAGNETIC_FIELD_STRENGTH,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#AMPERE_PER_SQUARE_METRE'>AMPERE_PER_SQUARE_METRE</a> = unit {
-	dim = CURRENT_DENSITY,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#AREA'>AREA</a> = dimension {
-	length = 2,
-	...
+<span class='keyword'>def</span> <a href='#ANGSTROM'>ANGSTROM</a> = unit {
+	dim = LENGTH,
+	scale = 1.0e-10,
 };
 <span class='keyword'>def</span> <a href='#ASTRONOMICAL_UNIT'>ASTRONOMICAL_UNIT</a> = unit {
 	dim = LENGTH,
 	scale = 149597870700.0,
 };
+<span class='keyword'>def</span> <a href='#ATMOSPHERE'>ATMOSPHERE</a> = unit {
+	dim = PRESSURE,
+	scale = 101325.0,
+};
 <span class='keyword'>def</span> <a href='#AVOGADRO'>AVOGADRO</a> = quantity {
 	unit = RECIPROCAL_MOLE,
 	value = 6.02214076e23,
 };
-<span class='keyword'>def</span> <a href='#BECQUEREL'>BECQUEREL</a> = unit {
-	dim = ACTIVITY,
-	scale = 1.0,
+<span class='keyword'>def</span> <a href='#BAR'>BAR</a> = unit {
+	dim = PRESSURE,
+	scale = 1.0e5,
+};
+<span class='keyword'>def</span> <a href='#BARN'>BARN</a> = unit {
+	dim = AREA,
+	scale = 1.0e-28,
 };
 <span class='keyword'>def</span> <a href='#BEL'>BEL</a> = unit {
 	dim = DIMENSIONLESS,
@@ -335,13 +319,9 @@ Tonne             | t       |
 	unit = JOULE_PER_KELVIN,
 	value = 1.380649e-23,
 };
-<span class='keyword'>def</span> <a href='#CANDELA'>CANDELA</a> = unit {
-	dim = LUMINOSITY,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#CANDELA_PER_SQUARE_METRE'>CANDELA_PER_SQUARE_METRE</a> = unit {
-	dim = LUMINANCE,
-	scale = 1.0,
+<span class='keyword'>def</span> <a href='#CALORIE'>CALORIE</a> = unit {
+	dim = ENERGY,
+	scale = 4.184,
 };
 <span class='keyword'>def</span> <a href='#CAPACITANCE'>CAPACITANCE</a> = dimension {
 	mass = -1,
@@ -355,11 +335,6 @@ Tonne             | t       |
 	substance = 1,
 	...
 };
-<span class='keyword'>def</span> <a href='#CONCENTRATION'>CONCENTRATION</a> = dimension {
-	substance = 1,
-	length = -3,
-	...
-};
 <span class='keyword'>def</span> <a href='#CONDUCTANCE'>CONDUCTANCE</a> = dimension {
 	mass = -1,
 	length = -2,
@@ -367,25 +342,12 @@ Tonne             | t       |
 	current = 2,
 	...
 };
-<span class='keyword'>def</span> <a href='#COULOMB'>COULOMB</a> = unit {
-	dim = ELECTRIC_CHARGE,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#CUBIC_METRE'>CUBIC_METRE</a> = unit {
-	dim = VOLUME,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#CUBIC_METRE_PER_KILOGRAM'>CUBIC_METRE_PER_KILOGRAM</a> = unit {
-	dim = SPECIFIC_VOLUME,
-	scale = 1.0,
+<span class='keyword'>def</span> <a href='#CURIE'>CURIE</a> = unit {
+	dim = ACTIVITY,
+	scale = 3.7e10,
 };
 <span class='keyword'>def</span> <a href='#CURRENT'>CURRENT</a> = dimension {
 	current = 1,
-	...
-};
-<span class='keyword'>def</span> <a href='#CURRENT_DENSITY'>CURRENT_DENSITY</a> = dimension {
-	current = 1,
-	length = -2,
 	...
 };
 <span class='keyword'>def</span> <a href='#DALTON'>DALTON</a> = unit {
@@ -400,15 +362,6 @@ Tonne             | t       |
 	dim = DIMENSIONLESS,
 	scale = 0.017453292519943295,
 };
-<span class='keyword'>def</span> <a href='#DEGREE_CELSIUS'>DEGREE_CELSIUS</a> = unit {
-	dim = TEMPERATURE,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#DENSITY'>DENSITY</a> = dimension {
-	mass = 1,
-	length = -3,
-	...
-};
 <span class='keyword'>def</span> <a href='#DIMENSIONLESS'>DIMENSIONLESS</a> = dimension {
 	...
 };
@@ -416,6 +369,16 @@ Tonne             | t       |
 	length = 2,
 	time = -2,
 	...
+};
+<span class='keyword'>def</span> <a href='#DYNAMIC_VISCOSITY'>DYNAMIC_VISCOSITY</a> = dimension {
+	mass = 1,
+	length = -1,
+	time = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#DYNE'>DYNE</a> = unit {
+	dim = FORCE,
+	scale = 1.0e-5,
 };
 <span class='keyword'>def</span> <a href='#ELECTRIC_CHARGE'>ELECTRIC_CHARGE</a> = dimension {
 	time = 1,
@@ -443,16 +406,15 @@ Tonne             | t       |
 	time = -2,
 	...
 };
-<span class='keyword'>def</span> <a href='#ENTROPY'>ENTROPY</a> = dimension {
-	mass = 1,
-	length = 2,
-	time = -2,
-	temperature = -1,
-	...
+<span class='keyword'>def</span> <a href='#ERG'>ERG</a> = unit {
+	dim = ENERGY,
+	scale = 1.0e-7,
 };
-<span class='keyword'>def</span> <a href='#FARAD'>FARAD</a> = unit {
-	dim = CAPACITANCE,
-	scale = 1.0,
+<span class='keyword'>def</span> <a href='#EXPOSURE'>EXPOSURE</a> = dimension {
+	mass = -1,
+	time = 1,
+	current = 1,
+	...
 };
 <span class='keyword'>def</span> <a href='#FORCE'>FORCE</a> = dimension {
 	mass = 1,
@@ -464,29 +426,17 @@ Tonne             | t       |
 	time = -1,
 	...
 };
+<span class='keyword'>def</span> <a href='#GAL'>GAL</a> = unit {
+	dim = ACCELERATION,
+	scale = 0.01,
+};
 <span class='keyword'>def</span> <a href='#GAUSS'>GAUSS</a> = unit {
 	dim = MAGNETIC_FLUX_DENSITY,
 	scale = 1.0e-4,
 };
-<span class='keyword'>def</span> <a href='#GRAM'>GRAM</a> = unit {
-	dim = MASS,
-	scale = 1.0e-3,
-};
-<span class='keyword'>def</span> <a href='#GRAY'>GRAY</a> = unit {
-	dim = ABSORBED_DOSE,
-	scale = 1.0,
-};
 <span class='keyword'>def</span> <a href='#HECTARE'>HECTARE</a> = unit {
 	dim = AREA,
 	scale = 1.0e4,
-};
-<span class='keyword'>def</span> <a href='#HENRY'>HENRY</a> = unit {
-	dim = INDUCTANCE,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#HERTZ'>HERTZ</a> = unit {
-	dim = FREQUENCY,
-	scale = 1.0,
 };
 <span class='keyword'>def</span> <a href='#HOUR'>HOUR</a> = unit {
 	dim = TIME,
@@ -508,16 +458,280 @@ Tonne             | t       |
 	current = -2,
 	...
 };
-<span class='keyword'>def</span> <a href='#JOULE'>JOULE</a> = unit {
-	dim = ENERGY,
-	scale = 1.0,
-};
 <span class='keyword'>def</span> <a href='#JOULE_PER_KELVIN'>JOULE_PER_KELVIN</a> = unit {
 	dim = ENTROPY,
 	scale = 1.0,
 };
 <span class='keyword'>def</span> <a href='#JOULE_SECOND'>JOULE_SECOND</a> = unit {
 	dim = ACTION,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#KINEMATIC_VISCOSITY'>KINEMATIC_VISCOSITY</a> = dimension {
+	length = 2,
+	time = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#LENGTH'>LENGTH</a> = dimension {
+	length = 1,
+	...
+};
+<span class='keyword'>def</span> <a href='#LITRE'>LITRE</a> = unit {
+	dim = VOLUME,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#LUMINOSITY'>LUMINOSITY</a> = dimension {
+	luminosity = 1,
+	...
+};
+<span class='keyword'>def</span> <a href='#LUMINOUS_EFFICACY_540_THZ'>LUMINOUS_EFFICACY_540_THZ</a> = quantity {
+	unit = LUMEN_PER_WATT,
+	value = 683.0,
+};
+<span class='keyword'>def</span> <a href='#LUMINOUS_FLUX'>LUMINOUS_FLUX</a> = dimension {
+	luminosity = 1,
+	...
+};
+<span class='keyword'>def</span> <a href='#MAGNETIC_FLUX'>MAGNETIC_FLUX</a> = dimension {
+	mass = 1,
+	length = 2,
+	time = -2,
+	current = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#MAGNETIC_FLUX_DENSITY'>MAGNETIC_FLUX_DENSITY</a> = dimension {
+	mass = 1,
+	time = -2,
+	current = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#MASS'>MASS</a> = dimension {
+	mass = 1,
+	...
+};
+<span class='keyword'>def</span> <a href='#MAXWELL'>MAXWELL</a> = unit {
+	dim = MAGNETIC_FLUX,
+	scale = 1.0e-8,
+};
+<span class='keyword'>def</span> <a href='#MILLIMETRES_OF_MERCURY'>MILLIMETRES_OF_MERCURY</a> = unit {
+	dim = PRESSURE,
+	scale = 133.322,
+};
+<span class='keyword'>def</span> <a href='#MINUTE'>MINUTE</a> = unit {
+	dim = TIME,
+	scale = 60.0,
+};
+<span class='keyword'>def</span> <a href='#NEPER'>NEPER</a> = unit {
+	dim = DIMENSIONLESS,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#OERSTED'>OERSTED</a> = unit {
+	dim = MAGNETIC_FIELD_STRENGTH,
+	scale = 79.57747155,
+};
+<span class='keyword'>def</span> <a href='#PASCAL_SECOND'>PASCAL_SECOND</a> = unit {
+	dim = DYNAMIC_VISCOSITY,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#PLANCK'>PLANCK</a> = quantity {
+	unit = JOULE_SECOND,
+	value = 6.62607015e-34,
+};
+<span class='keyword'>def</span> <a href='#POISE'>POISE</a> = unit {
+	dim = DYNAMIC_VISCOSITY,
+	scale = 0.1,
+};
+<span class='keyword'>def</span> <a href='#POWER'>POWER</a> = dimension {
+	mass = 1,
+	length = 2,
+	time = -3,
+	...
+};
+<span class='keyword'>def</span> <a href='#PRESSURE'>PRESSURE</a> = dimension {
+	mass = 1,
+	length = -1,
+	time = -2,
+	...
+};
+<span class='keyword'>def</span> <a href='#RAD'>RAD</a> = unit {
+	dim = ABSORBED_DOSE,
+	scale = 0.01,
+};
+<span class='keyword'>def</span> <a href='#RECIPROCAL_CURRENT'>RECIPROCAL_CURRENT</a> = dimension {
+	current = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#RECIPROCAL_LUMINOSITY'>RECIPROCAL_LUMINOSITY</a> = dimension {
+	luminosity = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#RECIPROCAL_MASS'>RECIPROCAL_MASS</a> = dimension {
+	mass = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#RECIPROCAL_SUBSTANCE'>RECIPROCAL_SUBSTANCE</a> = dimension {
+	substance = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#RECIPROCAL_TEMPERATURE'>RECIPROCAL_TEMPERATURE</a> = dimension {
+	temperature = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#REM'>REM</a> = unit {
+	dim = DOSE_EQUIVALENT,
+	scale = 0.01,
+};
+<span class='keyword'>def</span> <a href='#RESISTANCE'>RESISTANCE</a> = dimension {
+	mass = 1,
+	length = 2,
+	time = -3,
+	current = -2,
+	...
+};
+<span class='keyword'>def</span> <a href='#ROENTGEN'>ROENTGEN</a> = unit {
+	dim = EXPOSURE,
+	scale = 2.58e-4,
+};
+<span class='keyword'>def</span> <a href='#SPEED_OF_LIGHT'>SPEED_OF_LIGHT</a> = quantity {
+	unit = METRE_PER_SECOND,
+	value = 299792458.0,
+};
+<span class='keyword'>def</span> <a href='#SQUARE_METRE_PER_SECOND'>SQUARE_METRE_PER_SECOND</a> = unit {
+	dim = KINEMATIC_VISCOSITY,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#STOKES'>STOKES</a> = unit {
+	dim = KINEMATIC_VISCOSITY,
+	scale = 1.0e-4,
+};
+<span class='keyword'>def</span> <a href='#SUBSTANCE'>SUBSTANCE</a> = dimension {
+	substance = 1,
+	...
+};
+<span class='keyword'>def</span> <a href='#TEMPERATURE'>TEMPERATURE</a> = dimension {
+	temperature = 1,
+	...
+};
+<span class='keyword'>def</span> <a href='#TIME'>TIME</a> = dimension {
+	time = 1,
+	...
+};
+<span class='keyword'>def</span> <a href='#TONNE'>TONNE</a> = unit {
+	dim = MASS,
+	scale = 1.0e3,
+};
+<span class='keyword'>def</span> <a href='#TORR'>TORR</a> = unit {
+	dim = PRESSURE,
+	scale = 133.322368421,
+};
+<span class='keyword'>def</span> <a href='#WAVENUMBER'>WAVENUMBER</a> = dimension {
+	length = -1,
+	...
+};
+
+<span class='comment'>// Undocumented constants:</span>
+<span class='keyword'>def</span> <a href='#ACCELERATION'>ACCELERATION</a> = dimension {
+	length = 1,
+	time = -2,
+	...
+};
+<span class='keyword'>def</span> <a href='#ACTION'>ACTION</a> = dimension {
+	mass = 1,
+	length = 2,
+	time = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#AMPERE'>AMPERE</a> = unit {
+	dim = CURRENT,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#AMPERE_PER_METRE'>AMPERE_PER_METRE</a> = unit {
+	dim = MAGNETIC_FIELD_STRENGTH,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#AMPERE_PER_SQUARE_METRE'>AMPERE_PER_SQUARE_METRE</a> = unit {
+	dim = CURRENT_DENSITY,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#AREA'>AREA</a> = dimension {
+	length = 2,
+	...
+};
+<span class='keyword'>def</span> <a href='#BECQUEREL'>BECQUEREL</a> = unit {
+	dim = ACTIVITY,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#CANDELA'>CANDELA</a> = unit {
+	dim = LUMINOSITY,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#CANDELA_PER_SQUARE_METRE'>CANDELA_PER_SQUARE_METRE</a> = unit {
+	dim = LUMINANCE,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#CONCENTRATION'>CONCENTRATION</a> = dimension {
+	substance = 1,
+	length = -3,
+	...
+};
+<span class='keyword'>def</span> <a href='#COULOMB'>COULOMB</a> = unit {
+	dim = ELECTRIC_CHARGE,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#COULOMB_PER_KILOGRAM'>COULOMB_PER_KILOGRAM</a> = unit {
+	dim = EXPOSURE,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#CUBIC_METRE'>CUBIC_METRE</a> = unit {
+	dim = VOLUME,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#CUBIC_METRE_PER_KILOGRAM'>CUBIC_METRE_PER_KILOGRAM</a> = unit {
+	dim = SPECIFIC_VOLUME,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#CURRENT_DENSITY'>CURRENT_DENSITY</a> = dimension {
+	current = 1,
+	length = -2,
+	...
+};
+<span class='keyword'>def</span> <a href='#DEGREE_CELSIUS'>DEGREE_CELSIUS</a> = unit {
+	dim = TEMPERATURE,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#DENSITY'>DENSITY</a> = dimension {
+	mass = 1,
+	length = -3,
+	...
+};
+<span class='keyword'>def</span> <a href='#ENTROPY'>ENTROPY</a> = dimension {
+	mass = 1,
+	length = 2,
+	time = -2,
+	temperature = -1,
+	...
+};
+<span class='keyword'>def</span> <a href='#FARAD'>FARAD</a> = unit {
+	dim = CAPACITANCE,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#GRAM'>GRAM</a> = unit {
+	dim = MASS,
+	scale = 1.0e-3,
+};
+<span class='keyword'>def</span> <a href='#GRAY'>GRAY</a> = unit {
+	dim = ABSORBED_DOSE,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#HENRY'>HENRY</a> = unit {
+	dim = INDUCTANCE,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#HERTZ'>HERTZ</a> = unit {
+	dim = FREQUENCY,
+	scale = 1.0,
+};
+<span class='keyword'>def</span> <a href='#JOULE'>JOULE</a> = unit {
+	dim = ENERGY,
 	scale = 1.0,
 };
 <span class='keyword'>def</span> <a href='#KATAL'>KATAL</a> = unit {
@@ -540,14 +754,6 @@ Tonne             | t       |
 	dim = SURFACE_DENSITY,
 	scale = 1.0,
 };
-<span class='keyword'>def</span> <a href='#LENGTH'>LENGTH</a> = dimension {
-	length = 1,
-	...
-};
-<span class='keyword'>def</span> <a href='#LITRE'>LITRE</a> = unit {
-	dim = VOLUME,
-	scale = 1.0e-3,
-};
 <span class='keyword'>def</span> <a href='#LUMEN'>LUMEN</a> = unit {
 	dim = LUMINOUS_FLUX,
 	scale = 1.0,
@@ -561,22 +767,10 @@ Tonne             | t       |
 	length = -2,
 	...
 };
-<span class='keyword'>def</span> <a href='#LUMINOSITY'>LUMINOSITY</a> = dimension {
-	luminosity = 1,
-	...
-};
 <span class='keyword'>def</span> <a href='#LUMINOUS_EFFICACY'>LUMINOUS_EFFICACY</a> = dimension {
 	mass = -1,
 	length = -2,
 	time = 3,
-	luminosity = 1,
-	...
-};
-<span class='keyword'>def</span> <a href='#LUMINOUS_EFFICACY_540_THZ'>LUMINOUS_EFFICACY_540_THZ</a> = quantity {
-	unit = LUMEN_PER_WATT,
-	value = 683.0,
-};
-<span class='keyword'>def</span> <a href='#LUMINOUS_FLUX'>LUMINOUS_FLUX</a> = dimension {
 	luminosity = 1,
 	...
 };
@@ -587,23 +781,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> <a href='#MAGNETIC_FIELD_STRENGTH'>MAGNETIC_FIELD_STRENGTH</a> = dimension {
 	current = 1,
 	length = -1,
-	...
-};
-<span class='keyword'>def</span> <a href='#MAGNETIC_FLUX'>MAGNETIC_FLUX</a> = dimension {
-	mass = 1,
-	length = 2,
-	time = -2,
-	current = -1,
-	...
-};
-<span class='keyword'>def</span> <a href='#MAGNETIC_FLUX_DENSITY'>MAGNETIC_FLUX_DENSITY</a> = dimension {
-	mass = 1,
-	time = -2,
-	current = -1,
-	...
-};
-<span class='keyword'>def</span> <a href='#MASS'>MASS</a> = dimension {
-	mass = 1,
 	...
 };
 <span class='keyword'>def</span> <a href='#METRE'>METRE</a> = unit {
@@ -618,20 +795,12 @@ Tonne             | t       |
 	dim = ACCELERATION,
 	scale = 1.0,
 };
-<span class='keyword'>def</span> <a href='#MINUTE'>MINUTE</a> = unit {
-	dim = TIME,
-	scale = 60.0,
-};
 <span class='keyword'>def</span> <a href='#MOLE'>MOLE</a> = unit {
 	dim = SUBSTANCE,
 	scale = 1.0,
 };
 <span class='keyword'>def</span> <a href='#MOLE_PER_CUBIC_METRE'>MOLE_PER_CUBIC_METRE</a> = unit {
 	dim = CONCENTRATION,
-	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#NEPER'>NEPER</a> = unit {
-	dim = DIMENSIONLESS,
 	scale = 1.0,
 };
 <span class='keyword'>def</span> <a href='#NEWTON'>NEWTON</a> = unit {
@@ -646,22 +815,6 @@ Tonne             | t       |
 	dim = PRESSURE,
 	scale = 1.0,
 };
-<span class='keyword'>def</span> <a href='#PLANCK'>PLANCK</a> = quantity {
-	unit = JOULE_SECOND,
-	value = 6.62607015e-34,
-};
-<span class='keyword'>def</span> <a href='#POWER'>POWER</a> = dimension {
-	mass = 1,
-	length = 2,
-	time = -3,
-	...
-};
-<span class='keyword'>def</span> <a href='#PRESSURE'>PRESSURE</a> = dimension {
-	mass = 1,
-	length = -1,
-	time = -2,
-	...
-};
 <span class='keyword'>def</span> <a href='#RADIAN'>RADIAN</a> = unit {
 	dim = DIMENSIONLESS,
 	scale = 1.0,
@@ -674,10 +827,6 @@ Tonne             | t       |
 	dim = RECIPROCAL_LUMINOSITY,
 	scale = 1.0,
 };
-<span class='keyword'>def</span> <a href='#RECIPROCAL_CURRENT'>RECIPROCAL_CURRENT</a> = dimension {
-	current = -1,
-	...
-};
 <span class='keyword'>def</span> <a href='#RECIPROCAL_KELVIN'>RECIPROCAL_KELVIN</a> = unit {
 	dim = RECIPROCAL_TEMPERATURE,
 	scale = 1.0,
@@ -686,14 +835,6 @@ Tonne             | t       |
 	dim = RECIPROCAL_MASS,
 	scale = 1.0,
 };
-<span class='keyword'>def</span> <a href='#RECIPROCAL_LUMINOSITY'>RECIPROCAL_LUMINOSITY</a> = dimension {
-	luminosity = -1,
-	...
-};
-<span class='keyword'>def</span> <a href='#RECIPROCAL_MASS'>RECIPROCAL_MASS</a> = dimension {
-	mass = -1,
-	...
-};
 <span class='keyword'>def</span> <a href='#RECIPROCAL_METRE'>RECIPROCAL_METRE</a> = unit {
 	dim = WAVENUMBER,
 	scale = 1.0,
@@ -701,21 +842,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> <a href='#RECIPROCAL_MOLE'>RECIPROCAL_MOLE</a> = unit {
 	dim = RECIPROCAL_SUBSTANCE,
 	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#RECIPROCAL_SUBSTANCE'>RECIPROCAL_SUBSTANCE</a> = dimension {
-	substance = -1,
-	...
-};
-<span class='keyword'>def</span> <a href='#RECIPROCAL_TEMPERATURE'>RECIPROCAL_TEMPERATURE</a> = dimension {
-	temperature = -1,
-	...
-};
-<span class='keyword'>def</span> <a href='#RESISTANCE'>RESISTANCE</a> = dimension {
-	mass = 1,
-	length = 2,
-	time = -3,
-	current = -2,
-	...
 };
 <span class='keyword'>def</span> <a href='#SECOND'>SECOND</a> = unit {
 	dim = TIME,
@@ -734,10 +860,6 @@ Tonne             | t       |
 	length = 3,
 	...
 };
-<span class='keyword'>def</span> <a href='#SPEED_OF_LIGHT'>SPEED_OF_LIGHT</a> = quantity {
-	unit = METRE_PER_SECOND,
-	value = 299792458.0,
-};
 <span class='keyword'>def</span> <a href='#SQUARE_METRE'>SQUARE_METRE</a> = unit {
 	dim = AREA,
 	scale = 1.0,
@@ -746,30 +868,14 @@ Tonne             | t       |
 	dim = DIMENSIONLESS,
 	scale = 1.0,
 };
-<span class='keyword'>def</span> <a href='#SUBSTANCE'>SUBSTANCE</a> = dimension {
-	substance = 1,
-	...
-};
 <span class='keyword'>def</span> <a href='#SURFACE_DENSITY'>SURFACE_DENSITY</a> = dimension {
 	mass = 1,
 	length = -2,
 	...
 };
-<span class='keyword'>def</span> <a href='#TEMPERATURE'>TEMPERATURE</a> = dimension {
-	temperature = 1,
-	...
-};
 <span class='keyword'>def</span> <a href='#TESLA'>TESLA</a> = unit {
 	dim = MAGNETIC_FLUX_DENSITY,
 	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#TIME'>TIME</a> = dimension {
-	time = 1,
-	...
-};
-<span class='keyword'>def</span> <a href='#TONNE'>TONNE</a> = unit {
-	dim = MASS,
-	scale = 1.0e3,
 };
 <span class='keyword'>def</span> <a href='#VELOCITY'>VELOCITY</a> = dimension {
 	length = 1,
@@ -787,10 +893,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> <a href='#WATT'>WATT</a> = unit {
 	dim = POWER,
 	scale = 1.0,
-};
-<span class='keyword'>def</span> <a href='#WAVENUMBER'>WAVENUMBER</a> = dimension {
-	length = -1,
-	...
 };
 <span class='keyword'>def</span> <a href='#WEBER'>WEBER</a> = unit {
 	dim = MAGNETIC_FLUX,
@@ -936,15 +1038,742 @@ Tonne             | t       |
 <h3>Constants</h3>
 <section class='member'>
 <h4 id='ABSORBED_DOSE'><span class='heading-body'>def ABSORBED_DOSE</span><span class='heading-extra'><a href='#ABSORBED_DOSE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>def</span> ABSORBED_DOSE = dimension {
 	length = 2,
 	time = -2,
 	...
 };</pre>
-</details>
+<p>The SI derived dimension of absorbed dose. Its SI unit is <a href='#GRAY' class='ref'>GRAY</a>.
+</section>
+<section class='member'>
+<h4 id='ACTIVITY'><span class='heading-body'>def ACTIVITY</span><span class='heading-extra'><a href='#ACTIVITY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ACTIVITY = dimension {
+	time = -1,
+	...
+};</pre>
+<p>The SI derived dimension of radioactive activity. Its SI unit is <a href='#BECQUEREL' class='ref'>BECQUEREL</a>.
+</section>
+<section class='member'>
+<h4 id='ANGSTROM'><span class='heading-body'>def ANGSTROM</span><span class='heading-extra'><a href='#ANGSTROM'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ANGSTROM = unit {
+	dim = LENGTH,
+	scale = 1.0e-10,
+};</pre>
+<p>The angstrom is a non-SI unit of length still widely used in the natural sciences and technology to express atomic-scale lengths. See <a href='#METRE' class='ref'>METRE</a>.
+</section>
+<section class='member'>
+<h4 id='ASTRONOMICAL_UNIT'><span class='heading-body'>def ASTRONOMICAL_UNIT</span><span class='heading-extra'><a href='#ASTRONOMICAL_UNIT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ASTRONOMICAL_UNIT = unit {
+	dim = LENGTH,
+	scale = 149597870700.0,
+};</pre>
+<p>The astronomical unit is a non-SI unit of length that approximately equates to the average distance between the Sun and the Earth. As of 2012, it is standardised to a fixed length in metres. See <a href='#METRE' class='ref'>METRE</a>.
+</section>
+<section class='member'>
+<h4 id='ATMOSPHERE'><span class='heading-body'>def ATMOSPHERE</span><span class='heading-extra'><a href='#ATMOSPHERE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ATMOSPHERE = unit {
+	dim = PRESSURE,
+	scale = 101325.0,
+};</pre>
+<p>The standard atmosphere is widely used in chemistry, physics, and engineering as a reference pressure. See <a href='#PASCAL' class='ref'>PASCAL</a>.
+</section>
+<section class='member'>
+<h4 id='AVOGADRO'><span class='heading-body'>def AVOGADRO</span><span class='heading-extra'><a href='#AVOGADRO'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> AVOGADRO = quantity {
+	unit = RECIPROCAL_MOLE,
+	value = 6.02214076e23,
+};</pre>
+<p>The Avogadro constant, an exact defining constant of the SI representing the number of elementary entities in one mole. Its SI unit is <a href='#RECIPROCAL_MOLE' class='ref'>RECIPROCAL_MOLE</a>.
+</section>
+<section class='member'>
+<h4 id='BAR'><span class='heading-body'>def BAR</span><span class='heading-extra'><a href='#BAR'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> BAR = unit {
+	dim = PRESSURE,
+	scale = 1.0e5,
+};</pre>
+<p>The bar is a metric unit of pressure commonly used in meteorology and acoustics. Not to be confused with the CGS unit &apos;Barye&apos;.
+</section>
+<section class='member'>
+<h4 id='BARN'><span class='heading-body'>def BARN</span><span class='heading-extra'><a href='#BARN'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> BARN = unit {
+	dim = AREA,
+	scale = 1.0e-28,
+};</pre>
+<p>The barn is commonly used in nuclear and particle physics to express cross-sectional areas of atomic nuclei and subatomic interactions.
+</section>
+<section class='member'>
+<h4 id='BEL'><span class='heading-body'>def BEL</span><span class='heading-extra'><a href='#BEL'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> BEL = unit {
+	dim = DIMENSIONLESS,
+	scale = 1.0,
+};</pre>
+<p>The bel is a non-SI relative logarithmic unit commonly used in acoustics, telecommunications, and signal processing to express ratios of power quantities. This unit is dimensionless and does not support conversion. See also: <a href='#NEPER' class='ref'>NEPER</a>.
+</section>
+<section class='member'>
+<h4 id='BOLTZMANN'><span class='heading-body'>def BOLTZMANN</span><span class='heading-extra'><a href='#BOLTZMANN'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> BOLTZMANN = quantity {
+	unit = JOULE_PER_KELVIN,
+	value = 1.380649e-23,
+};</pre>
+<p>The Boltzmann constant, an exact defining constant of the SI relating thermal energy to thermodynamic temperature. Its SI unit is <a href='#JOULE_PER_KELVIN' class='ref'>JOULE_PER_KELVIN</a>.
+</section>
+<section class='member'>
+<h4 id='CALORIE'><span class='heading-body'>def CALORIE</span><span class='heading-extra'><a href='#CALORIE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> CALORIE = unit {
+	dim = ENERGY,
+	scale = 4.184,
+};</pre>
+<p>The calorie is non-SI unit commonly used in thermodynamics, chemistry, and nutritional science to express energy. See <a href='#JOULE' class='ref'>JOULE</a>.
+</section>
+<section class='member'>
+<h4 id='CAPACITANCE'><span class='heading-body'>def CAPACITANCE</span><span class='heading-extra'><a href='#CAPACITANCE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> CAPACITANCE = dimension {
+	mass = -1,
+	length = -2,
+	time = 4,
+	current = 2,
+	...
+};</pre>
+<p>The SI derived dimension of capacitance. Its SI unit is <a href='#FARAD' class='ref'>FARAD</a>.
+</section>
+<section class='member'>
+<h4 id='CATALYTIC_ACTIVITY'><span class='heading-body'>def CATALYTIC_ACTIVITY</span><span class='heading-extra'><a href='#CATALYTIC_ACTIVITY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> CATALYTIC_ACTIVITY = dimension {
+	time = -1,
+	substance = 1,
+	...
+};</pre>
+<p>The SI derived dimension of catalytic activity. Its SI unit is <a href='#KATAL' class='ref'>KATAL</a>.
+</section>
+<section class='member'>
+<h4 id='CONDUCTANCE'><span class='heading-body'>def CONDUCTANCE</span><span class='heading-extra'><a href='#CONDUCTANCE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> CONDUCTANCE = dimension {
+	mass = -1,
+	length = -2,
+	time = 3,
+	current = 2,
+	...
+};</pre>
+<p>The SI derived dimension of electrical conductance. Its SI unit is <a href='#SIEMENS' class='ref'>SIEMENS</a>.
+</section>
+<section class='member'>
+<h4 id='CURIE'><span class='heading-body'>def CURIE</span><span class='heading-extra'><a href='#CURIE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> CURIE = unit {
+	dim = ACTIVITY,
+	scale = 3.7e10,
+};</pre>
+<p>The curie is a non-SI unit historically used in nuclear physics to express radioactivity. See <a href='#BECQUEREL' class='ref'>BECQUEREL</a>.
+</section>
+<section class='member'>
+<h4 id='CURRENT'><span class='heading-body'>def CURRENT</span><span class='heading-extra'><a href='#CURRENT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> CURRENT = dimension {
+	current = 1,
+	...
+};</pre>
+<p>The SI base dimension of electric current.
+</section>
+<section class='member'>
+<h4 id='DALTON'><span class='heading-body'>def DALTON</span><span class='heading-extra'><a href='#DALTON'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> DALTON = unit {
+	dim = MASS,
+	scale = 1.66053906892e-27,
+};</pre>
+<p>The dalton
+</section>
+<section class='member'>
+<h4 id='DAY'><span class='heading-body'>def DAY</span><span class='heading-extra'><a href='#DAY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> DAY = unit {
+	dim = TIME,
+	scale = 86400.0,
+};</pre>
+<p>The day is a non-SI unit of time. See <a href='#SECOND' class='ref'>SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='DEGREE'><span class='heading-body'>def DEGREE</span><span class='heading-extra'><a href='#DEGREE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> DEGREE = unit {
+	dim = DIMENSIONLESS,
+	scale = 0.017453292519943295,
+};</pre>
+<p>The degree
+</section>
+<section class='member'>
+<h4 id='DIMENSIONLESS'><span class='heading-body'>def DIMENSIONLESS</span><span class='heading-extra'><a href='#DIMENSIONLESS'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> DIMENSIONLESS = dimension {
+	...
+};</pre>
+<p>The dimensionless dimension, with all SI base dimension exponents equal to zero.
+</section>
+<section class='member'>
+<h4 id='DOSE_EQUIVALENT'><span class='heading-body'>def DOSE_EQUIVALENT</span><span class='heading-extra'><a href='#DOSE_EQUIVALENT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> DOSE_EQUIVALENT = dimension {
+	length = 2,
+	time = -2,
+	...
+};</pre>
+<p>The SI derived dimension of dose equivalent. Its SI unit is <a href='#SIEVERT' class='ref'>SIEVERT</a>.
+</section>
+<section class='member'>
+<h4 id='DYNAMIC_VISCOSITY'><span class='heading-body'>def DYNAMIC_VISCOSITY</span><span class='heading-extra'><a href='#DYNAMIC_VISCOSITY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> DYNAMIC_VISCOSITY = dimension {
+	mass = 1,
+	length = -1,
+	time = -1,
+	...
+};</pre>
+<p>The SI derived dimension of dynamic viscosity. Its SI unit is <a href='#PASCAL_SECOND' class='ref'>PASCAL_SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='DYNE'><span class='heading-body'>def DYNE</span><span class='heading-extra'><a href='#DYNE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> DYNE = unit {
+	dim = FORCE,
+	scale = 1.0e-5,
+};</pre>
+<p>The dyne is a CGS unit used in mechanics and fluid dynamics to express force. See <a href='#NEWTON' class='ref'>NEWTON</a>.
+</section>
+<section class='member'>
+<h4 id='ELECTRIC_CHARGE'><span class='heading-body'>def ELECTRIC_CHARGE</span><span class='heading-extra'><a href='#ELECTRIC_CHARGE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ELECTRIC_CHARGE = dimension {
+	time = 1,
+	current = 1,
+	...
+};</pre>
+<p>The SI derived dimension of electric charge. Its SI unit is <a href='#COULOMB' class='ref'>COULOMB</a>.
+</section>
+<section class='member'>
+<h4 id='ELECTRIC_POTENTIAL'><span class='heading-body'>def ELECTRIC_POTENTIAL</span><span class='heading-extra'><a href='#ELECTRIC_POTENTIAL'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ELECTRIC_POTENTIAL = dimension {
+	mass = 1,
+	length = 2,
+	time = -3,
+	current = -1,
+	...
+};</pre>
+<p>The SI derived dimension of electric potential. Its SI unit is <a href='#VOLT' class='ref'>VOLT</a>.
+</section>
+<section class='member'>
+<h4 id='ELECTRONVOLT'><span class='heading-body'>def ELECTRONVOLT</span><span class='heading-extra'><a href='#ELECTRONVOLT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ELECTRONVOLT = unit {
+	dim = ENERGY,
+	scale = 1.602176634e-19,
+};</pre>
+<p>The electronvolt
+</section>
+<section class='member'>
+<h4 id='ELEMENTARY_CHARGE'><span class='heading-body'>def ELEMENTARY_CHARGE</span><span class='heading-extra'><a href='#ELEMENTARY_CHARGE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ELEMENTARY_CHARGE = quantity {
+	unit = COULOMB,
+	value = 1.602176634e-19,
+};</pre>
+<p>The elementary charge, an exact defining constant of the SI corresponding to the magnitude of the electric charge of a proton. Its SI unit is <a href='#COULOMB' class='ref'>COULOMB</a>.
+</section>
+<section class='member'>
+<h4 id='ENERGY'><span class='heading-body'>def ENERGY</span><span class='heading-extra'><a href='#ENERGY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ENERGY = dimension {
+	mass = 1,
+	length = 2,
+	time = -2,
+	...
+};</pre>
+<p>The SI derived dimension of energy. Its SI unit is <a href='#JOULE' class='ref'>JOULE</a>.
+</section>
+<section class='member'>
+<h4 id='ERG'><span class='heading-body'>def ERG</span><span class='heading-extra'><a href='#ERG'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ERG = unit {
+	dim = ENERGY,
+	scale = 1.0e-7,
+};</pre>
+<p>The erg is a CGS unit commonly used in classical mechanics, astrophysics, and other areas of physics to express energy. See <a href='#JOULE' class='ref'>JOULE</a>.
+</section>
+<section class='member'>
+<h4 id='EXPOSURE'><span class='heading-body'>def EXPOSURE</span><span class='heading-extra'><a href='#EXPOSURE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> EXPOSURE = dimension {
+	mass = -1,
+	time = 1,
+	current = 1,
+	...
+};</pre>
+<p>The SI derived dimension of exposure to ionising radiation. Its SI unit is <a href='#COULOMB_PER_KILOGRAM' class='ref'>COULOMB_PER_KILOGRAM</a>.
+</section>
+<section class='member'>
+<h4 id='FORCE'><span class='heading-body'>def FORCE</span><span class='heading-extra'><a href='#FORCE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> FORCE = dimension {
+	mass = 1,
+	length = 1,
+	time = -2,
+	...
+};</pre>
+<p>The SI derived dimension of force. Its SI unit is <a href='#NEWTON' class='ref'>NEWTON</a>.
+</section>
+<section class='member'>
+<h4 id='FREQUENCY'><span class='heading-body'>def FREQUENCY</span><span class='heading-extra'><a href='#FREQUENCY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> FREQUENCY = dimension {
+	time = -1,
+	...
+};</pre>
+<p>The SI derived dimension of frequency. Its SI unit is <a href='#HERTZ' class='ref'>HERTZ</a>.
+</section>
+<section class='member'>
+<h4 id='GAL'><span class='heading-body'>def GAL</span><span class='heading-extra'><a href='#GAL'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> GAL = unit {
+	dim = ACCELERATION,
+	scale = 0.01,
+};</pre>
+<p>The gal is a CGS unit commonly used in geophysics and gravimetry to express acceleration. See <a href='#METRE_PER_SECOND_SQUARED' class='ref'>METRE_PER_SECOND_SQUARED</a>.
+</section>
+<section class='member'>
+<h4 id='GAUSS'><span class='heading-body'>def GAUSS</span><span class='heading-extra'><a href='#GAUSS'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> GAUSS = unit {
+	dim = MAGNETIC_FLUX_DENSITY,
+	scale = 1.0e-4,
+};</pre>
+<p>The gauss is a CGS unit commonly used in physics and engineering to express magnetic flux density. See <a href='#TESLA' class='ref'>TESLA</a>.
+</section>
+<section class='member'>
+<h4 id='HECTARE'><span class='heading-body'>def HECTARE</span><span class='heading-extra'><a href='#HECTARE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> HECTARE = unit {
+	dim = AREA,
+	scale = 1.0e4,
+};</pre>
+<p>The hectare is non-SI metric unit commonly used to express areas of land. See <a href='#SQUARE_METRE' class='ref'>SQUARE_METRE</a>.
+</section>
+<section class='member'>
+<h4 id='HOUR'><span class='heading-body'>def HOUR</span><span class='heading-extra'><a href='#HOUR'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> HOUR = unit {
+	dim = TIME,
+	scale = 3600.0,
+};</pre>
+<p>The hour is non-SI unit of time. See <a href='#SECOND' class='ref'>SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='HYPERFINE_TRANSITION_CAESIUM_133'><span class='heading-body'>def HYPERFINE_TRANSITION_CAESIUM_133</span><span class='heading-extra'><a href='#HYPERFINE_TRANSITION_CAESIUM_133'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> HYPERFINE_TRANSITION_CAESIUM_133 = quantity {
+	unit = HERTZ,
+	value = 9192631770.0,
+};</pre>
+<p>The caesium-133 hyperfine transition frequency, which defines the SI second. Its SI unit is <a href='#HERTZ' class='ref'>HERTZ</a>.
+</section>
+<section class='member'>
+<h4 id='ILLUMINANCE'><span class='heading-body'>def ILLUMINANCE</span><span class='heading-extra'><a href='#ILLUMINANCE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ILLUMINANCE = dimension {
+	length = -2,
+	luminosity = 1,
+	...
+};</pre>
+<p>The SI derived dimension of illuminance. Its SI unit is <a href='#LUX' class='ref'>LUX</a>.
+</section>
+<section class='member'>
+<h4 id='INDUCTANCE'><span class='heading-body'>def INDUCTANCE</span><span class='heading-extra'><a href='#INDUCTANCE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> INDUCTANCE = dimension {
+	mass = 1,
+	length = 2,
+	time = -2,
+	current = -2,
+	...
+};</pre>
+<p>The SI derived dimension of inductance. Its SI unit is <a href='#HENRY' class='ref'>HENRY</a>.
+</section>
+<section class='member'>
+<h4 id='JOULE_PER_KELVIN'><span class='heading-body'>def JOULE_PER_KELVIN</span><span class='heading-extra'><a href='#JOULE_PER_KELVIN'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> JOULE_PER_KELVIN = unit {
+	dim = ENTROPY,
+	scale = 1.0,
+};</pre>
+<p>The joule per kelvin is the coherent SI unit of <a href='#ENTROPY' class='ref'>ENTROPY</a>.
+</section>
+<section class='member'>
+<h4 id='JOULE_SECOND'><span class='heading-body'>def JOULE_SECOND</span><span class='heading-extra'><a href='#JOULE_SECOND'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> JOULE_SECOND = unit {
+	dim = ACTION,
+	scale = 1.0,
+};</pre>
+<p>The joule-second is the coherent SI unit of <a href='#ACTION' class='ref'>ACTION</a>.
+</section>
+<section class='member'>
+<h4 id='KINEMATIC_VISCOSITY'><span class='heading-body'>def KINEMATIC_VISCOSITY</span><span class='heading-extra'><a href='#KINEMATIC_VISCOSITY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> KINEMATIC_VISCOSITY = dimension {
+	length = 2,
+	time = -1,
+	...
+};</pre>
+<p>The SI derived dimension of kinematic viscosity. Its SI unit is <a href='#SQUARE_METRE_PER_SECOND' class='ref'>SQUARE_METRE_PER_SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='LENGTH'><span class='heading-body'>def LENGTH</span><span class='heading-extra'><a href='#LENGTH'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> LENGTH = dimension {
+	length = 1,
+	...
+};</pre>
+<p>The SI base dimension of length.
+</section>
+<section class='member'>
+<h4 id='LITRE'><span class='heading-body'>def LITRE</span><span class='heading-extra'><a href='#LITRE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> LITRE = unit {
+	dim = VOLUME,
+	scale = 1.0e-3,
+};</pre>
+<p>The litre is a non-SI metric unit of volume in common general use. See <a href='#CUBIC_METRE' class='ref'>CUBIC_METRE</a>.
+</section>
+<section class='member'>
+<h4 id='LUMINOSITY'><span class='heading-body'>def LUMINOSITY</span><span class='heading-extra'><a href='#LUMINOSITY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> LUMINOSITY = dimension {
+	luminosity = 1,
+	...
+};</pre>
+<p>The SI base dimension of luminous intensity.
+</section>
+<section class='member'>
+<h4 id='LUMINOUS_EFFICACY_540_THZ'><span class='heading-body'>def LUMINOUS_EFFICACY_540_THZ</span><span class='heading-extra'><a href='#LUMINOUS_EFFICACY_540_THZ'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> LUMINOUS_EFFICACY_540_THZ = quantity {
+	unit = LUMEN_PER_WATT,
+	value = 683.0,
+};</pre>
+<p>The luminous efficacy of monochromatic radiation at 540 THz, an exact defining constant of the SI for <a href='#LUMINOUS_EFFICACY' class='ref'>LUMINOUS_EFFICACY</a>. Its SI unit is <a href='#LUMEN_PER_WATT' class='ref'>LUMEN_PER_WATT</a>.
+</section>
+<section class='member'>
+<h4 id='LUMINOUS_FLUX'><span class='heading-body'>def LUMINOUS_FLUX</span><span class='heading-extra'><a href='#LUMINOUS_FLUX'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> LUMINOUS_FLUX = dimension {
+	luminosity = 1,
+	...
+};</pre>
+<p>The SI derived dimension of luminous flux. Its SI unit is <a href='#LUMEN' class='ref'>LUMEN</a>.
+</section>
+<section class='member'>
+<h4 id='MAGNETIC_FLUX'><span class='heading-body'>def MAGNETIC_FLUX</span><span class='heading-extra'><a href='#MAGNETIC_FLUX'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MAGNETIC_FLUX = dimension {
+	mass = 1,
+	length = 2,
+	time = -2,
+	current = -1,
+	...
+};</pre>
+<p>The SI derived dimension of magnetic flux. Its SI unit is <a href='#WEBER' class='ref'>WEBER</a>.
+</section>
+<section class='member'>
+<h4 id='MAGNETIC_FLUX_DENSITY'><span class='heading-body'>def MAGNETIC_FLUX_DENSITY</span><span class='heading-extra'><a href='#MAGNETIC_FLUX_DENSITY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MAGNETIC_FLUX_DENSITY = dimension {
+	mass = 1,
+	time = -2,
+	current = -1,
+	...
+};</pre>
+<p>The SI derived dimension of magnetic flux density. Its SI unit is <a href='#TESLA' class='ref'>TESLA</a>.
+</section>
+<section class='member'>
+<h4 id='MASS'><span class='heading-body'>def MASS</span><span class='heading-extra'><a href='#MASS'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MASS = dimension {
+	mass = 1,
+	...
+};</pre>
+<p>The SI base dimension of mass.
+</section>
+<section class='member'>
+<h4 id='MAXWELL'><span class='heading-body'>def MAXWELL</span><span class='heading-extra'><a href='#MAXWELL'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MAXWELL = unit {
+	dim = MAGNETIC_FLUX,
+	scale = 1.0e-8,
+};</pre>
+<p>The maxwell is a CGS electromagnetic unit used to express magnetic flux. See <a href='#WEBER' class='ref'>WEBER</a>.
+</section>
+<section class='member'>
+<h4 id='MILLIMETRES_OF_MERCURY'><span class='heading-body'>def MILLIMETRES_OF_MERCURY</span><span class='heading-extra'><a href='#MILLIMETRES_OF_MERCURY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLIMETRES_OF_MERCURY = unit {
+	dim = PRESSURE,
+	scale = 133.322,
+};</pre>
+<p>Millimetres of mercury are widely used in medicine and meteorology to express pressure. See <a href='#PASCAL' class='ref'>PASCAL</a>
+</section>
+<section class='member'>
+<h4 id='MINUTE'><span class='heading-body'>def MINUTE</span><span class='heading-extra'><a href='#MINUTE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> MINUTE = unit {
+	dim = TIME,
+	scale = 60.0,
+};</pre>
+<p>The minute is non-SI unit of time. See <a href='#SECOND' class='ref'>SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='NEPER'><span class='heading-body'>def NEPER</span><span class='heading-extra'><a href='#NEPER'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> NEPER = unit {
+	dim = DIMENSIONLESS,
+	scale = 1.0,
+};</pre>
+<p>The neper is a non-SI relative logarithmic unit used in acoustics, telecommunications, and signal processing to express ratios of field quantities. This unit is dimensionless and does not support conversion. See also: <a href='#BEL' class='ref'>BEL</a>.
+</section>
+<section class='member'>
+<h4 id='OERSTED'><span class='heading-body'>def OERSTED</span><span class='heading-extra'><a href='#OERSTED'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> OERSTED = unit {
+	dim = MAGNETIC_FIELD_STRENGTH,
+	scale = 79.57747155,
+};</pre>
+<p>The oersted is a CGS electromagnetic unit used to express magnetic field strength. See <a href='#HENRY' class='ref'>HENRY</a>.
+</section>
+<section class='member'>
+<h4 id='PASCAL_SECOND'><span class='heading-body'>def PASCAL_SECOND</span><span class='heading-extra'><a href='#PASCAL_SECOND'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> PASCAL_SECOND = unit {
+	dim = DYNAMIC_VISCOSITY,
+	scale = 1.0,
+};</pre>
+<p>The pascal-second is the coherent SI unit of <a href='#DYNAMIC_VISCOSITY' class='ref'>DYNAMIC_VISCOSITY</a>.
+</section>
+<section class='member'>
+<h4 id='PLANCK'><span class='heading-body'>def PLANCK</span><span class='heading-extra'><a href='#PLANCK'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> PLANCK = quantity {
+	unit = JOULE_SECOND,
+	value = 6.62607015e-34,
+};</pre>
+<p>The Planck constant, an exact defining constant of the SI relating the energy of a photon to its frequency. Its SI unit is <a href='#JOULE_SECOND' class='ref'>JOULE_SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='POISE'><span class='heading-body'>def POISE</span><span class='heading-extra'><a href='#POISE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> POISE = unit {
+	dim = DYNAMIC_VISCOSITY,
+	scale = 0.1,
+};</pre>
+<p>The poise is a CGS unit commonly used in rheology and fluid mechanics to express dynamic viscosity.
+</section>
+<section class='member'>
+<h4 id='POWER'><span class='heading-body'>def POWER</span><span class='heading-extra'><a href='#POWER'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> POWER = dimension {
+	mass = 1,
+	length = 2,
+	time = -3,
+	...
+};</pre>
+<p>The SI derived dimension of power. Its SI unit is <a href='#WATT' class='ref'>WATT</a>.
+</section>
+<section class='member'>
+<h4 id='PRESSURE'><span class='heading-body'>def PRESSURE</span><span class='heading-extra'><a href='#PRESSURE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> PRESSURE = dimension {
+	mass = 1,
+	length = -1,
+	time = -2,
+	...
+};</pre>
+<p>The SI derived dimension of pressure. Its SI unit is <a href='#PASCAL' class='ref'>PASCAL</a>.
+</section>
+<section class='member'>
+<h4 id='RAD'><span class='heading-body'>def RAD</span><span class='heading-extra'><a href='#RAD'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> RAD = unit {
+	dim = ABSORBED_DOSE,
+	scale = 0.01,
+};</pre>
+<p>The rad is a non-SI unit historically used in radiobiology and radiation dosimetry to express absorbed dose.
+</section>
+<section class='member'>
+<h4 id='RECIPROCAL_CURRENT'><span class='heading-body'>def RECIPROCAL_CURRENT</span><span class='heading-extra'><a href='#RECIPROCAL_CURRENT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> RECIPROCAL_CURRENT = dimension {
+	current = -1,
+	...
+};</pre>
+<p>The reciprocal of the SI base dimension of electric current.
+</section>
+<section class='member'>
+<h4 id='RECIPROCAL_LUMINOSITY'><span class='heading-body'>def RECIPROCAL_LUMINOSITY</span><span class='heading-extra'><a href='#RECIPROCAL_LUMINOSITY'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> RECIPROCAL_LUMINOSITY = dimension {
+	luminosity = -1,
+	...
+};</pre>
+<p>The reciprocal of the SI base dimension of luminous intensity.
+</section>
+<section class='member'>
+<h4 id='RECIPROCAL_MASS'><span class='heading-body'>def RECIPROCAL_MASS</span><span class='heading-extra'><a href='#RECIPROCAL_MASS'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> RECIPROCAL_MASS = dimension {
+	mass = -1,
+	...
+};</pre>
+<p>The reciprocal of the SI base dimension of mass.
+</section>
+<section class='member'>
+<h4 id='RECIPROCAL_SUBSTANCE'><span class='heading-body'>def RECIPROCAL_SUBSTANCE</span><span class='heading-extra'><a href='#RECIPROCAL_SUBSTANCE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> RECIPROCAL_SUBSTANCE = dimension {
+	substance = -1,
+	...
+};</pre>
+<p>The reciprocal of the SI base dimension of amount of substance.
+</section>
+<section class='member'>
+<h4 id='RECIPROCAL_TEMPERATURE'><span class='heading-body'>def RECIPROCAL_TEMPERATURE</span><span class='heading-extra'><a href='#RECIPROCAL_TEMPERATURE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> RECIPROCAL_TEMPERATURE = dimension {
+	temperature = -1,
+	...
+};</pre>
+<p>The reciprocal of the SI base dimension of thermodynamic temperature.
+</section>
+<section class='member'>
+<h4 id='REM'><span class='heading-body'>def REM</span><span class='heading-extra'><a href='#REM'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> REM = unit {
+	dim = DOSE_EQUIVALENT,
+	scale = 0.01,
+};</pre>
+<p>The rem is a non-SI unit historically used in radiation protection to express equivalent dose.
+</section>
+<section class='member'>
+<h4 id='RESISTANCE'><span class='heading-body'>def RESISTANCE</span><span class='heading-extra'><a href='#RESISTANCE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> RESISTANCE = dimension {
+	mass = 1,
+	length = 2,
+	time = -3,
+	current = -2,
+	...
+};</pre>
+<p>The SI derived dimension of electrical resistance. Its SI unit is <a href='#OHM' class='ref'>OHM</a>.
+</section>
+<section class='member'>
+<h4 id='ROENTGEN'><span class='heading-body'>def ROENTGEN</span><span class='heading-extra'><a href='#ROENTGEN'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> ROENTGEN = unit {
+	dim = EXPOSURE,
+	scale = 2.58e-4,
+};</pre>
+<p>The roentgen is a non-SI unit historically used in radiology and radiation protection to express <a href='#EXPOSURE' class='ref'>EXPOSURE</a>. The equivilent SI unit is <a href='#COULOMB_PER_KILOGRAM' class='ref'>COULOMB_PER_KILOGRAM</a>.
+</section>
+<section class='member'>
+<h4 id='SPEED_OF_LIGHT'><span class='heading-body'>def SPEED_OF_LIGHT</span><span class='heading-extra'><a href='#SPEED_OF_LIGHT'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> SPEED_OF_LIGHT = quantity {
+	unit = METRE_PER_SECOND,
+	value = 299792458.0,
+};</pre>
+<p>The speed of light in vacuum, an exact defining constant of the SI. Its SI unit is <a href='#METRE_PER_SECOND' class='ref'>METRE_PER_SECOND</a>.
+</section>
+<section class='member'>
+<h4 id='SQUARE_METRE_PER_SECOND'><span class='heading-body'>def SQUARE_METRE_PER_SECOND</span><span class='heading-extra'><a href='#SQUARE_METRE_PER_SECOND'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> SQUARE_METRE_PER_SECOND = unit {
+	dim = KINEMATIC_VISCOSITY,
+	scale = 1.0,
+};</pre>
+<p>The square metre per second is the coherent SI unit of <a href='#KINEMATIC_VISCOSITY' class='ref'>KINEMATIC_VISCOSITY</a>.
+</section>
+<section class='member'>
+<h4 id='STOKES'><span class='heading-body'>def STOKES</span><span class='heading-extra'><a href='#STOKES'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> STOKES = unit {
+	dim = KINEMATIC_VISCOSITY,
+	scale = 1.0e-4,
+};</pre>
+<p>The stokes is a CGS unit commonly used in fluid mechanics to express viscosity.
+</section>
+<section class='member'>
+<h4 id='SUBSTANCE'><span class='heading-body'>def SUBSTANCE</span><span class='heading-extra'><a href='#SUBSTANCE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> SUBSTANCE = dimension {
+	substance = 1,
+	...
+};</pre>
+<p>The SI base dimension of amount of substance.
+</section>
+<section class='member'>
+<h4 id='TEMPERATURE'><span class='heading-body'>def TEMPERATURE</span><span class='heading-extra'><a href='#TEMPERATURE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> TEMPERATURE = dimension {
+	temperature = 1,
+	...
+};</pre>
+<p>The SI base dimension of thermodynamic temperature.
+</section>
+<section class='member'>
+<h4 id='TIME'><span class='heading-body'>def TIME</span><span class='heading-extra'><a href='#TIME'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> TIME = dimension {
+	time = 1,
+	...
+};</pre>
+<p>The SI base dimension of time.
+</section>
+<section class='member'>
+<h4 id='TONNE'><span class='heading-body'>def TONNE</span><span class='heading-extra'><a href='#TONNE'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> TONNE = unit {
+	dim = MASS,
+	scale = 1.0e3,
+};</pre>
+<p>The tonne is a non-SI metric unit of mass still in common general use. Not to be confused with the ton units used in Imperial or Customary systems. See <a href='#KILOGRAM' class='ref'>KILOGRAM</a>.
+</section>
+<section class='member'>
+<h4 id='TORR'><span class='heading-body'>def TORR</span><span class='heading-extra'><a href='#TORR'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> TORR = unit {
+	dim = PRESSURE,
+	scale = 133.322368421,
+};</pre>
+<p>The torr is non-SI unit historically used in physics. See <a href='#PASCAL' class='ref'>PASCAL</a>.
+</section>
+<section class='member'>
+<h4 id='WAVENUMBER'><span class='heading-body'>def WAVENUMBER</span><span class='heading-extra'><a href='#WAVENUMBER'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>def</span> WAVENUMBER = dimension {
+	length = -1,
+	...
+};</pre>
+<p>The SI derived dimension of spatial frequency, expressed as the reciprocal of length.
 </section>
 <section class='member'>
 <h4 id='ACCELERATION'><span class='heading-body'>def ACCELERATION</span><span class='heading-extra'><a href='#ACCELERATION'>[permalink]</a></span></h4>
@@ -966,17 +1795,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> ACTION = dimension {
 	mass = 1,
 	length = 2,
-	time = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='ACTIVITY'><span class='heading-body'>def ACTIVITY</span><span class='heading-extra'><a href='#ACTIVITY'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> ACTIVITY = dimension {
 	time = -1,
 	...
 };</pre>
@@ -1027,28 +1845,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='ASTRONOMICAL_UNIT'><span class='heading-body'>def ASTRONOMICAL_UNIT</span><span class='heading-extra'><a href='#ASTRONOMICAL_UNIT'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> ASTRONOMICAL_UNIT = unit {
-	dim = LENGTH,
-	scale = 149597870700.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='AVOGADRO'><span class='heading-body'>def AVOGADRO</span><span class='heading-extra'><a href='#AVOGADRO'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> AVOGADRO = quantity {
-	unit = RECIPROCAL_MOLE,
-	value = 6.02214076e23,
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='BECQUEREL'><span class='heading-body'>def BECQUEREL</span><span class='heading-extra'><a href='#BECQUEREL'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1056,28 +1852,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> BECQUEREL = unit {
 	dim = ACTIVITY,
 	scale = 1.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='BEL'><span class='heading-body'>def BEL</span><span class='heading-extra'><a href='#BEL'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> BEL = unit {
-	dim = DIMENSIONLESS,
-	scale = 1.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='BOLTZMANN'><span class='heading-body'>def BOLTZMANN</span><span class='heading-extra'><a href='#BOLTZMANN'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> BOLTZMANN = quantity {
-	unit = JOULE_PER_KELVIN,
-	value = 1.380649e-23,
 };</pre>
 </details>
 </section>
@@ -1104,32 +1878,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='CAPACITANCE'><span class='heading-body'>def CAPACITANCE</span><span class='heading-extra'><a href='#CAPACITANCE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> CAPACITANCE = dimension {
-	mass = -1,
-	length = -2,
-	time = 4,
-	current = 2,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='CATALYTIC_ACTIVITY'><span class='heading-body'>def CATALYTIC_ACTIVITY</span><span class='heading-extra'><a href='#CATALYTIC_ACTIVITY'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> CATALYTIC_ACTIVITY = dimension {
-	time = -1,
-	substance = 1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='CONCENTRATION'><span class='heading-body'>def CONCENTRATION</span><span class='heading-extra'><a href='#CONCENTRATION'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1142,26 +1890,23 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='CONDUCTANCE'><span class='heading-body'>def CONDUCTANCE</span><span class='heading-extra'><a href='#CONDUCTANCE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> CONDUCTANCE = dimension {
-	mass = -1,
-	length = -2,
-	time = 3,
-	current = 2,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='COULOMB'><span class='heading-body'>def COULOMB</span><span class='heading-extra'><a href='#COULOMB'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>def</span> COULOMB = unit {
 	dim = ELECTRIC_CHARGE,
+	scale = 1.0,
+};</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='COULOMB_PER_KILOGRAM'><span class='heading-body'>def COULOMB_PER_KILOGRAM</span><span class='heading-extra'><a href='#COULOMB_PER_KILOGRAM'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> COULOMB_PER_KILOGRAM = unit {
+	dim = EXPOSURE,
 	scale = 1.0,
 };</pre>
 </details>
@@ -1189,17 +1934,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='CURRENT'><span class='heading-body'>def CURRENT</span><span class='heading-extra'><a href='#CURRENT'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> CURRENT = dimension {
-	current = 1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='CURRENT_DENSITY'><span class='heading-body'>def CURRENT_DENSITY</span><span class='heading-extra'><a href='#CURRENT_DENSITY'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1208,39 +1942,6 @@ Tonne             | t       |
 	current = 1,
 	length = -2,
 	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='DALTON'><span class='heading-body'>def DALTON</span><span class='heading-extra'><a href='#DALTON'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> DALTON = unit {
-	dim = MASS,
-	scale = 1.66053906892e-27,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='DAY'><span class='heading-body'>def DAY</span><span class='heading-extra'><a href='#DAY'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> DAY = unit {
-	dim = TIME,
-	scale = 86400.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='DEGREE'><span class='heading-body'>def DEGREE</span><span class='heading-extra'><a href='#DEGREE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> DEGREE = unit {
-	dim = DIMENSIONLESS,
-	scale = 0.017453292519943295,
 };</pre>
 </details>
 </section>
@@ -1263,89 +1964,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> DENSITY = dimension {
 	mass = 1,
 	length = -3,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='DIMENSIONLESS'><span class='heading-body'>def DIMENSIONLESS</span><span class='heading-extra'><a href='#DIMENSIONLESS'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> DIMENSIONLESS = dimension {
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='DOSE_EQUIVALENT'><span class='heading-body'>def DOSE_EQUIVALENT</span><span class='heading-extra'><a href='#DOSE_EQUIVALENT'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> DOSE_EQUIVALENT = dimension {
-	length = 2,
-	time = -2,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='ELECTRIC_CHARGE'><span class='heading-body'>def ELECTRIC_CHARGE</span><span class='heading-extra'><a href='#ELECTRIC_CHARGE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> ELECTRIC_CHARGE = dimension {
-	time = 1,
-	current = 1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='ELECTRIC_POTENTIAL'><span class='heading-body'>def ELECTRIC_POTENTIAL</span><span class='heading-extra'><a href='#ELECTRIC_POTENTIAL'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> ELECTRIC_POTENTIAL = dimension {
-	mass = 1,
-	length = 2,
-	time = -3,
-	current = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='ELECTRONVOLT'><span class='heading-body'>def ELECTRONVOLT</span><span class='heading-extra'><a href='#ELECTRONVOLT'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> ELECTRONVOLT = unit {
-	dim = ENERGY,
-	scale = 1.602176634e-19,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='ELEMENTARY_CHARGE'><span class='heading-body'>def ELEMENTARY_CHARGE</span><span class='heading-extra'><a href='#ELEMENTARY_CHARGE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> ELEMENTARY_CHARGE = quantity {
-	unit = COULOMB,
-	value = 1.602176634e-19,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='ENERGY'><span class='heading-body'>def ENERGY</span><span class='heading-extra'><a href='#ENERGY'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> ENERGY = dimension {
-	mass = 1,
-	length = 2,
-	time = -2,
 	...
 };</pre>
 </details>
@@ -1376,41 +1994,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='FORCE'><span class='heading-body'>def FORCE</span><span class='heading-extra'><a href='#FORCE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> FORCE = dimension {
-	mass = 1,
-	length = 1,
-	time = -2,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='FREQUENCY'><span class='heading-body'>def FREQUENCY</span><span class='heading-extra'><a href='#FREQUENCY'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> FREQUENCY = dimension {
-	time = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='GAUSS'><span class='heading-body'>def GAUSS</span><span class='heading-extra'><a href='#GAUSS'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> GAUSS = unit {
-	dim = MAGNETIC_FLUX_DENSITY,
-	scale = 1.0e-4,
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='GRAM'><span class='heading-body'>def GRAM</span><span class='heading-extra'><a href='#GRAM'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1429,17 +2012,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> GRAY = unit {
 	dim = ABSORBED_DOSE,
 	scale = 1.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='HECTARE'><span class='heading-body'>def HECTARE</span><span class='heading-extra'><a href='#HECTARE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> HECTARE = unit {
-	dim = AREA,
-	scale = 1.0e4,
 };</pre>
 </details>
 </section>
@@ -1466,82 +2038,12 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='HOUR'><span class='heading-body'>def HOUR</span><span class='heading-extra'><a href='#HOUR'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> HOUR = unit {
-	dim = TIME,
-	scale = 3600.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='HYPERFINE_TRANSITION_CAESIUM_133'><span class='heading-body'>def HYPERFINE_TRANSITION_CAESIUM_133</span><span class='heading-extra'><a href='#HYPERFINE_TRANSITION_CAESIUM_133'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> HYPERFINE_TRANSITION_CAESIUM_133 = quantity {
-	unit = HERTZ,
-	value = 9192631770.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='ILLUMINANCE'><span class='heading-body'>def ILLUMINANCE</span><span class='heading-extra'><a href='#ILLUMINANCE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> ILLUMINANCE = dimension {
-	length = -2,
-	luminosity = 1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='INDUCTANCE'><span class='heading-body'>def INDUCTANCE</span><span class='heading-extra'><a href='#INDUCTANCE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> INDUCTANCE = dimension {
-	mass = 1,
-	length = 2,
-	time = -2,
-	current = -2,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='JOULE'><span class='heading-body'>def JOULE</span><span class='heading-extra'><a href='#JOULE'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
 <pre class='decl'>
 <span class='keyword'>def</span> JOULE = unit {
 	dim = ENERGY,
-	scale = 1.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='JOULE_PER_KELVIN'><span class='heading-body'>def JOULE_PER_KELVIN</span><span class='heading-extra'><a href='#JOULE_PER_KELVIN'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> JOULE_PER_KELVIN = unit {
-	dim = ENTROPY,
-	scale = 1.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='JOULE_SECOND'><span class='heading-body'>def JOULE_SECOND</span><span class='heading-extra'><a href='#JOULE_SECOND'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> JOULE_SECOND = unit {
-	dim = ACTION,
 	scale = 1.0,
 };</pre>
 </details>
@@ -1602,28 +2104,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='LENGTH'><span class='heading-body'>def LENGTH</span><span class='heading-extra'><a href='#LENGTH'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> LENGTH = dimension {
-	length = 1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='LITRE'><span class='heading-body'>def LITRE</span><span class='heading-extra'><a href='#LITRE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> LITRE = unit {
-	dim = VOLUME,
-	scale = 1.0e-3,
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='LUMEN'><span class='heading-body'>def LUMEN</span><span class='heading-extra'><a href='#LUMEN'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1658,17 +2138,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='LUMINOSITY'><span class='heading-body'>def LUMINOSITY</span><span class='heading-extra'><a href='#LUMINOSITY'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> LUMINOSITY = dimension {
-	luminosity = 1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='LUMINOUS_EFFICACY'><span class='heading-body'>def LUMINOUS_EFFICACY</span><span class='heading-extra'><a href='#LUMINOUS_EFFICACY'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1677,28 +2146,6 @@ Tonne             | t       |
 	mass = -1,
 	length = -2,
 	time = 3,
-	luminosity = 1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='LUMINOUS_EFFICACY_540_THZ'><span class='heading-body'>def LUMINOUS_EFFICACY_540_THZ</span><span class='heading-extra'><a href='#LUMINOUS_EFFICACY_540_THZ'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> LUMINOUS_EFFICACY_540_THZ = quantity {
-	unit = LUMEN_PER_WATT,
-	value = 683.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='LUMINOUS_FLUX'><span class='heading-body'>def LUMINOUS_FLUX</span><span class='heading-extra'><a href='#LUMINOUS_FLUX'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> LUMINOUS_FLUX = dimension {
 	luminosity = 1,
 	...
 };</pre>
@@ -1723,44 +2170,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> MAGNETIC_FIELD_STRENGTH = dimension {
 	current = 1,
 	length = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='MAGNETIC_FLUX'><span class='heading-body'>def MAGNETIC_FLUX</span><span class='heading-extra'><a href='#MAGNETIC_FLUX'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> MAGNETIC_FLUX = dimension {
-	mass = 1,
-	length = 2,
-	time = -2,
-	current = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='MAGNETIC_FLUX_DENSITY'><span class='heading-body'>def MAGNETIC_FLUX_DENSITY</span><span class='heading-extra'><a href='#MAGNETIC_FLUX_DENSITY'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> MAGNETIC_FLUX_DENSITY = dimension {
-	mass = 1,
-	time = -2,
-	current = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='MASS'><span class='heading-body'>def MASS</span><span class='heading-extra'><a href='#MASS'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> MASS = dimension {
-	mass = 1,
 	...
 };</pre>
 </details>
@@ -1799,17 +2208,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='MINUTE'><span class='heading-body'>def MINUTE</span><span class='heading-extra'><a href='#MINUTE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> MINUTE = unit {
-	dim = TIME,
-	scale = 60.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='MOLE'><span class='heading-body'>def MOLE</span><span class='heading-extra'><a href='#MOLE'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1827,17 +2225,6 @@ Tonne             | t       |
 <pre class='decl'>
 <span class='keyword'>def</span> MOLE_PER_CUBIC_METRE = unit {
 	dim = CONCENTRATION,
-	scale = 1.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='NEPER'><span class='heading-body'>def NEPER</span><span class='heading-extra'><a href='#NEPER'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> NEPER = unit {
-	dim = DIMENSIONLESS,
 	scale = 1.0,
 };</pre>
 </details>
@@ -1876,43 +2263,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='PLANCK'><span class='heading-body'>def PLANCK</span><span class='heading-extra'><a href='#PLANCK'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> PLANCK = quantity {
-	unit = JOULE_SECOND,
-	value = 6.62607015e-34,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='POWER'><span class='heading-body'>def POWER</span><span class='heading-extra'><a href='#POWER'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> POWER = dimension {
-	mass = 1,
-	length = 2,
-	time = -3,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='PRESSURE'><span class='heading-body'>def PRESSURE</span><span class='heading-extra'><a href='#PRESSURE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> PRESSURE = dimension {
-	mass = 1,
-	length = -1,
-	time = -2,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='RADIAN'><span class='heading-body'>def RADIAN</span><span class='heading-extra'><a href='#RADIAN'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1946,17 +2296,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='RECIPROCAL_CURRENT'><span class='heading-body'>def RECIPROCAL_CURRENT</span><span class='heading-extra'><a href='#RECIPROCAL_CURRENT'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> RECIPROCAL_CURRENT = dimension {
-	current = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='RECIPROCAL_KELVIN'><span class='heading-body'>def RECIPROCAL_KELVIN</span><span class='heading-extra'><a href='#RECIPROCAL_KELVIN'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -1979,28 +2318,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='RECIPROCAL_LUMINOSITY'><span class='heading-body'>def RECIPROCAL_LUMINOSITY</span><span class='heading-extra'><a href='#RECIPROCAL_LUMINOSITY'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> RECIPROCAL_LUMINOSITY = dimension {
-	luminosity = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='RECIPROCAL_MASS'><span class='heading-body'>def RECIPROCAL_MASS</span><span class='heading-extra'><a href='#RECIPROCAL_MASS'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> RECIPROCAL_MASS = dimension {
-	mass = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='RECIPROCAL_METRE'><span class='heading-body'>def RECIPROCAL_METRE</span><span class='heading-extra'><a href='#RECIPROCAL_METRE'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -2019,42 +2336,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> RECIPROCAL_MOLE = unit {
 	dim = RECIPROCAL_SUBSTANCE,
 	scale = 1.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='RECIPROCAL_SUBSTANCE'><span class='heading-body'>def RECIPROCAL_SUBSTANCE</span><span class='heading-extra'><a href='#RECIPROCAL_SUBSTANCE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> RECIPROCAL_SUBSTANCE = dimension {
-	substance = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='RECIPROCAL_TEMPERATURE'><span class='heading-body'>def RECIPROCAL_TEMPERATURE</span><span class='heading-extra'><a href='#RECIPROCAL_TEMPERATURE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> RECIPROCAL_TEMPERATURE = dimension {
-	temperature = -1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='RESISTANCE'><span class='heading-body'>def RESISTANCE</span><span class='heading-extra'><a href='#RESISTANCE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> RESISTANCE = dimension {
-	mass = 1,
-	length = 2,
-	time = -3,
-	current = -2,
-	...
 };</pre>
 </details>
 </section>
@@ -2104,17 +2385,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='SPEED_OF_LIGHT'><span class='heading-body'>def SPEED_OF_LIGHT</span><span class='heading-extra'><a href='#SPEED_OF_LIGHT'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> SPEED_OF_LIGHT = quantity {
-	unit = METRE_PER_SECOND,
-	value = 299792458.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='SQUARE_METRE'><span class='heading-body'>def SQUARE_METRE</span><span class='heading-extra'><a href='#SQUARE_METRE'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -2137,17 +2407,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='SUBSTANCE'><span class='heading-body'>def SUBSTANCE</span><span class='heading-extra'><a href='#SUBSTANCE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> SUBSTANCE = dimension {
-	substance = 1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='SURFACE_DENSITY'><span class='heading-body'>def SURFACE_DENSITY</span><span class='heading-extra'><a href='#SURFACE_DENSITY'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -2160,17 +2419,6 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
-<h4 id='TEMPERATURE'><span class='heading-body'>def TEMPERATURE</span><span class='heading-extra'><a href='#TEMPERATURE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> TEMPERATURE = dimension {
-	temperature = 1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
 <h4 id='TESLA'><span class='heading-body'>def TESLA</span><span class='heading-extra'><a href='#TESLA'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -2178,28 +2426,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> TESLA = unit {
 	dim = MAGNETIC_FLUX_DENSITY,
 	scale = 1.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='TIME'><span class='heading-body'>def TIME</span><span class='heading-extra'><a href='#TIME'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> TIME = dimension {
-	time = 1,
-	...
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='TONNE'><span class='heading-body'>def TONNE</span><span class='heading-extra'><a href='#TONNE'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> TONNE = unit {
-	dim = MASS,
-	scale = 1.0e3,
 };</pre>
 </details>
 </section>
@@ -2245,17 +2471,6 @@ Tonne             | t       |
 <span class='keyword'>def</span> WATT = unit {
 	dim = POWER,
 	scale = 1.0,
-};</pre>
-</details>
-</section>
-<section class='member'>
-<h4 id='WAVENUMBER'><span class='heading-body'>def WAVENUMBER</span><span class='heading-extra'><a href='#WAVENUMBER'>[permalink]</a></span></h4>
-<details>
-<summary>Show undocumented member</summary>
-<pre class='decl'>
-<span class='keyword'>def</span> WAVENUMBER = dimension {
-	length = -1,
-	...
 };</pre>
 </details>
 </section>

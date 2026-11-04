@@ -4,6 +4,10 @@ use fmt;
 use io;
 use strconv;
 
+fn unreachable() never = {
+	abort("unreachable code");
+};
+
 // The dimensions of two units or quantities do not match.
 export type dimension_mismatch = !void;
 

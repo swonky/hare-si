@@ -4,12 +4,13 @@ use os;
 use strings;
 use strconv;
 
-fn sprint_f64(
+fn fprintf64(
+	h: io::handle,
 	value: f64,
-	prec: (uint|void) = void,
+	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
-) (str | nomem) = {
+) (size | error) = {
 	const format = switch (repr) {
 	case notation::FIXED =>
 		yield strconv::ffmt::F;
@@ -32,19 +33,22 @@ fn sprint_f64(
 	};
 
 	let formatted = strconv::ftosf(value, format, prec, flags)?;
-	// defer free(formatted);
+
+	let count = 0z;
 
 	if (repr != notation::GENERAL && repr != notation::SCIENTIFIC) {
-		return strings::dup(formatted);
+		count += io::write(h, strings::toutf8(formatted))?;
+		return count;
 	};
-	
+
 	assert(formatted != "");
 	let pair: (str, str) = strings::cut(formatted, "e");
 	if (pair.1 == "") {
 		pair = strings::cut(formatted, "E");
 	};
 	if (pair.1 == "") {
-		return strings::dup(formatted);
+		count += io::write(h, strings::toutf8(formatted))?;
+		return count;
 	};
 
 	const exponent = match (strconv::stoi(pair.1)) {
@@ -58,39 +62,20 @@ fn sprint_f64(
 
 	assert(pair.0 != "");
 
-	let scale = switch (enc) {
-		case encoding::ASCII => yield "*10";
-		case encoding::UTF8 => yield "×10";
-		case => abort("invalid encoding");
+	const scale = switch (enc) {
+	case encoding::ASCII => yield "*10";
+	case encoding::UTF8 => yield "×10";
+	case => abort("invalid encoding");
 	};
 
 	let out = strings::toutf8(pair.0);
 	append_str(&out, scale)?;
 
-	let superscript_exponent = int_to_superscript(exponent)?;
-	defer free(superscript_exponent);
+	let count = io::write(h, out)?;
+	count += fprintexp(h, exponent, enc)?;
 
-	append_str(&out, superscript_exponent)?;
-
-	return strings::fromutf8(out)!;
+	return count;
 };
-
-// Print formatted float value to stdout.
-fn print_f64(
-	value: f64,
-	prec: (uint|void) = void,
-	repr: notation = notation::GENERAL,
-) (size | io::error) = {
-	const s = match (sprint_f64(value, prec, repr)) {
-	case let s: str =>
-		yield s;
-	case nomem =>
-		return nomem;
-	};
-	defer free(s);
-	return fmt::print(s);
-};
-
 
 // output must be freed by the caller
 fn int_to_superscript(i: int) (str | nomem) = {
@@ -276,8 +261,9 @@ export fn fprintq(
 	match (unit_format) {
 	case void =>
 		const value: f64 = qty.value * qty.unit.scale;
-		count += print_f64(value, prec, repr)!;
-		count += fprintu(h, qty.unit)?;
+		count += fprintf64(h ,value, prec, repr, enc)?;
+		count += fmt::fprint(h, " ")?;
+		count += fprintu(h, qty.unit, enc)?;
 	case let s: str =>
 		let target: unit = strpunit(s)?;
 		
@@ -286,18 +272,52 @@ export fn fprintq(
 		};
 
 		const value: f64 = qty.value * qty.unit.scale / target.scale;
-		let formatted_value = sprint_f64(value, prec, repr)!;
-		defer free(formatted_value);
+
+		count += fprintf64(h, value, prec, repr, enc)?;
 
 		let formatted_unit = format_unit(s, enc)?;
 		defer free(formatted_unit);
 
-		count += fmt::fprintf(os::stdout, "{} {}", formatted_value, formatted_unit)!;
+		count += fmt::fprintf(h, " {}", formatted_unit)!;
 	};
 	return count;
 };
 
-fn fprintu(h: io::handle, u: unit) (size | error) = {
+fn fprintexp(h: io::handle, i: int, enc: encoding) (size | error) = {
+	let count = 0z;
+
+	if (i == 0) {
+		return 0;
+	};
+
+	const is_utf = enc == encoding::UTF8;
+
+	if (!is_utf) {
+		count += fmt::fprint(h, CIRCUMFLEX_ACCENT)?;
+	};
+
+	let exp: int = if (i < 0) {
+		const sym_minus = if (is_utf) SUPERSCRIPT_MINUS else HYPHEN_MINUS;
+		count += fmt::fprint(h, sym_minus)?;
+		yield i*-1;
+	} else {
+		yield i;
+	};
+
+	assert(exp > 0);
+
+	let formatted = if (is_utf) {
+		yield int_to_superscript(exp)?;
+	} else {
+		yield strings::dup(strconv::itos(exp))?;
+	};
+	defer free(formatted);
+	count += fmt::fprint(h, formatted)?;
+
+	return count;
+};
+
+fn fprintu(h: io::handle, u: unit, enc: encoding) (size | error) = {
 	let first = true;
 
 	const exponents: [_]int = [
@@ -309,30 +329,30 @@ fn fprintu(h: io::handle, u: unit) (size | error) = {
 		u.dim.substance,
 		u.dim.luminosity,
 	];
+	
+	if (enc == encoding::JSON) {
+		return encodejson(h, u);
+	};
+
+	const sym_mult = switch (enc) {
+	case encoding::ASCII => yield ASTERISK;
+	case encoding::UTF8 => yield DOT_OPERATOR;
+	case encoding::JSON => yield unreachable();
+	};
+
 
 	let total: size = 0;
 	for (let i = 0z; i < len(symbols_base); i += 1) {
-		if (exponents[i] == 0) {
-			continue;
+
+		if (exponents[i] == 0) { continue; };
+
+		if (!first) {
+			total += fmt::fprint(h, sym_mult)?;
 		};
 
-		total += fmt::fprintf(h, "{}{}", if (first) "" else "·", symbols_base[i])!;
+		total += fmt::fprint(h, symbols_base[i])?;
+		total += fprintexp(h, exponents[i], enc)?;
 		first = false;
-
-		if (exponents[i] != 1) {
-			let exp: int = if (exponents[i] < 0) {
-				total += fmt::fprintf(h, "{}", '\u207B')!;
-				yield exponents[i]*-1;
-			} else {
-				yield exponents[i];
-			};
-			match(int_to_superscript(exp)) {
-			case let s: str =>
-				total += fmt::fprint(h, s)!;
-			case =>
-				void;
-			};
-		};
 	};
 
 	return total;
@@ -355,8 +375,8 @@ export fn fprintqln(
 
 // Prints a unit followed by a newline to an [[io::handle]]. Returns the
 // number of bytes printed.
-fn fprintuln(h: io::handle, u: unit) (size | error) = {
-	let count = fprintu(h, u)?;
+fn fprintuln(h: io::handle, u: unit, enc: encoding) (size | error) = {
+	let count = fprintu(h, u, enc)?;
 	count += fmt::fprint(h, "\n")?;
 	return count;
 };
