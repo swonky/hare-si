@@ -26,11 +26,8 @@ export type invalid_exponent = !rune;
 // An unexpected token was encountered during parsing.
 export type unexpected_token = !rune;
 
-// Division by zero was attempted.
-export type divide_by_zero = !void;
-
 // Represents any error that can occur in the si library
-export type error = !( no_match | divide_by_zero| invalid_exponent
+export type error = !( no_match | invalid_exponent
 	| dimension_mismatch | unexpected_token | not_implemented
 	| invalid | io::error | strconv::invalid | strconv::overflow
 	| utf8::invalid | nomem );
@@ -49,8 +46,6 @@ export fn strerror(err: error) str = {
 		return "Invalid exponent";
 	case let e: unexpected_token =>
 		return "Unexpected token";
-	case let e: divide_by_zero =>
-		return "Divide by zero";
 	case let e: utf8::invalid =>
 		return utf8::strerror(e);
 	case let e: strconv::error =>
