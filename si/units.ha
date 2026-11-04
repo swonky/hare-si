@@ -68,6 +68,8 @@ type unit_kind = enum int {
 	WEBER,
 };
 
+def sym_angstrom_ascii = "AU";
+def sym_angstrom_utf8 = "Å";
 def sym_ampere = "A";
 def sym_astronomical_unit = "au";
 def sym_becquerel = "Bq";
@@ -115,6 +117,7 @@ def sym_volt = "V";
 def sym_watt = "W";
 def sym_weber = "Wb";
 
+def name_angstrom = "angstrom";
 def name_ampere = "ampere";
 def name_astronomical_unit = "astronomical unit";
 def name_becquerel = "becquerel";

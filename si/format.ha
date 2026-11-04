@@ -156,6 +156,8 @@ fn format_unit(input: str, enc: encoding) (str | error) = {
 	let exponent = false;
 	let parenthesised_exponent = false;
 
+	const is_utf = enc == encoding::UTF8;
+
 	for (true) {
 		const tok = match (advance(&p)) {
 		case done =>
@@ -198,12 +200,18 @@ fn format_unit(input: str, enc: encoding) (str | error) = {
 				text = strings::sub(text, 1);
 			};
 
-			const suffix = if (strings::hassuffix(text, "ohm")) {
-				yield if (enc == encoding::UTF8) "Ω" else "ohm";
+			const suffix = if (strings::hassuffix(text, sym_ohm_ascii)) {
+				yield if (is_utf) sym_ohm_utf8 else sym_ohm_ascii;
 			} else if (strings::hassuffix(text, "degC")) {
-				yield if (enc == encoding::UTF8) "°C" else "degC";
+				yield if (is_utf) "°C" else "degC";
 			} else if (strings::hassuffix(text, "deg")) {
-				yield if (enc == encoding::UTF8) "°" else "deg";
+				yield if (is_utf) "°" else "deg";
+			} else if (strings::hassuffix(text, sym_angstrom_ascii)) {
+				yield if (is_utf) {
+					yield sym_angstrom_utf8;
+				} else {
+					yield sym_angstrom_ascii;
+				};
 			} else {
 				yield "";
 			};

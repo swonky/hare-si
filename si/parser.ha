@@ -249,10 +249,7 @@ fn parse_unit(p: *parser) (unit | error) = {
 			case token_kind::SOLIDUS =>
 				advance(p);
 				const rhs = parse_factor(p)?;
-				return match(divu(result, rhs)){
-				case let u: unit => yield u;
-				case => abort("invalid lookup table");
-				};
+				return divu(result, rhs);
 			case =>
 				return result;
 			};
