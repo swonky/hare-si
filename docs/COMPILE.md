@@ -17,8 +17,10 @@ Clone this repository and build from source:
 ```sh
 git clone --depth=1 https://codeberg.org/swonky/hare-si.git
 cd hare-git
-make
-make install
+
+make check      # run tests
+make            # build executable
+make install    # install binary and module
 ```
 
 For more options, run `make help`:
@@ -29,6 +31,7 @@ Usage: make [target] [VARIABLE=value]
 
 Targets:
   all                   Build everything (default)
+  check                 Run test suite
   build                 Build executable and documentation
   completions           Generate embedded shell completions
   install               Install all components
