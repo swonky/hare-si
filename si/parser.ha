@@ -40,11 +40,12 @@ fn scale10(x: f64, p: int) f64 = {
 	return x;
 };
 
-fn to_ascii(sym: unit_kind) str = symbols_ascii[sym: size];
-fn to_utf8(sym: unit_kind) str  = symbols_utf8[sym: size];
 
-fn lookup_name(sym: unit_kind) str  = unit_names[sym: size];
-fn lookup_unit(sym: unit_kind) unit = units[sym: size];
+// Returns the name of the unit associated by k
+fn lookup_name(k: unit_kind) str  = unit_names[k: size];
+
+// Returns the unit associated with k
+fn lookup_unit(k: unit_kind) unit = units[k: size];
 
 fn match_symbol(s: str) (unit_kind | void) = {
 	let lo = 0z;
