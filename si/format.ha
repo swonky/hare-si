@@ -254,43 +254,14 @@ fn format_unit(input: str, enc: encoding) (str | error) = {
 	return strings::fromutf8(out)!;
 };
 
-// Prints a quantity to an [[io::handle]], optionally using a specified unit
-// format, precision, numeric notation, and character encoding. Returns the
-// number of bytes printed.
-export fn fprintq(
-	h: io::handle,
-	qty: quantity,
-	unit_format: (str | void) = void,
-	prec: (uint | void) = void,
-	repr: notation = notation::GENERAL,
-	enc: encoding = encoding::UTF8,
-) (size | error) = {
-	let count = 0z;
-	match (unit_format) {
-	case void =>
-		const value: f64 = qty.value * qty.unit.scale;
-		count += fprintf64(h ,value, prec, repr, enc)?;
-		count += fmt::fprint(h, " ")?;
-		count += fprintu(h, qty.unit, enc)?;
-	case let s: str =>
-		let target: unit = strpunit(s)?;
-		
-		if (!equal(qty.unit.dim, target.dim)) {
-			return dimension_mismatch;
-		};
-
-		const value: f64 = qty.value * qty.unit.scale / target.scale;
-
-		count += fprintf64(h, value, prec, repr, enc)?;
-
-		let formatted_unit = format_unit(s, enc)?;
-		defer free(formatted_unit);
-
-		count += fmt::fprintf(h, " {}", formatted_unit)!;
-	};
-	return count;
-};
-
+// Prints an exponent i to h with character encoding enc.
+// 
+//	fprintexp(os::stdout, 30, encoding::ASCII)
+//	>> ^30
+//
+//	fprintexp(os::stdout, 30, encoding::UTF8)
+//	>> ³⁰
+//
 fn fprintexp(h: io::handle, i: int, enc: encoding) (size | error) = {
 	let count = 0z;
 
@@ -325,7 +296,47 @@ fn fprintexp(h: io::handle, i: int, enc: encoding) (size | error) = {
 	return count;
 };
 
-fn fprintu(h: io::handle, u: unit, enc: encoding) (size | error) = {
+// Prints a quantity to an [[io::handle]], optionally using a specified unit
+// format, precision, numeric notation, and character encoding. Returns the
+// number of bytes printed.
+export fn fprintq(
+	h: io::handle,
+	qty: quantity,
+	unit_format: (str | void) = void,
+	prec: (uint | void) = void,
+	repr: notation = notation::GENERAL,
+	enc: encoding = encoding::UTF8,
+) (size | error) = {
+	let count = 0z;
+	match (unit_format) {
+	case void =>
+		const value: f64 = qty.value * qty.unit.scale;
+		count += fprintf64(h ,value, prec, repr, enc)?;
+		count += fmt::fprint(h, " ")?;
+		count += fprintu(h, qty.unit, enc)?;
+	case let s: str =>
+		let target: unit = strpu(s)?;
+		
+		if (!equal(qty.unit.dim, target.dim)) {
+			return dimension_mismatch;
+		};
+
+		const value: f64 = qty.value * qty.unit.scale / target.scale;
+
+		count += fprintf64(h, value, prec, repr, enc)?;
+
+		let formatted_unit = format_unit(s, enc)?;
+		defer free(formatted_unit);
+
+		count += fmt::fprintf(h, " {}", formatted_unit)!;
+	};
+	return count;
+};
+
+// Prints a quantity to an [[io::handle]], optionally using a specified unit
+// format, precision, numeric notation, and character encoding. Returns the
+// number of bytes printed.
+export fn fprintu(h: io::handle, u: unit, enc: encoding) (size | error) = {
 	let first = true;
 
 	const exponents: [_]int = [

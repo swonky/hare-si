@@ -207,55 +207,157 @@ details pre {
 <main><h2><span class='heading-body'>si</span><span class='heading-extra'>+x86_64 +linux </span></h2>
 <div class='readme'>
 <p>si: A module for parsing, converting, and formatting physical quantities expressed with the International System of Units.
-<p>Repository: https://codeberg.org/swonky/hare-si.git
+<ul>
+<li>Repository: https://codeberg.org/swonky/hare-si.git
+</ul>
+<p>=== Examples ===
+<pre class='sample'></pre>
+<ul>
+<li>Defining quantities using predefined constants:
+</ul>
+<pre class='sample'>const distance = si::quantity { 
+	unit = si::METRE, 
+	value = 1500.0,
+};
+const duration = si::quantity { 
+	unit = si::SECOND, 
+	value = 120.0 
+};
+</pre>
+<ul>
+<li>Performing arithmetic with quantities:
+</ul>
+<pre class='sample'>const speed = si::divq(distance, duration);
+assert(speed.value == 12.5);
+</pre>
+<ul>
+<li>Defining your own derived dimensions, units, and quantities:
+</ul>
+<pre class='sample'>const pressure  = dimension { 
+	mass = 1,
+	length = -1, 
+	time = -2,
+	... 
+}; 
+const pascal = unit { 
+	dim = pressure,
+	scale = 1.0,
+};
+const atmospheric_pressure  = quantity { 
+	unit = pascal,
+	value = 101325.0,
+};
+</pre>
+<ul>
+<li>Parsing and formatting strings:
+</ul>
+<pre class='sample'>const acceleration = si::strp(&quot;20 m/s^2&quot;) as si::quantity;
+
+const output = si::strf(acceleration, &quot;km*s^-2&quot;) as str;
+&gt;&gt; 0.02 km⋅s⁻²
+
+const output = si::strf(
+	acceleration,
+	&quot;km/s^2&quot;,
+	prec=3,
+	notation=si::E,
+	encoding=si::ASCII,
+) as str;
+&gt;&gt; 2.00e-02 km/s^2
+</pre>
+<p>=== Supported units ===
 <p>All symbols are case sensitive unless otherwise indicated.
 <p>Decimal prefix symbols [symbol=exponent]
-<pre class='sample'>Q | +30 | R | +27 | Y | +24 | Z | +21 | E | +18 | P  | +15
-T | +12 | G | +09 | M | +06 | k | +03 | h | +02 | da | +01
-d | −01 | c | −02 | m | −03 | µ | −06 | n | −09 | p  | −12
-f | −15 | a | −18 | z | −21 | y | −24 | r | −27 | q  | −30
-</pre>
+<ul>
+<li><a href='#QUETTA' class='ref'>QUETTA</a> (Q) = 1e30
+<li><a href='#RONNA' class='ref'>RONNA</a> (R) = 1e27
+<li><a href='#YOTTA' class='ref'>YOTTA</a> (Y) = 1e24
+<li><a href='#ZETTA' class='ref'>ZETTA</a> (Z) = 1e21
+<li><a href='#EXA' class='ref'>EXA</a> (E) = 1e18
+<li><a href='#PETA' class='ref'>PETA</a> (P) = 1e15
+<li><a href='#TERA' class='ref'>TERA</a> (T) = 1e12
+<li><a href='#GIGA' class='ref'>GIGA</a> (G) = 1e9
+<li><a href='#MEGA' class='ref'>MEGA</a> (M) = 1e6
+<li><a href='#KILO' class='ref'>KILO</a> (k) = 1e3
+<li><a href='#HECTO' class='ref'>HECTO</a> (h) = 1e2
+<li><a href='#DECA' class='ref'>DECA</a> (da) = 1e1
+<li><a href='#DECI' class='ref'>DECI</a> (d) = 1e-1
+<li><a href='#CENTI' class='ref'>CENTI</a> (c) = 1e-2
+<li><a href='#MILLI' class='ref'>MILLI</a> (m) = 1e-3
+<li><a href='#MICRO' class='ref'>MICRO</a> (µ) = 1e-6
+<li><a href='#NANO' class='ref'>NANO</a> (n) = 1e-9
+<li><a href='#PICO' class='ref'>PICO</a> (p) = 1e-12
+<li><a href='#FEMTO' class='ref'>FEMTO</a> (f) = 1e-15
+<li><a href='#ATTO' class='ref'>ATTO</a> (a) = 1e-18
+<li><a href='#ZEPTO' class='ref'>ZEPTO</a> (z) = 1e-21
+<li><a href='#YOCTO' class='ref'>YOCTO</a> (y) = 1e-24
+<li><a href='#RONTO' class='ref'>RONTO</a> (r) = 1e-27
+<li><a href='#QUECTO' class='ref'>QUECTO</a> (q) = 1e-30
+</ul>
 <p>Notes:
 <ul>
-<li>Formatted ASCII output for &apos;micro&apos; uses &apos;LATIN SMALL LETTER U (U+0075)&apos;
-<li>Formattted UTF-8 output for &apos;micro&apos; uses &apos;GREEK SMALL LETTER MU (U+03BC)&apos;.
-<li>Parser for &apos;micro&apos; also accepts &apos;MICRO SIGN (U+00B5)&apos;.
+<li>Formatted ASCII output for <a href='#MICRO' class='ref'>MICRO</a> uses &apos;LATIN SMALL LETTER U (U+0075)&apos;
+<li>Formattted UTF-8 output for <a href='#MICRO' class='ref'>MICRO</a> uses &apos;GREEK SMALL LETTER MU (U+03BC)&apos;.
+<li>Parser for <a href='#MICRO' class='ref'>MICRO</a> also accepts &apos;MICRO SIGN (U+00B5)&apos;.
 </ul>
 <p>SI unit symbols
-<pre class='sample'>Ampere | A  | Becquerel | Bq    | Candela | cd  | Coulomb   | C
-Farad  | F  | Gram      | g     | Gray    | Gy  | Henry     | H
-Hertz  | Hz | Joule     | J     | Katal   | kat | Kelvin    | K
-Lumen  | lm | Lux       | lx    | Metre   | m   | Mole      | mol
-Newton | N  | Ohm       | ohm/Ω | Pascal  | Pa  | Radian    | rad
-Second | s  | Siemens   | S     | Sievert | Sv  | Steradian | sr
-Tesla  | T  | Volt      | V     | Watt    | W   | Weber     | Wb
-</pre>
+<ul>
+<li><a href='#AMPERE' class='ref'>AMPERE</a> (A)
+<li><a href='#BECQUEREL' class='ref'>BECQUEREL</a> (Bq)
+<li><a href='#CANDELA' class='ref'>CANDELA</a> (cd)
+<li><a href='#COULOMB' class='ref'>COULOMB</a> (C)
+<li><a href='#FARAD' class='ref'>FARAD</a> (F)
+<li><a href='#GRAM' class='ref'>GRAM</a> (g)
+<li><a href='#GRAY' class='ref'>GRAY</a> (Gy)
+<li><a href='#HENRY' class='ref'>HENRY</a> (H)
+<li><a href='#HERTZ' class='ref'>HERTZ</a> (Hz)
+<li><a href='#JOULE' class='ref'>JOULE</a> (J)
+<li><a href='#KATAL' class='ref'>KATAL</a> (kat)
+<li><a href='#KELVIN' class='ref'>KELVIN</a> (K)
+<li><a href='#LUMEN' class='ref'>LUMEN</a> (lm)
+<li><a href='#LUX' class='ref'>LUX</a> (lx)
+<li><a href='#METRE' class='ref'>METRE</a> (m)
+<li><a href='#MOLE' class='ref'>MOLE</a> (mol)
+<li><a href='#NEWTON' class='ref'>NEWTON</a> (N)
+<li><a href='#OHM' class='ref'>OHM</a> (ohm/Ω)
+<li><a href='#PASCAL' class='ref'>PASCAL</a> (Pa)
+<li><a href='#RADIAN' class='ref'>RADIAN</a> (rad)
+<li><a href='#SECOND' class='ref'>SECOND</a> (s)
+<li><a href='#SIEMENS' class='ref'>SIEMENS</a> (S)
+<li><a href='#SIEVERT' class='ref'>SIEVERT</a> (Sv)
+<li><a href='#STERADIAN' class='ref'>STERADIAN</a> (sr)
+<li><a href='#TESLA' class='ref'>TESLA</a> (T)
+<li><a href='#VOLT' class='ref'>VOLT</a> (V)
+<li><a href='#WATT' class='ref'>WATT</a> (W)
+<li><a href='#WEBER' class='ref'>WEBER</a> (Wb)
+</ul>
 <p>Notes:
 <ul>
-<li>UTF-8 output for &apos;ohm&apos; uses &apos;GREEK CAPITAL LETTER OMEGA (U+03A9)&apos;.
-<li>Parser for &apos;ohm&apos; also accepts &apos;OHM SIGN (U+2126)&apos;.
+<li>UTF-8 output for <a href='#OHM' class='ref'>OHM</a> uses GREEK CAPITAL LETTER OMEGA (U+03A9).
+<li>Parser for <a href='#OHM' class='ref'>OHM</a> also accepts OHM SIGN (U+2126).
 </ul>
 <p>Non-SI unit symbols [name=symbol]
-<pre class='sample'>Astronomical unit | au      |
-Bel               | B       |
-Dalton            | Da      |
-Day               | d       |
-Degree            | deg/°   |
-Degree Celsius    | degC/°C |
-Electronvolt      | eV      |
-Hectare           | ha      |
-Hour              | h       |
-Litre             | L       |
-Minute            | min     |
-Neper             | Np      |
-Tonne             | t       |
-</pre>
+<ul>
+<li><a href='#ASTRONOMICAL_UNIT' class='ref'>ASTRONOMICAL_UNIT</a> (au)
+<li><a href='#BEL' class='ref'>BEL</a> (B)
+<li><a href='#DALTON' class='ref'>DALTON</a> (Da)
+<li><a href='#DAY' class='ref'>DAY</a> (d)
+<li><a href='#DEGREE' class='ref'>DEGREE</a> (deg/°)
+<li><a href='#DEGREE_CELSIUS' class='ref'>DEGREE_CELSIUS</a> (degC/°C)
+<li><a href='#ELECTRONVOLT' class='ref'>ELECTRONVOLT</a> (eV)
+<li><a href='#HECTARE' class='ref'>HECTARE</a> (ha)
+<li><a href='#HOUR' class='ref'>HOUR</a> (h)
+<li><a href='#LITRE' class='ref'>LITRE</a> (L)
+<li><a href='#MINUTE' class='ref'>MINUTE</a> (min)
+<li><a href='#NEPER' class='ref'>NEPER</a> (Np)
+<li><a href='#TONNE' class='ref'>TONNE</a> (t)
+</ul>
 <p>Notes:
 <ul>
-<li>Logarithmic units &apos;Bel&apos; and &apos;Neper&apos; do not currently support conversion.
-<li>Formatted UTF-8 outputs for &apos;Degree&apos; use &apos;DEGREE SIGN (U+00B0)&apos;.
-<li>Formatted output for &apos;Litre&apos; uses &apos;LATIN CAPITAL LETTER L (U+004C).
-<li>Parser for &apos;Litre&apos; also accepts &apos;LATIN SMALL LETTER L (U+006C)&apos;.
+<li>Logarithmic units <a href='#BEL' class='ref'>BEL</a> and <a href='#NEPER' class='ref'>NEPER</a> do not currently support conversion.
+<li>Formatted UTF-8 outputs for <a href='#DEGREE' class='ref'>DEGREE</a> use DEGREE SIGN (U+00B0).
+<li>Formatted output for &apos;<a href='#LITRE' class='ref'>LITRE</a> uses LATIN CAPITAL LETTER L (U+004C).
+<li>Parser for <a href='#LITRE' class='ref'>LITRE</a> also accepts LATIN SMALL LETTER L (U+006C).
 </ul>
 </div>
 <h3>Index</h3>
@@ -889,6 +991,7 @@ Tonne             | t       |
 	length = 2,
 	...
 };
+<span class='keyword'>def</span> <a href='#ATTO'>ATTO</a>: <span class='type'>f64</span> = 1.0e-18;
 <span class='keyword'>def</span> <a href='#BECQUEREL'>BECQUEREL</a> = unit {
 	dim = ACTIVITY,
 	scale = 1.0,
@@ -901,6 +1004,7 @@ Tonne             | t       |
 	dim = LUMINANCE,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#CENTI'>CENTI</a>: <span class='type'>f64</span> = 0.01;
 <span class='keyword'>def</span> <a href='#CONCENTRATION'>CONCENTRATION</a> = dimension {
 	substance = 1,
 	length = -3,
@@ -927,6 +1031,8 @@ Tonne             | t       |
 	length = -2,
 	...
 };
+<span class='keyword'>def</span> <a href='#DECA'>DECA</a>: <span class='type'>f64</span> = 10.0;
+<span class='keyword'>def</span> <a href='#DECI'>DECI</a>: <span class='type'>f64</span> = 0.1;
 <span class='keyword'>def</span> <a href='#DEGREE_CELSIUS'>DEGREE_CELSIUS</a> = unit {
 	dim = TEMPERATURE,
 	scale = 1.0,
@@ -947,14 +1053,18 @@ Tonne             | t       |
 	temperature = -1,
 	...
 };
+<span class='keyword'>def</span> <a href='#EXA'>EXA</a>: <span class='type'>f64</span> = 1.0e18;
 <span class='keyword'>def</span> <a href='#FARAD'>FARAD</a> = unit {
 	dim = CAPACITANCE,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#FEMTO'>FEMTO</a>: <span class='type'>f64</span> = 1.0e-15;
+<span class='keyword'>def</span> <a href='#GIGA'>GIGA</a>: <span class='type'>f64</span> = 1.0e9;
 <span class='keyword'>def</span> <a href='#GRAY'>GRAY</a> = unit {
 	dim = ABSORBED_DOSE,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#HECTO'>HECTO</a>: <span class='type'>f64</span> = 100.0;
 <span class='keyword'>def</span> <a href='#HENRY'>HENRY</a> = unit {
 	dim = INDUCTANCE,
 	scale = 1.0,
@@ -975,6 +1085,7 @@ Tonne             | t       |
 	dim = TEMPERATURE,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#KILO'>KILO</a>: <span class='type'>f64</span> = 1.0e3;
 <span class='keyword'>def</span> <a href='#KILOGRAM'>KILOGRAM</a> = unit {
 	dim = MASS,
 	scale = 1.0,
@@ -1016,6 +1127,7 @@ Tonne             | t       |
 	length = -1,
 	...
 };
+<span class='keyword'>def</span> <a href='#MEGA'>MEGA</a>: <span class='type'>f64</span> = 1.0e6;
 <span class='keyword'>def</span> <a href='#METRE'>METRE</a> = unit {
 	dim = LENGTH,
 	scale = 1.0,
@@ -1028,6 +1140,8 @@ Tonne             | t       |
 	dim = ACCELERATION,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#MICRO'>MICRO</a>: <span class='type'>f64</span> = 1.0e-6;
+<span class='keyword'>def</span> <a href='#MILLI'>MILLI</a>: <span class='type'>f64</span> = 1.0e-3;
 <span class='keyword'>def</span> <a href='#MOLE'>MOLE</a> = unit {
 	dim = SUBSTANCE,
 	scale = 1.0,
@@ -1036,6 +1150,7 @@ Tonne             | t       |
 	dim = CONCENTRATION,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#NANO'>NANO</a>: <span class='type'>f64</span> = 1.0e-9;
 <span class='keyword'>def</span> <a href='#NEWTON'>NEWTON</a> = unit {
 	dim = FORCE,
 	scale = 1.0,
@@ -1048,6 +1163,10 @@ Tonne             | t       |
 	dim = PRESSURE,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#PETA'>PETA</a>: <span class='type'>f64</span> = 1.0e15;
+<span class='keyword'>def</span> <a href='#PICO'>PICO</a>: <span class='type'>f64</span> = 1.0e-12;
+<span class='keyword'>def</span> <a href='#QUECTO'>QUECTO</a>: <span class='type'>f64</span> = 1.0e-30;
+<span class='keyword'>def</span> <a href='#QUETTA'>QUETTA</a>: <span class='type'>f64</span> = 1.0e30;
 <span class='keyword'>def</span> <a href='#RADIAN'>RADIAN</a> = unit {
 	dim = DIMENSIONLESS,
 	scale = 1.0,
@@ -1076,6 +1195,8 @@ Tonne             | t       |
 	dim = RECIPROCAL_SUBSTANCE,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#RONNA'>RONNA</a>: <span class='type'>f64</span> = 1.0e27;
+<span class='keyword'>def</span> <a href='#RONTO'>RONTO</a>: <span class='type'>f64</span> = 1.0e-27;
 <span class='keyword'>def</span> <a href='#SECOND'>SECOND</a> = unit {
 	dim = TIME,
 	scale = 1.0,
@@ -1112,6 +1233,7 @@ Tonne             | t       |
 	time = -2,
 	...
 };
+<span class='keyword'>def</span> <a href='#TERA'>TERA</a>: <span class='type'>f64</span> = 1.0e12;
 <span class='keyword'>def</span> <a href='#TESLA'>TESLA</a> = unit {
 	dim = MAGNETIC_FLUX_DENSITY,
 	scale = 1.0,
@@ -1143,6 +1265,10 @@ Tonne             | t       |
 	dim = MAGNETIC_FLUX,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#YOCTO'>YOCTO</a>: <span class='type'>f64</span> = 1.0e-24;
+<span class='keyword'>def</span> <a href='#YOTTA'>YOTTA</a>: <span class='type'>f64</span> = 1.0e24;
+<span class='keyword'>def</span> <a href='#ZEPTO'>ZEPTO</a>: <span class='type'>f64</span> = 1.0e-21;
+<span class='keyword'>def</span> <a href='#ZETTA'>ZETTA</a>: <span class='type'>f64</span> = 1.0e21;
 </pre><h4>Globals</h4>
 <pre>
 <span class='keyword'>const</span> <a href='#GIT_VERSION'>GIT_VERSION</a>: <span class='type'>str</span>;
@@ -1221,6 +1347,8 @@ Tonne             | t       |
 <h4 id='prefix_kind'><span class='heading-body'>type prefix_kind</span><span class='heading-extra'><a href='#prefix_kind'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>type</span> prefix_kind = <span class='type'>enum</span> <span class='type'>i8</span> {
+	QUETTA,
+	RONNA,
 	YOTTA,
 	ZETTA,
 	EXA,
@@ -1241,6 +1369,8 @@ Tonne             | t       |
 	ATTO,
 	ZEPTO,
 	YOCTO,
+	RONTO,
+	QUECTO,
 };</pre>
 <p>Unit prefix decimal exponents
 </section>
@@ -2643,6 +2773,14 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='ATTO'><span class='heading-body'>def ATTO</span><span class='heading-extra'><a href='#ATTO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> ATTO: <span class='type'>f64</span> = 1.0e-18;</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='BECQUEREL'><span class='heading-body'>def BECQUEREL</span><span class='heading-extra'><a href='#BECQUEREL'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -2673,6 +2811,14 @@ Tonne             | t       |
 	dim = LUMINANCE,
 	scale = 1.0,
 };</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='CENTI'><span class='heading-body'>def CENTI</span><span class='heading-extra'><a href='#CENTI'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> CENTI: <span class='type'>f64</span> = 0.01;</pre>
 </details>
 </section>
 <section class='member'>
@@ -2744,6 +2890,22 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='DECA'><span class='heading-body'>def DECA</span><span class='heading-extra'><a href='#DECA'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> DECA: <span class='type'>f64</span> = 10.0;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='DECI'><span class='heading-body'>def DECI</span><span class='heading-extra'><a href='#DECI'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> DECI: <span class='type'>f64</span> = 0.1;</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='DEGREE_CELSIUS'><span class='heading-body'>def DEGREE_CELSIUS</span><span class='heading-extra'><a href='#DEGREE_CELSIUS'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -2792,6 +2954,14 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='EXA'><span class='heading-body'>def EXA</span><span class='heading-extra'><a href='#EXA'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> EXA: <span class='type'>f64</span> = 1.0e18;</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='FARAD'><span class='heading-body'>def FARAD</span><span class='heading-extra'><a href='#FARAD'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -2803,6 +2973,22 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='FEMTO'><span class='heading-body'>def FEMTO</span><span class='heading-extra'><a href='#FEMTO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> FEMTO: <span class='type'>f64</span> = 1.0e-15;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='GIGA'><span class='heading-body'>def GIGA</span><span class='heading-extra'><a href='#GIGA'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> GIGA: <span class='type'>f64</span> = 1.0e9;</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='GRAY'><span class='heading-body'>def GRAY</span><span class='heading-extra'><a href='#GRAY'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -2811,6 +2997,14 @@ Tonne             | t       |
 	dim = ABSORBED_DOSE,
 	scale = 1.0,
 };</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='HECTO'><span class='heading-body'>def HECTO</span><span class='heading-extra'><a href='#HECTO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> HECTO: <span class='type'>f64</span> = 100.0;</pre>
 </details>
 </section>
 <section class='member'>
@@ -2866,6 +3060,14 @@ Tonne             | t       |
 	dim = TEMPERATURE,
 	scale = 1.0,
 };</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='KILO'><span class='heading-body'>def KILO</span><span class='heading-extra'><a href='#KILO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> KILO: <span class='type'>f64</span> = 1.0e3;</pre>
 </details>
 </section>
 <section class='member'>
@@ -2973,6 +3175,14 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='MEGA'><span class='heading-body'>def MEGA</span><span class='heading-extra'><a href='#MEGA'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> MEGA: <span class='type'>f64</span> = 1.0e6;</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='METRE'><span class='heading-body'>def METRE</span><span class='heading-extra'><a href='#METRE'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -3006,6 +3216,22 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='MICRO'><span class='heading-body'>def MICRO</span><span class='heading-extra'><a href='#MICRO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> MICRO: <span class='type'>f64</span> = 1.0e-6;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='MILLI'><span class='heading-body'>def MILLI</span><span class='heading-extra'><a href='#MILLI'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> MILLI: <span class='type'>f64</span> = 1.0e-3;</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='MOLE'><span class='heading-body'>def MOLE</span><span class='heading-extra'><a href='#MOLE'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -3025,6 +3251,14 @@ Tonne             | t       |
 	dim = CONCENTRATION,
 	scale = 1.0,
 };</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='NANO'><span class='heading-body'>def NANO</span><span class='heading-extra'><a href='#NANO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> NANO: <span class='type'>f64</span> = 1.0e-9;</pre>
 </details>
 </section>
 <section class='member'>
@@ -3058,6 +3292,38 @@ Tonne             | t       |
 	dim = PRESSURE,
 	scale = 1.0,
 };</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='PETA'><span class='heading-body'>def PETA</span><span class='heading-extra'><a href='#PETA'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> PETA: <span class='type'>f64</span> = 1.0e15;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='PICO'><span class='heading-body'>def PICO</span><span class='heading-extra'><a href='#PICO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> PICO: <span class='type'>f64</span> = 1.0e-12;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='QUECTO'><span class='heading-body'>def QUECTO</span><span class='heading-extra'><a href='#QUECTO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> QUECTO: <span class='type'>f64</span> = 1.0e-30;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='QUETTA'><span class='heading-body'>def QUETTA</span><span class='heading-extra'><a href='#QUETTA'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> QUETTA: <span class='type'>f64</span> = 1.0e30;</pre>
 </details>
 </section>
 <section class='member'>
@@ -3135,6 +3401,22 @@ Tonne             | t       |
 	dim = RECIPROCAL_SUBSTANCE,
 	scale = 1.0,
 };</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='RONNA'><span class='heading-body'>def RONNA</span><span class='heading-extra'><a href='#RONNA'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> RONNA: <span class='type'>f64</span> = 1.0e27;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='RONTO'><span class='heading-body'>def RONTO</span><span class='heading-extra'><a href='#RONTO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> RONTO: <span class='type'>f64</span> = 1.0e-27;</pre>
 </details>
 </section>
 <section class='member'>
@@ -3230,6 +3512,14 @@ Tonne             | t       |
 </details>
 </section>
 <section class='member'>
+<h4 id='TERA'><span class='heading-body'>def TERA</span><span class='heading-extra'><a href='#TERA'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> TERA: <span class='type'>f64</span> = 1.0e12;</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='TESLA'><span class='heading-body'>def TESLA</span><span class='heading-extra'><a href='#TESLA'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -3307,6 +3597,38 @@ Tonne             | t       |
 	dim = MAGNETIC_FLUX,
 	scale = 1.0,
 };</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='YOCTO'><span class='heading-body'>def YOCTO</span><span class='heading-extra'><a href='#YOCTO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> YOCTO: <span class='type'>f64</span> = 1.0e-24;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='YOTTA'><span class='heading-body'>def YOTTA</span><span class='heading-extra'><a href='#YOTTA'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> YOTTA: <span class='type'>f64</span> = 1.0e24;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='ZEPTO'><span class='heading-body'>def ZEPTO</span><span class='heading-extra'><a href='#ZEPTO'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> ZEPTO: <span class='type'>f64</span> = 1.0e-21;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='ZETTA'><span class='heading-body'>def ZETTA</span><span class='heading-extra'><a href='#ZETTA'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> ZETTA: <span class='type'>f64</span> = 1.0e21;</pre>
 </details>
 </section>
 <h3>Globals</h3>

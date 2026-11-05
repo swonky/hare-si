@@ -297,18 +297,18 @@ fn parse_quantity(p: *parser) (quantity | error) = {
 // and ohm (Ω, Ω) symbols. Whitespace is permitted.
 //
 // Valid examples:
-// 	strpunit("m");
-// 	strpunit("m/s^2");
-// 	strpunit("°C");
-// 	strpunit("kΩ");
-// 	strpunit("kohm");
-// 	strpunit("mol**-1");
-// 	strpunit("m²");
+// 	strpu("m");
+// 	strpu("m/s^2");
+// 	strpu("°C");
+// 	strpu("kΩ");
+// 	strpu("kohm");
+// 	strpu("mol**-1");
+// 	strpu("m²");
 //
 // Returns the parsed [[unit]] on success, or an [[error]] if the input is invalid.
 //
-// - see also: [[strpquantity]]
-export fn strpunit(s: str) (unit | error) = {
+// - see also: [[strpq]]
+export fn strpu(s: str) (unit | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
@@ -334,19 +334,19 @@ export fn strpunit(s: str) (unit | error) = {
 // alternative micro (µ, μ) and ohm (Ω, Ω) symbols. Whitespace is permitted.
 //
 // Valid examples:
-// 	strpquantity("67 m");
-// 	strpquantity("1.21 GW");
-// 	strpquantity("9.80665 m/s^2");
-// 	strpquantity("32°C");
-// 	strpquantity("1.5 kΩ");
-// 	strpquantity("1.5 kohm");
-// 	strpquantity("6.022e23 mol**-1");
-// 	strpquantity("20 m²");
+// 	strp("67 m");
+// 	strp("1.21 GW");
+// 	strp("9.80665 m/s^2");
+// 	strp("32°C");
+// 	strp("1.5 kΩ");
+// 	strp("1.5 kohm");
+// 	strp("6.022e23 mol**-1");
+// 	strp("20 m²");
 //
 // Returns the parsed [[quantity]] on success, or an [[error]] if the input is invalid.
 //
-// - see also: [[strpunit]]
-export fn strpquantity(s: str) (quantity | error) = {
+// - see also: [[strpu]]
+export fn strp(s: str) (quantity | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
