@@ -345,8 +345,7 @@ fn run(opts: options) (void | si::error) = {
 		return;
 	};
 
-	si::fprintqln(
-		os::stdout,
+	si::println(
 		qty,
 		opts.unit,
 		opts.precision,

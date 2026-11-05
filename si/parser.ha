@@ -307,7 +307,7 @@ fn parse_quantity(p: *parser) (quantity | error) = {
 //
 // Returns the parsed [[unit]] on success, or an [[error]] if the input is invalid.
 //
-// - see also: [[strpq]]
+// - see also: [[strp]]
 export fn strpu(s: str) (unit | error) = {
 	let p = parser {
 		scanner = strings::iter(s),

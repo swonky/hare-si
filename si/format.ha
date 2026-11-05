@@ -1,10 +1,12 @@
+use bufio;
 use fmt;
 use io;
+use memio;
 use os;
 use strings;
 use strconv;
 
-fn fprintf64(
+fn write_value(
 	h: io::handle,
 	value: f64,
 	prec: (uint | void) = void,
@@ -72,42 +74,9 @@ fn fprintf64(
 	append_str(&out, scale)?;
 
 	let count = io::write(h, out)?;
-	count += fprintexp(h, exponent, enc)?;
+	count += write_exponent(h, exponent, enc)?;
 
 	return count;
-};
-
-// output must be freed by the caller
-fn int_to_superscript(i: int) (str | nomem) = {
-	let n = if (i < 0) -i else i;
-	let buf: [11]rune = ['\x00'...];
-	let sz = 0z;
-
-	if (i < 0) {
-		buf[sz] = '⁻';
-		sz += 1z;
-	};
-
-	if (n == 0) {
-		buf[sz] = DIGIT_SUPER_ZERO;
-		sz += 1z;
-	} else {
-		for (n > 0) {
-			const digit = n % 10;
-			buf[sz] = superscript_digits[digit: size];
-			sz += 1z;
-			n /= 10;
-		};
-
-		for (let j = if (i < 0) 1z else 0z; j < (sz - 1z + (if (i < 0) 1z else 0z)) / 2z; j += 1z) {
-			let k = sz - 1z - (j - (if (i < 0) 1z else 0z));
-			let tmp = buf[j];
-			buf[j] = buf[k];
-			buf[k] = tmp;
-		};
-	};
-
-	return strings::fromrunes(buf[..sz]);
 };
 
 fn rune_to_superscript(i: rune) (rune | void) = switch (i) {
@@ -254,52 +223,63 @@ fn format_unit(input: str, enc: encoding) (str | error) = {
 	return strings::fromutf8(out)!;
 };
 
-// Prints an exponent i to h with character encoding enc.
-// 
-//	fprintexp(os::stdout, 30, encoding::ASCII)
-//	>> ^30
-//
-//	fprintexp(os::stdout, 30, encoding::UTF8)
-//	>> ³⁰
-//
-fn fprintexp(h: io::handle, i: int, enc: encoding) (size | error) = {
+// Formats and prints n as superscript to h.
+fn write_super(h: io::handle, n: int) (size | io::error | nomem) = {
 	let count = 0z;
 
-	if (i == 0) {
-		return 0;
+	if (n == 0) return count;
+
+	if (n < 0) {
+		count += memio::appendrune(h, SUPERSCRIPT_MINUS)?;
+		n = -n;
 	};
+
+	let buf: [10]u8 = [0...];
+	let sz = 0z;
+
+	for (n > 0) {
+		buf[sz] = ('0' + n % 10): u8;
+		sz += 1z;
+		n = n / 10;
+	};
+
+	for (let j = sz; j > 0z; j -= 1z) {
+		let digit = (buf[j - 1z] - '0'): size;
+		count += memio::appendrune(h, superscript_digits[digit])?;
+	};
+
+	return count;
+};
+
+// Prints an exponent i to h with character encoding enc.
+// 
+//	write_exponent(os::stdout, 30, encoding::ASCII)
+//	>> ^30
+//
+//	write_exponent(os::stdout, 30, encoding::UTF8)
+//	>> ³⁰
+//
+fn write_exponent(h: io::handle, n: int, enc: encoding) (size | error) = {
+	let count = 0z;
+
+	if (n == 0) return 0;
 
 	const is_utf = enc == encoding::UTF8;
 
 	if (!is_utf) {
-		count += fmt::fprint(h, CIRCUMFLEX_ACCENT)?;
+		count += memio::appendrune(h, CIRCUMFLEX_ACCENT)?;
+		count += io::write(h, strings::toutf8(strconv::itos(n)))?;
+		return count;
 	};
 
-	let exp: int = if (i < 0) {
-		const sym_minus = if (is_utf) SUPERSCRIPT_MINUS else HYPHEN_MINUS;
-		count += fmt::fprint(h, sym_minus)?;
-		yield i*-1;
-	} else {
-		yield i;
-	};
-
-	assert(exp > 0);
-
-	let formatted = if (is_utf) {
-		yield int_to_superscript(exp)?;
-	} else {
-		yield strings::dup(strconv::itos(exp))?;
-	};
-	defer free(formatted);
-	count += fmt::fprint(h, formatted)?;
-
+	count += write_super(h, n)?;
 	return count;
 };
 
 // Prints a quantity to an [[io::handle]], optionally using a specified unit
 // format, precision, numeric notation, and character encoding. Returns the
 // number of bytes printed.
-export fn fprintq(
+export fn write_quantity(
 	h: io::handle,
 	qty: quantity,
 	unit_format: (str | void) = void,
@@ -311,9 +291,9 @@ export fn fprintq(
 	match (unit_format) {
 	case void =>
 		const value: f64 = qty.value * qty.unit.scale;
-		count += fprintf64(h ,value, prec, repr, enc)?;
+		count += write_value(h ,value, prec, repr, enc)?;
 		count += fmt::fprint(h, " ")?;
-		count += fprintu(h, qty.unit, enc)?;
+		count += write_unit(h, qty.unit, enc)?;
 	case let s: str =>
 		let target: unit = strpu(s)?;
 		
@@ -323,7 +303,7 @@ export fn fprintq(
 
 		const value: f64 = qty.value * qty.unit.scale / target.scale;
 
-		count += fprintf64(h, value, prec, repr, enc)?;
+		count += write_value(h, value, prec, repr, enc)?;
 
 		let formatted_unit = format_unit(s, enc)?;
 		defer free(formatted_unit);
@@ -333,10 +313,11 @@ export fn fprintq(
 	return count;
 };
 
+
 // Prints a quantity to an [[io::handle]], optionally using a specified unit
-// format, precision, numeric notation, and character encoding. Returns the
-// number of bytes printed.
-export fn fprintu(h: io::handle, u: unit, enc: encoding) (size | error) = {
+// format, precision, numeric notation, and character encoding.
+// Returns the number of bytes printed.
+export fn write_unit(h: io::handle, u: unit, enc: encoding) (size | error) = {
 	let first = true;
 
 	const exponents: [_]int = [
@@ -363,39 +344,82 @@ export fn fprintu(h: io::handle, u: unit, enc: encoding) (size | error) = {
 	let total: size = 0;
 	for (let i = 0z; i < len(symbols_base); i += 1) {
 
-		if (exponents[i] == 0) { continue; };
+		if (exponents[i] == 0) continue;
 
-		if (!first) {
-			total += fmt::fprint(h, sym_mult)?;
-		};
+		if (!first) total += fmt::fprint(h, sym_mult)?;
 
 		total += fmt::fprint(h, symbols_base[i])?;
-		total += fprintexp(h, exponents[i], enc)?;
+		total += write_exponent(h, exponents[i], enc)?;
 		first = false;
 	};
 
 	return total;
 };
 
-// Prints a quantity followed by a newline to an [[io::handle]]. Accepts the
-// same formatting options as [[fprintq]]. Returns the number of bytes printed.
-export fn fprintqln(
+// Formats and prints x to handler h.
+// Returns the number of bytes printed.
+// See also: [[fprint]], [[println]].
+export fn fprint(
 	h: io::handle,
-	qty: quantity,
-	unit_format: (str | void) = void,
+	x: (quantity | unit),
+	ustr: (str | void) = void,
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
 ) (size | error) = {
-	let count = fprintq(h, qty, unit_format, prec, repr, enc)?;
-	count += fmt::fprint(h, "\n")?;
+	return match (x) {
+	case let q: quantity =>
+		yield write_quantity(h, q, ustr, prec, repr, enc)?;
+	case let u: unit =>
+		yield write_unit(h, u, enc)?;
+	};
+};
+
+// Formats and prints x to [[os::stdout]].
+// Returns the number of bytes printed.
+// See also: [[fprint]], [[println]].
+export fn print(
+	x: (quantity | unit),
+	ustr: (str | void) = void,
+	prec: (uint | void) = void,
+	repr: notation = notation::GENERAL,
+	enc: encoding = encoding::UTF8,
+) (size | error) = fprint(os::stdout, x, ustr, prec, repr, enc); 
+
+// Formats and prints x followed by a newline to h.
+// Returns the number of bytes printed.
+// See also: [[fprint]], [[print]].
+export fn println(
+	x: (quantity | unit),
+	ustr: (str | void) = void,
+	prec: (uint | void) = void,
+	repr: notation = notation::GENERAL,
+	enc: encoding = encoding::UTF8,
+) (size | error) = {
+	let count = print(x, ustr, prec, repr, enc)?;
+	count += fmt::println()?;
 	return count;
 };
 
-// Prints a unit followed by a newline to an [[io::handle]]. Returns the
-// number of bytes printed.
-fn fprintuln(h: io::handle, u: unit, enc: encoding) (size | error) = {
-	let count = fprintu(h, u, enc)?;
-	count += fmt::fprint(h, "\n")?;
-	return count;
+// Formats a quantity as a string using the specified unit format, precision,
+// notation, and character encoding.
+// The result must be freed after use.
+export fn strf(
+	x: (quantity | unit),
+	ustr: (str | void) = void,
+	prec: (uint | void) = void,
+	repr: notation = notation::GENERAL,
+	enc: encoding = encoding::UTF8,
+) (str | error) = {
+	let stream = memio::dynamic();
+	defer io::close(&stream)!;
+	fprint(&stream, x, ustr, prec, repr, enc)?;
+	return strings::dup(memio::string(&stream)?)?;
 };
+
+@test fn strf() void = {
+	const s = strf(SPEED_OF_LIGHT, "m/s", 3, notation::FIXED, encoding::ASCII)!;
+	defer free(s);
+	assert(s == "299792458.000 m/s");
+};
+

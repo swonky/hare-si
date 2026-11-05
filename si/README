@@ -38,7 +38,7 @@ with the International System of Units.
 		value = 101325.0,
 	};
 
-- Parsing and formatting strings:
+- Parsing ([[strp]]) and formatting ([[strf]]) strings:
 
 	const acceleration = si::strp("20 m/s^2") as si::quantity;
 
