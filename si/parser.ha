@@ -16,30 +16,28 @@ fn advance(p: *parser) (token | done) = {
 	return p.current;
 };
 
-fn scale10(value: f64, exp: int) f64 = {
-	let result = value;
-	if (exp > 0) {
-		for (let i = 0; i < exp; i += 1) {
-			result *= 10.0;
-		};
+// Returns the product of x and 10 to the power of p.
+fn scale10(x: f64, p: int) f64 = {
+	if (p == 0) return x;
+
+
+	let factor = if (p < 0) {
+		p = -p;
+		yield 0.1;
 	} else {
-		for (let i = 0; i > exp; i -= 1) {
-			result /= 10.0;
+		yield 10.0;
+	};
+
+
+	for (p > 0) {
+		if (p % 2 == 1) {
+			x *= factor;
 		};
-	};
-	return result;
-};
-
-fn parse_float(s: str) (f64 | strconv::invalid | strconv::overflow) = {
-	const parts: (str, str) = strings::cut(s, "e");
-	const mantissa: f64 = strconv::stof64(parts.0)?;
-
-	if (count(parts.1) == 0) {
-		return mantissa;
+		factor *= factor;
+		p /= 2;
 	};
 
-	const exponent: int = strconv::stoi(parts.1)?;
-	return scale10(mantissa, exponent);
+	return x;
 };
 
 fn to_ascii(sym: unit_kind) str = symbols_ascii[sym: size];
@@ -233,7 +231,6 @@ fn parse_factor(p: *parser) (unit | error) = {
 
 fn parse_unit(p: *parser) (unit | error) = {
 	let start: parser = *p;
-
 	let result = parse_factor(p)?;
 
 	for (true) {
@@ -261,25 +258,23 @@ fn parse_value(p: *parser) (f64 | strconv::invalid | strconv::overflow) = {
 	const start: parser = *p;
 	let next: parser = *p;
 
-	for (true) {
-		advance(&next);
-		match (next.current) {
-		case let tok: token =>
-			switch (tok.kind) {
-			case token_kind::INTEGER, token_kind::POINT,
-				token_kind::COMMA, token_kind::EXPONENT,
-				token_kind::PLUS, token_kind::MINUS =>
-				advance(p);
-			case =>
-				break;
-			};
-		case done =>
+	for (let tok => advance(&next)) {
+		switch (tok.kind) {
+		case token_kind::INTEGER, token_kind::POINT,
+			token_kind::COMMA, token_kind::EXPONENT,
+			token_kind::PLUS, token_kind::MINUS =>
+			advance(p);
+		case =>
 			break;
 		};
 	};
 
-	const value = strings::slice(&start.scanner, &p.scanner);
-	return parse_float(value);
+	const text = strings::slice(&start.scanner, &p.scanner);
+	const parts = strings::cut(text, "e");
+	const mantissa = strconv::stof64(parts.0)?;
+	const exponent = strconv::stoi(parts.1)?;
+
+	return if (count(parts.1) == 0) mantissa else scale10(mantissa, exponent);
 };
 
 fn parse_quantity(p: *parser) (quantity | error) = {

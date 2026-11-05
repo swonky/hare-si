@@ -114,6 +114,115 @@ fn append_str(out: *[]u8, s: str) (void | nomem) = {
 	append(out, u...)?;
 };
 
+
+// fn reformat_unit(h: io::handle, input: str, enc: encoding) (size | error) = {
+// 	let p = parser {
+// 		scanner = strings::iter(input),
+// 		current = done,
+// 		advance = &next_token,
+// 	};
+//
+// 	let exponent = false;
+// 	let parenthesised_exponent = false;
+//
+// 	const is_utf = enc == encoding::UTF8;
+//
+// 	for (true) {
+// 		const tok = match (advance(&p)) {
+// 		case done =>
+// 			break;
+// 		case let tok: token =>
+// 			yield tok;
+// 		};
+//
+// 		if (exponent) {
+// 			switch (tok.kind) {
+// 			case token_kind::PLUS =>
+// 				continue;
+// 			case token_kind::MINUS =>
+// 				append_str(&out, "⁻")?;
+// 				continue;
+// 			case token_kind::INTEGER =>
+// 				append_superscript(&out, tok.text)?;
+// 				exponent = parenthesised_exponent;
+// 				continue;
+// 			case token_kind::LPAREN =>
+// 				append_str(&out, "(")?;
+// 				parenthesised_exponent = true;
+// 				continue;
+// 			case token_kind::RPAREN =>
+// 				append_str(&out, ")")?;
+// 				exponent = false;
+// 				parenthesised_exponent = false;
+// 				continue;
+// 			case =>
+// 				exponent = false;
+// 				parenthesised_exponent = false;
+// 			};
+// 		};
+//
+// 		switch (tok.kind) {
+// 		case token_kind::IDENTIFIER =>
+// 			let text = tok.text;
+// 			if (len(text) > 1 && strings::hasprefix(text, "u")) {
+// 				append_str(&out, if (enc == encoding::UTF8) "µ" else "u")?;
+// 				text = strings::sub(text, 1);
+// 			};
+//
+// 			const suffix = if (strings::hassuffix(text, sym_ohm_ascii)) {
+// 				yield if (is_utf) sym_ohm_utf8 else sym_ohm_ascii;
+// 			} else if (strings::hassuffix(text, "degC")) {
+// 				yield if (is_utf) "°C" else "degC";
+// 			} else if (strings::hassuffix(text, "deg")) {
+// 				yield if (is_utf) "°" else "deg";
+// 			} else if (strings::hassuffix(text, sym_angstrom_ascii)) {
+// 				yield if (is_utf) {
+// 					yield sym_angstrom_utf8;
+// 				} else {
+// 					yield sym_angstrom_ascii;
+// 				};
+// 			} else {
+// 				yield "";
+// 			};
+//
+// 			if (len(suffix) > 0) {
+// 				append_str(&out, strings::sub(text, 0, len(text) - len(
+// 					if (strings::hassuffix(text, "ohm")) "ohm"
+// 					else if (strings::hassuffix(text, "degC")) "degC"
+// 					else "deg"
+// 				)))?;
+// 				append_str(&out, suffix)?;
+// 			} else {
+// 				append_str(&out, text)?;
+// 			};
+// 		case token_kind::INTEGER =>
+// 			append_str(&out, tok.text)?;
+// 		case token_kind::PLUS =>
+// 			append_str(&out, "+")?;
+// 		case token_kind::MINUS =>
+// 			append_str(&out, "−")?;
+// 		case token_kind::POWER =>
+// 			if (enc == encoding::ASCII) {
+// 				append_str(&out, "^")?;
+// 			} else {
+// 				exponent = true;
+// 			};
+// 		case token_kind::MULTIPLY =>
+// 			append_str(&out, "·")?;
+// 		case token_kind::SOLIDUS =>
+// 			append_str(&out, "/")?;
+// 		case token_kind::LPAREN =>
+// 			append_str(&out, "(")?;
+// 		case token_kind::RPAREN =>
+// 			append_str(&out, ")")?;
+// 		case =>
+// 			append_str(&out, tok.text)?;
+// 		};
+// 	};
+//
+// 	return strings::fromutf8(out)!;
+// };
+//
 fn format_unit(input: str, enc: encoding) (str | error) = {
 	let p = parser {
 		scanner = strings::iter(input),
