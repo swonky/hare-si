@@ -24,6 +24,7 @@ type base_dimension = enum size {
 };
 
 type unit_kind = enum int {
+	NONE,
 	AMPERE,
 	ASTRONOMICAL_UNIT,
 	BECQUEREL,
@@ -68,6 +69,10 @@ type unit_kind = enum int {
 	WEBER,
 };
 
+def EMPTY = "";
+def sym_kilogram = "kg";
+
+def sym_none = "";
 def sym_angstrom_ascii = "AU";
 def sym_angstrom_utf8 = "Å";
 def sym_ampere = "A";
@@ -94,7 +99,6 @@ def sym_hour = "h";
 def sym_joule = "J";
 def sym_katal = "kat";
 def sym_kelvin = "K";
-def sym_kilogram = "kg";
 def sym_litre = "L";
 def sym_lumen = "lm";
 def sym_lux = "lx";
@@ -163,7 +167,7 @@ def name_watt = "watt";
 def name_weber = "weber";
 
 def symbols_base: [_]str = [
-	"kg",
+	sym_kilogram,
 	sym_metre,
 	sym_second,
 	sym_ampere,
@@ -173,6 +177,7 @@ def symbols_base: [_]str = [
 ];
 
 def symbols_utf8: [_]str = [
+	EMPTY,
 	sym_ampere,
 	sym_astronomical_unit,
 	sym_becquerel,
@@ -218,6 +223,7 @@ def symbols_utf8: [_]str = [
 ];
 
 def symbols_ascii: [_]str = [
+	EMPTY,
 	sym_ampere,
 	sym_astronomical_unit,
 	sym_becquerel,
@@ -273,6 +279,7 @@ def base_names: [_]str = [
 ];
 
 def unit_names: [_]str = [
+	EMPTY,
 	name_ampere,
 	name_astronomical_unit,
 	name_becquerel,
@@ -318,6 +325,7 @@ def unit_names: [_]str = [
 ];
 
 def units: [_]unit = [
+	DIMENSIONLESS_UNIT,
 	AMPERE,
 	ASTRONOMICAL_UNIT,
 	BECQUEREL,

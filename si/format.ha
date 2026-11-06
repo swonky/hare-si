@@ -6,12 +6,15 @@ use os;
 use strings;
 use strconv;
 
-fn appendstr(out: io::handle, in: str) (size | io::error) = {
+// Writes a unicode string to a stream.
+// Returns number of bytes written.
+fn write_string(out: io::handle, in: str) (size | io::error) = {
 	return io::write(out, strings::toutf8(in));
 };
 
+// Formats and writes an f64 to a stream.
 fn write_value(
-	h: io::handle,
+	out: io::handle,
 	value: f64,
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
@@ -43,7 +46,7 @@ fn write_value(
 	let count = 0z;
 
 	if (repr != notation::GENERAL && repr != notation::SCIENTIFIC) {
-		count += appendstr(h, formatted)?;
+		count += write_string(out, formatted)?;
 		return count;
 	};
 
@@ -53,20 +56,12 @@ fn write_value(
 		pair = strings::cut(formatted, "E");
 	};
 	if (pair.1 == "") {
-		count += appendstr(h, formatted)?;
+		count += write_string(out, formatted)?;
 		return count;
 	};
 
-	const exponent = match (strconv::stoi(pair.1)) {
-	case let i: int =>
-		yield i;
-	case =>
-		// TODO logging
-		return invalid_exponent;
-
-	};
-
 	assert(pair.0 != "");
+	count += write_string(out, pair.0);
 
 	const scale = switch (enc) {
 	case encoding::ASCII => yield "*10";
@@ -74,11 +69,16 @@ fn write_value(
 	case => abort("invalid encoding");
 	};
 
-	let out = strings::toutf8(pair.0);
-	append_str(&out, scale)?;
+	count += write_string(out, scale);
+	let count = io::write(out, out)?;
 
-	let count = io::write(h, out)?;
-	count += write_exponent(h, exponent, enc)?;
+	const exponent = match (strconv::stoi(pair.1)) {
+	case let i: int =>
+		yield i;
+	case =>
+		return invalid_exponent;
+	};
+	count += write_exponent(out, exponent, enc)?;
 
 	return count;
 };
@@ -98,28 +98,7 @@ fn rune_to_superscript(i: rune) (rune | void) = switch (i) {
 	case => yield void;
 };
 
-fn append_superscript(out: *[]u8, s: str) (void | invalid_exponent | nomem) = {
-	let iter = strings::iter(s);
-	for (const d => strings::next(&iter)) {
-		const r = match (rune_to_superscript(d)) {
-		case void =>
-			return invalid_exponent;
-		case let r: rune =>
-			yield r;
-		};
-		let runes: [_]rune = [r];
-		let s = strings::fromrunes(runes)?;
-		append_str(out, s)?;
-	};
-};
-
-fn append_str(out: *[]u8, s: str) (void | nomem) = {
-	let u = strings::toutf8(s);
-	
-	append(out, u...)?;
-};
-
-fn write_superstr(h: io::handle, s: str) (size | error) = {
+fn write_superstr(out: io::handle, s: str) (size | error) = {
 	let count = 0z;
 	let iter = strings::iter(s);
 	for (const d => strings::next(&iter)) {
@@ -129,17 +108,58 @@ fn write_superstr(h: io::handle, s: str) (size | error) = {
 		case let r: rune =>
 			yield r;
 		};
-		count += memio::appendrune(h, symbol)?;
+		count += memio::appendrune(out, symbol)?;
 	};
 	return count;
 };
 
-export fn prefix(in: str) (str | void) = {
-
+// Writes the encoded string representation of kind to a stream.
+// Returns the number of bytes written.
+fn write_unit_prefix(
+	out: io::handle,
+	kind: prefix_kind,
+	enc: encoding,
+) (size | io::error) = {
+	return switch (enc) {
+	case encoding::ASCII, encoding::JSON =>
+		yield write_string(out, prefix_symbols_ascii[enc: size]);
+	case encoding::UTF8 =>
+		yield write_string(out, prefix_symbols_utf8[enc: size]);
+	};
 };
 
+// Writes the encoded string representation of kind to a stream.
+// Returns the number of bytes written.
+fn write_unit_suffix(
+	out: io::handle,
+	kind: unit_kind,
+	enc: encoding = encoding::UTF8,
+) (size | io::error) = {
+	return switch (enc) {
+	case encoding::ASCII, encoding::JSON =>
+		yield write_string(out, symbols_ascii[enc: size]);
+	case encoding::UTF8 =>
+		yield write_string(out, symbols_utf8[enc: size]);
+	};
+};
 
-fn reformat_unit(h: io::handle, input: str, enc: encoding) (size | error) = {
+// Writes the encoded string representation of kind to a stream.
+// Returns the number of bytes written.
+fn write_symbol(
+	out: io::handle,
+	kind: symbol_kind,
+	enc: encoding
+) (size | error) = {
+	return match (kind) {
+	case let k: prefix_kind =>
+		yield write_unit_prefix(out, k, enc);
+	case let k: unit_kind =>
+		yield write_unit_suffix(out, k, enc);
+	};
+};
+
+// 
+fn reformat_unit(out: io::handle, input: str, enc: encoding) (size | error) = {
 	let p = parser {
 		scanner = strings::iter(input),
 		current = done,
@@ -158,18 +178,18 @@ fn reformat_unit(h: io::handle, input: str, enc: encoding) (size | error) = {
 			case token_kind::PLUS =>
 				continue;
 			case token_kind::MINUS =>
-				count += memio::appendrune(h, SUPERSCRIPT_MINUS)?;
+				count += memio::appendrune(out, SUPERSCRIPT_MINUS)?;
 				continue;
 			case token_kind::INTEGER =>
-				count += write_superstr(h, tok.text)?;
+				count += write_superstr(out, tok.text)?;
 				exponent = parenthesised_exponent;
 				continue;
 			case token_kind::LPAREN =>
-				count += memio::appendrune(h, LEFT_PARENTHESIS)?;
+				count += memio::appendrune(out, LEFT_PARENTHESIS)?;
 				parenthesised_exponent = true;
 				continue;
 			case token_kind::RPAREN =>
-				count += memio::appendrune(h, RIGHT_PARENTHESIS)?;
+				count += memio::appendrune(out, RIGHT_PARENTHESIS)?;
 				exponent = false;
 				parenthesised_exponent = false;
 				continue;
@@ -181,66 +201,31 @@ fn reformat_unit(h: io::handle, input: str, enc: encoding) (size | error) = {
 
 		switch (tok.kind) {
 		case token_kind::IDENTIFIER =>
-			let text = tok.text;
-			if (len(text) > 1 && strings::hasprefix(text, LATIN_LETTER_SMALL_U)) {
-				const sym = if (enc == encoding::UTF8) {
-					yield LETTER_GREEK_SMALL_MU;
-				} else { 
-					yield LATIN_LETTER_SMALL_U;
-				};
-				count += memio::appendrune(h, sym)?;
-				text = strings::sub(text, 1);
-			};
-
-			const suffix = if (strings::hassuffix(text, sym_ohm_ascii)) {
-				yield if (is_utf) sym_ohm_utf8 else sym_ohm_ascii;
-			} else if (strings::hassuffix(text, "degC")) {
-				yield if (is_utf) "°C" else "degC";
-			} else if (strings::hassuffix(text, "deg")) {
-				yield if (is_utf) "°" else "deg";
-			} else if (strings::hassuffix(text, sym_angstrom_ascii)) {
-				yield if (is_utf) {
-					yield sym_angstrom_utf8;
-				} else {
-					yield sym_angstrom_ascii;
-				};
-			} else {
-				yield "";
-			};
-
-			if (len(suffix) > 0) {
-				if (strings::hassuffix(text, "ohm")) "ohm"
-					else if (strings::hassuffix(text, "degC")) "degC"
-					else "deg"
-				appendstr(h, strings::sub(text, 0, len(text) - len(
-					
-				)))?;
-				count += appendstr(h, suffix)?;
-			} else {
-				count += appendstr(h, text)?;
-			};
+			let kinds = identify(tok.text);
+			count += write_symbol(kinds.0);
+			count += write_symbol(kinds.1);
 		case token_kind::INTEGER =>
-			count += appendstr(h, tok.text)?;
+			count += write_string(out, tok.text)?;
 		case token_kind::PLUS =>
-			count += memio::appendrune(h, PLUS_SIGN)?;
+			count += memio::appendrune(out, PLUS_SIGN)?;
 		case token_kind::MINUS =>
-			count += memio::appendrune(h, HYPHEN_MINUS)?;
+			count += memio::appendrune(out, HYPHEN_MINUS)?;
 		case token_kind::POWER =>
 			if (enc == encoding::ASCII) {
-				count += memio::appendrune(h, CIRCUMFLEX_ACCENT)?;
+				count += memio::appendrune(out, CIRCUMFLEX_ACCENT)?;
 			} else {
 				exponent = true;
 			};
 		case token_kind::MULTIPLY =>
-			count += memio::appendrune(h, DOT_OPERATOR)?;
+			count += memio::appendrune(out, DOT_OPERATOR)?;
 		case token_kind::SOLIDUS =>
-			count += memio::appendrune(h, SOLIDUS)?;
+			count += memio::appendrune(out, SOLIDUS)?;
 		case token_kind::LPAREN =>
-			count += memio::appendrune(h, LEFT_PARENTHESIS)?;
+			count += memio::appendrune(out, LEFT_PARENTHESIS)?;
 		case token_kind::RPAREN =>
-			count += memio::appendrune(h, RIGHT_PARENTHESIS)?;
+			count += memio::appendrune(out, RIGHT_PARENTHESIS)?;
 		case =>
-			count += appendstr(h, tok.text);
+			count += write_string(out, tok.text);
 		};
 	};
 
@@ -248,13 +233,13 @@ fn reformat_unit(h: io::handle, input: str, enc: encoding) (size | error) = {
 };
 
 // Formats and prints n as superscript to h.
-fn write_super(h: io::handle, n: int) (size | io::error | nomem) = {
+fn write_super(out: io::handle, n: int) (size | io::error | nomem) = {
 	let count = 0z;
 
 	if (n == 0) return count;
 
 	if (n < 0) {
-		count += memio::appendrune(h, SUPERSCRIPT_MINUS)?;
+		count += memio::appendrune(out, SUPERSCRIPT_MINUS)?;
 		n = -n;
 	};
 
@@ -269,7 +254,7 @@ fn write_super(h: io::handle, n: int) (size | io::error | nomem) = {
 
 	for (let j = sz; j > 0z; j -= 1z) {
 		let digit = (buf[j - 1z] - '0'): size;
-		count += memio::appendrune(h, superscript_digits[digit])?;
+		count += memio::appendrune(out, superscript_digits[digit])?;
 	};
 
 	return count;
@@ -283,7 +268,7 @@ fn write_super(h: io::handle, n: int) (size | io::error | nomem) = {
 //	write_exponent(os::stdout, 30, encoding::UTF8)
 //	>> ³⁰
 //
-fn write_exponent(h: io::handle, n: int, enc: encoding) (size | error) = {
+fn write_exponent(out: io::handle, n: int, enc: encoding) (size | error) = {
 	let count = 0z;
 
 	if (n == 0) return 0;
@@ -291,20 +276,20 @@ fn write_exponent(h: io::handle, n: int, enc: encoding) (size | error) = {
 	const is_utf = enc == encoding::UTF8;
 
 	if (!is_utf) {
-		count += memio::appendrune(h, CIRCUMFLEX_ACCENT)?;
-		count += appendstr(h, strconv::itos(n))?;
+		count += memio::appendrune(out, CIRCUMFLEX_ACCENT)?;
+		count += write_string(out, strconv::itos(n))?;
 		return count;
 	};
 
-	count += write_super(h, n)?;
+	count += write_super(out, n)?;
 	return count;
 };
 
-// Prints a quantity to an [[io::handle]], optionally using a specified unit
-// format, precision, numeric notation, and character encoding. Returns the
-// number of bytes printed.
-export fn write_quantity(
-	h: io::handle,
+// Prints a quantity to a stream, optionally using a specified unit format, 
+// precision, numeric notation, and character encoding.
+// Returns the number of bytes printed.
+fn write_quantity(
+	out: io::handle,
 	qty: quantity,
 	unit_format: (str | void) = void,
 	prec: (uint | void) = void,
@@ -315,9 +300,9 @@ export fn write_quantity(
 	match (unit_format) {
 	case void =>
 		const value: f64 = qty.value * qty.unit.scale;
-		count += write_value(h ,value, prec, repr, enc)?;
-		count += fmt::fprint(h, " ")?;
-		count += write_unit(h, qty.unit, enc)?;
+		count += write_value(out, value, prec, repr, enc)?;
+		count += fmt::fprint(out, " ")?;
+		count += write_unit(out, qty.unit, enc)?;
 	case let s: str =>
 		let target: unit = strpu(s)?;
 		
@@ -327,12 +312,12 @@ export fn write_quantity(
 
 		const value: f64 = qty.value * qty.unit.scale / target.scale;
 
-		count += write_value(h, value, prec, repr, enc)?;
+		count += write_value(out, value, prec, repr, enc)?;
 
 		let formatted_unit = format_unit(s, enc)?;
 		defer free(formatted_unit);
 
-		count += fmt::fprintf(h, " {}", formatted_unit)!;
+		count += fmt::fprintf(out, " {}", formatted_unit)!;
 	};
 	return count;
 };
@@ -341,7 +326,7 @@ export fn write_quantity(
 // Prints a quantity to an [[io::handle]], optionally using a specified unit
 // format, precision, numeric notation, and character encoding.
 // Returns the number of bytes printed.
-export fn write_unit(h: io::handle, u: unit, enc: encoding) (size | error) = {
+fn write_unit(out: io::handle, u: unit, enc: encoding) (size | error) = {
 	let first = true;
 
 	const exponents: [_]int = [
@@ -355,7 +340,7 @@ export fn write_unit(h: io::handle, u: unit, enc: encoding) (size | error) = {
 	];
 	
 	if (enc == encoding::JSON) {
-		return encodejson(h, u);
+		return encodejson(out, u);
 	};
 
 	const sym_mult = switch (enc) {
@@ -370,10 +355,10 @@ export fn write_unit(h: io::handle, u: unit, enc: encoding) (size | error) = {
 
 		if (exponents[i] == 0) continue;
 
-		if (!first) total += fmt::fprint(h, sym_mult)?;
+		if (!first) total += fmt::fprint(out, sym_mult)?;
 
-		total += fmt::fprint(h, symbols_base[i])?;
-		total += write_exponent(h, exponents[i], enc)?;
+		total += fmt::fprint(out, symbols_base[i])?;
+		total += write_exponent(out, exponents[i], enc)?;
 		first = false;
 	};
 
@@ -384,7 +369,7 @@ export fn write_unit(h: io::handle, u: unit, enc: encoding) (size | error) = {
 // Returns the number of bytes printed.
 // See also: [[fprint]], [[println]].
 export fn fprint(
-	h: io::handle,
+	out: io::handle,
 	x: (quantity | unit),
 	ustr: (str | void) = void,
 	prec: (uint | void) = void,
@@ -393,9 +378,9 @@ export fn fprint(
 ) (size | error) = {
 	return match (x) {
 	case let q: quantity =>
-		yield write_quantity(h, q, ustr, prec, repr, enc)?;
+		yield write_quantity(out, q, ustr, prec, repr, enc)?;
 	case let u: unit =>
-		yield write_unit(h, u, enc)?;
+		yield write_unit(out, u, enc)?;
 	};
 };
 

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MPL-2.0
+// (c) Tom Spencer <https://codeberg.org/swonky/hare-si>
+
 use fmt;
 use io;
 use math;
@@ -5,20 +8,20 @@ use strconv;
 use strings;
 use os;
 
-
+// State machine for recursive-descent parsing.
 type parser = struct {
 	scanner: strings::iterator,
+	advance: *lexer,
 	current: (token | done),
-	advance: *fn(_: *strings::iterator) (token | done),
 };
 
+// Advances the scanner and returns the next token.
 fn advance(p: *parser) (token | done) = {
 	p.current = p.advance(&p.scanner);
 	return p.current;
 };
 
-
-// Returns the name of the unit associated by k
+// Returns the name of the unit associated by k.
 fn lookup_name(k: unit_kind) str  = unit_names[k: size];
 
 // Returns the unit associated with k
@@ -42,74 +45,103 @@ fn scale10(x: f64, p: int) f64 = {
 	return x;
 };
 
-type symbol_kind = (prefix_kind | unit_kind);
-
-fn match_symbol(s: str, table: symbol_lookup) (symbol_kind | void) = {
-	let lo = 0z;
-	let hi = len(symbol_lookup);
-	for (lo < hi) {
-		const mid = lo + (hi - lo) / 2z;
-		const cmp = strings::compare(symbol_lookup[mid].repr, s);
-		if (cmp < 0) {
-			lo = mid + 1z;
-		} else if (cmp > 0) {
-			hi = mid;
-		} else {
-			return symbol_lookup[mid].kind;
-		};
+// Returns the left and right parts of the input string cut at index n. 
+// If n is equal to or greater than the length of the string then the second
+// part will be an empty string.
+// Output is borrowed from input string.
+fn ncut(input: str, n: size) (str, str) = {
+	if (count(s) >= i) {
+		return (in, "");
 	};
-	return void;
+	const p = strings::sub(s, 0, n);
+	const s = strings::sub(in, n));
+	return (p, s);
 };
 
-fn match_symbol(s: str, table: symbol_lookup) (symbol_kind | void) = {
-	let lo = 0z;
-	let hi = len(symbol_lookup);
-	for (lo < hi) {
-		const mid = lo + (hi - lo) / 2z;
-		const cmp = strings::compare(symbol_lookup[mid].repr, s);
-		if (cmp < 0) {
-			lo = mid + 1z;
-		} else if (cmp > 0) {
-			hi = mid;
-		} else {
-			return symbol_lookup[mid].kind;
-		};
-	};
-	return void;
-};
 
-export fn cut_unit(in: str) (str, str) = {
-	const sz = count(in);
-	if (sz >= 3) {
-		if (strings::hasprefix(in, "da") && strings::slice()) {
-
-		};
-	};
-
-	if (count(in) <= 1) return (in, "");
-		if (cmp < 0) {
-			lo = mid + 1z;
-		} else if (cmp > 0) {
-			hi = mid;
-		} else {
-			return symbol_lookup[mid].kind;
-		};
+// Returns the decimal prefix and unit symbol componants of the input string.
+// If the input string does not match any prefix or unit symbol, the first 
+// componant of the tuple will be empty.
+// Output is trimmed and borrowed from input string.
+export fn identify(in: str) (prefix_kind, unit_kind) = {
+	const tr = strings::trim(in);
+	match (match_suffix(tr)) {
+	case let u: unit_kind =>
+		return (prefix_kind::NONE, unit_kind);
 	};
 	
+	const sz = count(tr);
+	if (s <= 1) {
+		return prefix_kind::NONE, unit_kind::NONE;
+	};
+
+	if (sz >= 3) {
+		if (strings::hasprefix(tr, sym_deca) {
+			const parts = ncut(tr, 2z);
+			match (match_suffix(parts.1)) {
+			case let k: unit_kind =>
+				return (prefix_kind::DECA, k);
+			case void =>
+				void;
+			};
+		};
+	};
+
+	assert(sz >= 2);
+	const parts = ncut(tr, 1z);
+
+	const pk = match (!match_prefix(parts.0)) {
+	case let k: prefix_kind => 
+		yield k;
+	case => 
+		yield prefix_kind::NONE;
+	};
+
+	const uk = match (!match_suffix(parts.1)) {
+	case let k: unit_kind => 
+		yield k;
+	case => 
+		yield unit_kind::NONE;
+	};
+
+	return (pk, uk);
 };
 
+// Searches an ordered symbol array for s.
+// Returns void if not found.
+fn match_symbol(s: str, table: symbol_lookup) (symbol_kind | void) = {
+	let lo = 0z;
+	let hi = len(symbol_lookup);
+	for (lo < hi) {
+		const mid = lo + (hi - lo) / 2z;
+		const cmp = strings::compare(symbol_lookup[mid].repr, s);
+		if (cmp < 0) {
+			lo = mid + 1z;
+		} else if (cmp > 0) {
+			hi = mid;
+		} else {
+			return symbol_lookup[mid].kind;
+		};
+	};
+	return void;
+};
+
+// Returns the kind of prefix symbol matching s.
+// Returns void if not found.
+// Wrapper for [[match_symbol]].
 fn match_prefix(in: str) (prefix_kind | void) = {
 	return match (match_symbol(in, prefix_lookup)) {
-	case let u: prefix_kind => yield u;
-	case void: yield void;
+	case let value: (prefix_kind | void) => yield value;
 	case => unreachable("incorrect lookup table");
 	};
 };
 
-fn match_unit(in: str) (unit_kind | void) = {
+// Returns the kind of unit symbol matching s.
+// Returns void if not found.
+// Wrapper for [[match_symbol]].
+fn match_suffix(in: str) (unit_kind | void) = {
 	return match (match_symbol(in, prefix_lookup)) {
-	case let u: unit_kind => yield u;
-	case void: yield void;
+	case let value: (unit_kind | void) => yield value;
 	case => unreachable("incorrect lookup table");
 	};
 };
@@ -275,6 +307,7 @@ fn parse_factor(p: *parser) (unit | error) = {
 	};
 };
 
+// Parses a units.
 fn parse_unit(p: *parser) (unit | error) = {
 	let start: parser = *p;
 	let result = parse_factor(p)?;
@@ -300,6 +333,7 @@ fn parse_unit(p: *parser) (unit | error) = {
 	};
 };
 
+// Parses float values.
 fn parse_value(p: *parser) (f64 | strconv::invalid | strconv::overflow) = {
 	const start: parser = *p;
 	let next: parser = *p;
@@ -323,6 +357,7 @@ fn parse_value(p: *parser) (f64 | strconv::invalid | strconv::overflow) = {
 	return if (count(parts.1) == 0) mantissa else scale10(mantissa, exponent);
 };
 
+// Parse a quantity
 fn parse_quantity(p: *parser) (quantity | error) = {
 	const v: f64  = parse_value(p)?;
 	advance(p);
@@ -353,7 +388,7 @@ export fn strpu(s: str) (unit | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
-		advance = &next_token,
+		advance = &lex_restricted,
 	};
 
 	advance(&p);
@@ -391,7 +426,7 @@ export fn strp(s: str) (quantity | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
-		advance = &next_token_permissive,
+		advance = &lex_permissive,
 	};
 
 	const result = parse_quantity(&p)?;

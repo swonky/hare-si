@@ -1,10 +1,13 @@
+// SPDX-License-Identifier: MPL-2.0
+// (c) Tom Spencer <https://codeberg.org/swonky/hare-si>
+
 use ascii;
 use fmt;
 use strings;
 use os;
 use encoding::utf8;
 
-type not_an_int = !void;
+type lexer = fn(_: *strings::iterator) (token | done);
 
 type token_kind = enum u8 {
 	UNSPECIFIED,
@@ -60,7 +63,8 @@ fn is_omega(c: rune) bool = c == LETTER_GREEK_CAPITAL_OMEGA || c == OHM_SIGN;
 fn is_ident(c: rune) bool = ascii::isalpha(c) || is_mu(c) || is_omega(c);
 
 fn is_middle_dot(c: rune) bool = switch (c) {
-	case DOT_MIDDLE, DOT_HYPHENATION, DOT_BULLET_OPERATOR, DOT_OPERATOR, DOT_LATIN_SINOLOGICAL =>
+	case DOT_MIDDLE, DOT_HYPHENATION, DOT_BULLET_OPERATOR, 
+		DOT_OPERATOR, DOT_LATIN_SINOLOGICAL =>
 		yield true;
 	case =>
 		yield false;
@@ -101,7 +105,7 @@ fn is_exponent_prefix(r: rune) bool = {
 	};
 };
 
-fn next_token_permissive(s: *strings::iterator) (token | done) = {
+fn lex_permissive(s: *strings::iterator) (token | done) = {
 	for (true) {
 		const start: strings::iterator = *s;
 		const c = match (next_rune(s)) {
@@ -215,7 +219,7 @@ fn next_token_permissive(s: *strings::iterator) (token | done) = {
 	return make_token(&start, s, kind);
 };
 
-fn next_token(s: *strings::iterator) (token | done) = {
+fn lex_restricted(s: *strings::iterator) (token | done) = {
 	for (true) {
 		const start: strings::iterator = *s;
 		const c = match (next_rune(s)) {

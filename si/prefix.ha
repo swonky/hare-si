@@ -10,6 +10,7 @@ export def MEGA:   f64 = 1.0e6;
 export def KILO:   f64 = 1.0e3;
 export def HECTO:  f64 = 1.0e2;
 export def DECA:   f64 = 1.0e1;
+export def NONE:   f64 = 1.0;
 export def DECI:   f64 = 1.0e-1;
 export def CENTI:  f64 = 1.0e-2;
 export def MILLI:  f64 = 1.0e-3;
@@ -35,6 +36,7 @@ def name_mega  = "mega";
 def name_kilo  = "kilo";
 def name_hecto = "hecto";
 def name_deca  = "deca";
+def name_none  = "";
 def name_deci  = "deci";
 def name_centi = "centi";
 def name_milli = "milli";
@@ -60,6 +62,7 @@ def sym_mega  = "M";
 def sym_kilo  = "k";
 def sym_hecto = "h";
 def sym_deca  = "da";
+def sym_none  = "";
 def sym_deci  = "d";
 def sym_centi = "c";
 def sym_milli = "m";
@@ -80,34 +83,34 @@ def sym_mu          = "μ";
 
 // Unit prefix decimal exponents
 export type prefix_kind = enum i8 {
-	QUETTA, RONNA, YOTTA, ZETTA, EXA, PETA, TERA, GIGA, MEGA, KILO, HECTO, DECA,
-	DECI, CENTI, MILLI, MICRO, NANO, PICO, FEMTO, ATTO, ZEPTO, YOCTO, RONTO,
-	QUECTO,
+	QUETTA, RONNA, YOTTA, ZETTA, EXA, PETA, TERA, GIGA, MEGA, KILO, HECTO, 
+	DECA, NONE, DECI, CENTI, MILLI, MICRO, NANO, PICO, FEMTO, ATTO, ZEPTO,
+	YOCTO, RONTO, QUECTO,
 };
 
 def prefix_scale: [_]f64 = [
-	QUETTA, RONNA, YOTTA, ZETTA, EXA, PETA, TERA, GIGA, MEGA, KILO,
-	HECTO, DECA, DECI, CENTI, MILLI, MICRO, NANO, PICO, FEMTO, ATTO,
-	ZEPTO, YOCTO, RONTO, QUECTO,
+	QUETTA, RONNA, YOTTA, ZETTA, EXA, PETA, TERA, GIGA, MEGA, KILO, HECTO,
+	DECA, NONE, DECI, CENTI, MILLI, MICRO, NANO, PICO, FEMTO, ATTO, ZEPTO,
+	YOCTO, RONTO, QUECTO,
 ];
 
 def prefix_names: [_]str = [
 	name_quetta, name_ronna, name_yotta, name_zetta, name_exa, name_peta,
-	name_tera, name_giga, name_mega, name_kilo, name_hecto, name_deca,
+	name_tera, name_giga, name_mega, name_kilo, name_hecto, name_deca, name_none,
 	name_deci, name_centi, name_milli, name_micro, name_nano, name_pico,
 	name_femto, name_atto, name_zepto, name_yocto, name_ronto, name_quecto
 ];
 
 def prefix_symbols_ascii: [_]str = [
 	sym_quetta, sym_ronna, sym_yotta, sym_zetta, sym_exa, sym_peta,
-	sym_tera, sym_giga, sym_mega, sym_kilo, sym_hecto, sym_deca,
+	sym_tera, sym_giga, sym_mega, sym_kilo, sym_hecto, sym_deca, sym_none,
 	sym_deci, sym_centi, sym_milli, sym_micro_ascii, sym_nano, sym_pico,
 	sym_femto, sym_atto, sym_zepto, sym_yocto, sym_ronto, sym_quecto
 ];
 
 def prefix_symbols_utf8: [_]str = [
 	sym_quetta, sym_ronna, sym_yotta, sym_zetta, sym_exa, sym_peta,
-	sym_tera, sym_giga, sym_mega, sym_kilo, sym_hecto, sym_deca,
+	sym_tera, sym_giga, sym_mega, sym_kilo, sym_hecto, sym_deca, sym_none,
 	sym_deci, sym_centi, sym_milli, sym_micro, sym_nano, sym_pico,
 	sym_femto, sym_atto, sym_zepto, sym_yocto, sym_ronto, sym_quecto
 ];

@@ -36,3 +36,6 @@ export type encoding = enum u8 {
 	UTF8,
 	JSON,
 };
+
+// Union of symbol enum types.
+export type symbol_kind = (prefix_kind | unit_kind);
