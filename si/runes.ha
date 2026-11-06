@@ -7,6 +7,8 @@ def SPACE_IDEOGRAPHIC          : rune = '\u3000';
 def FULL_STOP                  : rune = '\u002E';
 def COMMA                      : rune = '\u002C';
 
+def LATIN_LETTER_SMALL_U       : rune = '\u0075';
+
 // Mu variants
 def LETTER_MICRO_SIGN          : rune = '\u00B5'; // µ
 def LETTER_GREEK_SMALL_MU      : rune = '\u03BC'; // μ

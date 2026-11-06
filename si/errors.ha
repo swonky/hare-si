@@ -21,7 +21,7 @@ export type not_implemented = !void;
 export type invalid = !void;
 
 // An invalid exponent was encountered.
-export type invalid_exponent = !rune;
+export type invalid_exponent = !void;
 
 // An unexpected token was encountered during parsing.
 export type unexpected_token = !rune;
@@ -43,7 +43,7 @@ export fn strerror(err: error) str = {
 	case let e: dimension_mismatch =>
 		return "Dimension mismatch";
 	case let e: invalid_exponent =>
-		return "Invalid exponent";
+		return "Invalid exponent: ";
 	case let e: unexpected_token =>
 		return "Unexpected token";
 	case let e: utf8::invalid =>
@@ -66,8 +66,6 @@ export fn printerror(err: error) (void | io::error) = {
 
 	match (err) {
 	case let e: no_match =>
-		fmt::errorf(": {}", e)?;
-	case let e: invalid_exponent =>
 		fmt::errorf(": {}", e)?;
 	case let e: unexpected_token =>
 		fmt::errorf(": {}", e)?;

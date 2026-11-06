@@ -6,6 +6,10 @@ use os;
 use strings;
 use strconv;
 
+fn appendstr(out: io::handle, in: str) (size | io::error) = {
+	return io::write(out, strings::toutf8(in));
+};
+
 fn write_value(
 	h: io::handle,
 	value: f64,
@@ -39,7 +43,7 @@ fn write_value(
 	let count = 0z;
 
 	if (repr != notation::GENERAL && repr != notation::SCIENTIFIC) {
-		count += io::write(h, strings::toutf8(formatted))?;
+		count += appendstr(h, formatted)?;
 		return count;
 	};
 
@@ -49,7 +53,7 @@ fn write_value(
 		pair = strings::cut(formatted, "E");
 	};
 	if (pair.1 == "") {
-		count += io::write(h, strings::toutf8(formatted))?;
+		count += appendstr(h, formatted)?;
 		return count;
 	};
 
@@ -58,8 +62,8 @@ fn write_value(
 		yield i;
 	case =>
 		// TODO logging
-		fmt::errorf("invalid exponent: {}\n", pair.1)!;
-		abort("invalid exponent from strconv");
+		return invalid_exponent;
+
 	};
 
 	assert(pair.0 != "");
@@ -99,7 +103,7 @@ fn append_superscript(out: *[]u8, s: str) (void | invalid_exponent | nomem) = {
 	for (const d => strings::next(&iter)) {
 		const r = match (rune_to_superscript(d)) {
 		case void =>
-			return d: invalid_exponent;
+			return invalid_exponent;
 		case let r: rune =>
 			yield r;
 		};
@@ -111,156 +115,62 @@ fn append_superscript(out: *[]u8, s: str) (void | invalid_exponent | nomem) = {
 
 fn append_str(out: *[]u8, s: str) (void | nomem) = {
 	let u = strings::toutf8(s);
+	
 	append(out, u...)?;
 };
 
+fn write_superstr(h: io::handle, s: str) (size | error) = {
+	let count = 0z;
+	let iter = strings::iter(s);
+	for (const d => strings::next(&iter)) {
+		const symbol = match (rune_to_superscript(d)) {
+		case void =>
+			return invalid_exponent;
+		case let r: rune =>
+			yield r;
+		};
+		count += memio::appendrune(h, symbol)?;
+	};
+	return count;
+};
 
-// fn reformat_unit(h: io::handle, input: str, enc: encoding) (size | error) = {
-// 	let p = parser {
-// 		scanner = strings::iter(input),
-// 		current = done,
-// 		advance = &next_token,
-// 	};
-//
-// 	let exponent = false;
-// 	let parenthesised_exponent = false;
-//
-// 	const is_utf = enc == encoding::UTF8;
-//
-// 	for (true) {
-// 		const tok = match (advance(&p)) {
-// 		case done =>
-// 			break;
-// 		case let tok: token =>
-// 			yield tok;
-// 		};
-//
-// 		if (exponent) {
-// 			switch (tok.kind) {
-// 			case token_kind::PLUS =>
-// 				continue;
-// 			case token_kind::MINUS =>
-// 				append_str(&out, "⁻")?;
-// 				continue;
-// 			case token_kind::INTEGER =>
-// 				append_superscript(&out, tok.text)?;
-// 				exponent = parenthesised_exponent;
-// 				continue;
-// 			case token_kind::LPAREN =>
-// 				append_str(&out, "(")?;
-// 				parenthesised_exponent = true;
-// 				continue;
-// 			case token_kind::RPAREN =>
-// 				append_str(&out, ")")?;
-// 				exponent = false;
-// 				parenthesised_exponent = false;
-// 				continue;
-// 			case =>
-// 				exponent = false;
-// 				parenthesised_exponent = false;
-// 			};
-// 		};
-//
-// 		switch (tok.kind) {
-// 		case token_kind::IDENTIFIER =>
-// 			let text = tok.text;
-// 			if (len(text) > 1 && strings::hasprefix(text, "u")) {
-// 				append_str(&out, if (enc == encoding::UTF8) "µ" else "u")?;
-// 				text = strings::sub(text, 1);
-// 			};
-//
-// 			const suffix = if (strings::hassuffix(text, sym_ohm_ascii)) {
-// 				yield if (is_utf) sym_ohm_utf8 else sym_ohm_ascii;
-// 			} else if (strings::hassuffix(text, "degC")) {
-// 				yield if (is_utf) "°C" else "degC";
-// 			} else if (strings::hassuffix(text, "deg")) {
-// 				yield if (is_utf) "°" else "deg";
-// 			} else if (strings::hassuffix(text, sym_angstrom_ascii)) {
-// 				yield if (is_utf) {
-// 					yield sym_angstrom_utf8;
-// 				} else {
-// 					yield sym_angstrom_ascii;
-// 				};
-// 			} else {
-// 				yield "";
-// 			};
-//
-// 			if (len(suffix) > 0) {
-// 				append_str(&out, strings::sub(text, 0, len(text) - len(
-// 					if (strings::hassuffix(text, "ohm")) "ohm"
-// 					else if (strings::hassuffix(text, "degC")) "degC"
-// 					else "deg"
-// 				)))?;
-// 				append_str(&out, suffix)?;
-// 			} else {
-// 				append_str(&out, text)?;
-// 			};
-// 		case token_kind::INTEGER =>
-// 			append_str(&out, tok.text)?;
-// 		case token_kind::PLUS =>
-// 			append_str(&out, "+")?;
-// 		case token_kind::MINUS =>
-// 			append_str(&out, "−")?;
-// 		case token_kind::POWER =>
-// 			if (enc == encoding::ASCII) {
-// 				append_str(&out, "^")?;
-// 			} else {
-// 				exponent = true;
-// 			};
-// 		case token_kind::MULTIPLY =>
-// 			append_str(&out, "·")?;
-// 		case token_kind::SOLIDUS =>
-// 			append_str(&out, "/")?;
-// 		case token_kind::LPAREN =>
-// 			append_str(&out, "(")?;
-// 		case token_kind::RPAREN =>
-// 			append_str(&out, ")")?;
-// 		case =>
-// 			append_str(&out, tok.text)?;
-// 		};
-// 	};
-//
-// 	return strings::fromutf8(out)!;
-// };
-//
-fn format_unit(input: str, enc: encoding) (str | error) = {
+export fn cut_unit(in: str) (str, str) = {
+	if (count(in)) {
+	};
+	
+};
+
+fn reformat_unit(h: io::handle, input: str, enc: encoding) (size | error) = {
 	let p = parser {
 		scanner = strings::iter(input),
 		current = done,
 		advance = &next_token,
 	};
 
-	let out: []u8 = [];
 	let exponent = false;
 	let parenthesised_exponent = false;
+	let count = 0z;
 
 	const is_utf = enc == encoding::UTF8;
 
-	for (true) {
-		const tok = match (advance(&p)) {
-		case done =>
-			break;
-		case let tok: token =>
-			yield tok;
-		};
-
+	for (let tok => advance(&p)) {
 		if (exponent) {
 			switch (tok.kind) {
 			case token_kind::PLUS =>
 				continue;
 			case token_kind::MINUS =>
-				append_str(&out, "⁻")?;
+				count += memio::appendrune(h, SUPERSCRIPT_MINUS)?;
 				continue;
 			case token_kind::INTEGER =>
-				append_superscript(&out, tok.text)?;
+				count += write_superstr(h, tok.text)?;
 				exponent = parenthesised_exponent;
 				continue;
 			case token_kind::LPAREN =>
-				append_str(&out, "(")?;
+				count += memio::appendrune(h, LEFT_PARENTHESIS)?;
 				parenthesised_exponent = true;
 				continue;
 			case token_kind::RPAREN =>
-				append_str(&out, ")")?;
+				count += memio::appendrune(h, RIGHT_PARENTHESIS)?;
 				exponent = false;
 				parenthesised_exponent = false;
 				continue;
@@ -273,8 +183,13 @@ fn format_unit(input: str, enc: encoding) (str | error) = {
 		switch (tok.kind) {
 		case token_kind::IDENTIFIER =>
 			let text = tok.text;
-			if (len(text) > 1 && strings::hasprefix(text, "u")) {
-				append_str(&out, if (enc == encoding::UTF8) "µ" else "u")?;
+			if (len(text) > 1 && strings::hasprefix(text, LATIN_LETTER_SMALL_U)) {
+				const sym = if (enc == encoding::UTF8) {
+					yield LETTER_GREEK_SMALL_MU;
+				} else { 
+					yield LATIN_LETTER_SMALL_U;
+				};
+				count += memio::appendrune(h, sym)?;
 				text = strings::sub(text, 1);
 			};
 
@@ -295,41 +210,42 @@ fn format_unit(input: str, enc: encoding) (str | error) = {
 			};
 
 			if (len(suffix) > 0) {
-				append_str(&out, strings::sub(text, 0, len(text) - len(
-					if (strings::hassuffix(text, "ohm")) "ohm"
+				if (strings::hassuffix(text, "ohm")) "ohm"
 					else if (strings::hassuffix(text, "degC")) "degC"
 					else "deg"
+				appendstr(h, strings::sub(text, 0, len(text) - len(
+					
 				)))?;
-				append_str(&out, suffix)?;
+				count += appendstr(h, suffix)?;
 			} else {
-				append_str(&out, text)?;
+				count += appendstr(h, text)?;
 			};
 		case token_kind::INTEGER =>
-			append_str(&out, tok.text)?;
+			count += appendstr(h, tok.text)?;
 		case token_kind::PLUS =>
-			append_str(&out, "+")?;
+			count += memio::appendrune(h, PLUS_SIGN)?;
 		case token_kind::MINUS =>
-			append_str(&out, "−")?;
+			count += memio::appendrune(h, HYPHEN_MINUS)?;
 		case token_kind::POWER =>
 			if (enc == encoding::ASCII) {
-				append_str(&out, "^")?;
+				count += memio::appendrune(h, CIRCUMFLEX_ACCENT)?;
 			} else {
 				exponent = true;
 			};
 		case token_kind::MULTIPLY =>
-			append_str(&out, "·")?;
+			count += memio::appendrune(h, DOT_OPERATOR)?;
 		case token_kind::SOLIDUS =>
-			append_str(&out, "/")?;
+			count += memio::appendrune(h, SOLIDUS)?;
 		case token_kind::LPAREN =>
-			append_str(&out, "(")?;
+			count += memio::appendrune(h, LEFT_PARENTHESIS)?;
 		case token_kind::RPAREN =>
-			append_str(&out, ")")?;
+			count += memio::appendrune(h, RIGHT_PARENTHESIS)?;
 		case =>
-			append_str(&out, tok.text)?;
+			count += appendstr(h, tok.text);
 		};
 	};
 
-	return strings::fromutf8(out)!;
+	return count;
 };
 
 // Formats and prints n as superscript to h.
@@ -377,7 +293,7 @@ fn write_exponent(h: io::handle, n: int, enc: encoding) (size | error) = {
 
 	if (!is_utf) {
 		count += memio::appendrune(h, CIRCUMFLEX_ACCENT)?;
-		count += io::write(h, strings::toutf8(strconv::itos(n)))?;
+		count += appendstr(h, strconv::itos(n))?;
 		return count;
 	};
 

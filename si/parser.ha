@@ -5,6 +5,7 @@ use strconv;
 use strings;
 use os;
 
+
 type parser = struct {
 	scanner: strings::iterator,
 	current: (token | done),
@@ -16,36 +17,30 @@ fn advance(p: *parser) (token | done) = {
 	return p.current;
 };
 
-// Returns the product of x and 10 to the power of p.
-fn scale10(x: f64, p: int) f64 = {
-	if (p == 0) return x;
-
-
-	let factor = if (p < 0) {
-		p = -p;
-		yield 0.1;
-	} else {
-		yield 10.0;
-	};
-
-
-	for (p > 0) {
-		if (p % 2 == 1) {
-			x *= factor;
-		};
-		factor *= factor;
-		p /= 2;
-	};
-
-	return x;
-};
-
 
 // Returns the name of the unit associated by k
 fn lookup_name(k: unit_kind) str  = unit_names[k: size];
 
 // Returns the unit associated with k
 fn lookup_unit(k: unit_kind) unit = units[k: size];
+
+// Returns the product of x and 10 to the power of p.
+fn scale10(x: f64, p: int) f64 = {
+	if (p == 0) return x;
+	const sign = math::signi(p): int;
+		
+	p = p * sign;
+
+	let factor = if (sign == -1) 0.1 else 10.0;
+
+	for (p > 0) {
+		if (p % 2 == 1) x *= factor;
+		factor *= factor;
+		p /= 2;
+	};
+
+	return x;
+};
 
 fn match_symbol(s: str) (unit_kind | void) = {
 	let lo = 0z;
