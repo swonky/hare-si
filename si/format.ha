@@ -134,11 +134,10 @@ fn write_superstr(h: io::handle, s: str) (size | error) = {
 	return count;
 };
 
-export fn cut_unit(in: str) (str, str) = {
-	if (count(in)) {
-	};
-	
+export fn prefix(in: str) (str | void) = {
+
 };
+
 
 fn reformat_unit(h: io::handle, input: str, enc: encoding) (size | error) = {
 	let p = parser {

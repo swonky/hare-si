@@ -4,8 +4,8 @@ use fmt;
 use io;
 use strconv;
 
-fn unreachable() never = {
-	abort("unreachable code");
+fn unreachable(s: str = "unreachable code") never = {
+	abort(s);
 };
 
 // The dimensions of two units or quantities do not match.

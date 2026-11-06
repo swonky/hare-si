@@ -42,7 +42,9 @@ fn scale10(x: f64, p: int) f64 = {
 	return x;
 };
 
-fn match_symbol(s: str) (unit_kind | void) = {
+type symbol_kind = (prefix_kind | unit_kind);
+
+fn match_symbol(s: str, table: symbol_lookup) (symbol_kind | void) = {
 	let lo = 0z;
 	let hi = len(symbol_lookup);
 	for (lo < hi) {
@@ -53,15 +55,63 @@ fn match_symbol(s: str) (unit_kind | void) = {
 		} else if (cmp > 0) {
 			hi = mid;
 		} else {
-			return match (symbol_lookup[mid].kind) {
-			case let k: unit_kind =>
-				yield k;
-			case =>
-				abort("invalid lookup table");
-			};
+			return symbol_lookup[mid].kind;
 		};
 	};
 	return void;
+};
+
+fn match_symbol(s: str, table: symbol_lookup) (symbol_kind | void) = {
+	let lo = 0z;
+	let hi = len(symbol_lookup);
+	for (lo < hi) {
+		const mid = lo + (hi - lo) / 2z;
+		const cmp = strings::compare(symbol_lookup[mid].repr, s);
+		if (cmp < 0) {
+			lo = mid + 1z;
+		} else if (cmp > 0) {
+			hi = mid;
+		} else {
+			return symbol_lookup[mid].kind;
+		};
+	};
+	return void;
+};
+
+export fn cut_unit(in: str) (str, str) = {
+	const sz = count(in);
+	if (sz >= 3) {
+		if (strings::hasprefix(in, "da") && strings::slice()) {
+
+		};
+	};
+
+	if (count(in) <= 1) return (in, "");
+		if (cmp < 0) {
+			lo = mid + 1z;
+		} else if (cmp > 0) {
+			hi = mid;
+		} else {
+			return symbol_lookup[mid].kind;
+		};
+	};
+	
+};
+
+fn match_prefix(in: str) (prefix_kind | void) = {
+	return match (match_symbol(in, prefix_lookup)) {
+	case let u: prefix_kind => yield u;
+	case void: yield void;
+	case => unreachable("incorrect lookup table");
+	};
+};
+
+fn match_unit(in: str) (unit_kind | void) = {
+	return match (match_symbol(in, prefix_lookup)) {
+	case let u: unit_kind => yield u;
+	case void: yield void;
+	case => unreachable("incorrect lookup table");
+	};
 };
 
 fn parse_symbol(s: str) (unit | void) = {
