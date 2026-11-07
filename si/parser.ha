@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // (c) Tom Spencer <https://codeberg.org/swonky/hare-si>
 
-use fmt;
 use io;
 use math;
 use os;

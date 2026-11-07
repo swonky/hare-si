@@ -296,9 +296,9 @@ const output = si::strf(
 </ul>
 <p>Notes:
 <ul>
-<li>Formatted ASCII output for <a href='#MICRO' class='ref'>MICRO</a> uses &apos;LATIN SMALL LETTER U (U+0075)&apos;
-<li>Formattted UTF-8 output for <a href='#MICRO' class='ref'>MICRO</a> uses &apos;GREEK SMALL LETTER MU (U+03BC)&apos;.
-<li>Parser for <a href='#MICRO' class='ref'>MICRO</a> also accepts &apos;MICRO SIGN (U+00B5)&apos;.
+<li>Formatted ASCII output for <a href='#MICRO' class='ref'>MICRO</a> uses LATIN SMALL LETTER U (U+0075)
+<li>Formattted UTF-8 output for <a href='#MICRO' class='ref'>MICRO</a> uses GREEK SMALL LETTER MU (U+03BC).
+<li>The parser for <a href='#MICRO' class='ref'>MICRO</a> also accepts MICRO SIGN (U+00B5).
 </ul>
 <p>SI unit symbols
 <ul>
@@ -334,7 +334,7 @@ const output = si::strf(
 <p>Notes:
 <ul>
 <li>UTF-8 output for <a href='#OHM' class='ref'>OHM</a> uses GREEK CAPITAL LETTER OMEGA (U+03A9).
-<li>Parser for <a href='#OHM' class='ref'>OHM</a> also accepts OHM SIGN (U+2126).
+<li>The parser for <a href='#OHM' class='ref'>OHM</a> also accepts OHM SIGN (U+2126).
 </ul>
 <p>Non-SI unit symbols [name=symbol]
 <ul>
@@ -355,9 +355,10 @@ const output = si::strf(
 <p>Notes:
 <ul>
 <li>Logarithmic units <a href='#BEL' class='ref'>BEL</a> and <a href='#NEPER' class='ref'>NEPER</a> do not currently support conversion.
-<li>Formatted UTF-8 outputs for <a href='#DEGREE' class='ref'>DEGREE</a> use DEGREE SIGN (U+00B0).
-<li>Formatted output for &apos;<a href='#LITRE' class='ref'>LITRE</a> uses LATIN CAPITAL LETTER L (U+004C).
-<li>Parser for <a href='#LITRE' class='ref'>LITRE</a> also accepts LATIN SMALL LETTER L (U+006C).
+<li>Temperature conversions are not currently supported. <a href='#DEGREE_CELSIUS' class='ref'>DEGREE_CELSIUS</a> is treated as <a href='#KELVIN' class='ref'>KELVIN</a>.
+<li>The formatted UTF-8 outputs for <a href='#DEGREE' class='ref'>DEGREE</a> use DEGREE SIGN (U+00B0).
+<li>The formatted output for <a href='#LITRE' class='ref'>LITRE</a> uses LATIN CAPITAL LETTER L (U+004C).
+<li>The parser for <a href='#LITRE' class='ref'>LITRE</a> also accepts LATIN SMALL LETTER L (U+006C).
 </ul>
 </div>
 <h3>Index</h3>
@@ -1315,7 +1316,7 @@ const output = si::strf(
 <span class='keyword'>fn</span> <a href='#tojson'>tojson</a>(obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 
 <span class='comment'>// Undocumented functions:</span>
-<span class='keyword'>fn</span> <a href='#split'>split</a>(input: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>f64</span><span class='type'>,</span> <span class='type'>str</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#split'>split</a>(input: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>(</span><span class='type'>str</span><span class='type'>,</span> <span class='type'>str</span><span class='type'>)</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 </pre><h3>Types</h3>
 <section class='member'>
 <h4 id='dimension'><span class='heading-body'>type dimension</span><span class='heading-extra'><a href='#dimension'>[permalink]</a></span></h4>
@@ -3980,6 +3981,6 @@ strpu(&quot;m²&quot;);
 <details>
 <summary>Show undocumented member</summary>
 <pre class='decl'>
-<span class='keyword'>fn</span> split(input: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>f64</span><span class='type'>,</span> <span class='type'>str</span><span class='type'>)</span>;</pre>
+<span class='keyword'>fn</span> split(input: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>(</span><span class='type'>str</span><span class='type'>,</span> <span class='type'>str</span><span class='type'>)</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
 </details>
 </section>

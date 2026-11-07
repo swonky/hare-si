@@ -3,8 +3,15 @@ use io;
 use os;
 use strconv;
 use strings;
+use unix::tty;
 
 use si;
+
+type argument_error = !str;
+type missing_value = !str;
+type unsupported_shell = !str;
+
+type error = !(argument_error | missing_value | unsupported_shell | si::error);
 
 type options = struct {
 	input:       str,
@@ -14,49 +21,82 @@ type options = struct {
 	format:      str,
 	unit:        (void | str),
 	strict:      bool,
+	base:        bool,
 	completions: (void | str),
 	version:     bool,
 };
 
+@init fn colour_enabled() void = {
+	if (!tty::isatty(os::stdout_file)) {
+		NO_COLOR = true;
+		return;
+	};
+
+	match (os::getenv("NO_COLOR")) {
+	case let value: str =>
+		if (len(value) > 0) {
+			NO_COLOR = true;
+			return;
+		};
+	case void =>
+		void;
+	};
+
+	match (os::getenv("TERM")) {
+	case let term: str =>
+		NO_COLOR = term == "dumb";
+	case void =>
+		return;
+	};
+};
+
+let NO_COLOR = false;
+
+const SECTION_HEADING = "\x1b[1;36m";
+const COMMAND_NAME = "\x1b[1;32m";
+const OPTION_NAME = "\x1b[1;33m";
+const OPTION_ARGUMENT = "\x1b[2m";
+const RESET = "\x1b[0m";
+const NONE = "";
+
 const HELP = `
 A utility for parsing, converting, and formatting quantities using the International System of Units (SI).
 
-Usage:
-  si [OPTIONS] VALUE
+{0}Usage:{4}
+  {1}si{4} [{2}OPTIONS{4}] {3}<VALUE>{4}
 
-Arguments:
-  VALUE              Quantity to evaluate, including its unit expression.
+{0}Arguments:{4}
+  {3}<VALUE>{4}                      Quantity to evaluate, including its unit expression.
 
-Options:
-  -c, --completions  SHELL     Generate shell completions (bash or zsh).
-  -n, --notation     NOTATION  Numeric notation (general, fixed, scientific, e, E).
-  -o, --output       FORMAT    Output format (ascii, utf, json).
-  -p, --precision    INTEGER   Decimal precision (default: 3).
-  -u, --unit         UNIT      Target unit representation.
-
-Flags:
-  -s, --strict       Enforce strict parsing rules for values.
-  -v, --version      Display version information.
-  -h, --help         Display this help.
-
-Unit expressions use ASCII infix notation (e.g. kg*m/s^2):
-  *  multiplication
-  /  division
-  ^  exponentiation
-  -  negative
-  +  positive
-  () grouping
-
-Examples:
-  si '1.5 kg*m/s^2'
-  si --output=json '1.5 kg*m/s^2'
-  si -o plain -u g '1.5 kg'
-  si -p=6 -n=e '1.5 kg'
-  si -- 1.5 kg*m/s^2
+{0}Options:{4}
+  {2}-c, --completions {3}<SHELL>     {4}Prints shell completions {3}(bash, zsh){4}.
+  {2}-n, --notation {3}<NOTATION>     {4}Numeric notation {3}(general, fixed, scientific, e, E){4}.
+  {2}-o, --output {3}<FORMAT>         {4}Output format {3}(utf, ascii, json){4}.
+  {2}-p, --precision {3}<PRECISION>   {4}Decimal precision.
+  {2}-u, --unit {3}<UNIT>             {4}Target unit representation.
+  {2}-s, --strict                  {4}Enforce strict parsing rules for values.
+  {2}-b, --base                    {4}Format output using SI base units.
+  {2}-v, --version                 {4}Display version information.
+  {2}-h, --help                    {4}Display this help.
 `;
 
-fn print_help() void = {
-	fmt::fprint(os::stdout, HELP)!;
+
+fn print_help(out: (void | io::handle) = void) (void | io::error) = {
+	let h = match (out) {
+	case void =>
+		yield os::stdout;
+	case let h: io::handle =>
+		yield h;
+	};
+
+	fmt::fprintf(h, "\nsi v{}\n", SEM_VERSION)!;
+
+	if (NO_COLOR) {
+		fmt::fprintf(h, HELP, NONE, NONE, NONE, NONE, NONE,)!;
+	} else {
+		fmt::fprintf(h, HELP, SECTION_HEADING, COMMAND_NAME, OPTION_NAME,
+			OPTION_ARGUMENT, RESET,)!;
+	};
 };
 
 fn print_version(opts: options) void = {
@@ -123,7 +163,7 @@ fn parse_encoding(s: str) (si::encoding | str) = {
 	};
 };
 
-fn parse_options() (options | void) = {
+fn parse_options() (options | void | error) = {
 	let opts = options {
 		input = "",
 		output = si::encoding::UTF8,
@@ -132,6 +172,7 @@ fn parse_options() (options | void) = {
 		format = "",
 		unit = void,
 		strict = false,
+		base = false,
 		completions = void,
 		version = false,
 	};
@@ -158,7 +199,7 @@ fn parse_options() (options | void) = {
 		};
 
 		if (arg == "-h" || arg == "--help") {
-			print_help();
+			print_help()?;
 			return;
 		};
 
@@ -170,6 +211,12 @@ fn parse_options() (options | void) = {
 
 		if (arg == "-s" || arg == "--strict") {
 			opts.strict = true;
+			i += 1;
+			continue;
+		};
+
+		if (arg == "-b" || arg == "--base") {
+			opts.base = true;
 			i += 1;
 			continue;
 		};
@@ -231,9 +278,7 @@ fn parse_options() (options | void) = {
 			if (value is void) {
 				i += 1;
 				if (i >= len(args)) {
-					fmt::errorfln("missing value for --{}", option)!;
-					print_help();
-					return void;
+					return option: missing_value;
 				};
 				value = args[i];
 			};
@@ -246,7 +291,7 @@ fn parse_options() (options | void) = {
 				case let n: si::encoding => yield n;
 				case let err: str =>
 					fmt::errorln(err)!;
-					print_help();
+					print_help(os::stderr)?;
 					return void;
 				};
 			case "precision" =>
@@ -254,7 +299,7 @@ fn parse_options() (options | void) = {
 				case let n: uint => yield n;
 				case let err: str =>
 					fmt::errorln(err)!;
-					print_help();
+					print_help(os::stderr)?;
 					return void;
 				};
 			case "notation" =>
@@ -262,7 +307,7 @@ fn parse_options() (options | void) = {
 				case let n: si::notation => yield n;
 				case let err: str =>
 					fmt::errorln(err)!;
-					print_help();
+					print_help(os::stderr)?;
 					return void;
 				};
 			case "format" =>
@@ -281,13 +326,13 @@ fn parse_options() (options | void) = {
 
 		if (strings::hasprefix(arg, "-")) {
 			fmt::errorfln("unknown option: {}", arg)!;
-			print_help();
+			print_help(os::stderr)?;
 			return void;
 		};
 
 		if (have_input) {
 			fmt::errorln("unexpected positional argument")!;
-			print_help();
+			print_help(os::stderr)?;
 			return void;
 		};
 
@@ -304,9 +349,7 @@ fn parse_options() (options | void) = {
 	match (opts.completions) {
 	case void => 
 		if (len(input) == 0) {
-			fmt::errorln("no input provided")!;
-			print_help();
-			return void;
+			return "no input provided": argument_error;
 		};
 	case let shell: str => 
 		switch (shell) {
@@ -317,27 +360,20 @@ fn parse_options() (options | void) = {
 			fmt::print(ZSH_COMPLETIONS)!;
 			return void;
 		case =>
-			fmt::errorf("Unsupported shell: {}", shell)!;
-			return void;
+			return shell: unsupported_shell;
 		};
 	};
 
+	if (opts.base && opts.unit is str) {
+		return "--base and --unit cannot both be set": argument_error;
+	};
 
 	opts.input = strings::fromutf8(input)!;
 	return opts;
 };
 
 fn run(opts: options) (void | si::error) = {
-	const qty = match (si::strp(opts.input)) {
-	case let err: si::no_match =>
-		fmt::errorfln("{}: {}", si::strerror(err), err)?;
-		return;
-	case let err: si::error =>
-		fmt::errorln(si::strerror(err))?;
-		return;
-	case let qty: si::quantity =>
-		yield qty;
-	};
+        const qty = si::strp(opts.input)?;
 
 	if (opts.output == si::encoding::JSON) {
 		si::encodejson(os::stdout, qty)?;
@@ -345,7 +381,8 @@ fn run(opts: options) (void | si::error) = {
 		return;
 	};
 
-	if (opts.unit is void) {
+
+	if (!opts.base && opts.unit is void) {
 		const parts = si::split(opts.input)?;
 		opts.unit = parts.1;
 	};
@@ -359,9 +396,43 @@ fn run(opts: options) (void | si::error) = {
 	)?;
 };
 
+fn errorln(title: str, msg: (void | str) = void) void = {
+	const error_label = if (NO_COLOR) {
+		yield "error:";
+	} else {
+		yield "\x1b[1;31merror:\x1b[0m";
+	};
+	match (msg) {
+	case let s: str =>
+		fmt::fprintf(os::stderr, "{0} {1}\n  {2}\n", error_label, title, msg)!;
+	case =>
+		fmt::fprintf(os::stderr, "{0} {1}\n", error_label, title)!;
+	};
+
+};
+
+fn print_error(err: error) void = {
+	match (err) {
+	case let e: unsupported_shell =>
+		errorln("unsupported shell", e: str);
+		print_help(os::stderr)!;
+	case let e: missing_value =>
+		errorln("missing value", e: str);
+		print_help(os::stderr)!;
+	case let e: argument_error =>
+		errorln("bad argument", e: str);
+		print_help(os::stderr)!;
+	case let e: si::error =>
+		errorln(si::strerror(e));
+	};
+};
+
 export fn main() void = {
 	const opts = match (parse_options()) {
 	case void =>
+		return;
+	case let err: error =>
+		print_error(err);
 		return;
 	case let opts: options =>
 		yield opts;
@@ -369,7 +440,7 @@ export fn main() void = {
 
 	match (run(opts)) {
 	case let err: si::error =>
-		fmt::errorln(si::strerror(err))!;
+		print_error(err);
 	case void =>
 		void;
 	};

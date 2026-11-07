@@ -73,8 +73,3 @@ export fn strerror(err: error) str = {
 	};
 };
 
-// Prints the human readable description of the error to stderr.
-export fn printerror(err: error) (void | io::error) = {
-	const msg: str = strerror(err);
-	fmt::errorf("{}\n", msg)?;
-};

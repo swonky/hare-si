@@ -25,7 +25,7 @@ ZSH_DIR ?=
 TARGET = si
 
 SOURCES = $(wildcard ./*.ha ./cmd/si/*.ha ./si/*.ha)
-VERSION_FILE = ./si/version.ha
+VERSION_FILE = ./cmd/si/version.ha
 COMPLETIONS_HA = ./cmd/si/completions.ha
 
 MAN_SOURCE = ./docs/si.1.scd

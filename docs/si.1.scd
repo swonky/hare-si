@@ -46,31 +46,29 @@ Numeric output supports configurable decimal precision and notation, including g
 *-h*, *--help*
 	Display help information.
 
-# UNIT FORMATTING SYNTAX
+# EXAMPLES
 
-The `-u`, `--unit` option accepts a restricted syntax for specifying the target unit representation. 
-Expressions must use ASCII unit symbols (eg. kg, us, ohm) and the following operators:
+  si '9.80665 m/s^2'
+  >> 9.80665 m/s²
 
-**Symbols**
-- Multiplication       \*
-- Division             /
-- Exponentiation       ^
-- Positive exponent    +
-- Negative exponent    -
-- Grouping             ()
+  si -o=ascii '1.5 kg·cm·s⁻²'
+  >> 1.5 kg*cm*s^-2
 
-**Valid examples***
-- kg\*m/s^2
-- mol/L
-- uF/cm^2
-- kW*h
-- m^3/s
+  si -n=scientific -p=3 -o=utf '123.456789 kg*m/s^2'
+  >> 1.234×10² kg⋅m/s²
 
-Unicode operator variants, superscript exponents, alternative multiplication symbols, and alternative spellings of unit symbols are not supported.
+  si --base '3.0 ohm*m^2'
+  >> 3 kg¹⋅m⁴⋅s⁻³⋅A⁻²
 
-# UNIT PARSING SYNTAX
+  si -u 'Wb/mm^2' '10 T'
+  >> 1×10⁻⁵ Wb/mm²
 
-The parser accepts numeric quantities using fixed-point or scientific notation.
+  si -o=json '101325 kPa'
+  >> {"value":101325,"unit":{"dim":{"kg":1,"m":-1,"s":-2,"A":0,"K":0,"mol":0,"cd":0},"scale":1e3}}
+
+# UNIT EXPRESSION SYNTAX
+
+The parser accepts numeric quantities expressed as a fixed-point decimal, or E-notation, or scientific notation.
 
 Unit expressions are parsed more permissively than the format syntax in order to accommodate common variations in notation.
 

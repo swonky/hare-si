@@ -491,7 +491,7 @@ fn write_quantity(
 	case void =>
 		const value: f64 = qty.value * qty.unit.scale;
 		count += write_value(out, value, prec, repr, enc)?;
-		count += fmt::fprint(out, " ")?;
+		count += memio::appendrune(out, ' ')?;
 		count += write_unit(out, qty.unit, enc)?;
 	case let s: str =>
 		let target: unit = strpu(s)?;
