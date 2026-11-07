@@ -86,9 +86,9 @@ Decimal prefix symbols [symbol=exponent]
 - [[QUECTO]] (q) = 1e-30
 
 Notes:
-- Formatted ASCII output for [[MICRO]] uses 'LATIN SMALL LETTER U (U+0075)'
-- Formattted UTF-8 output for [[MICRO]] uses 'GREEK SMALL LETTER MU (U+03BC)'.
-- Parser for [[MICRO]] also accepts 'MICRO SIGN (U+00B5)'.
+- Formatted ASCII output for [[MICRO]] uses LATIN SMALL LETTER U (U+0075)
+- Formattted UTF-8 output for [[MICRO]] uses GREEK SMALL LETTER MU (U+03BC).
+- The parser for [[MICRO]] also accepts MICRO SIGN (U+00B5).
 
 SI unit symbols
 
@@ -123,26 +123,27 @@ SI unit symbols
 
 Notes:
 - UTF-8 output for [[OHM]] uses GREEK CAPITAL LETTER OMEGA (U+03A9).
-- Parser for [[OHM]] also accepts OHM SIGN (U+2126).
+- The parser for [[OHM]] also accepts OHM SIGN (U+2126).
 
 Non-SI unit symbols [name=symbol]
 
-- [[ASTRONOMICAL_UNIT]]  (au)      
-- [[BEL]]                (B)       
-- [[DALTON]]             (Da)      
-- [[DAY]]                (d)       
-- [[DEGREE]]             (deg/°)   
-- [[DEGREE_CELSIUS]]     (degC/°C) 
-- [[ELECTRONVOLT]]       (eV)      
-- [[HECTARE]]            (ha)      
-- [[HOUR]]               (h)       
-- [[LITRE]]              (L)       
-- [[MINUTE]]             (min)     
-- [[NEPER]]              (Np)      
-- [[TONNE]]              (t)       
+- [[ASTRONOMICAL_UNIT]]  (au)
+- [[BEL]]                (B)
+- [[DALTON]]             (Da)
+- [[DAY]]                (d)
+- [[DEGREE]]             (deg/°)
+- [[DEGREE_CELSIUS]]     (degC/°C)
+- [[ELECTRONVOLT]]       (eV)
+- [[HECTARE]]            (ha)
+- [[HOUR]]               (h)
+- [[LITRE]]              (L)
+- [[MINUTE]]             (min)
+- [[NEPER]]              (Np)
+- [[TONNE]]              (t)
 
 Notes:
 - Logarithmic units [[BEL]] and [[NEPER]] do not currently support conversion.
-- Formatted UTF-8 outputs for [[DEGREE]] use DEGREE SIGN (U+00B0).
-- Formatted output for '[[LITRE]] uses LATIN CAPITAL LETTER L (U+004C).
-- Parser for [[LITRE]] also accepts LATIN SMALL LETTER L (U+006C).
+- Temperature conversions are not currently supported. [[DEGREE_CELSIUS]] is treated as [[KELVIN]].
+- The formatted UTF-8 outputs for [[DEGREE]] use DEGREE SIGN (U+00B0).
+- The formatted output for [[LITRE]] uses LATIN CAPITAL LETTER L (U+004C).
+- The parser for [[LITRE]] also accepts LATIN SMALL LETTER L (U+006C).
