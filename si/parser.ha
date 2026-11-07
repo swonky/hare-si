@@ -46,19 +46,18 @@ fn scale10(x: f64, p: int) f64 = {
 	return x;
 };
 
-// Returns the left and right parts of the input string cut at index n. 
-// If n is equal to or greater than the length of the string then the second
-// part will be an empty string.
+// Returns the left and right parts of the input string cut at index n.
+// If n is equal to or greater than the length of the string, the second
+// part will be empty.
 // Output is borrowed from input string.
 fn ncut(input: str, n: size) (str, str) = {
-	if (count(input) >= n) {
+	if (n >= count(input)) {
 		return (input, "");
 	};
 	const prefix = strings::sub(input, 0, n);
 	const suffix = strings::sub(input, n);
 	return (prefix, suffix);
 };
-
 
 // Returns the decimal prefix and unit symbol componants of the input string.
 // If the input string does not match any prefix or unit symbol, the first 
@@ -90,7 +89,6 @@ export fn identify(in: str) (prefix_kind, unit_kind) = {
 		};
 	};
 
-	assert(sz >= 2);
 	const parts = ncut(tr, 1z);
 
 	const pk = match (match_prefix(parts.0)) {
