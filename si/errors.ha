@@ -2,11 +2,17 @@
 use encoding::utf8;
 use fmt;
 use io;
+use memio;
 use strconv;
+use types;
 
 fn unreachable(s: str = "unreachable code") never = {
 	abort(s);
 };
+
+export type unexpected_token = !token;
+export type unclosed_scope = !void;
+export type invalid_token = !token;
 
 // The dimensions of two units or quantities do not match.
 export type dimension_mismatch = !void;
@@ -23,18 +29,18 @@ export type invalid = !void;
 // An invalid exponent was encountered.
 export type invalid_exponent = !void;
 
-// An unexpected token was encountered during parsing.
-export type unexpected_token = !rune;
-
 // Represents any error that can occur in the si library
-export type error = !( no_match | invalid_exponent
-	| dimension_mismatch | unexpected_token | not_implemented
+export type error = !( no_match | invalid_exponent | unexpected_token | unclosed_scope | invalid_token
+	| dimension_mismatch |  not_implemented
 	| invalid | io::error | strconv::invalid | strconv::overflow
 	| utf8::invalid | nomem );
 
 // Returns a human-readable description of an error.
 // Returned value should NOT be freed by the caller.
 export fn strerror(err: error) str = {
+	static let buf: [128]u8 = [0...];
+	let h = memio::fixed(buf);
+
 	match (err) {
 	case let e: invalid =>
 		return "Invalid";
@@ -44,8 +50,16 @@ export fn strerror(err: error) str = {
 		return "Dimension mismatch";
 	case let e: invalid_exponent =>
 		return "Invalid exponent: ";
+	case let e: unclosed_scope =>
+		return "unclosed scope";
+	case let e: invalid_token =>
+		const tok = e: token;
+		fmt::fprintf(&h, "invalid token '{}' at position {}", tok.text, tok.pos)!;
+		return memio::string(&h)!;
 	case let e: unexpected_token =>
-		return "Unexpected token";
+		const tok = e: token;
+		fmt::fprintf(&h, "unexpected token '{}' at position {}", tok.text, tok.pos)!;
+		return memio::string(&h)!;
 	case let e: utf8::invalid =>
 		return utf8::strerror(e);
 	case let e: strconv::error =>
@@ -62,14 +76,5 @@ export fn strerror(err: error) str = {
 // Prints the human readable description of the error to stderr.
 export fn printerror(err: error) (void | io::error) = {
 	const msg: str = strerror(err);
-	fmt::errorf("{}", msg)?;
-
-	match (err) {
-	case let e: no_match =>
-		fmt::errorf(": {}", e)?;
-	case let e: unexpected_token =>
-		fmt::errorf(": {}", e)?;
-	case =>
-		void;
-	};
+	fmt::errorf("{}\n", msg)?;
 };

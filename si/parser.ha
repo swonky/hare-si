@@ -4,9 +4,10 @@
 use fmt;
 use io;
 use math;
+use os;
 use strconv;
 use strings;
-use os;
+use types;
 
 // State machine for recursive-descent parsing.
 type parser = struct {
@@ -50,12 +51,12 @@ fn scale10(x: f64, p: int) f64 = {
 // part will be an empty string.
 // Output is borrowed from input string.
 fn ncut(input: str, n: size) (str, str) = {
-	if (count(s) >= i) {
-		return (in, "");
+	if (count(input) >= n) {
+		return (input, "");
 	};
-	const p = strings::sub(s, 0, n);
-	const s = strings::sub(in, n));
-	return (p, s);
+	const prefix = strings::sub(input, 0, n);
+	const suffix = strings::sub(input, n);
+	return (prefix, suffix);
 };
 
 
@@ -67,16 +68,18 @@ export fn identify(in: str) (prefix_kind, unit_kind) = {
 	const tr = strings::trim(in);
 	match (match_suffix(tr)) {
 	case let u: unit_kind =>
-		return (prefix_kind::NONE, unit_kind);
+		return (prefix_kind::NONE, u);
+	case =>
+		void;
 	};
 	
 	const sz = count(tr);
-	if (s <= 1) {
-		return prefix_kind::NONE, unit_kind::NONE;
+	if (sz <= 1) {
+		return (prefix_kind::NONE, unit_kind::NONE);
 	};
 
 	if (sz >= 3) {
-		if (strings::hasprefix(tr, sym_deca) {
+		if (strings::hasprefix(tr, sym_deca)) {
 			const parts = ncut(tr, 2z);
 			match (match_suffix(parts.1)) {
 			case let k: unit_kind =>
@@ -90,14 +93,14 @@ export fn identify(in: str) (prefix_kind, unit_kind) = {
 	assert(sz >= 2);
 	const parts = ncut(tr, 1z);
 
-	const pk = match (!match_prefix(parts.0)) {
+	const pk = match (match_prefix(parts.0)) {
 	case let k: prefix_kind => 
 		yield k;
 	case => 
 		yield prefix_kind::NONE;
 	};
 
-	const uk = match (!match_suffix(parts.1)) {
+	const uk = match (match_suffix(parts.1)) {
 	case let k: unit_kind => 
 		yield k;
 	case => 
@@ -109,18 +112,18 @@ export fn identify(in: str) (prefix_kind, unit_kind) = {
 
 // Searches an ordered symbol array for s.
 // Returns void if not found.
-fn match_symbol(s: str, table: symbol_lookup) (symbol_kind | void) = {
+fn match_symbol(s: str, table: []symbol) (symbol_kind | void) = {
 	let lo = 0z;
-	let hi = len(symbol_lookup);
+	let hi = len(table);
 	for (lo < hi) {
 		const mid = lo + (hi - lo) / 2z;
-		const cmp = strings::compare(symbol_lookup[mid].repr, s);
+		const cmp = strings::compare(table[mid].repr, s);
 		if (cmp < 0) {
 			lo = mid + 1z;
 		} else if (cmp > 0) {
 			hi = mid;
 		} else {
-			return symbol_lookup[mid].kind;
+			return table[mid].kind;
 		};
 	};
 	return void;
@@ -131,7 +134,8 @@ fn match_symbol(s: str, table: symbol_lookup) (symbol_kind | void) = {
 // Wrapper for [[match_symbol]].
 fn match_prefix(in: str) (prefix_kind | void) = {
 	return match (match_symbol(in, prefix_lookup)) {
-	case let value: (prefix_kind | void) => yield value;
+	case let value: prefix_kind => yield value;
+	case let value: void => yield value;
 	case => unreachable("incorrect lookup table");
 	};
 };
@@ -140,8 +144,9 @@ fn match_prefix(in: str) (prefix_kind | void) = {
 // Returns void if not found.
 // Wrapper for [[match_symbol]].
 fn match_suffix(in: str) (unit_kind | void) = {
-	return match (match_symbol(in, prefix_lookup)) {
-	case let value: (unit_kind | void) => yield value;
+	return match (match_symbol(in, symbol_lookup)) {
+	case let value: unit_kind => yield value;
+	case let value: void => yield value;
 	case => unreachable("incorrect lookup table");
 	};
 };
@@ -152,7 +157,7 @@ fn parse_symbol(s: str) (unit | void) = {
 		return void;
 	};
 
-	match (match_symbol(s)) {
+	match (match_suffix(s)) {
 	case let kind: unit_kind =>
 		return lookup_unit(kind);
 	case =>
@@ -182,7 +187,7 @@ fn parse_symbol(s: str) (unit | void) = {
 
 		const scale = prefix_scale[kind: size];
 		const suffix = strings::sub(s, psz);
-		return match (match_symbol(suffix)) {
+		return match (match_suffix(suffix)) {
 		case let kind: unit_kind =>
 			let u: unit = lookup_unit(kind);
 			u.scale *= scale;
@@ -220,20 +225,20 @@ fn parse_primary(p: *parser) (unit | error) = {
 			match (p.current) {
 			case let tok: token =>
 				if (tok.kind != closing) {
-					return invalid;
+					return tok: unexpected_token;
 				};
 				advance(p);
 			case done =>
-				return invalid;
+				return unclosed_scope;
 			};
 
 			return result;
 
 		case =>
-			return invalid;
+			return tok: unexpected_token;
 		};
 	case done =>
-		return invalid;
+		return unclosed_scope;
 	};
 };
 
@@ -265,17 +270,17 @@ fn parse_factor(p: *parser) (unit | error) = {
 				void;
 			};
 		case done =>
-			return invalid;
+			return invalid_exponent;
 		};
 
 		const tok = match (p.current) {
 		case let tok: token =>
 			if (tok.kind != token_kind::INTEGER) {
-				return invalid;
+				return tok: unexpected_token;
 			};
 			yield tok;
 		case done =>
-			return invalid;
+			return invalid_exponent;
 		};
 
 		advance(p);
@@ -283,7 +288,7 @@ fn parse_factor(p: *parser) (unit | error) = {
 
 	case token_kind::SUPER_INTEGER =>
 		advance(p);
-		yield powu(result, strconv::stoi8(tok.text)?);
+		yield powu(result, parse_superscript(tok.text)?);
 
 	case token_kind::SUPER_PLUS, token_kind::SUPER_MINUS =>
 		const sign: i8 = if (tok.kind == token_kind::SUPER_MINUS) -1 else 1;
@@ -292,11 +297,11 @@ fn parse_factor(p: *parser) (unit | error) = {
 		const tok = match (p.current) {
 		case let tok: token =>
 			if (tok.kind != token_kind::SUPER_INTEGER) {
-				return invalid;
+				return tok: unexpected_token;
 			};
 			yield tok;
 		case done =>
-			return invalid;
+			return invalid_exponent;
 		};
 
 		advance(p);
@@ -305,6 +310,65 @@ fn parse_factor(p: *parser) (unit | error) = {
 	case =>
 		yield result;
 	};
+};
+
+fn parse_superscript(s: str) (int | error) = {
+	let iter = strings::iter(s);
+	let sign = 1;
+	let value = 0;
+
+	match (strings::next(&iter)) {
+	case done =>
+		return invalid_exponent;
+	case let c: rune =>
+		switch (c) {
+		case SUPERSCRIPT_MINUS =>
+			sign = -1;
+		case SUPERSCRIPT_PLUS_SIGN =>
+			void;
+		case =>
+			iter = strings::iter(s);
+		};
+	};
+
+	let digits = 0z;
+
+	for (const c => strings::next(&iter)) {
+		const digit = switch (c) {
+		case DIGIT_SUPER_ZERO => yield 0;
+		case DIGIT_SUPER_ONE => yield 1;
+		case DIGIT_SUPER_TWO => yield 2;
+		case DIGIT_SUPER_THREE => yield 3;
+		case DIGIT_SUPER_FOUR => yield 4;
+		case DIGIT_SUPER_FIVE => yield 5;
+		case DIGIT_SUPER_SIX => yield 6;
+		case DIGIT_SUPER_SEVEN => yield 7;
+		case DIGIT_SUPER_EIGHT => yield 8;
+		case DIGIT_SUPER_NINE => yield 9;
+		case =>
+			return invalid_exponent;
+		};
+
+		if (value > (types::INT_MAX - digit) / 10) {
+			return invalid_exponent;
+		};
+
+		value = value * 10 + digit;
+		digits += 1z;
+	};
+
+	if (digits == 0z) {
+		return invalid_exponent;
+	};
+
+	if (sign < 0) {
+		if (value == types::INT_MAX + 1) {
+			return types::INT_MIN;
+		};
+		return -value;
+	};
+
+	return value;
 };
 
 // Parses a units.
@@ -365,6 +429,32 @@ fn parse_quantity(p: *parser) (quantity | error) = {
 	return quantity { unit = u, value = v };
 };
 
+fn remainder(s: *strings::iterator) str = {
+	const start = *s;
+	for (let r => strings::next(s)) {
+		void;
+	};
+	return strings::slice(&start, s);
+};
+
+export fn split(input: str) (f64, str) = {
+	let p = parser {
+		scanner = strings::iter(input),
+	    	current = done,
+		advance = &lex_permissive,
+	};
+
+	const v: f64 = match (parse_value(&p)) {
+	case let f: f64 =>
+		yield f;
+	case =>
+		yield 0.0;
+	};
+
+	const rest = remainder(&p); 
+
+	return (v, strings::trim(rest));
+};
 
 // Parses a unit expression. Accepts fixed-point and scientific notation, with 
 // permissive unit syntax including alternative multiplication operators 
@@ -388,7 +478,7 @@ export fn strpu(s: str) (unit | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
-		advance = &lex_restricted,
+		advance = &lex_permissive,
 	};
 
 	advance(&p);

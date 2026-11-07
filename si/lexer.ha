@@ -9,7 +9,7 @@ use encoding::utf8;
 
 type lexer = fn(_: *strings::iterator) (token | done);
 
-type token_kind = enum u8 {
+export type token_kind = enum u8 {
 	UNSPECIFIED,
 	IDENTIFIER,
 	INTEGER,
@@ -30,9 +30,10 @@ type token_kind = enum u8 {
 	COMMA,
 };
 
-type token = struct {
+export type token = struct {
 	kind: token_kind,
 	text: str,
+	pos: size,
 };
 
 fn make_token(
@@ -43,6 +44,7 @@ fn make_token(
 	return token {
 		kind = kind,
 		text = strings::slice(start, end),
+		pos = strings::position(start),
 	};
 };
 

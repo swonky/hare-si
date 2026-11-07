@@ -62,7 +62,6 @@ def sym_mega  = "M";
 def sym_kilo  = "k";
 def sym_hecto = "h";
 def sym_deca  = "da";
-def sym_none  = "";
 def sym_deci  = "d";
 def sym_centi = "c";
 def sym_milli = "m";

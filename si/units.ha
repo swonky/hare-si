@@ -23,7 +23,7 @@ type base_dimension = enum size {
 	LUMINOSITY,
 };
 
-type unit_kind = enum int {
+export type unit_kind = enum int {
 	NONE,
 	AMPERE,
 	ASTRONOMICAL_UNIT,
@@ -869,5 +869,3 @@ def symbol_lookup: [_]symbol = [
 	symbol { repr = "°C", kind = unit_kind::DEGREE_CELSIUS },
 	symbol { repr = "Ω", kind = unit_kind::OHM },
 ];
-
-

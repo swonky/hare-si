@@ -12,7 +12,9 @@ fn write_string(out: io::handle, in: str) (size | io::error) = {
 	return io::write(out, strings::toutf8(in));
 };
 
-// Formats and writes an f64 to a stream.
+// Formats and writes an f64 value to a stream using the specified notation,
+// precision, and character encoding.
+// Returns the number of bytes written.
 fn write_value(
 	out: io::handle,
 	value: f64,
@@ -61,7 +63,7 @@ fn write_value(
 	};
 
 	assert(pair.0 != "");
-	count += write_string(out, pair.0);
+	count += write_string(out, pair.0)?;
 
 	const scale = switch (enc) {
 	case encoding::ASCII => yield "*10";
@@ -69,8 +71,7 @@ fn write_value(
 	case => abort("invalid encoding");
 	};
 
-	count += write_string(out, scale);
-	let count = io::write(out, out)?;
+	count += write_string(out, scale)?;
 
 	const exponent = match (strconv::stoi(pair.1)) {
 	case let i: int =>
@@ -83,157 +84,9 @@ fn write_value(
 	return count;
 };
 
-fn rune_to_superscript(i: rune) (rune | void) = switch (i) {
-	case '-' => yield SUPERSCRIPT_MINUS;
-	case '0' => yield DIGIT_SUPER_ZERO;
-	case '1' => yield DIGIT_SUPER_ONE;
-	case '2' => yield DIGIT_SUPER_TWO;
-	case '3' => yield DIGIT_SUPER_THREE;
-	case '4' => yield DIGIT_SUPER_FOUR;
-	case '5' => yield DIGIT_SUPER_FIVE;
-	case '6' => yield DIGIT_SUPER_SIX;
-	case '7' => yield DIGIT_SUPER_SEVEN;
-	case '8' => yield DIGIT_SUPER_EIGHT;
-	case '9' => yield DIGIT_SUPER_NINE;
-	case => yield void;
-};
-
-fn write_superstr(out: io::handle, s: str) (size | error) = {
-	let count = 0z;
-	let iter = strings::iter(s);
-	for (const d => strings::next(&iter)) {
-		const symbol = match (rune_to_superscript(d)) {
-		case void =>
-			return invalid_exponent;
-		case let r: rune =>
-			yield r;
-		};
-		count += memio::appendrune(out, symbol)?;
-	};
-	return count;
-};
-
-// Writes the encoded string representation of kind to a stream.
+// Writes an integer to a stream using superscript digits.
 // Returns the number of bytes written.
-fn write_unit_prefix(
-	out: io::handle,
-	kind: prefix_kind,
-	enc: encoding,
-) (size | io::error) = {
-	return switch (enc) {
-	case encoding::ASCII, encoding::JSON =>
-		yield write_string(out, prefix_symbols_ascii[enc: size]);
-	case encoding::UTF8 =>
-		yield write_string(out, prefix_symbols_utf8[enc: size]);
-	};
-};
-
-// Writes the encoded string representation of kind to a stream.
-// Returns the number of bytes written.
-fn write_unit_suffix(
-	out: io::handle,
-	kind: unit_kind,
-	enc: encoding = encoding::UTF8,
-) (size | io::error) = {
-	return switch (enc) {
-	case encoding::ASCII, encoding::JSON =>
-		yield write_string(out, symbols_ascii[enc: size]);
-	case encoding::UTF8 =>
-		yield write_string(out, symbols_utf8[enc: size]);
-	};
-};
-
-// Writes the encoded string representation of kind to a stream.
-// Returns the number of bytes written.
-fn write_symbol(
-	out: io::handle,
-	kind: symbol_kind,
-	enc: encoding
-) (size | error) = {
-	return match (kind) {
-	case let k: prefix_kind =>
-		yield write_unit_prefix(out, k, enc);
-	case let k: unit_kind =>
-		yield write_unit_suffix(out, k, enc);
-	};
-};
-
-// 
-fn reformat_unit(out: io::handle, input: str, enc: encoding) (size | error) = {
-	let p = parser {
-		scanner = strings::iter(input),
-		current = done,
-		advance = &next_token,
-	};
-
-	let exponent = false;
-	let parenthesised_exponent = false;
-	let count = 0z;
-
-	const is_utf = enc == encoding::UTF8;
-
-	for (let tok => advance(&p)) {
-		if (exponent) {
-			switch (tok.kind) {
-			case token_kind::PLUS =>
-				continue;
-			case token_kind::MINUS =>
-				count += memio::appendrune(out, SUPERSCRIPT_MINUS)?;
-				continue;
-			case token_kind::INTEGER =>
-				count += write_superstr(out, tok.text)?;
-				exponent = parenthesised_exponent;
-				continue;
-			case token_kind::LPAREN =>
-				count += memio::appendrune(out, LEFT_PARENTHESIS)?;
-				parenthesised_exponent = true;
-				continue;
-			case token_kind::RPAREN =>
-				count += memio::appendrune(out, RIGHT_PARENTHESIS)?;
-				exponent = false;
-				parenthesised_exponent = false;
-				continue;
-			case =>
-				exponent = false;
-				parenthesised_exponent = false;
-			};
-		};
-
-		switch (tok.kind) {
-		case token_kind::IDENTIFIER =>
-			let kinds = identify(tok.text);
-			count += write_symbol(kinds.0);
-			count += write_symbol(kinds.1);
-		case token_kind::INTEGER =>
-			count += write_string(out, tok.text)?;
-		case token_kind::PLUS =>
-			count += memio::appendrune(out, PLUS_SIGN)?;
-		case token_kind::MINUS =>
-			count += memio::appendrune(out, HYPHEN_MINUS)?;
-		case token_kind::POWER =>
-			if (enc == encoding::ASCII) {
-				count += memio::appendrune(out, CIRCUMFLEX_ACCENT)?;
-			} else {
-				exponent = true;
-			};
-		case token_kind::MULTIPLY =>
-			count += memio::appendrune(out, DOT_OPERATOR)?;
-		case token_kind::SOLIDUS =>
-			count += memio::appendrune(out, SOLIDUS)?;
-		case token_kind::LPAREN =>
-			count += memio::appendrune(out, LEFT_PARENTHESIS)?;
-		case token_kind::RPAREN =>
-			count += memio::appendrune(out, RIGHT_PARENTHESIS)?;
-		case =>
-			count += write_string(out, tok.text);
-		};
-	};
-
-	return count;
-};
-
-// Formats and prints n as superscript to h.
-fn write_super(out: io::handle, n: int) (size | io::error | nomem) = {
+fn write_int_as_superscript(out: io::handle, n: int) (size | io::error | nomem) = {
 	let count = 0z;
 
 	if (n == 0) return count;
@@ -260,6 +113,348 @@ fn write_super(out: io::handle, n: int) (size | io::error | nomem) = {
 	return count;
 };
 
+// Converts a string of decimal digits and an optional leading minus sign
+// to superscript characters and writes the result to a stream.
+// Returns [[invalid_exponent]] or [[io::error]] on failure.
+// Returns the number of bytes written on success.
+fn write_str_as_superscript(out: io::handle, s: str) (size | error) = {
+	let count = 0z;
+	let iter = strings::iter(s);
+	for (const digit => strings::next(&iter)) {
+		const symbol = switch (digit) {
+			case '-' => yield SUPERSCRIPT_MINUS;
+			case '0' => yield DIGIT_SUPER_ZERO;
+			case '1' => yield DIGIT_SUPER_ONE;
+			case '2' => yield DIGIT_SUPER_TWO;
+			case '3' => yield DIGIT_SUPER_THREE;
+			case '4' => yield DIGIT_SUPER_FOUR;
+			case '5' => yield DIGIT_SUPER_FIVE;
+			case '6' => yield DIGIT_SUPER_SIX;
+			case '7' => yield DIGIT_SUPER_SEVEN;
+			case '8' => yield DIGIT_SUPER_EIGHT;
+			case '9' => yield DIGIT_SUPER_NINE;
+			case => return invalid_exponent;
+		};
+		count += memio::appendrune(out, symbol)?;
+	};
+	return count;
+};
+
+// Writes the encoded string representation of kind to a stream.
+// Returns the number of bytes written.
+fn write_unit_prefix(
+	out: io::handle,
+	kind: prefix_kind,
+	enc: encoding,
+) (size | io::error) = {
+	return switch (enc) {
+	case encoding::ASCII, encoding::JSON =>
+		yield write_string(out, prefix_symbols_ascii[kind: size])?;
+	case encoding::UTF8 =>
+		yield write_string(out, prefix_symbols_utf8[kind: size])?;
+	};
+};
+
+// Writes the encoded string representation of kind to a stream.
+// Returns the number of bytes written.
+fn write_unit_suffix(
+	out: io::handle,
+	kind: unit_kind,
+	enc: encoding = encoding::UTF8,
+) (size | io::error) = {
+	return switch (enc) {
+	case encoding::ASCII, encoding::JSON =>
+		yield write_string(out, symbols_ascii[kind: size])?;
+	case encoding::UTF8 =>
+		yield write_string(out, symbols_utf8[kind: size])?;
+	};
+};
+
+// Writes the encoded string representation of kind to a stream.
+// Returns the number of bytes written.
+fn write_symbol(
+	out: io::handle,
+	kind: symbol_kind,
+	enc: encoding
+) (size | error) = {
+	return match (kind) {
+	case let k: prefix_kind =>
+		yield write_unit_prefix(out, k, enc)?;
+	case let k: unit_kind =>
+		yield write_unit_suffix(out, k, enc)?;
+	};
+};
+
+// fn write_reformatted_unit(out: io::handle, input: str, enc: encoding) (size | error) = {
+// 	let p = parser {
+// 		scanner = strings::iter(input),
+// 		current = done,
+// 		advance = &lex_permissive,
+// 	};
+//
+// 	let exponent = false;
+// 	let count = 0z;
+//
+// 	const output_utf = enc == encoding::UTF8;
+//
+// 	for (let tok => advance(&p)) {
+//
+// 		switch (tok.kind) {
+//
+// 		};
+//
+//
+// 		if (exponent) {
+// 			switch (tok.kind) {
+// 			case token_kind::PLUS =>
+// 				continue;
+// 			case token_kind::MINUS =>
+// 				count += memio::appendrune(out, SUPERSCRIPT_MINUS)?;
+// 				continue;
+// 			case token_kind::INTEGER =>
+// 				count += write_str_as_superscript(out, tok.text)?;
+// 				continue;
+// 			case =>
+// 				exponent = false;
+// 			};
+// 		};
+//
+// 		switch (tok.kind) {
+// 		case token_kind::IDENTIFIER =>
+// 			let kinds = identify(tok.text);
+// 			count += write_symbol(out, kinds.0, enc)?;
+// 			count += write_symbol(out, kinds.1, enc)?;
+// 		case token_kind::INTEGER =>
+// 			count += write_string(out, tok.text)?;
+// 		case token_kind::PLUS =>
+// 			count += memio::appendrune(out, PLUS_SIGN)?;
+// 		case token_kind::MINUS =>
+// 			count += memio::appendrune(out, HYPHEN_MINUS)?;
+// 		case token_kind::POWER =>
+// 			if (enc == encoding::ASCII) {
+// 				count += memio::appendrune(out, CIRCUMFLEX_ACCENT)?;
+// 			} else {
+// 				exponent = true;
+// 			};
+// 		case token_kind::MULTIPLY =>
+// 			count += memio::appendrune(out, DOT_OPERATOR)?;
+// 		case token_kind::SOLIDUS =>
+// 			count += memio::appendrune(out, SOLIDUS)?;
+// 		case token_kind::LPAREN =>
+// 			count += memio::appendrune(out, LEFT_PARENTHESIS)?;
+// 		case token_kind::RPAREN =>
+// 			count += memio::appendrune(out, RIGHT_PARENTHESIS)?;
+// 		case =>
+// 			count += write_string(out, tok.text)?;
+// 		};
+// 	};
+//
+// 	return count;
+// };
+
+fn write_superscript_as_ascii(out: io::handle, s: str) (size | error) = {
+	let count = 0z;
+	let iter = strings::iter(s);
+
+	for (const digit => strings::next(&iter)) {
+		const symbol = switch (digit) {
+		case DIGIT_SUPER_ZERO => yield "0";
+		case DIGIT_SUPER_ONE => yield "1";
+		case DIGIT_SUPER_TWO => yield "2";
+		case DIGIT_SUPER_THREE => yield "3";
+		case DIGIT_SUPER_FOUR => yield "4";
+		case DIGIT_SUPER_FIVE => yield "5";
+		case DIGIT_SUPER_SIX => yield "6";
+		case DIGIT_SUPER_SEVEN => yield "7";
+		case DIGIT_SUPER_EIGHT => yield "8";
+		case DIGIT_SUPER_NINE => yield "9";
+		case =>
+			return invalid_exponent;
+		};
+		count += write_string(out, symbol)?;
+	};
+
+	return count;
+};
+
+fn write_reformatted_unit(
+	out: io::handle,
+	input: str,
+	enc: encoding,
+) (size | error) = {
+	let p = parser {
+		scanner = strings::iter(input),
+		current = done,
+		advance = &lex_permissive,
+	};
+
+	let exponent = false;
+	let count = 0z;
+	const is_utf = enc == encoding::UTF8;
+
+	for (let tok => advance(&p)) {
+		if (exponent) {
+			switch (tok.kind) {
+			case token_kind::INTEGER =>
+				if (is_utf) {
+					count += write_str_as_superscript(
+						out, tok.text,
+					)?;
+				} else {
+					count += write_string(out, tok.text)?;
+				};
+				exponent = false;
+				continue;
+
+			case token_kind::SUPER_INTEGER =>
+				if (is_utf) {
+					count += write_string(out, tok.text)?;
+				} else {
+					count += write_superscript_as_ascii(
+						out, tok.text,
+					)?;
+				};
+				exponent = false;
+				continue;
+
+			case token_kind::PLUS, token_kind::SUPER_PLUS =>
+				continue;
+
+			case token_kind::MINUS, token_kind::SUPER_MINUS =>
+				if (is_utf) {
+					count += memio::appendrune(
+						out, SUPERSCRIPT_MINUS,
+					)?;
+				} else {
+					count += memio::appendrune(out, HYPHEN_MINUS)?;
+				};
+				continue;
+
+			case token_kind::LPAREN, token_kind::RPAREN =>
+				return invalid_exponent;
+
+			case =>
+				return invalid_exponent;
+			};
+		};
+
+		switch (tok.kind) {
+		case token_kind::IDENTIFIER =>
+			const kinds = identify(tok.text);
+			count += write_symbol(out, kinds.0, enc)?;
+			count += write_symbol(out, kinds.1, enc)?;
+		case token_kind::SUPER_INTEGER =>
+			if (is_utf) {
+				count += write_string(out, tok.text)?;
+			} else {
+				count += memio::appendrune(out, CIRCUMFLEX_ACCENT)?;
+				count += write_superscript_as_ascii(
+					out, tok.text,
+				)?;
+			};
+		case token_kind::SUPER_MINUS =>
+			if (is_utf) {
+				exponent = true;
+				count += memio::appendrune(
+					out, SUPERSCRIPT_MINUS,
+				)?;
+			} else {
+				exponent = true;
+				count += memio::appendrune(out, CIRCUMFLEX_ACCENT)?;
+				count += memio::appendrune(out, HYPHEN_MINUS)?;
+			};
+		case token_kind::POWER =>
+			if (!is_utf) {
+				count += memio::appendrune(out, CIRCUMFLEX_ACCENT)?;
+			};
+			exponent = true;
+		case token_kind::MULTIPLY =>
+			const operator = if (is_utf) DOT_OPERATOR else ASTERISK;
+			count += memio::appendrune(out, operator)?;
+		case token_kind::SOLIDUS =>
+			count += memio::appendrune(out, SOLIDUS)?;
+		case token_kind::LPAREN =>
+			count += memio::appendrune(out, LEFT_PARENTHESIS)?;
+		case token_kind::RPAREN =>
+			count += memio::appendrune(out, RIGHT_PARENTHESIS)?;
+		case token_kind::LBRACE =>
+			count += memio::appendrune(out, LEFT_CURLY_BRACKET)?;
+		case token_kind::RBRACE =>
+			count += memio::appendrune(out, RIGHT_CURLY_BRACKET)?;
+		case token_kind::SUPER_PLUS =>
+			void;
+		case =>
+			return invalid_exponent;
+		};
+	};
+
+	if (exponent) {
+		return invalid_exponent;
+	};
+
+	return count;
+};
+// 
+// fn write_reformatted_unit(out: io::handle, input: str, enc: encoding) (size | error) = {
+// 	let p = parser {
+// 		scanner = strings::iter(input),
+// 		current = done,
+// 		advance = &lex_restricted,
+// 	};
+//
+// 	let exponent = false;
+// 	let count = 0z;
+//
+// 	for (let tok => advance(&p)) {
+// 		if (exponent) {
+// 			switch (tok.kind) {
+// 			case token_kind::PLUS =>
+// 				continue;
+// 			case token_kind::MINUS =>
+// 				count += memio::appendrune(out, SUPERSCRIPT_MINUS)?;
+// 				continue;
+// 			case token_kind::INTEGER =>
+// 				count += write_str_as_superscript(out, tok.text)?;
+// 				continue;
+// 			case =>
+// 				exponent = false;
+// 			};
+// 		};
+//
+// 		switch (tok.kind) {
+// 		case token_kind::IDENTIFIER =>
+// 			let kinds = identify(tok.text);
+// 			count += write_symbol(out, kinds.0, enc)?;
+// 			count += write_symbol(out, kinds.1, enc)?;
+// 		case token_kind::INTEGER =>
+// 			count += write_string(out, tok.text)?;
+// 		case token_kind::PLUS =>
+// 			count += memio::appendrune(out, PLUS_SIGN)?;
+// 		case token_kind::MINUS =>
+// 			count += memio::appendrune(out, HYPHEN_MINUS)?;
+// 		case token_kind::POWER =>
+// 			if (enc == encoding::ASCII) {
+// 				count += memio::appendrune(out, CIRCUMFLEX_ACCENT)?;
+// 			} else {
+// 				exponent = true;
+// 			};
+// 		case token_kind::MULTIPLY =>
+// 			count += memio::appendrune(out, DOT_OPERATOR)?;
+// 		case token_kind::SOLIDUS =>
+// 			count += memio::appendrune(out, SOLIDUS)?;
+// 		case token_kind::LPAREN =>
+// 			count += memio::appendrune(out, LEFT_PARENTHESIS)?;
+// 		case token_kind::RPAREN =>
+// 			count += memio::appendrune(out, RIGHT_PARENTHESIS)?;
+// 		case =>
+// 			count += write_string(out, tok.text)?;
+// 		};
+// 	};
+//
+// 	return count;
+// };
+
+
 // Prints an exponent i to h with character encoding enc.
 // 
 //	write_exponent(os::stdout, 30, encoding::ASCII)
@@ -281,7 +476,7 @@ fn write_exponent(out: io::handle, n: int, enc: encoding) (size | error) = {
 		return count;
 	};
 
-	count += write_super(out, n)?;
+	count += write_int_as_superscript(out, n)?;
 	return count;
 };
 
@@ -313,11 +508,9 @@ fn write_quantity(
 		const value: f64 = qty.value * qty.unit.scale / target.scale;
 
 		count += write_value(out, value, prec, repr, enc)?;
+		count += memio::appendrune(out, ' ')?;
+		count += write_reformatted_unit(out, s, enc)?;
 
-		let formatted_unit = format_unit(s, enc)?;
-		defer free(formatted_unit);
-
-		count += fmt::fprintf(out, " {}", formatted_unit)!;
 	};
 	return count;
 };

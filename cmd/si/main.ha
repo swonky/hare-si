@@ -191,40 +191,40 @@ fn parse_options() (options | void) = {
 			option = "completions";
 		} else if (strings::hasprefix(arg, "--output=")) {
 			option = "output";
-			value = strings::sub(arg, 9, len(arg));
+			value = strings::sub(arg, 9);
 		} else if (strings::hasprefix(arg, "--precision=")) {
 			option = "precision";
-			value = strings::sub(arg, 12, len(arg));
+			value = strings::sub(arg, 12);
 		} else if (strings::hasprefix(arg, "--notation=")) {
 			option = "notation";
-			value = strings::sub(arg, 11, len(arg));
+			value = strings::sub(arg, 11);
 		} else if (strings::hasprefix(arg, "--format=")) {
 			option = "format";
-			value = strings::sub(arg, 9, len(arg));
+			value = strings::sub(arg, 9);
 		} else if (strings::hasprefix(arg, "--unit=")) {
 			option = "unit";
-			value = strings::sub(arg, 7, len(arg));
+			value = strings::sub(arg, 7);
 		} else if (strings::hasprefix(arg, "--completions=")) {
 			option = "completions";
-			value = strings::sub(arg, 14, len(arg));
+			value = strings::sub(arg, 14);
 		} else if (strings::hasprefix(arg, "-o=")) {
 			option = "output";
-			value = strings::sub(arg, 3, len(arg));
+			value = strings::sub(arg, 3);
 		} else if (strings::hasprefix(arg, "-p=")) {
 			option = "precision";
-			value = strings::sub(arg, 3, len(arg));
+			value = strings::sub(arg, 3);
 		} else if (strings::hasprefix(arg, "-n=")) {
 			option = "notation";
-			value = strings::sub(arg, 3, len(arg));
+			value = strings::sub(arg, 3);
 		} else if (strings::hasprefix(arg, "-f=")) {
 			option = "format";
-			value = strings::sub(arg, 3, len(arg));
+			value = strings::sub(arg, 3);
 		} else if (strings::hasprefix(arg, "-u=")) {
 			option = "unit";
-			value = strings::sub(arg, 3, len(arg));
+			value = strings::sub(arg, 3);
 		} else if (strings::hasprefix(arg, "-c=")) {
 			option = "completions";
-			value = strings::sub(arg, 3, len(arg));
+			value = strings::sub(arg, 3);
 		};
 
 		if (option != "") {
@@ -343,6 +343,11 @@ fn run(opts: options) (void | si::error) = {
 		si::encodejson(os::stdout, qty)?;
 		fmt::println()?;
 		return;
+	};
+
+	if (opts.unit is void) {
+		const parts = si::split(opts.input);
+		opts.unit = parts.1;
 	};
 
 	si::println(
