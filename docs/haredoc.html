@@ -249,7 +249,7 @@ const atmospheric_pressure  = quantity {
 };
 </pre>
 <ul>
-<li>Parsing and formatting strings:
+<li>Parsing (<a href='#strp' class='ref'>strp</a>) and formatting (<a href='#strf' class='ref'>strf</a>) strings:
 </ul>
 <pre class='sample'>const acceleration = si::strp(&quot;20 m/s^2&quot;) as si::quantity;
 
@@ -368,7 +368,13 @@ const output = si::strf(
 <span class='keyword'>type</span> <a href='#notation'>notation</a>;
 <span class='keyword'>type</span> <a href='#prefix_kind'>prefix_kind</a>;
 <span class='keyword'>type</span> <a href='#quantity'>quantity</a>;
+<span class='keyword'>type</span> <a href='#symbol_kind'>symbol_kind</a>;
 <span class='keyword'>type</span> <a href='#unit'>unit</a>;
+
+<span class='comment'>// Undocumented types:</span>
+<span class='keyword'>type</span> <a href='#token'>token</a>;
+<span class='keyword'>type</span> <a href='#token_kind'>token_kind</a>;
+<span class='keyword'>type</span> <a href='#unit_kind'>unit_kind</a>;
 </pre><h4>Errors</h4>
 <pre>
 <span class='keyword'>type</span> <a href='#dimension_mismatch'>dimension_mismatch</a>;
@@ -377,6 +383,10 @@ const output = si::strf(
 <span class='keyword'>type</span> <a href='#invalid_exponent'>invalid_exponent</a>;
 <span class='keyword'>type</span> <a href='#no_match'>no_match</a>;
 <span class='keyword'>type</span> <a href='#not_implemented'>not_implemented</a>;
+
+<span class='comment'>// Undocumented Errors:</span>
+<span class='keyword'>type</span> <a href='#invalid_token'>invalid_token</a>;
+<span class='keyword'>type</span> <a href='#unclosed_scope'>unclosed_scope</a>;
 <span class='keyword'>type</span> <a href='#unexpected_token'>unexpected_token</a>;
 </pre><h4>Constants</h4>
 <pre>
@@ -1155,6 +1165,7 @@ const output = si::strf(
 	dim = FORCE,
 	scale = 1.0,
 };
+<span class='keyword'>def</span> <a href='#NONE'>NONE</a>: <span class='type'>f64</span> = 1.0;
 <span class='keyword'>def</span> <a href='#OHM'>OHM</a> = unit {
 	dim = RESISTANCE,
 	scale = 1.0,
@@ -1281,9 +1292,8 @@ const output = si::strf(
 <span class='keyword'>fn</span> <a href='#divu'>divu</a>(a: <span class='type'>unit</span>, b: <span class='type'>unit</span>) <span class='type'>unit</span>;
 <span class='keyword'>fn</span> <a href='#encodejson'>encodejson</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#equal'>equal</a>(a: <span class='type'>dimension</span>, b: <span class='type'>dimension</span>) <span class='type'>bool</span>;
-<span class='keyword'>fn</span> <a href='#fprintq'>fprintq</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
-<span class='keyword'>fn</span> <a href='#fprintqln'>fprintqln</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
-<span class='keyword'>fn</span> <a href='#fprintu'>fprintu</a>(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>, enc: <span class='type'>encoding</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#fprint'>fprint</a>(out: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, x: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>, ustr: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#identify'>identify</a>(in: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>prefix_kind</span><span class='type'>,</span> <span class='type'>unit_kind</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#isclose'>isclose</a>(a: <span class='type'>quantity</span>, b: <span class='type'>quantity</span>, tol: <span class='type'>f64</span> = math::STANDARD_TOL) <span class='type'>(</span><span class='type'>bool</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#isinf'>isinf</a>(q: <span class='type'>quantity</span>) <span class='type'>bool</span>;
 <span class='keyword'>fn</span> <a href='#isnan'>isnan</a>(q: <span class='type'>quantity</span>) <span class='type'>bool</span>;
@@ -1293,13 +1303,19 @@ const output = si::strf(
 <span class='keyword'>fn</span> <a href='#powd'>powd</a>(x: <span class='type'>dimension</span>, p: <span class='type'>int</span>) <span class='type'>dimension</span>;
 <span class='keyword'>fn</span> <a href='#powq'>powq</a>(x: <span class='type'>quantity</span>, p: <span class='type'>int</span>) <span class='type'>quantity</span>;
 <span class='keyword'>fn</span> <a href='#powu'>powu</a>(x: <span class='type'>unit</span>, p: <span class='type'>int</span>) <span class='type'>unit</span>;
+<span class='keyword'>fn</span> <a href='#print'>print</a>(x: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>, ustr: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#printerror'>printerror</a>(err: <span class='type'>error</span>) <span class='type'>(</span><span class='type'>void</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span><span class='type'>)</span>;
+<span class='keyword'>fn</span> <a href='#println'>println</a>(x: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>, ustr: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#scale'>scale</a>(u: <span class='type'>unit</span>, fac: <span class='type'>(</span><span class='type'>prefix_kind</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>unit</span>;
 <span class='keyword'>fn</span> <a href='#strerror'>strerror</a>(err: <span class='type'>error</span>) <span class='type'>str</span>;
+<span class='keyword'>fn</span> <a href='#strf'>strf</a>(x: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>, ustr: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#strp'>strp</a>(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#strpu'>strpu</a>(s: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>unit</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#sub'>sub</a>(a: <span class='type'>quantity</span>, b: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>f64</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span><span class='type'>)</span>;
 <span class='keyword'>fn</span> <a href='#tojson'>tojson</a>(obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;
+
+<span class='comment'>// Undocumented functions:</span>
+<span class='keyword'>fn</span> <a href='#split'>split</a>(input: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>f64</span><span class='type'>,</span> <span class='type'>str</span><span class='type'>)</span>;
 </pre><h3>Types</h3>
 <section class='member'>
 <h4 id='dimension'><span class='heading-body'>type dimension</span><span class='heading-extra'><a href='#dimension'>[permalink]</a></span></h4>
@@ -1360,6 +1376,7 @@ const output = si::strf(
 	KILO,
 	HECTO,
 	DECA,
+	NONE,
 	DECI,
 	CENTI,
 	MILLI,
@@ -1385,6 +1402,12 @@ const output = si::strf(
 <p>Represents a physical quantity as a unit and numerical value.
 </section>
 <section class='member'>
+<h4 id='symbol_kind'><span class='heading-body'>type symbol_kind</span><span class='heading-extra'><a href='#symbol_kind'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>type</span> symbol_kind = <span class='type'>(</span><span class='type'>prefix_kind</span> <span class='type'>|</span> <span class='type'>unit_kind</span><span class='type'>)</span>;</pre>
+<p>Union of symbol enum types.
+</section>
+<section class='member'>
 <h4 id='unit'><span class='heading-body'>type unit</span><span class='heading-extra'><a href='#unit'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>type</span> unit = <span class='type'>struct</span> {
@@ -1392,6 +1415,97 @@ const output = si::strf(
 	scale: <span class='type'>f64</span>,
 };</pre>
 <p>Represents a unit of measurement by its physical <a href='#dimension' class='ref'>dimension</a> and scale.
+</section>
+<section class='member'>
+<h4 id='token'><span class='heading-body'>type token</span><span class='heading-extra'><a href='#token'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>type</span> token = <span class='type'>struct</span> {
+	kind: <span class='type'>token_kind</span>,
+	text: <span class='type'>str</span>,
+	pos: <span class='type'>size</span>,
+};</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='token_kind'><span class='heading-body'>type token_kind</span><span class='heading-extra'><a href='#token_kind'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>type</span> token_kind = <span class='type'>enum</span> <span class='type'>u8</span> {
+	UNSPECIFIED,
+	IDENTIFIER,
+	INTEGER,
+	SUPER_INTEGER,
+	MULTIPLY,
+	POWER,
+	SOLIDUS,
+	PLUS,
+	SUPER_PLUS,
+	MINUS,
+	SUPER_MINUS,
+	LPAREN,
+	RPAREN,
+	LBRACE,
+	RBRACE,
+	EXPONENT,
+	POINT,
+	COMMA,
+};</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='unit_kind'><span class='heading-body'>type unit_kind</span><span class='heading-extra'><a href='#unit_kind'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>type</span> unit_kind = <span class='type'>enum</span> {
+	NONE,
+	AMPERE,
+	ASTRONOMICAL_UNIT,
+	BECQUEREL,
+	BEL,
+	CANDELA,
+	COULOMB,
+	DALTON,
+	DAY,
+	DEGREE,
+	DEGREE_CELSIUS,
+	ELECTRONVOLT,
+	FARAD,
+	GAUSS,
+	GRAM,
+	GRAY,
+	HECTARE,
+	HENRY,
+	HERTZ,
+	HOUR,
+	JOULE,
+	KATAL,
+	KELVIN,
+	LITRE,
+	LUMEN,
+	LUX,
+	METRE,
+	MINUTE,
+	MOLE,
+	NEPER,
+	NEWTON,
+	OHM,
+	PASCAL,
+	RADIAN,
+	SECOND,
+	SIEMENS,
+	SIEVERT,
+	STERADIAN,
+	TESLA,
+	TONNE,
+	VOLT,
+	WATT,
+	WEBER,
+};</pre>
+</details>
 </section>
 <h3>Errors</h3>
 <section class='member'>
@@ -1403,7 +1517,7 @@ const output = si::strf(
 <section class='member'>
 <h4 id='error'><span class='heading-body'>type error</span><span class='heading-extra'><a href='#error'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>type</span> error = <span class='type'>!</span><span class='type'>(</span><span class='type'>no_match</span> <span class='type'>|</span> <span class='type'>invalid_exponent</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span> <span class='type'>|</span> <span class='type'>unexpected_token</span> <span class='type'>|</span> <span class='type'>not_implemented</span> <span class='type'>|</span> <span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span> <span class='type'>|</span> <span class='type'>strconv</span><span class='type'>::</span><span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>strconv</span><span class='type'>::</span><span class='type'>overflow</span> <span class='type'>|</span> <span class='type'>utf8</span><span class='type'>::</span><span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>nomem</span><span class='type'>)</span>;</pre>
+<span class='keyword'>type</span> error = <span class='type'>!</span><span class='type'>(</span><span class='type'>no_match</span> <span class='type'>|</span> <span class='type'>invalid_exponent</span> <span class='type'>|</span> <span class='type'>unexpected_token</span> <span class='type'>|</span> <span class='type'>unclosed_scope</span> <span class='type'>|</span> <span class='type'>invalid_token</span> <span class='type'>|</span> <span class='type'>dimension_mismatch</span> <span class='type'>|</span> <span class='type'>not_implemented</span> <span class='type'>|</span> <span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span> <span class='type'>|</span> <span class='type'>strconv</span><span class='type'>::</span><span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>strconv</span><span class='type'>::</span><span class='type'>overflow</span> <span class='type'>|</span> <span class='type'>utf8</span><span class='type'>::</span><span class='type'>invalid</span> <span class='type'>|</span> <span class='type'>nomem</span><span class='type'>)</span>;</pre>
 <p>Represents any error that can occur in the si library
 </section>
 <section class='member'>
@@ -1415,7 +1529,7 @@ const output = si::strf(
 <section class='member'>
 <h4 id='invalid_exponent'><span class='heading-body'>type invalid_exponent</span><span class='heading-extra'><a href='#invalid_exponent'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>type</span> invalid_exponent = <span class='type'>!</span><span class='type'>rune</span>;</pre>
+<span class='keyword'>type</span> invalid_exponent = <span class='type'>!</span><span class='type'>void</span>;</pre>
 <p>An invalid exponent was encountered.
 </section>
 <section class='member'>
@@ -1431,10 +1545,28 @@ const output = si::strf(
 <p>The requested operation is not implemented.
 </section>
 <section class='member'>
-<h4 id='unexpected_token'><span class='heading-body'>type unexpected_token</span><span class='heading-extra'><a href='#unexpected_token'>[permalink]</a></span></h4>
+<h4 id='invalid_token'><span class='heading-body'>type invalid_token</span><span class='heading-extra'><a href='#invalid_token'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
 <pre class='decl'>
-<span class='keyword'>type</span> unexpected_token = <span class='type'>!</span><span class='type'>rune</span>;</pre>
-<p>An unexpected token was encountered during parsing.
+<span class='keyword'>type</span> invalid_token = <span class='type'>!</span><span class='type'>token</span>;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='unclosed_scope'><span class='heading-body'>type unclosed_scope</span><span class='heading-extra'><a href='#unclosed_scope'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>type</span> unclosed_scope = <span class='type'>!</span><span class='type'>void</span>;</pre>
+</details>
+</section>
+<section class='member'>
+<h4 id='unexpected_token'><span class='heading-body'>type unexpected_token</span><span class='heading-extra'><a href='#unexpected_token'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>type</span> unexpected_token = <span class='type'>!</span><span class='type'>token</span>;</pre>
+</details>
 </section>
 <h3>Constants</h3>
 <section class='member'>
@@ -3274,6 +3406,14 @@ const output = si::strf(
 </details>
 </section>
 <section class='member'>
+<h4 id='NONE'><span class='heading-body'>def NONE</span><span class='heading-extra'><a href='#NONE'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>def</span> NONE: <span class='type'>f64</span> = 1.0;</pre>
+</details>
+</section>
+<section class='member'>
 <h4 id='OHM'><span class='heading-body'>def OHM</span><span class='heading-extra'><a href='#OHM'>[permalink]</a></span></h4>
 <details>
 <summary>Show undocumented member</summary>
@@ -3683,22 +3823,16 @@ const output = si::strf(
 <p>Returns true if dimensions a and b are equal.
 </section>
 <section class='member'>
-<h4 id='fprintq'><span class='heading-body'>fn fprintq</span><span class='heading-extra'><a href='#fprintq'>[permalink]</a></span></h4>
+<h4 id='fprint'><span class='heading-body'>fn fprint</span><span class='heading-extra'><a href='#fprint'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> fprintq(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
-<p>Prints a quantity to an <a href='../io#handle' class='ref'>io::handle</a>, optionally using a specified unit format, precision, numeric notation, and character encoding. Returns the number of bytes printed.
+<span class='keyword'>fn</span> fprint(out: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, x: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>, ustr: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
+<p>Formats and prints x to handler h. Returns the number of bytes printed. See also: <a href='#fprint' class='ref'>fprint</a>, <a href='#println' class='ref'>println</a>.
 </section>
 <section class='member'>
-<h4 id='fprintqln'><span class='heading-body'>fn fprintqln</span><span class='heading-extra'><a href='#fprintqln'>[permalink]</a></span></h4>
+<h4 id='identify'><span class='heading-body'>fn identify</span><span class='heading-extra'><a href='#identify'>[permalink]</a></span></h4>
 <pre class='decl'>
-<span class='keyword'>fn</span> fprintqln(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, qty: <span class='type'>quantity</span>, unit_format: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
-<p>Prints a quantity followed by a newline to an <a href='../io#handle' class='ref'>io::handle</a>. Accepts the same formatting options as <a href='#fprintq' class='ref'>fprintq</a>. Returns the number of bytes printed.
-</section>
-<section class='member'>
-<h4 id='fprintu'><span class='heading-body'>fn fprintu</span><span class='heading-extra'><a href='#fprintu'>[permalink]</a></span></h4>
-<pre class='decl'>
-<span class='keyword'>fn</span> fprintu(h: <span class='type'>io</span><span class='type'>::</span><span class='type'>handle</span>, u: <span class='type'>unit</span>, enc: <span class='type'>encoding</span>) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
-<p>Prints a quantity to an <a href='../io#handle' class='ref'>io::handle</a>, optionally using a specified unit format, precision, numeric notation, and character encoding. Returns the number of bytes printed.
+<span class='keyword'>fn</span> identify(in: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>prefix_kind</span><span class='type'>,</span> <span class='type'>unit_kind</span><span class='type'>)</span>;</pre>
+<p>Returns the decimal prefix and unit symbol componants of the input string. If the input string does not match any prefix or unit symbol, the first componant of the tuple will be empty. Output is trimmed and borrowed from input string.
 </section>
 <section class='member'>
 <h4 id='isclose'><span class='heading-body'>fn isclose</span><span class='heading-extra'><a href='#isclose'>[permalink]</a></span></h4>
@@ -3755,10 +3889,22 @@ const output = si::strf(
 <p>Returns the quantity x raised to the integer power p.
 </section>
 <section class='member'>
+<h4 id='print'><span class='heading-body'>fn print</span><span class='heading-extra'><a href='#print'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> print(x: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>, ustr: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
+<p>Formats and prints x to <a href='../os#stdout' class='ref'>os::stdout</a>. Returns the number of bytes printed. See also: <a href='#fprint' class='ref'>fprint</a>, <a href='#println' class='ref'>println</a>.
+</section>
+<section class='member'>
 <h4 id='printerror'><span class='heading-body'>fn printerror</span><span class='heading-extra'><a href='#printerror'>[permalink]</a></span></h4>
 <pre class='decl'>
 <span class='keyword'>fn</span> printerror(err: <span class='type'>error</span>) <span class='type'>(</span><span class='type'>void</span> <span class='type'>|</span> <span class='type'>io</span><span class='type'>::</span><span class='type'>error</span><span class='type'>)</span>;</pre>
 <p>Prints the human readable description of the error to stderr.
+</section>
+<section class='member'>
+<h4 id='println'><span class='heading-body'>fn println</span><span class='heading-extra'><a href='#println'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> println(x: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>, ustr: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>size</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
+<p>Formats and prints x followed by a newline to h. Returns the number of bytes printed. See also: <a href='#fprint' class='ref'>fprint</a>, <a href='#print' class='ref'>print</a>.
 </section>
 <section class='member'>
 <h4 id='scale'><span class='heading-body'>fn scale</span><span class='heading-extra'><a href='#scale'>[permalink]</a></span></h4>
@@ -3771,6 +3917,12 @@ const output = si::strf(
 <pre class='decl'>
 <span class='keyword'>fn</span> strerror(err: <span class='type'>error</span>) <span class='type'>str</span>;</pre>
 <p>Returns a human-readable description of an error. Returned value should NOT be freed by the caller.
+</section>
+<section class='member'>
+<h4 id='strf'><span class='heading-body'>fn strf</span><span class='heading-extra'><a href='#strf'>[permalink]</a></span></h4>
+<pre class='decl'>
+<span class='keyword'>fn</span> strf(x: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>, ustr: <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, prec: <span class='type'>(</span><span class='type'>uint</span> <span class='type'>|</span> <span class='type'>void</span><span class='type'>)</span> = <span class='keyword'>void</span>, repr: <span class='type'>notation</span> = notation::GENERAL, enc: <span class='type'>encoding</span> = encoding::UTF8) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
+<p>Formats a quantity as a string using the specified unit format, precision, notation, and character encoding. The result must be freed after use.
 </section>
 <section class='member'>
 <h4 id='strp'><span class='heading-body'>fn strp</span><span class='heading-extra'><a href='#strp'>[permalink]</a></span></h4>
@@ -3808,7 +3960,7 @@ strpu(&quot;m²&quot;);
 </pre>
 <p>Returns the parsed <a href='#unit' class='ref'>unit</a> on success, or an <a href='#error' class='ref'>error</a> if the input is invalid.
 <ul>
-<li>see also: <a href='#' class='ref invalid' title='This reference could not be found'>strpq</a>
+<li>see also: <a href='#strp' class='ref'>strp</a>
 </ul>
 </section>
 <section class='member'>
@@ -3822,4 +3974,12 @@ strpu(&quot;m²&quot;);
 <pre class='decl'>
 <span class='keyword'>fn</span> tojson(obj: <span class='type'>(</span><span class='type'>quantity</span> <span class='type'>|</span> <span class='type'>unit</span><span class='type'>)</span>) <span class='type'>(</span><span class='type'>str</span> <span class='type'>|</span> <span class='type'>error</span><span class='type'>)</span>;</pre>
 <p>Returns JSON encoded string representation of a quantity or unit.
+</section>
+<section class='member'>
+<h4 id='split'><span class='heading-body'>fn split</span><span class='heading-extra'><a href='#split'>[permalink]</a></span></h4>
+<details>
+<summary>Show undocumented member</summary>
+<pre class='decl'>
+<span class='keyword'>fn</span> split(input: <span class='type'>str</span>) <span class='type'>(</span><span class='type'>f64</span><span class='type'>,</span> <span class='type'>str</span><span class='type'>)</span>;</pre>
+</details>
 </section>

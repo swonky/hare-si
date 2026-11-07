@@ -346,7 +346,7 @@ fn run(opts: options) (void | si::error) = {
 	};
 
 	if (opts.unit is void) {
-		const parts = si::split(opts.input);
+		const parts = si::split(opts.input)?;
 		opts.unit = parts.1;
 	};
 

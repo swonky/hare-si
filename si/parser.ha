@@ -254,6 +254,29 @@ fn parse_factor(p: *parser) (unit | error) = {
 	case token_kind::POWER =>
 		advance(p);
 
+		// Check for optional exponent delimiters.
+		let bracketed = false;
+		let closing = token_kind::UNSPECIFIED;
+
+		match (p.current) {
+		case let tok: token =>
+			switch (tok.kind) {
+			case token_kind::LPAREN =>
+				bracketed = true;
+				closing = token_kind::RPAREN;
+				advance(p);
+			case token_kind::LBRACE =>
+				bracketed = true;
+				closing = token_kind::RBRACE;
+				advance(p);
+			case =>
+				void;
+			};
+		case done =>
+			return invalid_exponent;
+		};
+
+		// Parse an optional exponent sign.
 		let sign: i8 = 1;
 
 		match (p.current) {
@@ -268,9 +291,11 @@ fn parse_factor(p: *parser) (unit | error) = {
 				void;
 			};
 		case done =>
+			if (bracketed) return unclosed_scope;
 			return invalid_exponent;
 		};
 
+		// Parse the exponent integer.
 		const tok = match (p.current) {
 		case let tok: token =>
 			if (tok.kind != token_kind::INTEGER) {
@@ -278,18 +303,37 @@ fn parse_factor(p: *parser) (unit | error) = {
 			};
 			yield tok;
 		case done =>
+			if (bracketed) return unclosed_scope;
 			return invalid_exponent;
 		};
 
+		const exponent = sign * strconv::stoi8(tok.text)?;
 		advance(p);
-		yield powu(result, sign * strconv::stoi8(tok.text)?);
+
+		// Validate the closing delimiter, if present.
+		if (bracketed) {
+			match (p.current) {
+			case let tok: token =>
+				if (tok.kind != closing) {
+					return tok: unexpected_token;
+				};
+				advance(p);
+			case done =>
+				return unclosed_scope;
+			};
+		};
+
+		yield powu(result, exponent);
 
 	case token_kind::SUPER_INTEGER =>
 		advance(p);
 		yield powu(result, parse_superscript(tok.text)?);
 
 	case token_kind::SUPER_PLUS, token_kind::SUPER_MINUS =>
-		const sign: i8 = if (tok.kind == token_kind::SUPER_MINUS) -1 else 1;
+		const sign: i8 = if (
+			tok.kind == token_kind::SUPER_MINUS
+		) -1 else 1;
+
 		advance(p);
 
 		const tok = match (p.current) {
@@ -303,12 +347,81 @@ fn parse_factor(p: *parser) (unit | error) = {
 		};
 
 		advance(p);
-		yield powu(result, sign * strconv::stoi8(tok.text)?);
+		yield powu(result, sign * parse_superscript(tok.text)?);
 
 	case =>
 		yield result;
 	};
 };
+// fn parse_factor(p: *parser) (unit | error) = {
+// 	let result = parse_primary(p)?;
+//
+// 	let tok = match (p.current) {
+// 	case let tok: token =>
+// 		yield tok;
+// 	case done =>
+// 		return result;
+// 	};
+//
+// 	return switch (tok.kind) {
+// 	case token_kind::POWER =>
+// 		advance(p);
+//
+// 		let sign: i8 = 1;
+//
+// 		match (p.current) {
+// 		case let tok: token =>
+// 			switch (tok.kind) {
+// 			case token_kind::PLUS =>
+// 				advance(p);
+// 			case token_kind::MINUS =>
+// 				sign = -1;
+// 				advance(p);
+// 			case =>
+// 				void;
+// 			};
+// 		case done =>
+// 			return invalid_exponent;
+// 		};
+//
+// 		const tok = match (p.current) {
+// 		case let tok: token =>
+// 			if (tok.kind != token_kind::INTEGER) {
+// 				return tok: unexpected_token;
+// 			};
+// 			yield tok;
+// 		case done =>
+// 			return invalid_exponent;
+// 		};
+//
+// 		advance(p);
+// 		yield powu(result, sign * strconv::stoi8(tok.text)?);
+//
+// 	case token_kind::SUPER_INTEGER =>
+// 		advance(p);
+// 		yield powu(result, parse_superscript(tok.text)?);
+//
+// 	case token_kind::SUPER_PLUS, token_kind::SUPER_MINUS =>
+// 		const sign: i8 = if (tok.kind == token_kind::SUPER_MINUS) -1 else 1;
+// 		advance(p);
+//
+// 		const tok = match (p.current) {
+// 		case let tok: token =>
+// 			if (tok.kind != token_kind::SUPER_INTEGER) {
+// 				return tok: unexpected_token;
+// 			};
+// 			yield tok;
+// 		case done =>
+// 			return invalid_exponent;
+// 		};
+//
+// 		advance(p);
+// 		yield powu(result, sign * strconv::stoi8(tok.text)?);
+//
+// 	case =>
+// 		yield result;
+// 	};
+// };
 
 fn parse_superscript(s: str) (int | error) = {
 	let iter = strings::iter(s);
@@ -385,7 +498,7 @@ fn parse_unit(p: *parser) (unit | error) = {
 			case token_kind::SOLIDUS =>
 				advance(p);
 				const rhs = parse_factor(p)?;
-				return divu(result, rhs);
+				result = divu(result, rhs);
 			case =>
 				return result;
 			};
@@ -395,10 +508,9 @@ fn parse_unit(p: *parser) (unit | error) = {
 	};
 };
 
-// Parses float values.
-fn parse_value(p: *parser) (f64 | strconv::invalid | strconv::overflow) = {
-	const start: parser = *p;
+fn advance_value(p: *parser) size = {
 	let next: parser = *p;
+	let count = 0z;
 
 	for (let tok => advance(&next)) {
 		switch (tok.kind) {
@@ -406,17 +518,32 @@ fn parse_value(p: *parser) (f64 | strconv::invalid | strconv::overflow) = {
 			token_kind::COMMA, token_kind::EXPONENT,
 			token_kind::PLUS, token_kind::MINUS =>
 			advance(p);
+			count += 1z;
 		case =>
 			break;
 		};
+	};
+	return count;
+};
+
+// Parses float values.
+fn parse_value(p: *parser) (f64 | error) = {
+	const start: parser = *p;
+
+	if (advance_value(p) == 0) {
+		return p.current: unexpected_token;
 	};
 
 	const text = strings::slice(&start.scanner, &p.scanner);
 	const parts = strings::cut(text, "e");
 	const mantissa = strconv::stof64(parts.0)?;
-	const exponent = strconv::stoi(parts.1)?;
 
-	return if (count(parts.1) == 0) mantissa else scale10(mantissa, exponent);
+	if (count(parts.1) == 0) {
+		return mantissa;
+	};
+
+	const exponent = strconv::stoi(parts.1)?;
+	return scale10(mantissa, exponent);
 };
 
 // Parse a quantity
@@ -435,23 +562,31 @@ fn remainder(s: *strings::iterator) str = {
 	return strings::slice(&start, s);
 };
 
-export fn split(input: str) (f64, str) = {
+export fn split(input: str) ((str, str) | error) = {
 	let p = parser {
 		scanner = strings::iter(input),
 	    	current = done,
 		advance = &lex_permissive,
 	};
 
-	const v: f64 = match (parse_value(&p)) {
-	case let f: f64 =>
-		yield f;
-	case =>
-		yield 0.0;
-	};
+	const start = *(&p);
 
+	if (advance_value(&p) == 0) {
+		return p.current: unexpected_token;
+	};
+	const value = strings::slice(&start, &p);
 	const rest = remainder(&p); 
 
-	return (v, strings::trim(rest));
+	return (value, strings::trim(rest));
+};
+
+fn expect_end(p: *parser) (void | error) = {
+	match (p.current) {
+	case let tok: token =>
+		return tok: unexpected_token;
+	case done =>
+		return;
+	};
 };
 
 // Parses a unit expression. Accepts fixed-point and scientific notation, with 
@@ -480,16 +615,12 @@ export fn strpu(s: str) (unit | error) = {
 	};
 
 	advance(&p);
-
 	const result = parse_unit(&p)?;
+	expect_end(&p)?;
 
-	match (p.current) {
-	case done =>
-		return result;
-	case =>
-		return invalid;
-	};
+	return result;
 };
+	
 
 // Parses a numeric quantity and unit expression. Accepts fixed-point and
 // scientific notation, with permissive unit syntax including alternative
@@ -518,11 +649,7 @@ export fn strp(s: str) (quantity | error) = {
 	};
 
 	const result = parse_quantity(&p)?;
+	expect_end(&p)?;
 
-	match (p.current) {
-	case done =>
-		return result;
-	case =>
-		return invalid;
-	};
+	return result;
 };
