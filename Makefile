@@ -79,11 +79,16 @@ $(TARGET): $(SOURCES) $(VERSION_FILE) $(COMPLETIONS_HA)
 	$(HARE) build $(HAREFLAGS) -o ./bin/$@ ./cmd/$@/
 
 # Update si/version.ha
-$(VERSION_FILE):
-	@sed -i \
-		-e 's|^export const SEM_VERSION: str = .*;|export const SEM_VERSION: str = "$(SEM_VERSION)";|' \
-		-e 's|^export const GIT_VERSION: str = .*;|export const GIT_VERSION: str = "$(GIT_VERSION)";|' \
-		"$@"
+$(VERSION_FILE): FORCE
+	@mkdir -p "$(@D)"
+	@{ \
+ 		printf '// SPDX-License-Identifier: MPL-2.0\n'; \
+ 		printf '// (C) 2026 Tom Spencer <tcs.git@pm.me>\n\n'; \
+		printf '// Semantic version of the current release.\n'; \
+		printf 'export def SEM_VERSION: str = "%s";\n' "$(SEM_VERSION)"; \
+		printf '// Git commit identifier of the current build.\n'; \
+		printf 'export def GIT_VERSION: str = "%s";\n' "$(GIT_VERSION)"; \
+	} > "$@"
 
 # Generate markdown module documentation.
 $(HAREDOC_PAGE): $(SOURCES)
