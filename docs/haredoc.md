@@ -1,3 +1,16 @@
+# Documentation
+
+## Contents
+
+- [Introduction](#Introduction)
+- [Types](#types)
+- [Definitions](#definitions)
+- [Errors](#errors)
+- [Constants](#constants)
+- [Functions](#functions)
+
+## Introduction
+
 si: A module for parsing, converting, and formatting physical quantities expressed 
 with the International System of Units.
 
@@ -156,9 +169,11 @@ Notes:
 - The formatted output for [LITRE](#LITRE) uses LATIN CAPITAL LETTER L (U+004C).
 - The parser for [LITRE](#LITRE) also accepts LATIN SMALL LETTER L (U+006C).
 
-Represents the dimensional exponents of the seven SI base dimensions.
+## Types
 
 ### dimension
+
+Represents the dimensional exponents of the seven SI base dimensions.
 
 ```hare
 type dimension = struct {
@@ -179,9 +194,9 @@ type dimension = struct {
 };
 ```
 
-Specifies the character encoding options.
-
 ### encoding
+
+Specifies the character encoding options.
 
 ```hare
 type encoding = enum u8 {
@@ -191,9 +206,9 @@ type encoding = enum u8 {
 };
 ```
 
-Specifies the notation used to format floating-point values.
-
 ### notation
+
+Specifies the notation used to format floating-point values.
 
 ```hare
 type notation = enum u8 {
@@ -205,9 +220,9 @@ type notation = enum u8 {
 };
 ```
 
-Unit prefix decimal exponents
-
 ### prefix_kind
+
+Unit prefix decimal exponents
 
 ```hare
 type prefix_kind = enum i8 {
@@ -239,9 +254,9 @@ type prefix_kind = enum i8 {
 };
 ```
 
-Represents a physical quantity as a unit and numerical value.
-
 ### quantity
+
+Represents a physical quantity as a unit and numerical value.
 
 ```hare
 type quantity = struct {
@@ -250,17 +265,17 @@ type quantity = struct {
 };
 ```
 
-Union of symbol enum types.
-
 ### symbol_kind
+
+Union of symbol enum types.
 
 ```hare
 type symbol_kind = (prefix_kind | unit_kind);
 ```
 
-Represents a unit of measurement by its physical [dimension](#dimension) and scale.
-
 ### unit
+
+Represents a unit of measurement by its physical [dimension](#dimension) and scale.
 
 ```hare
 type unit = struct {
@@ -354,10 +369,12 @@ type unit_kind = enum {
 };
 ```
 
-The SI derived dimension of absorbed dose.
-Its SI unit is [GRAY](#GRAY).
+## Definitions
 
 ### ABSORBED_DOSE
+
+The SI derived dimension of absorbed dose.
+Its SI unit is [GRAY](#GRAY).
 
 ```hare
 def ABSORBED_DOSE = dimension {
@@ -367,10 +384,10 @@ def ABSORBED_DOSE = dimension {
 };
 ```
 
+### ACTIVITY
+
 The SI derived dimension of radioactive activity.
 Its SI unit is [BECQUEREL](#BECQUEREL).
-
-### ACTIVITY
 
 ```hare
 def ACTIVITY = dimension {
@@ -379,10 +396,10 @@ def ACTIVITY = dimension {
 };
 ```
 
+### ANGSTROM
+
 The angstrom is a non-SI unit of length still widely used in the natural
 sciences and technology to express atomic-scale lengths. See [METRE](#METRE).
-
-### ANGSTROM
 
 ```hare
 def ANGSTROM = unit {
@@ -391,11 +408,11 @@ def ANGSTROM = unit {
 };
 ```
 
+### ASTRONOMICAL_UNIT
+
 The astronomical unit is a non-SI unit of length that approximately equates
 to the average distance between the Sun and the Earth. As of 2012, it is
 standardised to a fixed length in metres. See [METRE](#METRE).
-
-### ASTRONOMICAL_UNIT
 
 ```hare
 def ASTRONOMICAL_UNIT = unit {
@@ -404,10 +421,10 @@ def ASTRONOMICAL_UNIT = unit {
 };
 ```
 
+### ATMOSPHERE
+
 The standard atmosphere is widely used in chemistry, physics, and
 engineering as a reference pressure. See [PASCAL](#PASCAL).
-
-### ATMOSPHERE
 
 ```hare
 def ATMOSPHERE = unit {
@@ -416,11 +433,11 @@ def ATMOSPHERE = unit {
 };
 ```
 
+### AVOGADRO
+
 The Avogadro constant, an exact defining constant of the SI representing the
 number of elementary entities in one mole.
 Its SI unit is [RECIPROCAL_MOLE](#RECIPROCAL_MOLE).
-
-### AVOGADRO
 
 ```hare
 def AVOGADRO = quantity {
@@ -429,10 +446,10 @@ def AVOGADRO = quantity {
 };
 ```
 
+### BAR
+
 The bar is a metric unit of pressure commonly used in meteorology and
 acoustics. Not to be confused with the CGS unit 'Barye'.
-
-### BAR
 
 ```hare
 def BAR = unit {
@@ -441,10 +458,10 @@ def BAR = unit {
 };
 ```
 
+### BARN
+
 The barn is commonly used in nuclear and particle physics to express 
 cross-sectional areas of atomic nuclei and subatomic interactions.
-
-### BARN
 
 ```hare
 def BARN = unit {
@@ -453,12 +470,12 @@ def BARN = unit {
 };
 ```
 
+### BEL
+
 The bel is a non-SI relative logarithmic unit commonly used in acoustics, 
 telecommunications, and signal processing to express ratios of power quantities.
 This unit is dimensionless and does not support conversion.
 See also: [NEPER](#NEPER).
-
-### BEL
 
 ```hare
 def BEL = unit {
@@ -467,11 +484,11 @@ def BEL = unit {
 };
 ```
 
+### BOLTZMANN
+
 The Boltzmann constant, an exact defining constant of the SI relating
 thermal energy to thermodynamic temperature.
 Its SI unit is [JOULE_PER_KELVIN](#JOULE_PER_KELVIN).
-
-### BOLTZMANN
 
 ```hare
 def BOLTZMANN = quantity {
@@ -480,10 +497,10 @@ def BOLTZMANN = quantity {
 };
 ```
 
+### CALORIE
+
 The calorie is non-SI unit commonly used in thermodynamics, chemistry, and
 nutritional science to express energy. See [JOULE](#JOULE).
-
-### CALORIE
 
 ```hare
 def CALORIE = unit {
@@ -492,10 +509,10 @@ def CALORIE = unit {
 };
 ```
 
+### CAPACITANCE
+
 The SI derived dimension of capacitance.
 Its SI unit is [FARAD](#FARAD).
-
-### CAPACITANCE
 
 ```hare
 def CAPACITANCE = dimension {
@@ -507,10 +524,10 @@ def CAPACITANCE = dimension {
 };
 ```
 
+### CATALYTIC_ACTIVITY
+
 The SI derived dimension of catalytic activity.
 Its SI unit is [KATAL](#KATAL).
-
-### CATALYTIC_ACTIVITY
 
 ```hare
 def CATALYTIC_ACTIVITY = dimension {
@@ -520,10 +537,10 @@ def CATALYTIC_ACTIVITY = dimension {
 };
 ```
 
+### CENTIMETRE
+
 The centimetre is a scaled SI unit of length.
 The corresponding unscaled SI unit is the [METRE](#METRE).
-
-### CENTIMETRE
 
 ```hare
 def CENTIMETRE = unit {
@@ -532,10 +549,10 @@ def CENTIMETRE = unit {
 };
 ```
 
+### CONDUCTANCE
+
 The SI derived dimension of electrical conductance.
 Its SI unit is [SIEMENS](#SIEMENS).
-
-### CONDUCTANCE
 
 ```hare
 def CONDUCTANCE = dimension {
@@ -547,10 +564,10 @@ def CONDUCTANCE = dimension {
 };
 ```
 
+### CUBIC_CENTIMETRE
+
 The cubic centimetre is a scaled SI unit of volume.
 The corresponding unscaled SI unit is the [CUBIC_METRE](#CUBIC_METRE).
-
-### CUBIC_CENTIMETRE
 
 ```hare
 def CUBIC_CENTIMETRE = unit {
@@ -559,10 +576,10 @@ def CUBIC_CENTIMETRE = unit {
 };
 ```
 
+### CUBIC_MILLIMETRE
+
 The cubic millimetre is a scaled SI unit of volume.
 The corresponding unscaled SI unit is the [CUBIC_METRE](#CUBIC_METRE).
-
-### CUBIC_MILLIMETRE
 
 ```hare
 def CUBIC_MILLIMETRE = unit {
@@ -571,10 +588,10 @@ def CUBIC_MILLIMETRE = unit {
 };
 ```
 
+### CURIE
+
 The curie is a non-SI unit historically used in nuclear physics to express
 radioactivity. See [BECQUEREL](#BECQUEREL).
-
-### CURIE
 
 ```hare
 def CURIE = unit {
@@ -583,9 +600,9 @@ def CURIE = unit {
 };
 ```
 
-The SI base dimension of electric current.
-
 ### CURRENT
+
+The SI base dimension of electric current.
 
 ```hare
 def CURRENT = dimension {
@@ -594,9 +611,9 @@ def CURRENT = dimension {
 };
 ```
 
-The dalton
-
 ### DALTON
+
+The dalton
 
 ```hare
 def DALTON = unit {
@@ -605,9 +622,9 @@ def DALTON = unit {
 };
 ```
 
-The day is a non-SI unit of time. See [SECOND](#SECOND).
-
 ### DAY
+
+The day is a non-SI unit of time. See [SECOND](#SECOND).
 
 ```hare
 def DAY = unit {
@@ -616,10 +633,10 @@ def DAY = unit {
 };
 ```
 
+### DECAMETRE
+
 The decametre is a scaled SI unit of length.
 The corresponding unscaled SI unit is the [METRE](#METRE).
-
-### DECAMETRE
 
 ```hare
 def DECAMETRE = unit {
@@ -628,10 +645,10 @@ def DECAMETRE = unit {
 };
 ```
 
+### DECIMETRE
+
 The decimetre is a scaled SI unit of length.
 The corresponding unscaled SI unit is the [METRE](#METRE).
-
-### DECIMETRE
 
 ```hare
 def DECIMETRE = unit {
@@ -640,9 +657,9 @@ def DECIMETRE = unit {
 };
 ```
 
-The degree
-
 ### DEGREE
+
+The degree
 
 ```hare
 def DEGREE = unit {
@@ -651,10 +668,10 @@ def DEGREE = unit {
 };
 ```
 
+### DIMENSIONLESS
+
 The dimensionless dimension, with all SI base dimension exponents equal to
 zero.
-
-### DIMENSIONLESS
 
 ```hare
 def DIMENSIONLESS = dimension {
@@ -662,10 +679,10 @@ def DIMENSIONLESS = dimension {
 };
 ```
 
+### DOSE_EQUIVALENT
+
 The SI derived dimension of dose equivalent.
 Its SI unit is [SIEVERT](#SIEVERT).
-
-### DOSE_EQUIVALENT
 
 ```hare
 def DOSE_EQUIVALENT = dimension {
@@ -675,9 +692,9 @@ def DOSE_EQUIVALENT = dimension {
 };
 ```
 
-The SI derived dimension of dynamic viscosity. Its SI unit is [PASCAL_SECOND](#PASCAL_SECOND).
-
 ### DYNAMIC_VISCOSITY
+
+The SI derived dimension of dynamic viscosity. Its SI unit is [PASCAL_SECOND](#PASCAL_SECOND).
 
 ```hare
 def DYNAMIC_VISCOSITY = dimension {
@@ -688,10 +705,10 @@ def DYNAMIC_VISCOSITY = dimension {
 };
 ```
 
+### DYNE
+
 The dyne is a CGS unit used in mechanics and fluid dynamics to express force.
 See [NEWTON](#NEWTON).
-
-### DYNE
 
 ```hare
 def DYNE = unit {
@@ -700,10 +717,10 @@ def DYNE = unit {
 };
 ```
 
+### ELECTRIC_CHARGE
+
 The SI derived dimension of electric charge.
 Its SI unit is [COULOMB](#COULOMB).
-
-### ELECTRIC_CHARGE
 
 ```hare
 def ELECTRIC_CHARGE = dimension {
@@ -713,10 +730,10 @@ def ELECTRIC_CHARGE = dimension {
 };
 ```
 
+### ELECTRIC_POTENTIAL
+
 The SI derived dimension of electric potential.
 Its SI unit is [VOLT](#VOLT).
-
-### ELECTRIC_POTENTIAL
 
 ```hare
 def ELECTRIC_POTENTIAL = dimension {
@@ -728,9 +745,9 @@ def ELECTRIC_POTENTIAL = dimension {
 };
 ```
 
-The electronvolt
-
 ### ELECTRONVOLT
+
+The electronvolt
 
 ```hare
 def ELECTRONVOLT = unit {
@@ -739,11 +756,11 @@ def ELECTRONVOLT = unit {
 };
 ```
 
+### ELEMENTARY_CHARGE
+
 The elementary charge, an exact defining constant of the SI corresponding
 to the magnitude of the electric charge of a proton.
 Its SI unit is [COULOMB](#COULOMB).
-
-### ELEMENTARY_CHARGE
 
 ```hare
 def ELEMENTARY_CHARGE = quantity {
@@ -752,10 +769,10 @@ def ELEMENTARY_CHARGE = quantity {
 };
 ```
 
+### ENERGY
+
 The SI derived dimension of energy.
 Its SI unit is [JOULE](#JOULE).
-
-### ENERGY
 
 ```hare
 def ENERGY = dimension {
@@ -766,11 +783,11 @@ def ENERGY = dimension {
 };
 ```
 
+### ERG
+
 The erg is a CGS unit commonly used in classical mechanics, astrophysics, and
 other areas of physics to express energy.
 The SI counterpart unit is the [JOULE](#JOULE).
-
-### ERG
 
 ```hare
 def ERG = unit {
@@ -779,10 +796,10 @@ def ERG = unit {
 };
 ```
 
+### EXPOSURE
+
 The SI derived dimension of exposure to ionising radiation.
 Its SI unit is [COULOMB_PER_KILOGRAM](#COULOMB_PER_KILOGRAM).
-
-### EXPOSURE
 
 ```hare
 def EXPOSURE = dimension {
@@ -793,10 +810,10 @@ def EXPOSURE = dimension {
 };
 ```
 
+### FORCE
+
 The SI derived dimension of force. 
 Its SI unit is [NEWTON](#NEWTON).
-
-### FORCE
 
 ```hare
 def FORCE = dimension {
@@ -807,10 +824,10 @@ def FORCE = dimension {
 };
 ```
 
+### FREQUENCY
+
 The SI derived dimension of frequency.
 Its SI unit is [HERTZ](#HERTZ).
-
-### FREQUENCY
 
 ```hare
 def FREQUENCY = dimension {
@@ -819,11 +836,11 @@ def FREQUENCY = dimension {
 };
 ```
 
+### GAL
+
 The gal is a CGS unit commonly used in geophysics and gravimetry to express
 acceleration.
 The SI counterpart unit is the [METRE_PER_SECOND_SQUARED](#METRE_PER_SECOND_SQUARED)
-
-### GAL
 
 ```hare
 def GAL = unit {
@@ -832,11 +849,11 @@ def GAL = unit {
 };
 ```
 
+### GAUSS
+
 The gauss is a CGS unit commonly used in physics and engineering to express
 magnetic flux density.
 The SI counterpart unit is the [TESLA](#TESLA)
-
-### GAUSS
 
 ```hare
 def GAUSS = unit {
@@ -845,10 +862,10 @@ def GAUSS = unit {
 };
 ```
 
+### GIGAHERTZ
+
 The gigahertz is a scaled SI unit of frequency.
 The corresponding unscaled SI unit is the [HERTZ](#HERTZ).
-
-### GIGAHERTZ
 
 ```hare
 def GIGAHERTZ = unit {
@@ -857,10 +874,10 @@ def GIGAHERTZ = unit {
 };
 ```
 
+### GIGAJOULE
+
 The gigajoule is a scaled SI unit of energy.
 The corresponding unscaled SI unit is the [JOULE](#JOULE).
-
-### GIGAJOULE
 
 ```hare
 def GIGAJOULE = unit {
@@ -869,10 +886,10 @@ def GIGAJOULE = unit {
 };
 ```
 
+### GIGAPASCAL
+
 The gigapascal is a scaled SI unit of pressure.
 The corresponding unscaled SI unit is the [PASCAL](#PASCAL).
-
-### GIGAPASCAL
 
 ```hare
 def GIGAPASCAL = unit {
@@ -881,10 +898,10 @@ def GIGAPASCAL = unit {
 };
 ```
 
+### GIGAWATT
+
 The gigawatt is a scaled SI unit of power.
 The corresponding unscaled SI unit is the [WATT](#WATT).
-
-### GIGAWATT
 
 ```hare
 def GIGAWATT = unit {
@@ -893,10 +910,10 @@ def GIGAWATT = unit {
 };
 ```
 
+### GRAM
+
 The gram is a scaled SI unit of mass.
 The corresponding unscaled SI unit is the [KILOGRAM](#KILOGRAM).
-
-### GRAM
 
 ```hare
 def GRAM = unit {
@@ -905,10 +922,10 @@ def GRAM = unit {
 };
 ```
 
+### HECTARE
+
 The hectare is non-SI metric unit commonly used to express areas of land.
 The SI counterpart unit is the [SQUARE_METRE](#SQUARE_METRE)
-
-### HECTARE
 
 ```hare
 def HECTARE = unit {
@@ -917,10 +934,10 @@ def HECTARE = unit {
 };
 ```
 
+### HECTOMETRE
+
 The hectometre is a scaled SI unit of length.
 The corresponding unscaled SI unit is the [METRE](#METRE).
-
-### HECTOMETRE
 
 ```hare
 def HECTOMETRE = unit {
@@ -929,10 +946,10 @@ def HECTOMETRE = unit {
 };
 ```
 
+### HECTOPASCAL
+
 The hectopascal is a scaled SI unit of pressure.
 The corresponding unscaled SI unit is the [PASCAL](#PASCAL).
-
-### HECTOPASCAL
 
 ```hare
 def HECTOPASCAL = unit {
@@ -941,10 +958,10 @@ def HECTOPASCAL = unit {
 };
 ```
 
+### HOUR
+
 The hour is non-SI unit of time.
 The SI counterpart unit is the [SECOND](#SECOND)
-
-### HOUR
 
 ```hare
 def HOUR = unit {
@@ -953,10 +970,10 @@ def HOUR = unit {
 };
 ```
 
+### HYPERFINE_TRANSITION_CAESIUM_133
+
 The caesium-133 hyperfine transition frequency, which defines the SI second.
 Its SI unit is [HERTZ](#HERTZ).
-
-### HYPERFINE_TRANSITION_CAESIUM_133
 
 ```hare
 def HYPERFINE_TRANSITION_CAESIUM_133 = quantity {
@@ -965,10 +982,10 @@ def HYPERFINE_TRANSITION_CAESIUM_133 = quantity {
 };
 ```
 
+### ILLUMINANCE
+
 The SI derived dimension of illuminance.
 Its SI unit is [LUX](#LUX).
-
-### ILLUMINANCE
 
 ```hare
 def ILLUMINANCE = dimension {
@@ -978,10 +995,10 @@ def ILLUMINANCE = dimension {
 };
 ```
 
+### INDUCTANCE
+
 The SI derived dimension of inductance.
 Its SI unit is [HENRY](#HENRY).
-
-### INDUCTANCE
 
 ```hare
 def INDUCTANCE = dimension {
@@ -993,9 +1010,9 @@ def INDUCTANCE = dimension {
 };
 ```
 
-The joule per kelvin is the coherent SI unit of [ENTROPY](#ENTROPY).
-
 ### JOULE_PER_KELVIN
+
+The joule per kelvin is the coherent SI unit of [ENTROPY](#ENTROPY).
 
 ```hare
 def JOULE_PER_KELVIN = unit {
@@ -1004,9 +1021,9 @@ def JOULE_PER_KELVIN = unit {
 };
 ```
 
-The joule-second is the coherent SI unit of [ACTION](#ACTION).
-
 ### JOULE_SECOND
+
+The joule-second is the coherent SI unit of [ACTION](#ACTION).
 
 ```hare
 def JOULE_SECOND = unit {
@@ -1015,10 +1032,10 @@ def JOULE_SECOND = unit {
 };
 ```
 
+### KILOHERTZ
+
 The kilohertz is a scaled SI unit of frequency.
 The corresponding unscaled SI unit is the [HERTZ](#HERTZ).
-
-### KILOHERTZ
 
 ```hare
 def KILOHERTZ = unit {
@@ -1027,10 +1044,10 @@ def KILOHERTZ = unit {
 };
 ```
 
+### KILOJOULE
+
 The kilojoule is a scaled SI unit of energy.
 The corresponding unscaled SI unit is the [JOULE](#JOULE).
-
-### KILOJOULE
 
 ```hare
 def KILOJOULE = unit {
@@ -1039,10 +1056,10 @@ def KILOJOULE = unit {
 };
 ```
 
+### KILOMETRE
+
 The kilometre is a scaled SI unit of length.
 The corresponding unscaled SI unit is the [METRE](#METRE).
-
-### KILOMETRE
 
 ```hare
 def KILOMETRE = unit {
@@ -1051,10 +1068,10 @@ def KILOMETRE = unit {
 };
 ```
 
+### KILONEWTON
+
 The kilonewton is a scaled SI unit of force.
 The corresponding unscaled SI unit is the [NEWTON](#NEWTON).
-
-### KILONEWTON
 
 ```hare
 def KILONEWTON = unit {
@@ -1063,10 +1080,10 @@ def KILONEWTON = unit {
 };
 ```
 
+### KILOOHM
+
 The kiloohm is a scaled SI unit of electrical resistance.
 The corresponding unscaled SI unit is the [OHM](#OHM).
-
-### KILOOHM
 
 ```hare
 def KILOOHM = unit {
@@ -1075,10 +1092,10 @@ def KILOOHM = unit {
 };
 ```
 
+### KILOPASCAL
+
 The kilopascal is a scaled SI unit of pressure.
 The corresponding unscaled SI unit is the [PASCAL](#PASCAL).
-
-### KILOPASCAL
 
 ```hare
 def KILOPASCAL = unit {
@@ -1087,10 +1104,10 @@ def KILOPASCAL = unit {
 };
 ```
 
+### KILOVOLT
+
 The kilovolt is a scaled SI unit of electric potential.
 The corresponding unscaled SI unit is the [VOLT](#VOLT).
-
-### KILOVOLT
 
 ```hare
 def KILOVOLT = unit {
@@ -1099,10 +1116,10 @@ def KILOVOLT = unit {
 };
 ```
 
+### KILOWATT
+
 The kilowatt is a scaled SI unit of power.
 The corresponding unscaled SI unit is the [WATT](#WATT).
-
-### KILOWATT
 
 ```hare
 def KILOWATT = unit {
@@ -1111,9 +1128,9 @@ def KILOWATT = unit {
 };
 ```
 
-The SI derived dimension of kinematic viscosity. Its SI unit is [SQUARE_METRE_PER_SECOND](#SQUARE_METRE_PER_SECOND).
-
 ### KINEMATIC_VISCOSITY
+
+The SI derived dimension of kinematic viscosity. Its SI unit is [SQUARE_METRE_PER_SECOND](#SQUARE_METRE_PER_SECOND).
 
 ```hare
 def KINEMATIC_VISCOSITY = dimension {
@@ -1123,9 +1140,9 @@ def KINEMATIC_VISCOSITY = dimension {
 };
 ```
 
-The SI base dimension of length.
-
 ### LENGTH
+
+The SI base dimension of length.
 
 ```hare
 def LENGTH = dimension {
@@ -1134,10 +1151,10 @@ def LENGTH = dimension {
 };
 ```
 
+### LITRE
+
 The litre is a non-SI metric unit of volume in common general use.
 See [CUBIC_METRE](#CUBIC_METRE).
-
-### LITRE
 
 ```hare
 def LITRE = unit {
@@ -1146,9 +1163,9 @@ def LITRE = unit {
 };
 ```
 
-The SI base dimension of luminous intensity.
-
 ### LUMINOSITY
+
+The SI base dimension of luminous intensity.
 
 ```hare
 def LUMINOSITY = dimension {
@@ -1157,11 +1174,11 @@ def LUMINOSITY = dimension {
 };
 ```
 
+### LUMINOUS_EFFICACY_540_THZ
+
 The luminous efficacy of monochromatic radiation at 540 THz, an exact
 defining constant of the SI for [LUMINOUS_EFFICACY](#LUMINOUS_EFFICACY).
 Its SI unit is [LUMEN_PER_WATT](#LUMEN_PER_WATT).
-
-### LUMINOUS_EFFICACY_540_THZ
 
 ```hare
 def LUMINOUS_EFFICACY_540_THZ = quantity {
@@ -1170,10 +1187,10 @@ def LUMINOUS_EFFICACY_540_THZ = quantity {
 };
 ```
 
+### LUMINOUS_FLUX
+
 The SI derived dimension of luminous flux.
 Its SI unit is [LUMEN](#LUMEN).
-
-### LUMINOUS_FLUX
 
 ```hare
 def LUMINOUS_FLUX = dimension {
@@ -1182,10 +1199,10 @@ def LUMINOUS_FLUX = dimension {
 };
 ```
 
+### MAGNETIC_FLUX
+
 The SI derived dimension of magnetic flux.
 Its SI unit is [WEBER](#WEBER).
-
-### MAGNETIC_FLUX
 
 ```hare
 def MAGNETIC_FLUX = dimension {
@@ -1197,10 +1214,10 @@ def MAGNETIC_FLUX = dimension {
 };
 ```
 
+### MAGNETIC_FLUX_DENSITY
+
 The SI derived dimension of magnetic flux density.
 Its SI unit is [TESLA](#TESLA).
-
-### MAGNETIC_FLUX_DENSITY
 
 ```hare
 def MAGNETIC_FLUX_DENSITY = dimension {
@@ -1211,9 +1228,9 @@ def MAGNETIC_FLUX_DENSITY = dimension {
 };
 ```
 
-The SI base dimension of mass.
-
 ### MASS
+
+The SI base dimension of mass.
 
 ```hare
 def MASS = dimension {
@@ -1222,10 +1239,10 @@ def MASS = dimension {
 };
 ```
 
+### MAXWELL
+
 The maxwell is a CGS electromagnetic unit used to express magnetic flux.
 The SI counterpart unit is the [WEBER](#WEBER)
-
-### MAXWELL
 
 ```hare
 def MAXWELL = unit {
@@ -1234,10 +1251,10 @@ def MAXWELL = unit {
 };
 ```
 
+### MEGAHERTZ
+
 The megahertz is a scaled SI unit of frequency.
 The corresponding unscaled SI unit is the [HERTZ](#HERTZ).
-
-### MEGAHERTZ
 
 ```hare
 def MEGAHERTZ = unit {
@@ -1246,10 +1263,10 @@ def MEGAHERTZ = unit {
 };
 ```
 
+### MEGAJOULE
+
 The megajoule is a scaled SI unit of energy.
 The corresponding unscaled SI unit is the [JOULE](#JOULE).
-
-### MEGAJOULE
 
 ```hare
 def MEGAJOULE = unit {
@@ -1258,10 +1275,10 @@ def MEGAJOULE = unit {
 };
 ```
 
+### MEGANEWTON
+
 The meganewton is a scaled SI unit of force.
 The corresponding unscaled SI unit is the [NEWTON](#NEWTON).
-
-### MEGANEWTON
 
 ```hare
 def MEGANEWTON = unit {
@@ -1270,10 +1287,10 @@ def MEGANEWTON = unit {
 };
 ```
 
+### MEGAOHM
+
 The megaohm is a scaled SI unit of electrical resistance.
 The corresponding unscaled SI unit is the [OHM](#OHM).
-
-### MEGAOHM
 
 ```hare
 def MEGAOHM = unit {
@@ -1282,10 +1299,10 @@ def MEGAOHM = unit {
 };
 ```
 
+### MEGAPASCAL
+
 The megapascal is a scaled SI unit of pressure.
 The corresponding unscaled SI unit is the [PASCAL](#PASCAL).
-
-### MEGAPASCAL
 
 ```hare
 def MEGAPASCAL = unit {
@@ -1294,10 +1311,10 @@ def MEGAPASCAL = unit {
 };
 ```
 
+### MEGAWATT
+
 The megawatt is a scaled SI unit of power.
 The corresponding unscaled SI unit is the [WATT](#WATT).
-
-### MEGAWATT
 
 ```hare
 def MEGAWATT = unit {
@@ -1306,10 +1323,10 @@ def MEGAWATT = unit {
 };
 ```
 
+### MICROAMPERE
+
 The microampere is a scaled SI unit of electric current.
 The corresponding unscaled SI unit is the [AMPERE](#AMPERE).
-
-### MICROAMPERE
 
 ```hare
 def MICROAMPERE = unit {
@@ -1318,10 +1335,10 @@ def MICROAMPERE = unit {
 };
 ```
 
+### MICROCOULOMB
+
 The microcoulomb is a scaled SI unit of electric charge.
 The corresponding unscaled SI unit is the [COULOMB](#COULOMB).
-
-### MICROCOULOMB
 
 ```hare
 def MICROCOULOMB = unit {
@@ -1330,10 +1347,10 @@ def MICROCOULOMB = unit {
 };
 ```
 
+### MICROFARAD
+
 The microfarad is a scaled SI unit of capacitance.
 The corresponding unscaled SI unit is the [FARAD](#FARAD).
-
-### MICROFARAD
 
 ```hare
 def MICROFARAD = unit {
@@ -1342,10 +1359,10 @@ def MICROFARAD = unit {
 };
 ```
 
+### MICROGRAM
+
 The microgram is a scaled SI unit of mass.
 The corresponding unscaled SI unit is the [KILOGRAM](#KILOGRAM).
-
-### MICROGRAM
 
 ```hare
 def MICROGRAM = unit {
@@ -1354,10 +1371,10 @@ def MICROGRAM = unit {
 };
 ```
 
+### MICROMETRE
+
 The micrometre is a scaled SI unit of length.
 The corresponding unscaled SI unit is the [METRE](#METRE).
-
-### MICROMETRE
 
 ```hare
 def MICROMETRE = unit {
@@ -1366,18 +1383,18 @@ def MICROMETRE = unit {
 };
 ```
 
-The micron is an alternative name for the [MICROMETRE](#MICROMETRE).
-
 ### MICRON
+
+The micron is an alternative name for the [MICROMETRE](#MICROMETRE).
 
 ```hare
 def MICRON = MICROMETRE;
 ```
 
+### MICROSECOND
+
 The microsecond is a scaled SI unit of time.
 The corresponding unscaled SI unit is the [SECOND](#SECOND).
-
-### MICROSECOND
 
 ```hare
 def MICROSECOND = unit {
@@ -1386,10 +1403,10 @@ def MICROSECOND = unit {
 };
 ```
 
+### MICROTESLA
+
 The microtesla is a scaled SI unit of magnetic flux density.
 The corresponding unscaled SI unit is the [TESLA](#TESLA).
-
-### MICROTESLA
 
 ```hare
 def MICROTESLA = unit {
@@ -1398,10 +1415,10 @@ def MICROTESLA = unit {
 };
 ```
 
+### MILLIAMPERE
+
 The milliampere is a scaled SI unit of electric current.
 The corresponding unscaled SI unit is the [AMPERE](#AMPERE).
-
-### MILLIAMPERE
 
 ```hare
 def MILLIAMPERE = unit {
@@ -1410,10 +1427,10 @@ def MILLIAMPERE = unit {
 };
 ```
 
+### MILLICOULOMB
+
 The millicoulomb is a scaled SI unit of electric charge.
 The corresponding unscaled SI unit is the [COULOMB](#COULOMB).
-
-### MILLICOULOMB
 
 ```hare
 def MILLICOULOMB = unit {
@@ -1422,10 +1439,10 @@ def MILLICOULOMB = unit {
 };
 ```
 
+### MILLIGRAM
+
 The milligram is a scaled SI unit of mass.
 The corresponding unscaled SI unit is the [KILOGRAM](#KILOGRAM).
-
-### MILLIGRAM
 
 ```hare
 def MILLIGRAM = unit {
@@ -1434,10 +1451,10 @@ def MILLIGRAM = unit {
 };
 ```
 
+### MILLIJOULE
+
 The millijoule is a scaled SI unit of energy.
 The corresponding unscaled SI unit is the [JOULE](#JOULE).
-
-### MILLIJOULE
 
 ```hare
 def MILLIJOULE = unit {
@@ -1446,10 +1463,10 @@ def MILLIJOULE = unit {
 };
 ```
 
+### MILLIMETRE
+
 The millimetre is a scaled SI unit of length.
 The corresponding unscaled SI unit is the [METRE](#METRE).
-
-### MILLIMETRE
 
 ```hare
 def MILLIMETRE = unit {
@@ -1458,11 +1475,11 @@ def MILLIMETRE = unit {
 };
 ```
 
+### MILLIMETRES_OF_MERCURY
+
 Millimetres of mercury are widely used in medicine and meteorology to express
 pressure.
 The SI counterpart unit is the [PASCAL](#PASCAL)
-
-### MILLIMETRES_OF_MERCURY
 
 ```hare
 def MILLIMETRES_OF_MERCURY = unit {
@@ -1471,10 +1488,10 @@ def MILLIMETRES_OF_MERCURY = unit {
 };
 ```
 
+### MILLINEWTON
+
 The millinewton is a scaled SI unit of force.
 The corresponding unscaled SI unit is the [NEWTON](#NEWTON).
-
-### MILLINEWTON
 
 ```hare
 def MILLINEWTON = unit {
@@ -1483,10 +1500,10 @@ def MILLINEWTON = unit {
 };
 ```
 
+### MILLIOHM
+
 The milliohm is a scaled SI unit of electrical resistance.
 The corresponding unscaled SI unit is the [OHM](#OHM).
-
-### MILLIOHM
 
 ```hare
 def MILLIOHM = unit {
@@ -1495,10 +1512,10 @@ def MILLIOHM = unit {
 };
 ```
 
+### MILLIPASCAL
+
 The millipascal is a scaled SI unit of pressure.
 The corresponding unscaled SI unit is the [PASCAL](#PASCAL).
-
-### MILLIPASCAL
 
 ```hare
 def MILLIPASCAL = unit {
@@ -1507,10 +1524,10 @@ def MILLIPASCAL = unit {
 };
 ```
 
+### MILLIPASCAL_SECOND
+
 The millipascal-second is a scaled SI unit of dynamic viscosity.
 The corresponding unscaled SI unit is the [PASCAL_SECOND](#PASCAL_SECOND).
-
-### MILLIPASCAL_SECOND
 
 ```hare
 def MILLIPASCAL_SECOND = unit {
@@ -1519,10 +1536,10 @@ def MILLIPASCAL_SECOND = unit {
 };
 ```
 
+### MILLISECOND
+
 The millisecond is a scaled SI unit of time.
 The corresponding unscaled SI unit is the [SECOND](#SECOND).
-
-### MILLISECOND
 
 ```hare
 def MILLISECOND = unit {
@@ -1531,10 +1548,10 @@ def MILLISECOND = unit {
 };
 ```
 
+### MILLITESLA
+
 The millitesla is a scaled SI unit of magnetic flux density.
 The corresponding unscaled SI unit is the [TESLA](#TESLA).
-
-### MILLITESLA
 
 ```hare
 def MILLITESLA = unit {
@@ -1543,10 +1560,10 @@ def MILLITESLA = unit {
 };
 ```
 
+### MILLIVOLT
+
 The millivolt is a scaled SI unit of electric potential.
 The corresponding unscaled SI unit is the [VOLT](#VOLT).
-
-### MILLIVOLT
 
 ```hare
 def MILLIVOLT = unit {
@@ -1555,10 +1572,10 @@ def MILLIVOLT = unit {
 };
 ```
 
+### MILLIWATT
+
 The milliwatt is a scaled SI unit of power.
 The corresponding unscaled SI unit is the [WATT](#WATT).
-
-### MILLIWATT
 
 ```hare
 def MILLIWATT = unit {
@@ -1567,10 +1584,10 @@ def MILLIWATT = unit {
 };
 ```
 
+### MILLIWEBER
+
 The milliweber is a scaled SI unit of magnetic flux.
 The corresponding unscaled SI unit is the [WEBER](#WEBER).
-
-### MILLIWEBER
 
 ```hare
 def MILLIWEBER = unit {
@@ -1579,10 +1596,10 @@ def MILLIWEBER = unit {
 };
 ```
 
+### MINUTE
+
 The minute is non-SI unit of time.
 The SI counterpart unit is the [SECOND](#SECOND)
-
-### MINUTE
 
 ```hare
 def MINUTE = unit {
@@ -1591,10 +1608,10 @@ def MINUTE = unit {
 };
 ```
 
+### NANOFARAD
+
 The nanofarad is a scaled SI unit of capacitance.
 The corresponding unscaled SI unit is the [FARAD](#FARAD).
-
-### NANOFARAD
 
 ```hare
 def NANOFARAD = unit {
@@ -1603,10 +1620,10 @@ def NANOFARAD = unit {
 };
 ```
 
+### NANOMETRE
+
 The nanometre is a scaled SI unit of length.
 The corresponding unscaled SI unit is the [METRE](#METRE).
-
-### NANOMETRE
 
 ```hare
 def NANOMETRE = unit {
@@ -1615,10 +1632,10 @@ def NANOMETRE = unit {
 };
 ```
 
+### NANOSECOND
+
 The nanosecond is a scaled SI unit of time.
 The corresponding unscaled SI unit is the [SECOND](#SECOND).
-
-### NANOSECOND
 
 ```hare
 def NANOSECOND = unit {
@@ -1627,13 +1644,13 @@ def NANOSECOND = unit {
 };
 ```
 
+### NEPER
+
 The neper is a non-SI relative logarithmic unit used in acoustics,
 telecommunications, and signal processing to express ratios of field
 quantities.
 This unit is dimensionless and does not support conversion.
 See also: [BEL](#BEL).
-
-### NEPER
 
 ```hare
 def NEPER = unit {
@@ -1642,9 +1659,9 @@ def NEPER = unit {
 };
 ```
 
-The newton-metre is the coherent SI unit of [TORQUE](#TORQUE).
-
 ### NEWTON_METRE
+
+The newton-metre is the coherent SI unit of [TORQUE](#TORQUE).
 
 ```hare
 def NEWTON_METRE = unit {
@@ -1653,9 +1670,9 @@ def NEWTON_METRE = unit {
 };
 ```
 
-The newton per metre is the coherent SI unit of [SURFACE_TENSION](#SURFACE_TENSION).
-
 ### NEWTON_PER_METRE
+
+The newton per metre is the coherent SI unit of [SURFACE_TENSION](#SURFACE_TENSION).
 
 ```hare
 def NEWTON_PER_METRE = unit {
@@ -1664,11 +1681,11 @@ def NEWTON_PER_METRE = unit {
 };
 ```
 
+### OERSTED
+
 The oersted is a CGS electromagnetic unit used to express magnetic field
 strength.
 The SI counterpart unit is the [HENRY](#HENRY).
-
-### OERSTED
 
 ```hare
 def OERSTED = unit {
@@ -1677,9 +1694,9 @@ def OERSTED = unit {
 };
 ```
 
-The pascal-second is the coherent SI unit of [DYNAMIC_VISCOSITY](#DYNAMIC_VISCOSITY).
-
 ### PASCAL_SECOND
+
+The pascal-second is the coherent SI unit of [DYNAMIC_VISCOSITY](#DYNAMIC_VISCOSITY).
 
 ```hare
 def PASCAL_SECOND = unit {
@@ -1688,10 +1705,10 @@ def PASCAL_SECOND = unit {
 };
 ```
 
+### PICOFARAD
+
 The picofarad is a scaled SI unit of capacitance.
 The corresponding unscaled SI unit is the [FARAD](#FARAD).
-
-### PICOFARAD
 
 ```hare
 def PICOFARAD = unit {
@@ -1700,10 +1717,10 @@ def PICOFARAD = unit {
 };
 ```
 
+### PICOMETRE
+
 The picometre is a scaled SI unit of length.
 The corresponding unscaled SI unit is the [METRE](#METRE).
-
-### PICOMETRE
 
 ```hare
 def PICOMETRE = unit {
@@ -1712,11 +1729,11 @@ def PICOMETRE = unit {
 };
 ```
 
+### PLANCK
+
 The Planck constant, an exact defining constant of the SI relating the
 energy of a photon to its frequency.
 Its SI unit is [JOULE_SECOND](#JOULE_SECOND).
-
-### PLANCK
 
 ```hare
 def PLANCK = quantity {
@@ -1725,10 +1742,10 @@ def PLANCK = quantity {
 };
 ```
 
+### POISE
+
 The poise is a CGS unit commonly used in rheology and fluid mechanics to
 express dynamic viscosity.
-
-### POISE
 
 ```hare
 def POISE = unit {
@@ -1737,10 +1754,10 @@ def POISE = unit {
 };
 ```
 
+### POWER
+
 The SI derived dimension of power.
 Its SI unit is [WATT](#WATT).
-
-### POWER
 
 ```hare
 def POWER = dimension {
@@ -1751,10 +1768,10 @@ def POWER = dimension {
 };
 ```
 
+### PRESSURE
+
 The SI derived dimension of pressure.
 Its SI unit is [PASCAL](#PASCAL).
-
-### PRESSURE
 
 ```hare
 def PRESSURE = dimension {
@@ -1765,11 +1782,11 @@ def PRESSURE = dimension {
 };
 ```
 
+### RAD
+
 The rad is a non-SI unit historically used in radiobiology and radiation
 dosimetry to express absorbed dose.
 The SI counterpart unit is the [GRAY](#GRAY).
-
-### RAD
 
 ```hare
 def RAD = unit {
@@ -1778,9 +1795,9 @@ def RAD = unit {
 };
 ```
 
-The reciprocal of the SI base dimension of electric current.
-
 ### RECIPROCAL_CURRENT
+
+The reciprocal of the SI base dimension of electric current.
 
 ```hare
 def RECIPROCAL_CURRENT = dimension {
@@ -1789,9 +1806,9 @@ def RECIPROCAL_CURRENT = dimension {
 };
 ```
 
-The reciprocal of the SI base dimension of luminous intensity.
-
 ### RECIPROCAL_LUMINOSITY
+
+The reciprocal of the SI base dimension of luminous intensity.
 
 ```hare
 def RECIPROCAL_LUMINOSITY = dimension {
@@ -1800,9 +1817,9 @@ def RECIPROCAL_LUMINOSITY = dimension {
 };
 ```
 
-The reciprocal of the SI base dimension of mass.
-
 ### RECIPROCAL_MASS
+
+The reciprocal of the SI base dimension of mass.
 
 ```hare
 def RECIPROCAL_MASS = dimension {
@@ -1811,9 +1828,9 @@ def RECIPROCAL_MASS = dimension {
 };
 ```
 
-The reciprocal of the SI base dimension of amount of substance.
-
 ### RECIPROCAL_SUBSTANCE
+
+The reciprocal of the SI base dimension of amount of substance.
 
 ```hare
 def RECIPROCAL_SUBSTANCE = dimension {
@@ -1822,9 +1839,9 @@ def RECIPROCAL_SUBSTANCE = dimension {
 };
 ```
 
-The reciprocal of the SI base dimension of thermodynamic temperature.
-
 ### RECIPROCAL_TEMPERATURE
+
+The reciprocal of the SI base dimension of thermodynamic temperature.
 
 ```hare
 def RECIPROCAL_TEMPERATURE = dimension {
@@ -1833,11 +1850,11 @@ def RECIPROCAL_TEMPERATURE = dimension {
 };
 ```
 
+### REM
+
 The rem (or Roentgen equivalent man) is a non-SI unit historically used in
 radiation protection to express equivalent dose.
 The SI counterpart unit is the [SIEVERT](#SIEVERT).
-
-### REM
 
 ```hare
 def REM = unit {
@@ -1846,10 +1863,10 @@ def REM = unit {
 };
 ```
 
+### RESISTANCE
+
 The SI derived dimension of electrical resistance.
 Its SI unit is [OHM](#OHM).
-
-### RESISTANCE
 
 ```hare
 def RESISTANCE = dimension {
@@ -1861,11 +1878,11 @@ def RESISTANCE = dimension {
 };
 ```
 
+### ROENTGEN
+
 The roentgen is a non-SI unit historically used in radiology and radiation
 protection to express [EXPOSURE](#EXPOSURE).
 The SI counterpart unit is the [COULOMB_PER_KILOGRAM](#COULOMB_PER_KILOGRAM).
-
-### ROENTGEN
 
 ```hare
 def ROENTGEN = unit {
@@ -1874,10 +1891,10 @@ def ROENTGEN = unit {
 };
 ```
 
+### SPEED_OF_LIGHT
+
 The speed of light in vacuum, an exact defining constant of the SI. 
 Its SI unit is [METRE_PER_SECOND](#METRE_PER_SECOND).
-
-### SPEED_OF_LIGHT
 
 ```hare
 def SPEED_OF_LIGHT = quantity {
@@ -1886,10 +1903,10 @@ def SPEED_OF_LIGHT = quantity {
 };
 ```
 
+### SQUARE_CENTIMETRE
+
 The square centimetre is a scaled SI unit of area.
 The corresponding unscaled SI unit is the [SQUARE_METRE](#SQUARE_METRE).
-
-### SQUARE_CENTIMETRE
 
 ```hare
 def SQUARE_CENTIMETRE = unit {
@@ -1898,10 +1915,10 @@ def SQUARE_CENTIMETRE = unit {
 };
 ```
 
+### SQUARE_KILOMETRE
+
 The square kilometre is a scaled SI unit of area.
 The corresponding unscaled SI unit is the [SQUARE_METRE](#SQUARE_METRE).
-
-### SQUARE_KILOMETRE
 
 ```hare
 def SQUARE_KILOMETRE = unit {
@@ -1910,9 +1927,9 @@ def SQUARE_KILOMETRE = unit {
 };
 ```
 
-The square metre per second is the coherent SI unit of [KINEMATIC_VISCOSITY](#KINEMATIC_VISCOSITY).
-
 ### SQUARE_METRE_PER_SECOND
+
+The square metre per second is the coherent SI unit of [KINEMATIC_VISCOSITY](#KINEMATIC_VISCOSITY).
 
 ```hare
 def SQUARE_METRE_PER_SECOND = unit {
@@ -1921,10 +1938,10 @@ def SQUARE_METRE_PER_SECOND = unit {
 };
 ```
 
+### SQUARE_MILLIMETRE
+
 The square millimetre is a scaled SI unit of area.
 The corresponding unscaled SI unit is the [SQUARE_METRE](#SQUARE_METRE).
-
-### SQUARE_MILLIMETRE
 
 ```hare
 def SQUARE_MILLIMETRE = unit {
@@ -1933,10 +1950,10 @@ def SQUARE_MILLIMETRE = unit {
 };
 ```
 
+### SQUARE_MILLIMETRE_PER_SECOND
+
 The square millimetre per second is a scaled SI unit of kinematic viscosity.
 The corresponding unscaled SI unit is the [SQUARE_METRE_PER_SECOND](#SQUARE_METRE_PER_SECOND).
-
-### SQUARE_MILLIMETRE_PER_SECOND
 
 ```hare
 def SQUARE_MILLIMETRE_PER_SECOND = unit {
@@ -1945,11 +1962,11 @@ def SQUARE_MILLIMETRE_PER_SECOND = unit {
 };
 ```
 
+### STOKES
+
 The stokes is a CGS unit commonly used in fluid mechanics to express
 viscosity.
 The SI counterpart unit is the [SQUARE_METRE_PER_SECOND](#SQUARE_METRE_PER_SECOND).
-
-### STOKES
 
 ```hare
 def STOKES = unit {
@@ -1958,9 +1975,9 @@ def STOKES = unit {
 };
 ```
 
-The SI base dimension of amount of substance.
-
 ### SUBSTANCE
+
+The SI base dimension of amount of substance.
 
 ```hare
 def SUBSTANCE = dimension {
@@ -1969,9 +1986,9 @@ def SUBSTANCE = dimension {
 };
 ```
 
-The SI base dimension of thermodynamic temperature.
-
 ### TEMPERATURE
+
+The SI base dimension of thermodynamic temperature.
 
 ```hare
 def TEMPERATURE = dimension {
@@ -1980,9 +1997,9 @@ def TEMPERATURE = dimension {
 };
 ```
 
-The SI base dimension of time.
-
 ### TIME
+
+The SI base dimension of time.
 
 ```hare
 def TIME = dimension {
@@ -1991,11 +2008,11 @@ def TIME = dimension {
 };
 ```
 
+### TONNE
+
 The tonne is a non-SI metric unit of mass still in common general use.
 Not to be confused with the ton units used in Imperial or Customary systems. 
 See [KILOGRAM](#KILOGRAM).
-
-### TONNE
 
 ```hare
 def TONNE = unit {
@@ -2004,10 +2021,10 @@ def TONNE = unit {
 };
 ```
 
+### TORR
+
 The torr is non-SI unit historically used in physics.
 The SI counterpart unit is the [PASCAL](#PASCAL).
-
-### TORR
 
 ```hare
 def TORR = unit {
@@ -2016,10 +2033,10 @@ def TORR = unit {
 };
 ```
 
+### WAVENUMBER
+
 The SI derived dimension of spatial frequency, expressed as the reciprocal
 of length.
-
-### WAVENUMBER
 
 ```hare
 def WAVENUMBER = dimension {
@@ -2784,17 +2801,19 @@ def ZEPTO: f64 = 1.0e-21;
 def ZETTA: f64 = 1.0e21;
 ```
 
-The dimensions of two units or quantities do not match.
+## Errors
 
 ### dimension_mismatch
+
+The dimensions of two units or quantities do not match.
 
 ```hare
 type dimension_mismatch = !void;
 ```
 
-Represents any error that can occur in the si library
-
 ### error
+
+Represents any error that can occur in the si library
 
 ```hare
 type error = !(no_match | invalid_exponent | unexpected_token | unclosed_scope |
@@ -2802,33 +2821,33 @@ type error = !(no_match | invalid_exponent | unexpected_token | unclosed_scope |
 	strconv::invalid | strconv::overflow | utf8::invalid | nomem);
 ```
 
-The input is invalid.
-
 ### invalid
+
+The input is invalid.
 
 ```hare
 type invalid = !void;
 ```
 
-An invalid exponent was encountered.
-
 ### invalid_exponent
+
+An invalid exponent was encountered.
 
 ```hare
 type invalid_exponent = !void;
 ```
 
-No matching unit or prefix was found.
-
 ### no_match
+
+No matching unit or prefix was found.
 
 ```hare
 type no_match = !str;
 ```
 
-The requested operation is not implemented.
-
 ### not_implemented
+
+The requested operation is not implemented.
 
 ```hare
 type not_implemented = !void;
@@ -2852,77 +2871,81 @@ type unclosed_scope = !void;
 type unexpected_token = !token;
 ```
 
-Git commit identifier of the current build.
-Appended with "-dirty" when the working tree contains uncommitted changes.
+## Constants
 
 ### GIT_VERSION
+
+Git commit identifier of the current build.
+Appended with "-dirty" when the working tree contains uncommitted changes.
 
 ```hare
 const GIT_VERSION: str;
 ```
 
-Semantic version of the current release.
-
 ### SEM_VERSION
+
+Semantic version of the current release.
 
 ```hare
 const SEM_VERSION: str;
 ```
 
-Returns the sum of quantities a and b, converting b to a's unit.
-If b is an f64, it is treated as a value in a's unit.
+## Functions
 
 ### add
+
+Returns the sum of quantities a and b, converting b to a's unit.
+If b is an f64, it is treated as a value in a's unit.
 
 ```hare
 fn add(a: quantity, b: (quantity | f64)) (quantity | dimension_mismatch);
 ```
 
-Returns the quotient of units a and b.
-
 ### divd
+
+Returns the quotient of units a and b.
 
 ```hare
 fn divd(a: dimension, b: dimension) dimension;
 ```
 
-Returns the quotient of quantities a and b, or scales a by 1/b if b is an f64.
-
 ### divq
+
+Returns the quotient of quantities a and b, or scales a by 1/b if b is an f64.
 
 ```hare
 fn divq(a: quantity, b: (quantity | f64)) quantity;
 ```
 
-Returns the quotient of units a and b.
-
 ### divu
+
+Returns the quotient of units a and b.
 
 ```hare
 fn divu(a: unit, b: unit) unit;
 ```
 
-Writes JSON encoded representation of a quantity or unit.
-
 ### encodejson
+
+Writes JSON encoded representation of a quantity or unit.
 
 ```hare
 fn encodejson(h: io::handle, obj: (quantity | unit)) (size | error);
 ```
 
-Returns true if dimensions a and b are equal.
-
 ### equal
+
+Returns true if dimensions a and b are equal.
 
 ```hare
 fn equal(a: dimension, b: dimension) bool;
 ```
 
+### fprint
+
 Formats and prints x to handler h.
 Returns the number of bytes printed.
 See also: [fprint](#fprint), [println](#println).
-
-### fprint
 
 ```hare
 fn fprint(
@@ -2935,20 +2958,20 @@ fn fprint(
 ) (size | error);
 ```
 
+### identify
+
 Returns the decimal prefix and unit symbol componants of the input string.
 If the input string does not match any prefix or unit symbol, the first 
 componant of the tuple will be empty.
 Output is trimmed and borrowed from input string.
 
-### identify
-
 ```hare
 fn identify(in: str) (prefix_kind, unit_kind);
 ```
 
-Returns whether a and b are within tol of each other.
-
 ### isclose
+
+Returns whether a and b are within tol of each other.
 
 ```hare
 fn isclose(
@@ -2958,75 +2981,75 @@ fn isclose(
 ) (bool | dimension_mismatch);
 ```
 
-Returns true if the value of the quantity or scale of its unit is infinite.
-
 ### isinf
+
+Returns true if the value of the quantity or scale of its unit is infinite.
 
 ```hare
 fn isinf(q: quantity) bool;
 ```
 
-Returns true if the value of the quantity or scale of its unit is NaN.
-
 ### isnan
+
+Returns true if the value of the quantity or scale of its unit is NaN.
 
 ```hare
 fn isnan(q: quantity) bool;
 ```
 
-Returns the product of units a and b.
-
 ### muld
+
+Returns the product of units a and b.
 
 ```hare
 fn muld(a: dimension, b: dimension) dimension;
 ```
 
-Returns the product of quantities a and b, or scales a by b if b is an f64.
-
 ### mulq
+
+Returns the product of quantities a and b, or scales a by b if b is an f64.
 
 ```hare
 fn mulq(a: quantity, b: (quantity | f64)) quantity;
 ```
 
-Returns the product of units a and b.
-
 ### mulu
+
+Returns the product of units a and b.
 
 ```hare
 fn mulu(a: unit, b: unit) unit;
 ```
 
-Returns the dimension x raised to the power of p
-
 ### powd
+
+Returns the dimension x raised to the power of p
 
 ```hare
 fn powd(x: dimension, p: int) dimension;
 ```
 
-Returns quantity x raised to the integer power p.
-
 ### powq
+
+Returns quantity x raised to the integer power p.
 
 ```hare
 fn powq(x: quantity, p: int) quantity;
 ```
 
-Returns the quantity x raised to the integer power p.
-
 ### powu
+
+Returns the quantity x raised to the integer power p.
 
 ```hare
 fn powu(x: unit, p: int) unit;
 ```
 
+### print
+
 Formats and prints x to [[os::stdout]].
 Returns the number of bytes printed.
 See also: [fprint](#fprint), [println](#println).
-
-### print
 
 ```hare
 fn print(
@@ -3038,11 +3061,11 @@ fn print(
 ) (size | error);
 ```
 
+### println
+
 Formats and prints x followed by a newline to h.
 Returns the number of bytes printed.
 See also: [fprint](#fprint), [print](#print).
-
-### println
 
 ```hare
 fn println(
@@ -3054,28 +3077,28 @@ fn println(
 ) (size | error);
 ```
 
-Scales the unit by a f64 or metric prefix factor.
-
 ### scale
+
+Scales the unit by a f64 or metric prefix factor.
 
 ```hare
 fn scale(u: unit, fac: (prefix_kind | f64)) unit;
 ```
 
+### strerror
+
 Returns a human-readable description of an error.
 Returned value should NOT be freed by the caller.
-
-### strerror
 
 ```hare
 fn strerror(err: error) str;
 ```
 
+### strf
+
 Formats a quantity as a string using the specified unit format, precision,
 notation, and character encoding.
 The result must be freed after use.
-
-### strf
 
 ```hare
 fn strf(
@@ -3086,6 +3109,8 @@ fn strf(
 	enc: encoding = encoding::UTF8,
 ) (str | error);
 ```
+
+### strp
 
 Parses a numeric quantity and unit expression. Accepts fixed-point and
 scientific notation, with permissive unit syntax including alternative
@@ -3109,11 +3134,11 @@ Returns the parsed [quantity](#quantity) on success, or an [error](#error) if th
 
 - see also: [strpu](#strpu)
 
-### strp
-
 ```hare
 fn strp(s: str) (quantity | error);
 ```
+
+### strpu
 
 Parses a unit expression. Accepts fixed-point and scientific notation, with 
 permissive unit syntax including alternative multiplication operators 
@@ -3136,24 +3161,22 @@ Returns the parsed [unit](#unit) on success, or an [error](#error) if the input 
 
 - see also: [strp](#strp)
 
-### strpu
-
 ```hare
 fn strpu(s: str) (unit | error);
 ```
 
+### sub
+
 Returns the difference of quantities a and b, converting b to a's unit.
 If b is an f64, it is treated as a value in a's unit.
-
-### sub
 
 ```hare
 fn sub(a: quantity, b: (quantity | f64)) (quantity | dimension_mismatch);
 ```
 
-Returns JSON encoded string representation of a quantity or unit.
-
 ### tojson
+
+Returns JSON encoded string representation of a quantity or unit.
 
 ```hare
 fn tojson(obj: (quantity | unit)) (str | error);
