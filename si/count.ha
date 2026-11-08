@@ -1,6 +1,3 @@
-// SPDX-License-Identifier: MIT
-// (C) 2026 Tom Spencer <tcs.git@pm.me>
-
 // SPDX-License-Identifier: MPL-2.0
 // (c) Hare authors <https://harelang.org>
 

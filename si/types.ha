@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MPL-2.0
 // (C) 2026 Tom Spencer <tcs.git@pm.me>
 
 // Represents the dimensional exponents of the seven SI base dimensions.
