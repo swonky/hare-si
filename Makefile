@@ -33,7 +33,7 @@ MAN_TEXT = ./docs/si.1.txt
 
 HAREDOC_PAGE = ./docs/module.md
 
-SEM_VERSION = 0.0.1
+SEM_VERSION = 0.1.0
 GIT_VERSION = $(shell if command -v git >/dev/null 2>&1; then git describe --always --dirty 2>/dev/null || printf 'unknown'; else printf 'unknown'; fi)
 
 # Optional documentation dependencies.
@@ -53,7 +53,7 @@ endif
 
 all: build
 
-build: $(COMPLETIONS_HA) $(TARGET)
+build: $(VERSION_FILE) $(COMPLETIONS_HA) $(TARGET)
 
 check:
 	$(HARE) test
@@ -79,7 +79,7 @@ $(TARGET): $(SOURCES) $(VERSION_FILE) $(COMPLETIONS_HA)
 	$(HARE) build $(HAREFLAGS) -o ./bin/$@ ./cmd/$@/
 
 # Update si/version.ha
-$(VERSION_FILE): FORCE
+$(VERSION_FILE):
 	@sed -i \
 		-e 's|^export const SEM_VERSION: str = .*;|export const SEM_VERSION: str = "$(SEM_VERSION)";|' \
 		-e 's|^export const GIT_VERSION: str = .*;|export const GIT_VERSION: str = "$(GIT_VERSION)";|' \

@@ -106,12 +106,12 @@ fn print_version(opts: options) void = {
 	if (opts.output == si::encoding::JSON) {
 		fmt::printf(
 			"{{\"version\":\"{}\",\"git_version\":\"{}\"}}\n",
-			si::SEM_VERSION,
-			si::GIT_VERSION,
+			SEM_VERSION,
+			GIT_VERSION,
 		)!;
 		return;
 	};
-	fmt::printf("si {}-{}\n", si::SEM_VERSION, si::GIT_VERSION)!;
+	fmt::printf("si {}-{}\n", SEM_VERSION, GIT_VERSION)!;
 };
 
 fn append_input(out: *[]u8, arg: str) void = {
