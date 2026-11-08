@@ -24,9 +24,7 @@ Distributed under the Mozilla Public License Version 2.0.
 
 ## Documentation
 
-- [Repository](https://codeberg.org/swonky/hare-si)
-- [Installation](./docs/COMPILE.md)
-- [Module documentation](https://swonky.codeberg.page/hare-si/haredoc.html)
-- [CLI manpage](https://swonky.codeberg.page/hare-si/man.html)
-- [List of supported units and symbols](./docs/UNITS.md)
+- [Installation](./docs/compile.md)
+- [Module documentation](./docs/module.md)
+- [CLI manpage](./docs/manpage.md)
 - [License](./COPYING)

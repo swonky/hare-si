@@ -3,8 +3,8 @@ with the International System of Units.
 
 - Repository: https://codeberg.org/swonky/hare-si.git
 
-=== Examples ===
-	
+## Examples	
+
 - Defining quantities using predefined constants:
 
 	const distance = si::quantity { 
@@ -54,36 +54,36 @@ with the International System of Units.
 	) as str;
 	>> 2.00e-02 km/s^2
 
-=== Supported units ===
+## Supported units
 
 All symbols are case sensitive unless otherwise indicated.
 
-Decimal prefix symbols [symbol=exponent]
+Decimal prefix symbols
 
-- [[QUETTA]] (Q) = 1e30
-- [[RONNA]] (R) = 1e27
-- [[YOTTA]] (Y) = 1e24
-- [[ZETTA]] (Z) = 1e21
-- [[EXA]] (E) = 1e18
-- [[PETA]] (P) = 1e15
-- [[TERA]] (T) = 1e12
-- [[GIGA]] (G) = 1e9
-- [[MEGA]] (M) = 1e6
-- [[KILO]] (k) = 1e3
-- [[HECTO]] (h) = 1e2
-- [[DECA]] (da) = 1e1
-- [[DECI]] (d) = 1e-1
-- [[CENTI]] (c) = 1e-2
-- [[MILLI]] (m) = 1e-3
-- [[MICRO]] (µ) = 1e-6
-- [[NANO]] (n) = 1e-9
-- [[PICO]] (p) = 1e-12
-- [[FEMTO]] (f) = 1e-15
-- [[ATTO]] (a) = 1e-18
-- [[ZEPTO]] (z) = 1e-21
-- [[YOCTO]] (y) = 1e-24
-- [[RONTO]] (r) = 1e-27
-- [[QUECTO]] (q) = 1e-30
+- QUETTA (Q) = 1e30
+- RONNA (R) = 1e27
+- YOTTA (Y) = 1e24
+- ZETTA (Z) = 1e21
+- EXA (E) = 1e18
+- PETA (P) = 1e15
+- TERA (T) = 1e12
+- GIGA (G) = 1e9
+- MEGA (M) = 1e6
+- KILO (k) = 1e3
+- HECTO (h) = 1e2
+- DECA (da) = 1e1
+- DECI (d) = 1e-1
+- CENTI (c) = 1e-2
+- MILLI (m) = 1e-3
+- MICRO (µ) = 1e-6
+- NANO (n) = 1e-9
+- PICO (p) = 1e-12
+- FEMTO (f) = 1e-15
+- ATTO (a) = 1e-18
+- ZEPTO (z) = 1e-21
+- YOCTO (y) = 1e-24
+- RONTO (r) = 1e-27
+- QUECTO (q) = 1e-30
 
 Notes:
 - Formatted ASCII output for [[MICRO]] uses LATIN SMALL LETTER U (U+0075)
@@ -125,7 +125,7 @@ Notes:
 - UTF-8 output for [[OHM]] uses GREEK CAPITAL LETTER OMEGA (U+03A9).
 - The parser for [[OHM]] also accepts OHM SIGN (U+2126).
 
-Non-SI unit symbols [name=symbol]
+Non-SI unit symbols
 
 - [[ASTRONOMICAL_UNIT]]  (au)
 - [[BEL]]                (B)
