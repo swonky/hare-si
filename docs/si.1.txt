@@ -48,32 +48,29 @@ OPTIONS
      -h, --help
 	 Display help information.
 
-UNIT FORMATTING SYNTAX
-     The ‘-u‘, ‘--unit‘ option accepts a restricted syntax  for	 specifying  the
-     target  unit  representation.  Expressions must use ASCII unit symbols (eg.
-     kg, us, ohm) and the following operators:
+EXAMPLES
+     si '9.80665 m/s^2'
+     >> 9.80665 m/s²
 
-     Symbols
-     •	 Multiplication	      *
-     •	 Division	      /
-     •	 Exponentiation	      ^
-     •	 Positive exponent    +
-     •	 Negative exponent    -
-     •	 Grouping	      ()
+     si -o=ascii '1.5 kg·cm·s⁻²'
+     >> 1.5 kg*cm*s^-2
 
-     Valid examples
-     •	 kg*m/s^2
-     •	 mol/L
-     •	 uF/cm^2
-     •	 kWh
-     •	 m^3/s
+     si -n=scientific -p=3 -o=utf '123.456789 kg*m/s^2'
+     >> 1.234×10² kg⋅m/s²
 
-     Unicode operator variants, superscript exponents,	alternative  multiplica‐
-     tion symbols, and alternative spellings of unit symbols are not supported.
+     si --base '3.0 ohm*m^2'
+     >> 3 kg¹⋅m⁴⋅s⁻³⋅A⁻²
 
-UNIT PARSING SYNTAX
-     The parser accepts numeric quantities using fixed-point or scientific nota‐
-     tion.
+     si -u 'Wb/mm^2' '10 T'
+     >> 1×10⁻⁵ Wb/mm²
+
+     si -o=json '101325 kPa'
+     >>
+     {"value":101325,"unit":{"dim":{"kg":1,"m":-1,"s":-2,"A":0,"K":0,"mol":0,"cd":0},"scale":1e3}}
+
+UNIT EXPRESSION SYNTAX
+     The parser accepts numeric quantities expressed as a  fixed-point	decimal,
+     or E-notation, or scientific notation.
 
      Unit expressions are parsed more permissively than the format syntax in or‐
      der to accommodate common variations in notation.
@@ -148,4 +145,4 @@ AUTHORS
      tcs.git@pm.me
      https://codeberg.org/swonky/hare-si
 
-v0.0.1				   2026-11-03				   si(1)
+v0.0.1				   2026-11-07				   si(1)

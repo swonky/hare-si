@@ -2,8 +2,7 @@
 
 HARE = hare
 HAREFLAGS =
-SCDOC = scdoc
-GROFF = groff
+PANDOC = pandoc
 HAREDOC = haredoc
 COL = col
 
@@ -28,7 +27,7 @@ SOURCES = $(wildcard ./*.ha ./cmd/si/*.ha ./si/*.ha)
 VERSION_FILE = ./cmd/si/version.ha
 COMPLETIONS_HA = ./cmd/si/completions.ha
 
-MAN_SOURCE = ./docs/si.1.scd
+MAN_SOURCE = ./docs/manpage.md
 MAN_PAGE = ./docs/si.1
 MAN_TEXT = ./docs/si.1.txt
 
@@ -39,8 +38,7 @@ GIT_VERSION = $(shell if command -v git >/dev/null 2>&1; then git describe --alw
 
 # Optional documentation dependencies.
 HAVE_HAREDOC = $(shell command -v $(HAREDOC) >/dev/null 2>&1 && echo yes)
-HAVE_SCDOC = $(shell command -v $(SCDOC) >/dev/null 2>&1 && echo yes)
-HAVE_GROFF = $(shell command -v $(GROFF) >/dev/null 2>&1 && command -v $(COL) >/dev/null 2>&1 && echo yes)
+HAVE_PANDOC = $(shell command -v $(PANDOC) >/dev/null 2>&1 && echo yes)
 
 DOC_TARGETS =
 
@@ -48,12 +46,8 @@ ifeq ($(HAVE_HAREDOC),yes)
 DOC_TARGETS += $(HAREDOC_PAGE)
 endif
 
-ifeq ($(HAVE_SCDOC),yes)
+ifeq ($(HAVE_PANDOC),yes)
 DOC_TARGETS += $(MAN_PAGE)
-endif
-
-ifeq ($(HAVE_GROFF),yes)
-DOC_TARGETS += $(MAN_TEXT)
 endif
 
 all: build
@@ -98,11 +92,7 @@ $(HAREDOC_PAGE): $(SOURCES)
 # Generate man page.
 $(MAN_PAGE): $(MAN_SOURCE)
 	@mkdir -p "$(@D)"
-	$(SCDOC) < "$(MAN_SOURCE)" > "$@"
-
-# Generate plain-text man page.
-$(MAN_TEXT): $(MAN_PAGE)
-	$(GROFF) -man -Kutf8 -Tutf8 -P-cbou "$(MAN_PAGE)" | $(COL) -b > "$@"
+	$(PANDOC) "$(MAN_SOURCE)" -t man -s -o "$@"
 
 FORCE:
 

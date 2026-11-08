@@ -48,23 +48,23 @@ Numeric output supports configurable decimal precision and notation, including g
 
 # EXAMPLES
 
-  si '9.80665 m/s^2'
-  >> 9.80665 m/s²
+si '9.80665 m/s^2'++
+>> 9.80665 m/s²
 
-  si -o=ascii '1.5 kg·cm·s⁻²'
-  >> 1.5 kg*cm*s^-2
+si -o=ascii '1.5 kg·cm·s⁻²'++
+>> 1.5 kg\*cm\*s^-2
 
-  si -n=scientific -p=3 -o=utf '123.456789 kg*m/s^2'
-  >> 1.234×10² kg⋅m/s²
+si -n=scientific -p=3 -o=utf '123.456789 kg\*m/s^2'++
+>> 1.234×10² kg⋅m/s²
 
-  si --base '3.0 ohm*m^2'
-  >> 3 kg¹⋅m⁴⋅s⁻³⋅A⁻²
+si --base '3.0 ohm\*m^2'++
+>> 3 kg¹⋅m⁴⋅s⁻³⋅A⁻²
 
-  si -u 'Wb/mm^2' '10 T'
-  >> 1×10⁻⁵ Wb/mm²
+si -u 'Wb/mm^2' '10 T'++
+>> 1×10⁻⁵ Wb/mm²
 
-  si -o=json '101325 kPa'
-  >> {"value":101325,"unit":{"dim":{"kg":1,"m":-1,"s":-2,"A":0,"K":0,"mol":0,"cd":0},"scale":1e3}}
+si -o=json '101325 kPa'++
+>> {"value":101325,"unit":{"dim":{"kg":1,"m":-1,"s":-2,"A":0,"K":0,"mol":0,"cd":0},"scale":1e3}}
 
 # UNIT EXPRESSION SYNTAX
 

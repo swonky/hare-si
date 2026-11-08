@@ -29,6 +29,29 @@ Quantities can be converted to a specified target unit, with dimensional compati
 
 Numeric output supports configurable decimal precision and notation, including general, fixed-point, scientific, and E-notation.
 
+* Apples
+* Oranges
+
+//-
+
+* Walnuts
+* Almonds
+
+[cols="h,m,s,e",frame=none,grid=rows,options=header]
+|===
+|Column 1 |Column 2 |Column 3 |Column 4
+
+|This column's content and borders are rendered using the table header (`h`) styles.
+|This column's content is rendered using a monospace font (m).
+|This column's content is bold (`s`).
+|This column's content is italicized (`e`).
+
+|This column's content and borders are rendered using the table header (`h`) styles.
+|This column's content is rendered using a monospace font (m).
+|This column's content is bold (`s`).
+|This column's content is italicized (`e`).
+|===
+
 _SYMBOL_      _UNIT_                _DIMENSION_ +
 A           Ampere              Electric current +
 Bq          Becquerel           Reciprocal time (aperiodic) +
@@ -91,6 +114,11 @@ Display help information.
 == EXAMPLES
 
 Parse a quantity:
+Format using ASCII symbols:
+Use scientific notation with three decimal places:
+Format using SI base units:
+Convert to a target unit:
+Produce JSON output:
 
 [source,shell]
 ----
@@ -102,7 +130,6 @@ si '9.80665 m/s^2'
 9.80665 m/s²
 ----
 
-Format using ASCII symbols:
 
 [source,shell]
 ----
@@ -114,7 +141,6 @@ si -o=ascii '1.5 kg·cm·s⁻²'
 1.5 kg*cm*s^-2
 ----
 
-Use scientific notation with three decimal places:
 
 [source,shell]
 ----
@@ -126,7 +152,6 @@ si -n=scientific -p=3 -o=utf '123.456789 kg*m/s^2'
 1.234×10² kg⋅m/s²
 ----
 
-Format using SI base units:
 
 [source,shell]
 ----
@@ -138,7 +163,6 @@ si --base '3.0 ohm*m^2'
 3 kg¹⋅m⁴⋅s⁻³⋅A⁻²
 ----
 
-Convert to a target unit:
 
 [source,shell]
 ----
@@ -150,7 +174,6 @@ si -u 'Wb/mm^2' '10 T'
 1×10⁻⁵ Wb/mm²
 ----
 
-Produce JSON output:
 
 [source,shell]
 ----

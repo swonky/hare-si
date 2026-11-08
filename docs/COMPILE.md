@@ -10,7 +10,7 @@
 **Optional**
 
 - `git` — generates version information in `./si/version.ha`
-- `scdoc` — generates the `./docs/si.1` man page [^2]
+- `pandoc` — generates the `./docs/si.1` man page [^2]
 - `groff` and `col` — generate the plain-text `./docs/si.1.txt` man page
 
 ## Building
