@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 // Represents the dimensional exponents of the seven SI base dimensions.
 export type dimension = struct {
 	mass:        int, // mass

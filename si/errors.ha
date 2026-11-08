@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 // Error types and handlers.
 use encoding::utf8;
 use fmt;

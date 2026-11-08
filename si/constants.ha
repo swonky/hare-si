@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 // Constant quantity definitions
 
 // The speed of light in vacuum, an exact defining constant of the SI. 

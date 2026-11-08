@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 export def QUETTA: f64 = 1.0e30;
 export def RONNA:  f64 = 1.0e27;
 export def YOTTA:  f64 = 1.0e24;

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 type symbol = struct {
 	kind: (unit_kind | prefix_kind),
 	repr: str,

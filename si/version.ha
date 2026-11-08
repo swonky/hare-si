@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 // Semantic version of the current release.
 export const SEM_VERSION: str = "0.0.1";
 

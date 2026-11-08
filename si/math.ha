@@ -1,7 +1,11 @@
-use math;
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 // math
 //
 // Arithmetic operations for constructing derived dimensions and units.
+
+use math;
 
 // Returns true if dimensions a and b are equal.
 export fn equal(a: dimension, b: dimension) bool = {

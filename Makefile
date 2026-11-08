@@ -144,6 +144,23 @@ uninstall-completions:
 		rm -f "$(DESTDIR)$(ZSH_DIR)/_$(TARGET)"; \
 	fi
 
+headers:
+	@find . -type f -name '*.ha' -exec sh -c '\
+		for file do \
+			if ! head -n 2 "$$file" | grep -qF "SPDX-License-Identifier: MIT"; then \
+				tmp=$$(mktemp) || exit 1; \
+				printf "%s\n" \
+					"// SPDX-License-Identifier: MIT" \
+					"// (C) 2026 Tom Spencer <tcs.git@pm.me>" \
+					"" > "$$tmp"; \
+				cat "$$file" >> "$$tmp"; \
+				cat "$$tmp" > "$$file"; \
+				rm "$$tmp"; \
+				echo "Added header: $$file"; \
+			fi; \
+		done \
+	' sh {} +
+
 clean:
 	rm -f ./bin/$(TARGET) $(MAN_PAGE) $(COMPLETIONS_HA)
 
@@ -163,6 +180,7 @@ help:
 		'  install-docs          Install man page' \
 		'  install-completions   Install shell completions' \
 		'  uninstall             Remove installed components' \
+		'  headers               Update the headers in the source files' \
 		'  clean                 Remove generated build artifacts' \
 		'' \
 		'Variables:' \
@@ -174,4 +192,4 @@ help:
 
 .PHONY: all build check docs completions install install-bin install-lib \
         install-docs install-completions uninstall uninstall-bin \
-        uninstall-lib uninstall-docs uninstall-completions clean help FORCE
+        uninstall-lib uninstall-docs uninstall-completions headers clean help FORCE

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 // Horizontal whitespace
 def SPACE_NO_BREAK             : rune = '\u00A0';
 def SPACE_THIN                 : rune = '\u2009';

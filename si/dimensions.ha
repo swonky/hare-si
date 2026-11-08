@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 // Dimensions
 
 // The dimensionless dimension, with all SI base dimension exponents equal to

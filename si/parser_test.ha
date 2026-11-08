@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 use math;
 
 fn assert_close(a: f64, b: f64) void = assert(math::isclosef64(a, b));

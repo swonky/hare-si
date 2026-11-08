@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// (C) 2026 Tom Spencer <tcs.git@pm.me>
+
 // SPDX-License-Identifier: MPL-2.0
 // (c) Tom Spencer <https://codeberg.org/swonky/hare-si>
 
