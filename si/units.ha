@@ -796,13 +796,46 @@ export def AMPERE_PER_SQUARE_METRE = unit { dim = CURRENT_DENSITY, scale = 1.0 }
 export def CANDELA_PER_SQUARE_METRE = unit { dim = LUMINANCE, scale = 1.0 };
 export def CUBIC_METRE = unit { dim = VOLUME, scale = 1.0 };
 export def CUBIC_METRE_PER_KILOGRAM = unit { dim = SPECIFIC_VOLUME, scale = 1.0 };
+
+// The kilogram per cubic metre is the SI unit for [[DENSITY]].
 export def KILOGRAM_PER_CUBIC_METRE = unit { dim = DENSITY, scale = 1.0 };
 export def KILOGRAM_PER_SQUARE_METRE = unit { dim = SURFACE_DENSITY, scale = 1.0 };
 export def LUMEN_PER_WATT = unit { dim = LUMINOUS_EFFICACY, scale = 1.0 };
 export def METRE_PER_SECOND = unit { dim = VELOCITY, scale = 1.0 };
 export def METRE_PER_SECOND_SQUARED = unit { dim = ACCELERATION, scale = 1.0 };
 export def MOLE_PER_CUBIC_METRE = unit { dim = CONCENTRATION, scale = 1.0 };
+
+// The reciprocal metre is the coherent SI unit of [[RECIPROCAL_LENGTH]].
 export def SQUARE_METRE = unit { dim = AREA, scale = 1.0 };
+
+// The reciprocal square metre is the coherent SI unit of
+// [[SPATIAL_FREQUENCY_2D]].
+export def RECIPROCAL_SQUARE_METRE = unit {
+	dim = SPATIAL_FREQUENCY_2D,
+	scale = 1.0
+};
+
+// The reciprocal cubic metre is the coherent SI unit of
+// [[SPATIAL_FREQUENCY_3D]].
+export def RECIPROCAL_CUBIC_METRE = unit {
+	dim = SPATIAL_FREQUENCY_3D,
+	scale = 1.0
+};
+
+export def COULOMB_PER_METRE = unit {
+	dim = LINEAR_CHARGE_DENSITY,
+	scale = 1.0
+};
+
+export def COULOMB_PER_SQUARE_METRE = unit {
+	dim = SURFACE_CHARGE_DENSITY,
+	scale = 1.0
+};
+
+export def COULOMB_PER_CUBIC_METRE = unit {
+	dim = VOLUME_CHARGE_DENSITY,
+	scale = 1.0
+};
 
 export def COULOMB_PER_KILOGRAM = unit { dim = EXPOSURE, scale = 1.0 };
 
@@ -871,4 +904,5 @@ def symbol_lookup: [_]symbol = [
 	symbol { repr = "°", kind = unit_kind::DEGREE },
 	symbol { repr = "°C", kind = unit_kind::DEGREE_CELSIUS },
 	symbol { repr = "Ω", kind = unit_kind::OHM },
+	symbol { repr = "Ω", kind = unit_kind::OHM },
 ];

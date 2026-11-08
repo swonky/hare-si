@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // (C) 2026 Tom Spencer <tcs.git@pm.me>
 
+use fmt;
 use io;
 use math;
 use os;
@@ -8,21 +9,21 @@ use strconv;
 use strings;
 use types;
 
-// State machine for recursive-descent parsing.
+// State machine for recursive-descent input parsing.
 type parser = struct {
 	scanner: strings::iterator,
 	advance: *lexer,
 	current: (token | done),
 };
 
-// Advances the scanner and returns the next token.
+// Advances the scanner by one rune and returns the next token.
 fn advance(p: *parser) (token | done) = {
 	p.current = p.advance(&p.scanner);
 	return p.current;
 };
 
 // Returns the name of the unit associated by k.
-fn lookup_name(k: unit_kind) str  = unit_names[k: size];
+// fn lookup_name(k: unit_kind) str  = unit_names[k: size];
 
 // Returns the unit associated with k
 fn lookup_unit(k: unit_kind) unit = units[k: size];
@@ -56,55 +57,6 @@ fn ncut(input: str, n: size) (str, str) = {
 	const prefix = strings::sub(input, 0, n);
 	const suffix = strings::sub(input, n);
 	return (prefix, suffix);
-};
-
-// Returns the decimal prefix and unit symbol componants of the input string.
-// If the input string does not match any prefix or unit symbol, the first 
-// componant of the tuple will be empty.
-// Output is trimmed and borrowed from input string.
-export fn identify(in: str) (prefix_kind, unit_kind) = {
-	const tr = strings::trim(in);
-	match (match_suffix(tr)) {
-	case let u: unit_kind =>
-		return (prefix_kind::NONE, u);
-	case =>
-		void;
-	};
-	
-	const sz = count(tr);
-	if (sz <= 1) {
-		return (prefix_kind::NONE, unit_kind::NONE);
-	};
-
-	if (sz >= 3) {
-		if (strings::hasprefix(tr, sym_deca)) {
-			const parts = ncut(tr, 2z);
-			match (match_suffix(parts.1)) {
-			case let k: unit_kind =>
-				return (prefix_kind::DECA, k);
-			case void =>
-				void;
-			};
-		};
-	};
-
-	const parts = ncut(tr, 1z);
-
-	const pk = match (match_prefix(parts.0)) {
-	case let k: prefix_kind => 
-		yield k;
-	case => 
-		yield prefix_kind::NONE;
-	};
-
-	const uk = match (match_suffix(parts.1)) {
-	case let k: unit_kind => 
-		yield k;
-	case => 
-		yield unit_kind::NONE;
-	};
-
-	return (pk, uk);
 };
 
 // Searches an ordered symbol array for s.
@@ -148,6 +100,8 @@ fn match_suffix(in: str) (unit_kind | void) = {
 	};
 };
 
+// Returns a new unit object constructed from the unit expression.
+// Returns void if symbol cannot be recognised.
 fn parse_symbol(s: str) (unit | void) = {
 	const sz: size = count(s);
 	if (sz == 0) {
@@ -165,7 +119,7 @@ fn parse_symbol(s: str) (unit | void) = {
 		return void;
 	};
 
-	for (let i = 0z; i < len(prefix_symbols_utf8); i += 1) {
+	for (let i = 0z; i < len(prefix_lookup); i += 1) {
 		const pref = prefix_lookup[i];
 		const psz = count(pref.repr);
 		if (sz <= psz) {
@@ -176,10 +130,8 @@ fn parse_symbol(s: str) (unit | void) = {
 		};
 
 		const kind = match (pref.kind) {
-		case let k: prefix_kind =>
-			yield k;
-		case =>
-			abort("invalid lookup table");
+		case let k: prefix_kind => yield k;
+		case => unreachable("invalid lookup table");
 		};
 
 		const scale = prefix_scale[kind: size];
@@ -197,45 +149,48 @@ fn parse_symbol(s: str) (unit | void) = {
 };
 
 fn parse_primary(p: *parser) (unit | error) = {
-	match (p.current) {
-	case let tok: token =>
-		switch (tok.kind) {
-		case token_kind::IDENTIFIER =>
-			advance(p);
-			match (parse_symbol(tok.text)) {
-			case let u: unit =>
-				return u;
-			case void =>
-				return tok.text: no_match;
-			};
-		case token_kind::LPAREN, token_kind::LBRACE =>
-			const closing = if (tok.kind == token_kind::LPAREN) {
-				yield token_kind::RPAREN;
-			} else {
-				yield token_kind::RBRACE;
-			};
 
-			advance(p);
-
-			const result = parse_unit(p)?;
-
-			match (p.current) {
-			case let tok: token =>
-				if (tok.kind != closing) {
-					return tok: unexpected_token;
-				};
-				advance(p);
-			case done =>
-				return unclosed_scope;
-			};
-
-			return result;
-
-		case =>
-			return tok: unexpected_token;
-		};
+	let tok = match (p.current) {
 	case done =>
-		return unclosed_scope;
+		return token_kind::UNSPECIFIED: unclosed_scope;
+	case let tok: token => 
+		yield tok;
+	};
+
+	switch (tok.kind) {
+	case token_kind::IDENTIFIER =>
+		advance(p);
+		match (parse_symbol(tok.text)) {
+		case let u: unit =>
+			return u;
+		case void =>
+			return tok: invalid_symbol;
+		};
+	case token_kind::LPAREN, token_kind::LBRACE =>
+		const closing = if (tok.kind == token_kind::LPAREN) {
+			yield token_kind::RPAREN;
+		} else {
+			yield token_kind::RBRACE;
+		};
+
+		advance(p);
+
+		const result = parse_unit(p)?;
+
+		match (p.current) {
+		case let tok: token =>
+			if (tok.kind != closing) {
+				return tok: unexpected_token;
+			};
+			advance(p);
+		case done =>
+			return closing: unclosed_scope;
+		};
+
+		return result;
+
+	case =>
+		return tok: unexpected_token;
 	};
 };
 
@@ -290,7 +245,7 @@ fn parse_factor(p: *parser) (unit | error) = {
 				void;
 			};
 		case done =>
-			if (bracketed) return unclosed_scope;
+			if (bracketed) return closing: unclosed_scope;
 			return invalid_exponent;
 		};
 
@@ -302,7 +257,7 @@ fn parse_factor(p: *parser) (unit | error) = {
 			};
 			yield tok;
 		case done =>
-			if (bracketed) return unclosed_scope;
+			if (bracketed) return closing: unclosed_scope;
 			return invalid_exponent;
 		};
 
@@ -318,7 +273,7 @@ fn parse_factor(p: *parser) (unit | error) = {
 				};
 				advance(p);
 			case done =>
-				return unclosed_scope;
+				return closing: unclosed_scope;
 			};
 		};
 
@@ -352,75 +307,6 @@ fn parse_factor(p: *parser) (unit | error) = {
 		yield result;
 	};
 };
-// fn parse_factor(p: *parser) (unit | error) = {
-// 	let result = parse_primary(p)?;
-//
-// 	let tok = match (p.current) {
-// 	case let tok: token =>
-// 		yield tok;
-// 	case done =>
-// 		return result;
-// 	};
-//
-// 	return switch (tok.kind) {
-// 	case token_kind::POWER =>
-// 		advance(p);
-//
-// 		let sign: i8 = 1;
-//
-// 		match (p.current) {
-// 		case let tok: token =>
-// 			switch (tok.kind) {
-// 			case token_kind::PLUS =>
-// 				advance(p);
-// 			case token_kind::MINUS =>
-// 				sign = -1;
-// 				advance(p);
-// 			case =>
-// 				void;
-// 			};
-// 		case done =>
-// 			return invalid_exponent;
-// 		};
-//
-// 		const tok = match (p.current) {
-// 		case let tok: token =>
-// 			if (tok.kind != token_kind::INTEGER) {
-// 				return tok: unexpected_token;
-// 			};
-// 			yield tok;
-// 		case done =>
-// 			return invalid_exponent;
-// 		};
-//
-// 		advance(p);
-// 		yield powu(result, sign * strconv::stoi8(tok.text)?);
-//
-// 	case token_kind::SUPER_INTEGER =>
-// 		advance(p);
-// 		yield powu(result, parse_superscript(tok.text)?);
-//
-// 	case token_kind::SUPER_PLUS, token_kind::SUPER_MINUS =>
-// 		const sign: i8 = if (tok.kind == token_kind::SUPER_MINUS) -1 else 1;
-// 		advance(p);
-//
-// 		const tok = match (p.current) {
-// 		case let tok: token =>
-// 			if (tok.kind != token_kind::SUPER_INTEGER) {
-// 				return tok: unexpected_token;
-// 			};
-// 			yield tok;
-// 		case done =>
-// 			return invalid_exponent;
-// 		};
-//
-// 		advance(p);
-// 		yield powu(result, sign * strconv::stoi8(tok.text)?);
-//
-// 	case =>
-// 		yield result;
-// 	};
-// };
 
 fn parse_superscript(s: str) (int | error) = {
 	let iter = strings::iter(s);
@@ -507,6 +393,7 @@ fn parse_unit(p: *parser) (unit | error) = {
 	};
 };
 
+// Advances the parser over the value component.
 fn advance_value(p: *parser) size = {
 	let next: parser = *p;
 	let count = 0z;
@@ -525,29 +412,49 @@ fn advance_value(p: *parser) size = {
 	return count;
 };
 
+fn parse_float(s: str) (f64 | error) = {
+	const trimmed = strings::trim(s);
+	if (trimmed == "") {
+		return s: invalid_numeric;
+	};
+	return match(strconv::stof64(trimmed)) {
+	case let f: f64 =>
+		yield f;
+	case let err: strconv::invalid =>
+		return s: invalid_numeric;
+	case let err: strconv::overflow =>
+		return err;
+	};
+};
+
+fn parse_int(s: str) (int | error) = {
+	const trimmed = strings::trim(s);
+	if (trimmed == "") {
+		return s: invalid_numeric;
+	};
+	return match(strconv::stoi(trimmed)) {
+	case let i: int =>
+		yield i;
+	case let err: strconv::invalid =>
+		return s: invalid_numeric;
+	case let err: strconv::overflow =>
+		return err;
+	};
+};
+
 // Parses float values.
 fn parse_value(p: *parser) (f64 | error) = {
 	const start: parser = *p;
-
-	if (advance_value(p) == 0) {
-		return p.current: unexpected_token;
-	};
-
+	if (advance_value(p) == 0) return p.current: unexpected_token;
 	const text = strings::slice(&start.scanner, &p.scanner);
 	const parts = strings::cut(text, "e");
-	const mantissa = strconv::stof64(parts.0)?;
-
-	if (count(parts.1) == 0) {
-		return mantissa;
-	};
-
-	const exponent = strconv::stoi(parts.1)?;
-	return scale10(mantissa, exponent);
+	const mantissa = parse_float(parts.0)?;
+	return if (parts.1 == "") mantissa else scale10(mantissa,parse_int(parts.1)?);
 };
 
 // Parse a quantity
 fn parse_quantity(p: *parser) (quantity | error) = {
-	const v: f64  = parse_value(p)?;
+	const v: f64 = parse_value(p)?;
 	advance(p);
 	const u: unit = parse_unit(p)?;
 	return quantity { unit = u, value = v };
@@ -576,7 +483,7 @@ export fn split(input: str) ((str, str) | error) = {
 	const value = strings::slice(&start, &p);
 	const rest = remainder(&p); 
 
-	return (value, strings::trim(rest));
+	return (strings::trim(value), strings::trim(rest));
 };
 
 fn expect_end(p: *parser) (void | error) = {
@@ -586,6 +493,55 @@ fn expect_end(p: *parser) (void | error) = {
 	case done =>
 		return;
 	};
+};
+
+// Returns the decimal prefix and unit symbol components of the input string.
+// If the input string does not match any prefix or unit symbol, the first 
+// component of the tuple will be empty.
+// Output is trimmed and borrowed from input string.
+export fn identify(in: str) (prefix_kind, unit_kind) = {
+	const tr = strings::trim(in);
+	match (match_suffix(tr)) {
+	case let u: unit_kind =>
+		return (prefix_kind::NONE, u);
+	case =>
+		void;
+	};
+	
+	const sz = count(tr);
+	if (sz <= 1) {
+		return (prefix_kind::NONE, unit_kind::NONE);
+	};
+
+	if (sz >= 3) {
+		if (strings::hasprefix(tr, sym_deca)) {
+			const parts = ncut(tr, 2z);
+			match (match_suffix(parts.1)) {
+			case let k: unit_kind =>
+				return (prefix_kind::DECA, k);
+			case void =>
+				void;
+			};
+		};
+	};
+
+	const parts = ncut(tr, 1z);
+
+	const pk = match (match_prefix(parts.0)) {
+	case let k: prefix_kind => 
+		yield k;
+	case => 
+		yield prefix_kind::NONE;
+	};
+
+	const uk = match (match_suffix(parts.1)) {
+	case let k: unit_kind => 
+		yield k;
+	case => 
+		yield unit_kind::NONE;
+	};
+
+	return (pk, uk);
 };
 
 // Parses a unit expression. Accepts fixed-point and scientific notation, with 

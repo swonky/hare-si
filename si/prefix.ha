@@ -68,7 +68,6 @@ def sym_deca  = "da";
 def sym_deci  = "d";
 def sym_centi = "c";
 def sym_milli = "m";
-def sym_micro = "μ";
 def sym_nano  = "n";
 def sym_pico  = "p";
 def sym_femto = "f";
@@ -77,10 +76,6 @@ def sym_zepto = "z";
 def sym_yocto = "y";
 def sym_ronto = "r";
 def sym_quecto = "q";
-
-def sym_micro_ascii = "u";
-def sym_mu          = "μ";
-
 
 
 // Unit prefix decimal exponents
@@ -113,9 +108,13 @@ def prefix_symbols_ascii: [_]str = [
 def prefix_symbols_utf8: [_]str = [
 	sym_quetta, sym_ronna, sym_yotta, sym_zetta, sym_exa, sym_peta,
 	sym_tera, sym_giga, sym_mega, sym_kilo, sym_hecto, sym_deca, sym_none,
-	sym_deci, sym_centi, sym_milli, sym_micro, sym_nano, sym_pico,
+	sym_deci, sym_centi, sym_milli, sym_mu, sym_nano, sym_pico,
 	sym_femto, sym_atto, sym_zepto, sym_yocto, sym_ronto, sym_quecto
 ];
+
+def sym_micro_ascii = "u";
+def sym_mu          = "μ";
+def sym_micro       = "µ"; // legacy
 
 def prefix_lookup: [_]symbol = [
 	symbol { repr = sym_exa, kind = prefix_kind::EXA },

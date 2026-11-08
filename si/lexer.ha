@@ -17,6 +17,7 @@ export type token_kind = enum u8 {
 	IDENTIFIER,
 	INTEGER,
 	SUPER_INTEGER,
+	// operators
 	MULTIPLY,
 	POWER,
 	SOLIDUS,

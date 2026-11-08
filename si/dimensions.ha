@@ -31,9 +31,9 @@ export def LUMINOSITY = dimension { luminosity = 1, ... };
 // The reciprocal of the SI base dimension of mass.
 export def RECIPROCAL_MASS = dimension { mass = -1, ... };
 
-// The SI derived dimension of spatial frequency, expressed as the reciprocal
-// of length.
-export def WAVENUMBER = dimension { length = -1, ... };
+// The reciprocal of the SI base dimension of mass.
+export def RECIPROCAL_LENGTH = dimension { length = -1, ... };
+
 
 // The SI derived dimension of frequency.
 // Its SI unit is [[HERTZ]].
@@ -117,6 +117,20 @@ export def FORCE = dimension { mass = 1, length = 1, time = -2, ... };
 // Its SI unit is [[LUX]].
 export def ILLUMINANCE = dimension { length = -2, luminosity = 1, ... };
 
+// Alias for [[RECIPROCAL_LENGTH]].
+export def WAVENUMBER = RECIPROCAL_LENGTH;
+
+// Alias for [[RECIPROCAL_LENGTH]].
+export def SPATIAL_FREQUENCY_1D = RECIPROCAL_LENGTH;
+
+// The SI derived dimension of two-dimensional spatial frequency.
+// Its SI unit is [[RECIPROCAL_SQUARE_METRE]].
+export def SPATIAL_FREQUENCY_2D = dimension { length = -2, ... };
+
+// The SI derived dimension of three-dimensional spatial frequency.
+// Its SI unit is [[RECIPROCAL_CUBIC_METRE]].
+export def SPATIAL_FREQUENCY_3D = dimension { length = -3, ... };
+
 // The SI derived dimension of inductance.
 // Its SI unit is [[HENRY]].
 export def INDUCTANCE = dimension {
@@ -173,6 +187,7 @@ export def RESISTANCE = dimension {
 export def ACCELERATION            = dimension { length      = 1,  time       = -2, ...                                 };
 export def ACTION                  = dimension { mass        = 1,  length     = 2,  time    = -1, ...                   };
 export def AREA                    = dimension { length      = 2,  ...                                                  };
+export def RECIPROCAL_AREA = dimension { length = -2, ... };
 export def CONCENTRATION           = dimension { substance   = 1,  length     = -3, ...                                 };
 export def CURRENT_DENSITY         = dimension { current     = 1,  length     = -2, ...                                 };
 export def DENSITY                 = dimension { mass        = 1,  length     = -3, ...                                 };
@@ -188,8 +203,29 @@ export def TORQUE = dimension { mass = 1, length = 2, time = -2, ... };
 export def SURFACE_TENSION = dimension { mass = 1, length = 0, time = -2, ... };
 
 export def VELOCITY                = dimension { length      = 1,  time       = -1, ...                                 };
-export def VOLUME                  = dimension { length      = 3,  ...                                                  };
+export def VOLUME = dimension { length = 3, ... };
+export def RECIPROCAL_VOLUME = dimension { length = -3, ... };
 
+export def LINEAR_CHARGE_DENSITY = dimension {
+	length = -1,
+	time = 1,
+	current = 1,
+	...
+};
+
+export def SURFACE_CHARGE_DENSITY = dimension {
+	length = -2,
+	time = 1,
+	current = 1,
+	...
+};
+
+export def VOLUME_CHARGE_DENSITY = dimension {
+	length = -3,
+	time = 1,
+	current = 1,
+	...
+};
 
 // The SI derived dimension of dynamic viscosity. Its SI unit is [[PASCAL_SECOND]].
 export def DYNAMIC_VISCOSITY = dimension {
