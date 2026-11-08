@@ -4,7 +4,7 @@ HARE = hare
 HAREFLAGS =
 PANDOC = pandoc
 HAREDOC = haredoc
-COL = col
+PYTHON = python3
 
 DESTDIR =
 PREFIX ?= /usr/local
@@ -31,7 +31,7 @@ MAN_SOURCE = ./docs/manpage.md
 MAN_PAGE = ./docs/si.1
 MAN_TEXT = ./docs/si.1.txt
 
-HAREDOC_PAGE = ./docs/haredoc.html
+HAREDOC_PAGE = ./docs/module.md
 
 SEM_VERSION = 0.0.1
 GIT_VERSION = $(shell if command -v git >/dev/null 2>&1; then git describe --always --dirty 2>/dev/null || printf 'unknown'; else printf 'unknown'; fi)
@@ -39,6 +39,7 @@ GIT_VERSION = $(shell if command -v git >/dev/null 2>&1; then git describe --alw
 # Optional documentation dependencies.
 HAVE_HAREDOC = $(shell command -v $(HAREDOC) >/dev/null 2>&1 && echo yes)
 HAVE_PANDOC = $(shell command -v $(PANDOC) >/dev/null 2>&1 && echo yes)
+HAVE_PYTHON = $(shell command -v $(PYTHON) >/dev/null 2>&1 && echo yes)
 
 DOC_TARGETS =
 
@@ -84,10 +85,10 @@ $(VERSION_FILE): FORCE
 		-e 's|^export const GIT_VERSION: str = .*;|export const GIT_VERSION: str = "$(GIT_VERSION)";|' \
 		"$@"
 
-# Generate HTML documentation.
+# Generate markdown module documentation.
 $(HAREDOC_PAGE): $(SOURCES)
 	@mkdir -p "$(@D)"
-	$(HAREDOC) -F html si > "$@"
+	$(HAREDOC) -a ./si | $(PYTHON) ./scripts/generate_docs.py > "$@"
 
 # Generate man page.
 $(MAN_PAGE): $(MAN_SOURCE)
@@ -144,7 +145,7 @@ uninstall-completions:
 	fi
 
 clean:
-	rm -f ./bin/$(TARGET) $(MAN_PAGE) $(MAN_TEXT) $(COMPLETIONS_HA)
+	rm -f ./bin/$(TARGET) $(MAN_PAGE) $(COMPLETIONS_HA)
 
 help:
 	@printf '%s\n' \

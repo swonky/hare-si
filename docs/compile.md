@@ -9,9 +9,9 @@
 
 **Optional**
 
-- `git` — generates version information in `./si/version.ha`
-- `pandoc` — generates the `./docs/si.1` man page [^2]
-- `groff` and `col` — generate the plain-text `./docs/si.1.txt` man page
+- `git` — generates version information in `./si/version.ha`.
+- `pandoc` — generates the `./docs/si.1` man page [^2].
+- `python 3.12+` — generates the markdown module documentation.
 
 ## Building
 
