@@ -420,6 +420,7 @@ fn write_quantity(
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
+	strict: bool = false,
 ) (size | error) = {
 	let count = 0z;
 	match (unit_format) {
@@ -429,7 +430,7 @@ fn write_quantity(
 		count += memio::appendrune(out, ' ')?;
 		count += write_unit(out, qty.unit, enc)?;
 	case let s: str =>
-		let target: unit = strpu(s)?;
+		let target: unit = strpu(s, strict)?;
 		
 		if (!equal(qty.unit.dim, target.dim)) {
 			return dimension_mismatch;
@@ -498,10 +499,11 @@ export fn fprint(
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
+	strict: bool = false,
 ) (size | error) = {
 	return match (x) {
 	case let q: quantity =>
-		yield write_quantity(out, q, ustr, prec, repr, enc)?;
+		yield write_quantity(out, q, ustr, prec, repr, enc, strict)?;
 	case let u: unit =>
 		yield write_unit(out, u, enc)?;
 	};
@@ -516,7 +518,8 @@ export fn print(
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
-) (size | error) = fprint(os::stdout, x, ustr, prec, repr, enc); 
+	strict: bool = false,
+) (size | error) = fprint(os::stdout, x, ustr, prec, repr, enc, strict); 
 
 // Formats and prints x followed by a newline to h.
 // Returns the number of bytes printed.
@@ -527,8 +530,9 @@ export fn println(
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
+	strict: bool = false,
 ) (size | error) = {
-	let count = print(x, ustr, prec, repr, enc)?;
+	let count = print(x, ustr, prec, repr, enc, strict)?;
 	count += fmt::println()?;
 	return count;
 };
@@ -542,10 +546,11 @@ export fn strf(
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
+	strict: bool = false,
 ) (str | error) = {
 	let stream = memio::dynamic();
 	defer io::close(&stream)!;
-	fprint(&stream, x, ustr, prec, repr, enc)?;
+	fprint(&stream, x, ustr, prec, repr, enc, strict)?;
 	return strings::dup(memio::string(&stream)?)?;
 };
 

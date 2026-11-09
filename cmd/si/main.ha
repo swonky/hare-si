@@ -318,6 +318,7 @@ fn run(opts: options) (void | error) = {
 		opts.precision,
 		opts.notation,
 		opts.encoding,
+		opts.strict,
 	)?;
 };
 

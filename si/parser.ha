@@ -468,11 +468,11 @@ fn remainder(s: *strings::iterator) str = {
 	return strings::slice(&start, s);
 };
 
-export fn split(input: str) ((str, str) | error) = {
+export fn split(input: str, strict: bool = false) ((str, str) | error) = {
 	let p = parser {
 		scanner = strings::iter(input),
 	    	current = done,
-		advance = &lex_permissive,
+		advance = if (strict) &lex_restricted else &lex_permissive,
 	};
 
 	const start = *(&p);
@@ -562,11 +562,11 @@ export fn identify(in: str) (prefix_kind, unit_kind) = {
 // Returns the parsed [[unit]] on success, or an [[error]] if the input is invalid.
 //
 // - see also: [[strp]]
-export fn strpu(s: str) (unit | error) = {
+export fn strpu(s: str, strict: bool = false) (unit | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
-		advance = &lex_permissive,
+		advance = if (strict) &lex_restricted else &lex_permissive,
 	};
 
 	advance(&p);
@@ -596,11 +596,11 @@ export fn strpu(s: str) (unit | error) = {
 // Returns the parsed [[quantity]] on success, or an [[error]] if the input is invalid.
 //
 // - see also: [[strpu]]
-export fn strp(s: str) (quantity | error) = {
+export fn strp(s: str, strict: bool = false) (quantity | error) = {
 	let p = parser {
 		scanner = strings::iter(s),
 	    	current = done,
-		advance = &lex_permissive,
+		advance = if (strict) &lex_restricted else &lex_permissive,
 	};
 
 	const result = parse_quantity(&p)?;

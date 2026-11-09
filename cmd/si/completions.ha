@@ -1,8 +1,10 @@
 use fmt;
 use memio;
 
+// Enum for specifying shell kind
 type shell = enum u8 { BASH, ZSH };
 
+// Generates autocompletion script for bash
 fn generate_completions_bash() str = {
 	static let buf: [8192]u8 = [0...];
 	let out = &memio::fixed(buf);
@@ -59,6 +61,7 @@ fn generate_completions_bash() str = {
 	return memio::string(out)!;
 };
 
+// Generates autocompletion script for z shell
 fn generate_completions_zsh() str = {
 	static let buf: [8192]u8 = [0...];
 	let out = &memio::fixed(buf);

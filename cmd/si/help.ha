@@ -17,7 +17,7 @@ def HELP = `
 A utility for parsing, converting, and formatting quantities using the International System of Units (SI).
 
 {0}Usage:{4}
-  {1}si{4} [{2}OPTIONS{4}] {3}<VALUE>{4}
+  {1}si{4} [{2}OPTIONS{4}] [{2}--{4}] {3}<VALUE>{4}
 
 {0}Arguments:{4}
   {3}<VALUE>{4}                      Quantity to evaluate, including its unit expression.
