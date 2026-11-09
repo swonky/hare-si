@@ -4,30 +4,324 @@
 use fmt;
 use io;
 use os;
+use si;
 use strconv;
 use strings;
 use unix::tty;
+use memio;
 
-use si;
 
-type argument_error = !str;
-type missing_value = !str;
-type unsupported_shell = !str;
-
-type error = !(argument_error | missing_value | unsupported_shell | si::error);
 
 type options = struct {
 	input:       str,
-	output:      si::encoding,
+	encoding:    si::encoding,
 	precision:   (void | uint),
 	notation:    si::notation,
-	format:      str,
 	unit:        (void | str),
 	strict:      bool,
 	base:        bool,
-	completions: (void | str),
+	completions: (void | shell),
 	version:     bool,
+	help:        bool,
 };
+
+type shell = enum u8 { BASH, ZSH };
+type arg_handler = *fn(_: *options, _: str) (void | error);
+type bool_handler = *fn(_: *options) (void | error);
+
+type flag = struct {
+	key: str,
+	help: str,
+	handler: (arg_handler | bool_handler),
+	value: (void | str),
+	possible: (void | []str),
+};
+
+def all_completions: [_]str = [
+	BASH_COMPLETIONS,
+	ZSH_COMPLETIONS,
+];
+
+def all_flags: [_]flag = [
+	flag {
+		key = "base",
+		help = "Formats the outputted quantity in SI base units",
+		handler = &handle_base,
+		value = void,
+		possible = void,
+	},
+	flag {
+		key = "completions",
+		help = "Print shell completion script",
+		handler = &handle_completion,
+		value = void,
+		possible = ["bash", "zsh"],
+	},
+	flag {
+		key = "encoding",
+		help = "Specify output format",
+		handler = &handle_encoding,
+		value = "ENCODING",
+		possible = ["utf", "ascii", "json"],
+	},
+	flag {
+		key = "help",
+		help = "Display this help",
+		handler = &handle_help,
+		value = void,
+		possible = void,
+	},
+	flag {
+		key = "notation",
+		help = "Specify numeric notation",
+		handler = &handle_notation,
+		value = "NUMBER",
+		possible = ["general", "fixed", "scientific", "e", "E"],
+	},
+	flag {
+		key = "precision",
+		help = "Specify decimal precision",
+		handler = &handle_precision,
+		value = "NUMBER",
+		possible = void,
+	},
+	flag {
+		key = "strict",
+		help = "Enables restricted parsing syntax",
+		handler = &handle_strict,
+		value = void,
+		possible = void,
+	},
+	flag {
+		key = "unit",
+		help = "Specify output unit",
+		handler = &handle_unit,
+		value = "EXPRESSION",
+		possible = void,
+	},
+	flag {
+		key = "version",
+		help = "Display version information",
+		handler = &handle_version,
+		value = void,
+		possible = void,
+	},
+];
+
+fn get_flag(key: str) (flag | invalid_flag) = {
+	if (strings::hasprefix(key, "--")) {
+		const trimmed = strings::trimprefix(key, "--");
+		for (let f .. all_flags) {
+			if (f.key == trimmed) return f;
+		};
+		return key: invalid_flag;
+	};
+	if (strings::hasprefix(key, "-")){
+		const trimmed = strings::trimprefix(key, "-");
+		for (let f .. all_flags) {
+			if (strings::hasprefix(f.key, trimmed)) return f;
+		};
+	};
+	return key: invalid_flag;
+};
+
+fn join_args(args: []str) (str | error) = {
+	static let buf: [1024]u8 = [0...];
+	let stream = &memio::fixed(buf);
+
+	for (let a .. args) {
+		const bytes = strings::toutf8(a);
+		io::write(stream, bytes)?;
+		memio::appendrune(stream, ' ')?;
+	};
+
+	return memio::string(stream)?;
+};
+
+fn dispatch(args: []str) (options | error) = {
+	
+	const nargs = len(args);
+
+	if (nargs == 0) {
+		return "no arguments provided": argument_error;
+	};
+
+
+	let opts = options {
+		input = "",
+		encoding = si::encoding::UTF8,
+		precision = void,
+		notation = si::notation::GENERAL,
+		unit = void,
+		strict = false,
+		base = false,
+		completions = void,
+		version = false,
+		help = false,
+	};
+
+	let i = 1z;
+	for (i < nargs-1z; i+=1z) {
+		if (args[i] == "--") {
+			i += 1z;
+			if (i >= nargs) {
+				return "input expression": missing_value;
+			};
+			opts.input = join_args(args[i..])?;
+			return opts;
+		};
+		const parts = strings::cut(args[i], "=");
+		const f = get_flag(parts.0)?;
+		
+		match (f.handler) {
+		case let h: arg_handler =>
+			if (parts.1 != "") {
+				h(&opts, parts.1)?;
+				continue;
+			};
+			i += 1z;
+			if (i >= nargs) {
+				return parts.0: missing_value;
+			};
+			h(&opts, args[i])?;
+		case let h: bool_handler =>
+			h(&opts)?;
+		};
+	};
+
+	if (i >= nargs) {
+		return "input expression": missing_value;
+	};
+
+	opts.input = args[nargs-1];
+	return opts;
+};
+
+fn handle_help(opts: *options) (void | error) = { opts.help = true; };
+
+fn handle_version(opts: *options) (void | error) = { opts.version = true; };
+
+fn handle_base(opts: *options) (void | error) = { opts.base = true; };
+
+fn handle_strict(opts: *options) (void | error) = { opts.strict = true; };
+
+fn handle_unit(opts: *options, input: str) (void | error) = {
+	opts.unit = input;
+};
+
+fn handle_completion(opts: *options, input: str) (void | error) = { 
+	opts.completions = switch (input) {
+	case "bash" => yield shell::BASH;
+	case "zsh"  => yield shell::ZSH;
+	case        => return input: unsupported_shell;
+	};
+};	
+
+fn handle_precision(opts: *options, input: str) (void | error) = {
+	const n = strconv::stoi(input)?;
+
+	if (n < 0) {
+		return "precision must be non-negative": argument_error;
+	};
+
+	opts.precision = n: uint;
+};
+
+fn handle_notation(opts: *options, input: str) (void | error) = {
+	const notation = switch (input) {
+	case "general" =>
+		yield si::notation::GENERAL;
+	case "fixed" =>
+		yield si::notation::FIXED;
+	case "scientific" =>
+		yield si::notation::SCIENTIFIC;
+	case "e" =>
+		yield si::notation::E_LOWER;
+	case "E" =>
+		yield si::notation::E_UPPER;
+	case =>
+		return "invalid notation": argument_error;
+	};
+	opts.notation = notation;
+};
+
+fn handle_encoding(opts: *options, input: str) (void | error) = {
+	opts.encoding = switch (input) {
+	case "ascii" =>
+		yield si::encoding::ASCII;
+	case "utf" =>
+		yield si::encoding::UTF8;
+	case "json" =>
+		yield si::encoding::JSON;
+	case =>
+		return input: unsupported_output;
+	};
+};
+
+fn run(opts: options) (void | error) = {
+
+	if (opts.help) {
+		print_help(os::stdout)?;
+		return;
+	};
+
+	if (opts.version) {
+		print_version(opts)?;
+		return;
+	};
+
+	match (opts.completions) {
+	case let sh: shell =>
+		fmt::print(all_completions[sh: size])?;
+		return;
+	case =>
+		void;
+	};
+
+	if (opts.base && opts.unit is str) {
+		return "--base and --unit cannot both be set": argument_error;
+	};
+
+        const qty = si::strp(opts.input)?;
+
+	if (opts.encoding == si::encoding::JSON) {
+		si::encodejson(os::stdout, qty)?;
+		fmt::println()?;
+		return;
+	};
+
+	if (!opts.base && opts.unit is void) {
+		const parts = si::split(opts.input)?;
+		opts.unit = parts.1;
+	};
+
+	si::println(
+		qty,
+		opts.unit,
+		opts.precision,
+		opts.notation,
+		opts.encoding,
+	)?;
+};
+
+
+export fn main() void = {
+	const opts = match (dispatch(os::args)) {
+	case let err: error =>
+		print_error(err);
+		return;
+	case let opts: options =>
+		yield opts;
+	};
+
+	match (run(opts)) {
+	case let err: si::error =>
+		print_error(err);
+	case void =>
+		void;
+	};
+};
+
 
 @init fn colour_enabled() void = {
 	if (!tty::isatty(os::stdout_file)) {
@@ -50,401 +344,5 @@ type options = struct {
 		NO_COLOR = term == "dumb";
 	case void =>
 		return;
-	};
-};
-
-let NO_COLOR = false;
-
-const SECTION_HEADING = "\x1b[1;36m";
-const COMMAND_NAME = "\x1b[1;32m";
-const OPTION_NAME = "\x1b[1;33m";
-const OPTION_ARGUMENT = "\x1b[2m";
-const RESET = "\x1b[0m";
-const NONE = "";
-
-const HELP = `
-A utility for parsing, converting, and formatting quantities using the International System of Units (SI).
-
-{0}Usage:{4}
-  {1}si{4} [{2}OPTIONS{4}] {3}<VALUE>{4}
-
-{0}Arguments:{4}
-  {3}<VALUE>{4}                      Quantity to evaluate, including its unit expression.
-
-{0}Options:{4}
-  {2}-c, --completions {3}<SHELL>     {4}Prints shell completions {3}(bash, zsh){4}.
-  {2}-n, --notation {3}<NOTATION>     {4}Numeric notation {3}(general, fixed, scientific, e, E){4}.
-  {2}-o, --output {3}<FORMAT>         {4}Output format {3}(utf, ascii, json){4}.
-  {2}-p, --precision {3}<PRECISION>   {4}Decimal precision.
-  {2}-u, --unit {3}<UNIT>             {4}Target unit representation.
-  {2}-s, --strict                  {4}Enforce strict parsing rules for values.
-  {2}-b, --base                    {4}Format output using SI base units.
-  {2}-v, --version                 {4}Display version information.
-  {2}-h, --help                    {4}Display this help.
-`;
-
-
-fn print_help(out: (void | io::handle) = void) (void | io::error) = {
-	let h = match (out) {
-	case void =>
-		yield os::stdout;
-	case let h: io::handle =>
-		yield h;
-	};
-
-	fmt::fprintf(h, "\nsi v{}\n", SEM_VERSION)!;
-
-	if (NO_COLOR) {
-		fmt::fprintf(h, HELP, NONE, NONE, NONE, NONE, NONE,)!;
-	} else {
-		fmt::fprintf(h, HELP, SECTION_HEADING, COMMAND_NAME, OPTION_NAME,
-			OPTION_ARGUMENT, RESET,)!;
-	};
-};
-
-fn print_version(opts: options) void = {
-	if (opts.output == si::encoding::JSON) {
-		fmt::printf(
-			"{{\"version\":\"{}\",\"git_version\":\"{}\"}}\n",
-			SEM_VERSION,
-			GIT_VERSION,
-		)!;
-		return;
-	};
-	fmt::printf("si {}-{}\n", SEM_VERSION, GIT_VERSION)!;
-};
-
-fn append_input(out: *[]u8, arg: str) void = {
-	if (len(*out) > 0) {
-		append(out, ' ': u8)!;
-	};
-	append(out, strings::toutf8(arg)...)!;
-};
-
-fn parse_precision(s: str) (uint | str) = {
-	const n = match (strconv::stoi(s)) {
-	case let n: int =>
-		yield n: uint;
-	case =>
-		return "invalid precision";
-	};
-
-	if (n < 0) {
-		return "precision must be non-negative";
-	};
-
-	return n;
-};
-
-fn parse_notation(s: str) (si::notation | str) = {
-	switch (s) {
-	case "general" =>
-		return si::notation::GENERAL;
-	case "fixed" =>
-		return si::notation::FIXED;
-	case "scientific" =>
-		return si::notation::SCIENTIFIC;
-	case "e" =>
-		return si::notation::E_LOWER;
-	case "E" =>
-		return si::notation::E_UPPER;
-	case =>
-		return "Invalid notation";
-	};
-};
-
-fn parse_encoding(s: str) (si::encoding | str) = {
-	switch (s) {
-	case "ascii" =>
-		return si::encoding::ASCII;
-	case "utf" =>
-		return si::encoding::UTF8;
-	case "json" =>
-		return si::encoding::JSON;
-	case =>
-		return "Invalid encoding";
-	};
-};
-
-fn parse_options() (options | void | error) = {
-	let opts = options {
-		input = "",
-		output = si::encoding::UTF8,
-		precision = void,
-		notation = si::notation::GENERAL,
-		format = "",
-		unit = void,
-		strict = false,
-		base = false,
-		completions = void,
-		version = false,
-	};
-
-	let input: []u8 = [];
-	let args = os::args;
-	let positional_only = false;
-	let have_input = false;
-	let i = 1z;
-
-	for (i < len(args)) {
-		const arg = args[i];
-
-		if (positional_only) {
-			append_input(&input, arg);
-			i += 1;
-			continue;
-		};
-
-		if (arg == "--") {
-			positional_only = true;
-			i += 1;
-			continue;
-		};
-
-		if (arg == "-h" || arg == "--help") {
-			print_help()?;
-			return;
-		};
-
-		if (arg == "-v" || arg == "--version") {
-			opts.version = true;
-			i += 1;
-			continue;
-		};
-
-		if (arg == "-s" || arg == "--strict") {
-			opts.strict = true;
-			i += 1;
-			continue;
-		};
-
-		if (arg == "-b" || arg == "--base") {
-			opts.base = true;
-			i += 1;
-			continue;
-		};
-
-		let option = "";
-		let value: (str | void) = void;
-
-		if (arg == "-o" || arg == "--output") {
-			option = "output";
-		} else if (arg == "-p" || arg == "--precision") {
-			option = "precision";
-		} else if (arg == "-n" || arg == "--notation") {
-			option = "notation";
-		} else if (arg == "-f" || arg == "--format") {
-			option = "format";
-		} else if (arg == "-u" || arg == "--unit") {
-			option = "unit";
-		} else if (arg == "-c" || arg == "--completions") {
-			option = "completions";
-		} else if (strings::hasprefix(arg, "--output=")) {
-			option = "output";
-			value = strings::sub(arg, 9);
-		} else if (strings::hasprefix(arg, "--precision=")) {
-			option = "precision";
-			value = strings::sub(arg, 12);
-		} else if (strings::hasprefix(arg, "--notation=")) {
-			option = "notation";
-			value = strings::sub(arg, 11);
-		} else if (strings::hasprefix(arg, "--format=")) {
-			option = "format";
-			value = strings::sub(arg, 9);
-		} else if (strings::hasprefix(arg, "--unit=")) {
-			option = "unit";
-			value = strings::sub(arg, 7);
-		} else if (strings::hasprefix(arg, "--completions=")) {
-			option = "completions";
-			value = strings::sub(arg, 14);
-		} else if (strings::hasprefix(arg, "-o=")) {
-			option = "output";
-			value = strings::sub(arg, 3);
-		} else if (strings::hasprefix(arg, "-p=")) {
-			option = "precision";
-			value = strings::sub(arg, 3);
-		} else if (strings::hasprefix(arg, "-n=")) {
-			option = "notation";
-			value = strings::sub(arg, 3);
-		} else if (strings::hasprefix(arg, "-f=")) {
-			option = "format";
-			value = strings::sub(arg, 3);
-		} else if (strings::hasprefix(arg, "-u=")) {
-			option = "unit";
-			value = strings::sub(arg, 3);
-		} else if (strings::hasprefix(arg, "-c=")) {
-			option = "completions";
-			value = strings::sub(arg, 3);
-		};
-
-		if (option != "") {
-			if (value is void) {
-				i += 1;
-				if (i >= len(args)) {
-					return option: missing_value;
-				};
-				value = args[i];
-			};
-
-			const s = value as str;
-
-			switch (option) {
-			case "output" =>
-				opts.output = match (parse_encoding(s)) {
-				case let n: si::encoding => yield n;
-				case let err: str =>
-					fmt::errorln(err)!;
-					print_help(os::stderr)?;
-					return void;
-				};
-			case "precision" =>
-				opts.precision = match (parse_precision(s)) {
-				case let n: uint => yield n;
-				case let err: str =>
-					fmt::errorln(err)!;
-					print_help(os::stderr)?;
-					return void;
-				};
-			case "notation" =>
-				opts.notation = match (parse_notation(s)) {
-				case let n: si::notation => yield n;
-				case let err: str =>
-					fmt::errorln(err)!;
-					print_help(os::stderr)?;
-					return void;
-				};
-			case "format" =>
-				opts.format = s;
-			case "unit" =>
-				opts.unit = s;
-			case "completions" =>
-				opts.completions = s;
-			case =>
-				abort();
-			};
-
-			i += 1;
-			continue;
-		};
-
-		if (strings::hasprefix(arg, "-")) {
-			fmt::errorfln("unknown option: {}", arg)!;
-			print_help(os::stderr)?;
-			return void;
-		};
-
-		if (have_input) {
-			fmt::errorln("unexpected positional argument")!;
-			print_help(os::stderr)?;
-			return void;
-		};
-
-		append_input(&input, arg);
-		have_input = true;
-		i += 1;
-	};
-
-	if (opts.version) {
-		print_version(opts);
-		return;
-	};
-
-	match (opts.completions) {
-	case void => 
-		if (len(input) == 0) {
-			return "no input provided": argument_error;
-		};
-	case let shell: str => 
-		switch (shell) {
-		case "bash" =>
-			fmt::print(BASH_COMPLETIONS)!;
-			return void;
-		case "zsh" =>
-			fmt::print(ZSH_COMPLETIONS)!;
-			return void;
-		case =>
-			return shell: unsupported_shell;
-		};
-	};
-
-	if (opts.base && opts.unit is str) {
-		return "--base and --unit cannot both be set": argument_error;
-	};
-
-	opts.input = strings::fromutf8(input)!;
-	return opts;
-};
-
-fn run(opts: options) (void | si::error) = {
-        const qty = si::strp(opts.input)?;
-
-	if (opts.output == si::encoding::JSON) {
-		si::encodejson(os::stdout, qty)?;
-		fmt::println()?;
-		return;
-	};
-
-
-	if (!opts.base && opts.unit is void) {
-		const parts = si::split(opts.input)?;
-		opts.unit = parts.1;
-	};
-
-	si::println(
-		qty,
-		opts.unit,
-		opts.precision,
-		opts.notation,
-		opts.output,
-	)?;
-};
-
-fn errorln(title: str, msg: (void | str) = void) void = {
-	const error_label = if (NO_COLOR) {
-		yield "error:";
-	} else {
-		yield "\x1b[1;31merror:\x1b[0m";
-	};
-	match (msg) {
-	case let s: str =>
-		fmt::fprintf(os::stderr, "{0} {1}\n  {2}\n", error_label, title, msg)!;
-	case =>
-		fmt::fprintf(os::stderr, "{0} {1}\n", error_label, title)!;
-	};
-
-};
-
-fn print_error(err: error) void = {
-	match (err) {
-	case let e: unsupported_shell =>
-		errorln("unsupported shell", e: str);
-		print_help(os::stderr)!;
-	case let e: missing_value =>
-		errorln("missing value", e: str);
-		print_help(os::stderr)!;
-	case let e: argument_error =>
-		errorln("bad argument", e: str);
-		print_help(os::stderr)!;
-	case let e: si::error =>
-		errorln(si::strerror(e));
-	};
-};
-
-export fn main() void = {
-	const opts = match (parse_options()) {
-	case void =>
-		return;
-	case let err: error =>
-		print_error(err);
-		return;
-	case let opts: options =>
-		yield opts;
-	};
-
-	match (run(opts)) {
-	case let err: si::error =>
-		print_error(err);
-	case void =>
-		void;
 	};
 };
