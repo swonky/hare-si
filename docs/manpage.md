@@ -41,7 +41,7 @@ si - parse and convert SI units
 
 `-s`, `--strict`
 
-: Enforce strict parsing rules for values.
+: Enforce strict TeX-style parsing rules for values.
 
 `-b`, `--base`
 
