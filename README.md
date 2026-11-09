@@ -26,7 +26,7 @@ Public License 2.0 ([MPL-2.0](https://spdx.org/licenses/MPL-2.0.html)).
 
 ## Usage
 
-- [Installation](./docs/compile.md)
+- [Installation](./docs/install.md)
 - [Module documentation](./docs/module.md)
 - [CLI manpage](./docs/manpage.md)
 - [License](./COPYING)
