@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 // (C) 2026 Tom Spencer <tcs.git@pm.me>
-
+use ascii;
 use fmt;
 use io;
 use os;
@@ -13,7 +13,7 @@ use memio;
 
 
 type options = struct {
-	input:       str,
+	input:       (void | str),
 	encoding:    si::encoding,
 	precision:   (void | uint),
 	notation:    si::notation,
@@ -138,6 +138,11 @@ fn join_args(args: []str) (str | error) = {
 	return memio::string(stream)?;
 };
 
+fn is_flag(s: str) bool = {
+	const r = strings::toutf8(s);
+	return len(r) >= 2 && r[0] == '-' && (r[1] == '-' || ascii::isalpha(r[1]: rune));
+};
+
 fn dispatch(args: []str) (options | error) = {
 	
 	const nargs = len(args);
@@ -148,7 +153,7 @@ fn dispatch(args: []str) (options | error) = {
 
 
 	let opts = options {
-		input = "",
+		input = void,
 		encoding = si::encoding::UTF8,
 		precision = void,
 		notation = si::notation::GENERAL,
@@ -161,7 +166,14 @@ fn dispatch(args: []str) (options | error) = {
 	};
 
 	let i = 1z;
-	for (i < nargs-1z; i+=1z) {
+	for (i < nargs; i+=1z) {
+		if (!is_flag(args[i])) {
+			if (opts.input is str) {
+				return args[i]: invalid_flag;
+			};
+			opts.input = args[i];
+			continue;
+		};
 		if (args[i] == "--") {
 			i += 1z;
 			if (i >= nargs) {
@@ -188,13 +200,8 @@ fn dispatch(args: []str) (options | error) = {
 			h(&opts)?;
 		};
 	};
-
-	if (i >= nargs) {
-		return "input expression": missing_value;
-	};
-
-	opts.input = args[nargs-1];
 	return opts;
+
 };
 
 fn handle_help(opts: *options) (void | error) = { opts.help = true; };
@@ -258,6 +265,7 @@ fn handle_encoding(opts: *options, input: str) (void | error) = {
 	};
 };
 
+
 fn run(opts: options) (void | error) = {
 
 	if (opts.help) {
@@ -278,11 +286,18 @@ fn run(opts: options) (void | error) = {
 		void;
 	};
 
+	const value = match(opts.input) {
+	case void =>
+		return "input expression": missing_value;
+	case let s: str =>
+		yield s;
+	};
+
 	if (opts.base && opts.unit is str) {
 		return "--base and --unit cannot both be set": argument_error;
 	};
 
-        const qty = si::strp(opts.input)?;
+        const qty = si::strp(value)?;
 
 	if (opts.encoding == si::encoding::JSON) {
 		si::encodejson(os::stdout, qty)?;
@@ -291,7 +306,7 @@ fn run(opts: options) (void | error) = {
 	};
 
 	if (!opts.base && opts.unit is void) {
-		const parts = si::split(opts.input)?;
+		const parts = si::split(value)?;
 		opts.unit = parts.1;
 	};
 
