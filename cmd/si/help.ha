@@ -56,8 +56,8 @@ fn print_help(out: io::handle) (void | io::error) = {
 		};
 
 		let value = match (f.value) {
-		case let s: str => yield fmt::asprintf("--{}{} <{}>", f.key, pal[palette::OPTION_ARGUMENT], s)?;
-		case void => yield fmt::asprintf("--{}{}", f.key, pal[palette::OPTION_ARGUMENT])?;
+		case let s: str => yield fmt::asprintf("--{}{} <{}>", f.long, pal[palette::OPTION_ARGUMENT], s)?;
+		case void => yield fmt::asprintf("--{}{}", f.long, pal[palette::OPTION_ARGUMENT])?;
 		};
 
 		value = strings::rpad(value, ' ', 32)?;
@@ -68,7 +68,7 @@ fn print_help(out: io::handle) (void | io::error) = {
 			pal[palette::OPTION_NAME],
 			pal[palette::OPTION_ARGUMENT],
 			pal[palette::RESET],
-			strings::toutf8(f.key)[0]: rune,
+			f.short,
 			value,
 			f.help,
 			possible,

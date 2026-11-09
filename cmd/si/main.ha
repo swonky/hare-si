@@ -10,8 +10,6 @@ use strings;
 use unix::tty;
 use memio;
 
-
-
 type options = struct {
 	input:       (void | str),
 	encoding:    si::encoding,
@@ -25,82 +23,86 @@ type options = struct {
 	help:        bool,
 };
 
-type shell = enum u8 { BASH, ZSH };
 type arg_handler = *fn(_: *options, _: str) (void | error);
 type bool_handler = *fn(_: *options) (void | error);
 
 type flag = struct {
-	key: str,
+	short: str,
+	long: str,
 	help: str,
 	handler: (arg_handler | bool_handler),
 	value: (void | str),
 	possible: (void | []str),
 };
 
-def all_completions: [_]str = [
-	BASH_COMPLETIONS,
-	ZSH_COMPLETIONS,
-];
-
 def all_flags: [_]flag = [
 	flag {
-		key = "base",
+		short = "b",
+		long = "base",
 		help = "Formats the outputted quantity in SI base units",
 		handler = &handle_base,
 		value = void,
 		possible = void,
 	},
 	flag {
-		key = "completions",
+		short = "c",
+		long ="completions",
 		help = "Print shell completion script",
 		handler = &handle_completion,
-		value = void,
+		value = "SHELL",
 		possible = ["bash", "zsh"],
 	},
 	flag {
-		key = "encoding",
+		short = "e",
+		long ="encoding",
 		help = "Specify output format",
 		handler = &handle_encoding,
 		value = "ENCODING",
 		possible = ["utf", "ascii", "json"],
 	},
 	flag {
-		key = "help",
+		short = "h",
+		long ="help",
 		help = "Display this help",
 		handler = &handle_help,
 		value = void,
 		possible = void,
 	},
 	flag {
-		key = "notation",
+		short = "n",
+		long ="notation",
 		help = "Specify numeric notation",
 		handler = &handle_notation,
 		value = "NUMBER",
 		possible = ["general", "fixed", "scientific", "e", "E"],
 	},
 	flag {
-		key = "precision",
+		short = "p",
+		long ="precision",
 		help = "Specify decimal precision",
 		handler = &handle_precision,
 		value = "NUMBER",
 		possible = void,
 	},
 	flag {
-		key = "strict",
+		short = "s",
+		long ="strict",
 		help = "Enables restricted parsing syntax",
 		handler = &handle_strict,
 		value = void,
 		possible = void,
 	},
 	flag {
-		key = "unit",
+		short = "u",
+		long ="unit",
 		help = "Specify output unit",
 		handler = &handle_unit,
 		value = "EXPRESSION",
 		possible = void,
 	},
 	flag {
-		key = "version",
+		short = "v",
+		long ="version",
 		help = "Display version information",
 		handler = &handle_version,
 		value = void,
@@ -112,14 +114,14 @@ fn get_flag(key: str) (flag | invalid_flag) = {
 	if (strings::hasprefix(key, "--")) {
 		const trimmed = strings::trimprefix(key, "--");
 		for (let f .. all_flags) {
-			if (f.key == trimmed) return f;
+			if (f.long == trimmed) return f;
 		};
 		return key: invalid_flag;
 	};
 	if (strings::hasprefix(key, "-")){
 		const trimmed = strings::trimprefix(key, "-");
 		for (let f .. all_flags) {
-			if (strings::hasprefix(f.key, trimmed)) return f;
+			if (f.short == trimmed) return f;
 		};
 	};
 	return key: invalid_flag;
@@ -280,7 +282,7 @@ fn run(opts: options) (void | error) = {
 
 	match (opts.completions) {
 	case let sh: shell =>
-		fmt::print(all_completions[sh: size])?;
+		fmt::print(generate_completions(sh))?;
 		return;
 	case =>
 		void;
@@ -330,7 +332,7 @@ export fn main() void = {
 	};
 
 	match (run(opts)) {
-	case let err: si::error =>
+	case let err: error =>
 		print_error(err);
 	case void =>
 		void;
