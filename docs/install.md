@@ -28,7 +28,7 @@ Alternatively, copy the `si` directory into your `$HAREPATH`.
 Optional dependencies:
 
 - `git` — generates version information in `./si/version.ha`.
-- `pandoc` — generates the man page (`./docs/si.1`) [^2].
+- `pandoc` — generates the man page (`./docs/si.1`).
 - Python 3.12+ — generates Markdown module documentation.
 
 Clone the repository and build:
@@ -79,5 +79,3 @@ make clean
 ## References
 
 [^1]: Hare toolchain: [v0.26.0 source tarball](https://git.sr.ht/~sircmpwn/hare/archive/0.26.0.tar.gz) · [Repository](https://git.sr.ht/~sircmpwn/hare) · [Homepage](https://harelang.org/)
-
-[^2]: scdoc: [Repository](https://git.sr.ht/~sircmpwn/scdoc)
