@@ -3079,6 +3079,7 @@ fn fprint(
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
+	strict: bool = false,
 ) (size | error);
 ```
 
@@ -3182,6 +3183,7 @@ fn print(
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
+	strict: bool = false,
 ) (size | error);
 ```
 
@@ -3198,6 +3200,7 @@ fn println(
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
+	strict: bool = false,
 ) (size | error);
 ```
 
@@ -3232,6 +3235,7 @@ fn strf(
 	prec: (uint | void) = void,
 	repr: notation = notation::GENERAL,
 	enc: encoding = encoding::UTF8,
+	strict: bool = false,
 ) (str | error);
 ```
 
@@ -3259,7 +3263,7 @@ Returns the parsed [quantity](#quantity) on success, or an [error](#error) if th
 - see also: [strpu](#strpu)
 
 ```hare
-fn strp(s: str) (quantity | error);
+fn strp(s: str, strict: bool = false) (quantity | error);
 ```
 
 ### strpu
@@ -3285,7 +3289,7 @@ Returns the parsed [unit](#unit) on success, or an [error](#error) if the input 
 - see also: [strp](#strp)
 
 ```hare
-fn strpu(s: str) (unit | error);
+fn strpu(s: str, strict: bool = false) (unit | error);
 ```
 
 ### sub
@@ -3308,5 +3312,5 @@ fn tojson(obj: (quantity | unit)) (str | error);
 ### split
 
 ```hare
-fn split(input: str) ((str, str) | error);
+fn split(input: str, strict: bool = false) ((str, str) | error);
 ```

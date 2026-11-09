@@ -1,7 +1,7 @@
 .SUFFIXES:
 
 HARE = hare
-HAREFLAGS =
+HAREFLAGS = -R
 PANDOC = pandoc
 HAREDOC = haredoc
 PYTHON = python3
@@ -30,7 +30,7 @@ MAN_TEXT = ./docs/si.1.txt
 
 HAREDOC_PAGE = ./docs/module.md
 
-SEM_VERSION = 0.1.0
+SEM_VERSION = 0.2.0
 GIT_VERSION = $(shell if command -v git >/dev/null 2>&1; then git describe --always --dirty 2>/dev/null || printf 'unknown'; else printf 'unknown'; fi)
 
 # Optional documentation dependencies.
@@ -60,6 +60,7 @@ docs: $(DOC_TARGETS)
 $(TARGET): $(SOURCES) $(VERSION_FILE)
 	@mkdir -p ./bin
 	$(HARE) build $(HAREFLAGS) -o ./bin/$@ ./cmd/$@/
+	strip --strip-all ./bin/$@
 
 # Update version information.
 $(VERSION_FILE): FORCE
