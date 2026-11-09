@@ -455,8 +455,12 @@ fn parse_value(p: *parser) (f64 | error) = {
 // Parse a quantity
 fn parse_quantity(p: *parser) (quantity | error) = {
 	const v: f64 = parse_value(p)?;
-	advance(p);
-	const u: unit = parse_unit(p)?;
+	const u = match(advance(p)) {
+	case done =>
+		yield DIMENSIONLESS_UNIT;
+	case =>
+		yield parse_unit(p)?;
+	};
 	return quantity { unit = u, value = v };
 };
 
@@ -569,7 +573,10 @@ export fn strpu(s: str, strict: bool = false) (unit | error) = {
 		advance = if (strict) &lex_restricted else &lex_permissive,
 	};
 
-	advance(&p);
+	if (advance(&p) is done) {
+		return DIMENSIONLESS_UNIT;
+	};
+
 	const result = parse_unit(&p)?;
 	expect_end(&p)?;
 
