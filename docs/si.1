@@ -85,6 +85,83 @@ Produce JSON output:
 si \-o=json \(aq101325 kPa\(aq
 >> {\(dqvalue\(dq:101325,\(dqunit\(dq:{\(dqdim\(dq:{\(dqkg\(dq:1,\(dqm\(dq:\-1,\(dqs\(dq:\-2,\(dqA\(dq:0,\(dqK\(dq:0,\(dqmol\(dq:0,\(dqcd\(dq:0},\(dqscale\(dq:1e3}}
 .EE
+.SH EXPRESSION SYNTAX
+.PP
+.TS
+tab(@);
+l l l.
+T{
+SYNTAX
+T}@T{
+PERMISSIVE
+T}@T{
+STRICT
+T}
+_
+T{
+multiplication
+T}@T{
+* × · ⋅
+T}@T{
+*
+T}
+T{
+exponent
+T}@T{
+\(ha **
+T}@T{
+\(ha
+T}
+T{
+positive
+T}@T{
++
+T}@T{
++
+T}
+T{
+negative
+T}@T{
+\-
+T}@T{
+\-
+T}
+T{
+Superscript exponents (m²)
+T}@T{
+YES
+T}@T{
+NO
+T}
+T{
+Parentheses ( )
+T}@T{
+YES
+T}@T{
+NO
+T}
+T{
+Curly braces { }
+T}@T{
+YES
+T}@T{
+NO
+T}
+T{
+Unicode minus signs
+T}@T{
+YES
+T}@T{
+NO
+T}
+T{
+Unicode micro/ohm symbols
+T}@T{
+YES
+T}@T{
+NO
+T}
+.TE
 .SH LIST OF SUPPORTED SYMBOLS
 .SS Decimal prefixes
 .PP

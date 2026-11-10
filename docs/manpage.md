@@ -100,6 +100,20 @@ si -o=json '101325 kPa'
 >> {"value":101325,"unit":{"dim":{"kg":1,"m":-1,"s":-2,"A":0,"K":0,"mol":0,"cd":0},"scale":1e3}}
 ```
 
+# EXPRESSION SYNTAX
+
+| SYNTAX	                  | PERMISSIVE	| STRICT
+| --------------------------- | ----------- | ---------------
+| multiplication		      | * × · ⋅     | *
+| exponent		              | ^ **        | ^
+| positive                    | +           | +
+| negative                    | -           | -
+| Superscript exponents (m²)  | YES         | NO
+| Parentheses ( )		      | YES         | NO
+| Curly braces { }		      | YES         | NO
+| Unicode minus signs		  | YES         | NO
+| Unicode micro/ohm symbols	  | YES         | NO
+
 # LIST OF SUPPORTED SYMBOLS 
 
 ## Decimal prefixes

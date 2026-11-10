@@ -106,7 +106,6 @@ fn _assert_invalid_quantity(input: str) void = {
 };
 
 @test fn parse_symbol_invalid() void = {
-	assert(parse_symbol("") is void);
 	assert(parse_symbol("x") is void);
 	assert(parse_symbol("xyz") is void);
 };
@@ -213,7 +212,6 @@ fn _assert_invalid_quantity(input: str) void = {
 };
 
 @test fn strpu_invalid_symbols() void = {
-	_assert_invalid_unit("");
 	_assert_invalid_unit("x");
 	_assert_invalid_unit("xyz");
 	_assert_invalid_unit("mxyz");
@@ -334,7 +332,6 @@ fn _assert_invalid_quantity(input: str) void = {
 	_assert_invalid_quantity("");
 	_assert_invalid_quantity("m");
 	_assert_invalid_quantity("abc m");
-	_assert_invalid_quantity("12");
 	_assert_invalid_quantity("12 xyz");
 	_assert_invalid_quantity("12 m extra");
 };

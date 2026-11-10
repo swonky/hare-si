@@ -1,149 +1,54 @@
-si: A module for parsing, converting, and formatting physical quantities expressed 
+si: A module for parsing, converting, and formatting physical quantities expressed
 with the International System of Units.
 
-- Repository: https://codeberg.org/swonky/hare-si.git
+- [Repository](https://codeberg.org/swonky/hare-si.git)
 
-## Examples	
+**Examples**
 
-- Defining quantities using predefined constants:
+- Defining and performing arithmetic using [[quantity]]:
 
-	const distance = si::quantity { 
-		unit = si::METRE, 
+	const distance = si::quantity {
+		unit = si::METRE,
 		value = 1500.0,
 	};
-	const duration = si::quantity { 
-		unit = si::SECOND, 
-		value = 120.0 
+	const duration = si::quantity {
+		unit = si::SECOND,
+		value = 120.0
 	};
-
-- Performing arithmetic with quantities:
 
 	const speed = si::divq(distance, duration);
 	assert(speed.value == 12.5);
 
-- Defining your own derived dimensions, units, and quantities:
+- Defining custom [[dimension]] and [[unit]] values:
 
-	const pressure  = dimension { 
+	const pressure  = dimension {
 		mass = 1,
-		length = -1, 
+		length = -1,
 		time = -2,
-		... 
-	}; 
-	const pascal = unit { 
+		...
+	};
+	const pascal = unit {
 		dim = pressure,
 		scale = 1.0,
 	};
-	const atmospheric_pressure  = quantity { 
+	const atmospheric_pressure  = quantity {
 		unit = pascal,
 		value = 101325.0,
 	};
 
 - Parsing ([[strp]]) and formatting ([[strf]]) strings:
 
-	const acceleration = si::strp("20 m/s^2") as si::quantity;
+	const a: si::quantity = si::strp("20 m/s^2")?;
+	const b: str = si::strf(qty, "km*s^-2")?;
 
-	const output = si::strf(acceleration, "km*s^-2") as str;
-	>> 0.02 km⋅s⁻²
+	assert(out == "0.02 km⋅s⁻²");
 
-	const output = si::strf(
+	const c: str = si::strf(
 		acceleration,
 		"km/s^2",
 		prec=3,
 		notation=si::E,
 		encoding=si::ASCII,
-	) as str;
-	>> 2.00e-02 km/s^2
+	)?;
 
-## Supported units
-
-All symbols are case sensitive unless otherwise indicated.
-
-Decimal prefix symbols
-
-- QUETTA (Q) = 1e30
-- RONNA (R) = 1e27
-- YOTTA (Y) = 1e24
-- ZETTA (Z) = 1e21
-- EXA (E) = 1e18
-- PETA (P) = 1e15
-- TERA (T) = 1e12
-- GIGA (G) = 1e9
-- MEGA (M) = 1e6
-- KILO (k) = 1e3
-- HECTO (h) = 1e2
-- DECA (da) = 1e1
-- DECI (d) = 1e-1
-- CENTI (c) = 1e-2
-- MILLI (m) = 1e-3
-- MICRO (µ) = 1e-6
-- NANO (n) = 1e-9
-- PICO (p) = 1e-12
-- FEMTO (f) = 1e-15
-- ATTO (a) = 1e-18
-- ZEPTO (z) = 1e-21
-- YOCTO (y) = 1e-24
-- RONTO (r) = 1e-27
-- QUECTO (q) = 1e-30
-
-Notes:
-- Formatted ASCII output for [[MICRO]] uses LATIN SMALL LETTER U (U+0075)
-- Formattted UTF-8 output for [[MICRO]] uses GREEK SMALL LETTER MU (U+03BC).
-- The parser for [[MICRO]] also accepts MICRO SIGN (U+00B5).
-
-SI unit symbols
-
-- [[AMPERE]]     (A)
-- [[BECQUEREL]]  (Bq)
-- [[CANDELA]]    (cd)
-- [[COULOMB]]    (C)
-- [[FARAD]]      (F)
-- [[GRAM]]       (g)
-- [[GRAY]]       (Gy)
-- [[HENRY]]      (H)
-- [[HERTZ]]      (Hz)
-- [[JOULE]]      (J)
-- [[KATAL]]      (kat)
-- [[KELVIN]]     (K)
-- [[LUMEN]]      (lm)
-- [[LUX]]        (lx)
-- [[METRE]]      (m)
-- [[MOLE]]       (mol)
-- [[NEWTON]]     (N)
-- [[OHM]]        (ohm/Ω)
-- [[PASCAL]]     (Pa)
-- [[RADIAN]]     (rad)
-- [[SECOND]]     (s)
-- [[SIEMENS]]    (S)
-- [[SIEVERT]]    (Sv)
-- [[STERADIAN]]  (sr)
-- [[TESLA]]      (T)
-- [[VOLT]]       (V)
-- [[WATT]]       (W)
-- [[WEBER]]      (Wb)
-
-Notes:
-- UTF-8 output for [[OHM]] uses GREEK CAPITAL LETTER OMEGA (U+03A9).
-- The parser for [[OHM]] also accepts OHM SIGN (U+2126).
-
-Non-SI unit symbols
-
-- [[ASTRONOMICAL_UNIT]]  (au)
-- [[BEL]]                (B)
-- [[DALTON]]             (Da)
-- [[DAY]]                (d)
-- [[DEGREE]]             (deg/°)
-- [[DEGREE_CELSIUS]]     (degC/°C)
-- [[ELECTRONVOLT]]       (eV)
-- [[HECTARE]]            (ha)
-- [[HOUR]]               (h)
-- [[LITRE]]              (L)
-- [[MINUTE]]             (min)
-- [[NEPER]]              (Np)
-- [[TONNE]]              (t)
-
-Notes:
-- Logarithmic units [[BEL]] and [[NEPER]] do not currently support conversion.
-- Temperature conversions are not currently supported. [[DEGREE_CELSIUS]] is treated as [[KELVIN]].
-- The formatted UTF-8 outputs for [[DEGREE]] use DEGREE SIGN (U+00B0).
-- The formatted output for [[LITRE]] uses LATIN CAPITAL LETTER L (U+004C).
-- The parser for [[LITRE]] also accepts LATIN SMALL LETTER L (U+006C).
+	assert(c == "2.00e-02 km/s^2");
