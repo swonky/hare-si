@@ -66,7 +66,8 @@ assert(c == "2.00e-02 km/s^2");
 
 > \* asterisk indicates symbol is undocumented
 
-- [Types](#types)  - [`dimension`](#dimension)
+- [Types](#types)
+  - [`dimension`](#dimension)
   - [`encoding`](#encoding)
   - [`notation`](#notation)
   - [`prefix_kind`](#prefix_kind)
@@ -77,7 +78,8 @@ assert(c == "2.00e-02 km/s^2");
   - [`token_kind`](#token_kind)*
   - [`unit_kind`](#unit_kind)*
 
-- [Errors](#errors)  - [`dimension_mismatch`](#dimension_mismatch)
+- [Errors](#errors)
+  - [`dimension_mismatch`](#dimension_mismatch)
   - [`error`](#error)
   - [`invalid`](#invalid)
   - [`invalid_exponent`](#invalid_exponent)
@@ -87,7 +89,8 @@ assert(c == "2.00e-02 km/s^2");
   - [`unclosed_scope`](#unclosed_scope)*
   - [`unexpected_token`](#unexpected_token)*
 
-- [Constants](#constants)  - [`ABSORBED_DOSE`](#absorbed_dose)
+- [Constants](#constants)
+  - [`ABSORBED_DOSE`](#absorbed_dose)
   - [`ACTIVITY`](#activity)
   - [`ANGSTROM`](#angstrom)
   - [`ASTRONOMICAL_UNIT`](#astronomical_unit)
@@ -329,7 +332,8 @@ assert(c == "2.00e-02 km/s^2");
   - [`ZEPTO`](#zepto)*
   - [`ZETTA`](#zetta)*
 
-- [Functions](#functions)  - [`add`](#add)
+- [Functions](#functions)
+  - [`add`](#add)
   - [`divd`](#divd)
   - [`divq`](#divq)
   - [`divu`](#divu)
@@ -360,7 +364,7 @@ assert(c == "2.00e-02 km/s^2");
 
 ### `dimension`
 
-> [../si/types.ha#L5](../si/types.ha#L5)
+[`../si/types.ha:5`](../si/types.ha#L5)
 
 Represents the dimensional exponents of the seven SI base dimensions.
 
@@ -389,7 +393,7 @@ type dimension = struct {
 
 ### `encoding`
 
-> [../si/types.ha#L37](../si/types.ha#L37)
+[`../si/types.ha:37`](../si/types.ha#L37)
 
 Specifies the character encoding options.
 
@@ -407,7 +411,7 @@ type encoding = enum u8 {
 
 ### `notation`
 
-> [../si/types.ha#L28](../si/types.ha#L28)
+[`../si/types.ha:28`](../si/types.ha#L28)
 
 Specifies the notation used to format floating-point values.
 
@@ -427,7 +431,7 @@ type notation = enum u8 {
 
 ### `prefix_kind`
 
-> [../si/prefix.ha#L82](../si/prefix.ha#L82)
+[`../si/prefix.ha:82`](../si/prefix.ha#L82)
 
 Unit prefix decimal exponents
 
@@ -467,7 +471,7 @@ type prefix_kind = enum i8 {
 
 ### `quantity`
 
-> [../si/types.ha#L22](../si/types.ha#L22)
+[`../si/types.ha:22`](../si/types.ha#L22)
 
 Represents a physical quantity as a unit and numerical value.
 
@@ -484,7 +488,7 @@ type quantity = struct {
 
 ### `symbol_kind`
 
-> [../si/types.ha#L44](../si/types.ha#L44)
+[`../si/types.ha:44`](../si/types.ha#L44)
 
 Union of symbol enum types.
 
@@ -498,7 +502,7 @@ type symbol_kind = (prefix_kind | unit_kind);
 
 ### `unit`
 
-> [../si/types.ha#L16](../si/types.ha#L16)
+[`../si/types.ha:16`](../si/types.ha#L16)
 
 Represents a unit of measurement by its physical [`dimension`](#dimension) and scale.
 
@@ -517,7 +521,7 @@ type unit = struct {
 
 ### `dimension_mismatch`
 
-> [../si/errors.ha#L26](../si/errors.ha#L26)
+[`../si/errors.ha:26`](../si/errors.ha#L26)
 
 The dimensions of two units or quantities do not match.
 
@@ -531,7 +535,7 @@ type dimension_mismatch = !void;
 
 ### `error`
 
-> [../si/errors.ha#L38](../si/errors.ha#L38)
+[`../si/errors.ha:38`](../si/errors.ha#L38)
 
 Represents any error that can occur in the si library
 
@@ -548,7 +552,7 @@ type error = !(invalid_symbol | invalid_exponent | invalid_numeric | unexpected_
 
 ### `invalid`
 
-> [../si/errors.ha#L32](../si/errors.ha#L32)
+[`../si/errors.ha:32`](../si/errors.ha#L32)
 
 The input is invalid.
 
@@ -562,7 +566,7 @@ type invalid = !void;
 
 ### `invalid_exponent`
 
-> [../si/errors.ha#L35](../si/errors.ha#L35)
+[`../si/errors.ha:35`](../si/errors.ha#L35)
 
 An invalid exponent was encountered.
 
@@ -576,7 +580,7 @@ type invalid_exponent = !void;
 
 ### `invalid_numeric`
 
-> [../si/errors.ha#L23](../si/errors.ha#L23)
+[`../si/errors.ha:23`](../si/errors.ha#L23)
 
 No matching unit or prefix was found.
 
@@ -590,7 +594,7 @@ type invalid_numeric = !str;
 
 ### `invalid_symbol`
 
-> [../si/errors.ha#L20](../si/errors.ha#L20)
+[`../si/errors.ha:20`](../si/errors.ha#L20)
 
 No matching unit or prefix was found.
 
@@ -604,7 +608,7 @@ type invalid_symbol = !token;
 
 ### `not_implemented`
 
-> [../si/errors.ha#L29](../si/errors.ha#L29)
+[`../si/errors.ha:29`](../si/errors.ha#L29)
 
 The requested operation is not implemented.
 
@@ -620,7 +624,7 @@ type not_implemented = !void;
 
 ### `ABSORBED_DOSE`
 
-> [../si/dimensions.ha#L56](../si/dimensions.ha#L56)
+[`../si/dimensions.ha:56`](../si/dimensions.ha#L56)
 
 The SI derived dimension of absorbed dose. Its SI unit is [`GRAY`](#gray).
 
@@ -638,7 +642,7 @@ def ABSORBED_DOSE = dimension {
 
 ### `ACTIVITY`
 
-> [../si/dimensions.ha#L60](../si/dimensions.ha#L60)
+[`../si/dimensions.ha:60`](../si/dimensions.ha#L60)
 
 The SI derived dimension of radioactive activity. Its SI unit is [`BECQUEREL`](#becquerel).
 
@@ -655,7 +659,7 @@ def ACTIVITY = dimension {
 
 ### `ANGSTROM`
 
-> [../si/units.ha#L462](../si/units.ha#L462)
+[`../si/units.ha:462`](../si/units.ha#L462)
 
 The angstrom is a non-SI unit of length still widely used in the natural sciences and technology to express atomic-scale lengths. See [`METRE`](#metre).
 
@@ -672,7 +676,7 @@ def ANGSTROM = unit {
 
 ### `ASTRONOMICAL_UNIT`
 
-> [../si/units.ha#L427](../si/units.ha#L427)
+[`../si/units.ha:427`](../si/units.ha#L427)
 
 The astronomical unit is a non-SI unit of length that approximately equates to the average distance between the Sun and the Earth. As of 2012, it is standardised to a fixed length in metres. See [`METRE`](#metre).
 
@@ -689,7 +693,7 @@ def ASTRONOMICAL_UNIT = unit {
 
 ### `ATMOSPHERE`
 
-> [../si/units.ha#L466](../si/units.ha#L466)
+[`../si/units.ha:466`](../si/units.ha#L466)
 
 The standard atmosphere is widely used in chemistry, physics, and engineering as a reference pressure. See [`PASCAL`](#pascal).
 
@@ -706,7 +710,7 @@ def ATMOSPHERE = unit {
 
 ### `AVOGADRO`
 
-> [../si/constants.ha#L36](../si/constants.ha#L36)
+[`../si/constants.ha:36`](../si/constants.ha#L36)
 
 The Avogadro constant, an exact defining constant of the SI representing the number of elementary entities in one mole. Its SI unit is [`RECIPROCAL_MOLE`](#reciprocal_mole).
 
@@ -723,7 +727,7 @@ def AVOGADRO = quantity {
 
 ### `BAR`
 
-> [../si/units.ha#L470](../si/units.ha#L470)
+[`../si/units.ha:470`](../si/units.ha#L470)
 
 The bar is a metric unit of pressure commonly used in meteorology and acoustics. Not to be confused with the CGS unit 'Barye'.
 
@@ -740,7 +744,7 @@ def BAR = unit {
 
 ### `BARN`
 
-> [../si/units.ha#L474](../si/units.ha#L474)
+[`../si/units.ha:474`](../si/units.ha#L474)
 
 The barn is commonly used in nuclear and particle physics to express cross-sectional areas of atomic nuclei and subatomic interactions.
 
@@ -757,7 +761,7 @@ def BARN = unit {
 
 ### `BEL`
 
-> [../si/units.ha#L433](../si/units.ha#L433)
+[`../si/units.ha:433`](../si/units.ha#L433)
 
 The bel is a non-SI relative logarithmic unit commonly used in acoustics, telecommunications, and signal processing to express ratios of power quantities. This unit is dimensionless and does not support conversion. See also: [`NEPER`](#neper).
 
@@ -774,7 +778,7 @@ def BEL = unit {
 
 ### `BOLTZMANN`
 
-> [../si/constants.ha#L15](../si/constants.ha#L15)
+[`../si/constants.ha:15`](../si/constants.ha#L15)
 
 The Boltzmann constant, an exact defining constant of the SI relating thermal energy to thermodynamic temperature. Its SI unit is [`JOULE_PER_KELVIN`](#joule_per_kelvin).
 
@@ -791,7 +795,7 @@ def BOLTZMANN = quantity {
 
 ### `CALORIE`
 
-> [../si/units.ha#L478](../si/units.ha#L478)
+[`../si/units.ha:478`](../si/units.ha#L478)
 
 The calorie is non-SI unit commonly used in thermodynamics, chemistry, and nutritional science to express energy. See [`JOULE`](#joule).
 
@@ -808,7 +812,7 @@ def CALORIE = unit {
 
 ### `CAPACITANCE`
 
-> [../si/dimensions.ha#L64](../si/dimensions.ha#L64)
+[`../si/dimensions.ha:64`](../si/dimensions.ha#L64)
 
 The SI derived dimension of capacitance. Its SI unit is [`FARAD`](#farad).
 
@@ -828,7 +832,7 @@ def CAPACITANCE = dimension {
 
 ### `CATALYTIC_ACTIVITY`
 
-> [../si/dimensions.ha#L74](../si/dimensions.ha#L74)
+[`../si/dimensions.ha:74`](../si/dimensions.ha#L74)
 
 The SI derived dimension of catalytic activity. Its SI unit is [`KATAL`](#katal).
 
@@ -846,7 +850,7 @@ def CATALYTIC_ACTIVITY = dimension {
 
 ### `CENTIMETRE`
 
-> [../si/units.ha#L573](../si/units.ha#L573)
+[`../si/units.ha:573`](../si/units.ha#L573)
 
 The centimetre is a scaled SI unit of length. The corresponding unscaled SI unit is the [`METRE`](#metre).
 
@@ -863,7 +867,7 @@ def CENTIMETRE = unit {
 
 ### `CONDUCTANCE`
 
-> [../si/dimensions.ha#L78](../si/dimensions.ha#L78)
+[`../si/dimensions.ha:78`](../si/dimensions.ha#L78)
 
 The SI derived dimension of electrical conductance. Its SI unit is [`SIEMENS`](#siemens).
 
@@ -883,7 +887,7 @@ def CONDUCTANCE = dimension {
 
 ### `CUBIC_CENTIMETRE`
 
-> [../si/units.ha#L649](../si/units.ha#L649)
+[`../si/units.ha:649`](../si/units.ha#L649)
 
 The cubic centimetre is a scaled SI unit of volume. The corresponding unscaled SI unit is the [`CUBIC_METRE`](#cubic_metre).
 
@@ -900,7 +904,7 @@ def CUBIC_CENTIMETRE = unit {
 
 ### `CUBIC_MILLIMETRE`
 
-> [../si/units.ha#L653](../si/units.ha#L653)
+[`../si/units.ha:653`](../si/units.ha#L653)
 
 The cubic millimetre is a scaled SI unit of volume. The corresponding unscaled SI unit is the [`CUBIC_METRE`](#cubic_metre).
 
@@ -917,7 +921,7 @@ def CUBIC_MILLIMETRE = unit {
 
 ### `CURIE`
 
-> [../si/units.ha#L482](../si/units.ha#L482)
+[`../si/units.ha:482`](../si/units.ha#L482)
 
 The curie is a non-SI unit historically used in nuclear physics to express radioactivity. See [`BECQUEREL`](#becquerel).
 
@@ -934,7 +938,7 @@ def CURIE = unit {
 
 ### `CURRENT`
 
-> [../si/dimensions.ha#L20](../si/dimensions.ha#L20)
+[`../si/dimensions.ha:20`](../si/dimensions.ha#L20)
 
 The SI base dimension of electric current.
 
@@ -951,7 +955,7 @@ def CURRENT = dimension {
 
 ### `DALTON`
 
-> [../si/units.ha#L436](../si/units.ha#L436)
+[`../si/units.ha:436`](../si/units.ha#L436)
 
 The dalton
 
@@ -968,7 +972,7 @@ def DALTON = unit {
 
 ### `DAY`
 
-> [../si/units.ha#L485](../si/units.ha#L485)
+[`../si/units.ha:485`](../si/units.ha#L485)
 
 The day is a non-SI unit of time. See [`SECOND`](#second).
 
@@ -985,7 +989,7 @@ def DAY = unit {
 
 ### `DECAMETRE`
 
-> [../si/units.ha#L629](../si/units.ha#L629)
+[`../si/units.ha:629`](../si/units.ha#L629)
 
 The decametre is a scaled SI unit of length. The corresponding unscaled SI unit is the [`METRE`](#metre).
 
@@ -1002,7 +1006,7 @@ def DECAMETRE = unit {
 
 ### `DECIMETRE`
 
-> [../si/units.ha#L625](../si/units.ha#L625)
+[`../si/units.ha:625`](../si/units.ha#L625)
 
 The decimetre is a scaled SI unit of length. The corresponding unscaled SI unit is the [`METRE`](#metre).
 
@@ -1019,7 +1023,7 @@ def DECIMETRE = unit {
 
 ### `DEGREE`
 
-> [../si/units.ha#L439](../si/units.ha#L439)
+[`../si/units.ha:439`](../si/units.ha#L439)
 
 The degree
 
@@ -1036,7 +1040,7 @@ def DEGREE = unit {
 
 ### `DIMENSIONLESS`
 
-> [../si/dimensions.ha#L8](../si/dimensions.ha#L8)
+[`../si/dimensions.ha:8`](../si/dimensions.ha#L8)
 
 The dimensionless dimension, with all SI base dimension exponents equal to zero.
 
@@ -1052,7 +1056,7 @@ def DIMENSIONLESS = dimension {
 
 ### `DOSE_EQUIVALENT`
 
-> [../si/dimensions.ha#L88](../si/dimensions.ha#L88)
+[`../si/dimensions.ha:88`](../si/dimensions.ha#L88)
 
 The SI derived dimension of dose equivalent. Its SI unit is [`SIEVERT`](#sievert).
 
@@ -1070,7 +1074,7 @@ def DOSE_EQUIVALENT = dimension {
 
 ### `DYNAMIC_VISCOSITY`
 
-> [../si/dimensions.ha#L231](../si/dimensions.ha#L231)
+[`../si/dimensions.ha:231`](../si/dimensions.ha#L231)
 
 The SI derived dimension of dynamic viscosity. Its SI unit is [`PASCAL_SECOND`](#pascal_second).
 
@@ -1089,7 +1093,7 @@ def DYNAMIC_VISCOSITY = dimension {
 
 ### `DYNE`
 
-> [../si/units.ha#L489](../si/units.ha#L489)
+[`../si/units.ha:489`](../si/units.ha#L489)
 
 The dyne is a CGS unit used in mechanics and fluid dynamics to express force. See [`NEWTON`](#newton).
 
@@ -1106,7 +1110,7 @@ def DYNE = unit {
 
 ### `ELECTRIC_CHARGE`
 
-> [../si/dimensions.ha#L92](../si/dimensions.ha#L92)
+[`../si/dimensions.ha:92`](../si/dimensions.ha#L92)
 
 The SI derived dimension of electric charge. Its SI unit is [`COULOMB`](#coulomb).
 
@@ -1124,7 +1128,7 @@ def ELECTRIC_CHARGE = dimension {
 
 ### `ELECTRIC_POTENTIAL`
 
-> [../si/dimensions.ha#L96](../si/dimensions.ha#L96)
+[`../si/dimensions.ha:96`](../si/dimensions.ha#L96)
 
 The SI derived dimension of electric potential. Its SI unit is [`VOLT`](#volt).
 
@@ -1144,7 +1148,7 @@ def ELECTRIC_POTENTIAL = dimension {
 
 ### `ELECTRONVOLT`
 
-> [../si/units.ha#L442](../si/units.ha#L442)
+[`../si/units.ha:442`](../si/units.ha#L442)
 
 The electronvolt
 
@@ -1161,7 +1165,7 @@ def ELECTRONVOLT = unit {
 
 ### `ELEMENTARY_CHARGE`
 
-> [../si/constants.ha#L29](../si/constants.ha#L29)
+[`../si/constants.ha:29`](../si/constants.ha#L29)
 
 The elementary charge, an exact defining constant of the SI corresponding to the magnitude of the electric charge of a proton. Its SI unit is [`COULOMB`](#coulomb).
 
@@ -1178,7 +1182,7 @@ def ELEMENTARY_CHARGE = quantity {
 
 ### `ENERGY`
 
-> [../si/dimensions.ha#L106](../si/dimensions.ha#L106)
+[`../si/dimensions.ha:106`](../si/dimensions.ha#L106)
 
 The SI derived dimension of energy. Its SI unit is [`JOULE`](#joule).
 
@@ -1197,7 +1201,7 @@ def ENERGY = dimension {
 
 ### `ERG`
 
-> [../si/units.ha#L494](../si/units.ha#L494)
+[`../si/units.ha:494`](../si/units.ha#L494)
 
 The erg is a CGS unit commonly used in classical mechanics, astrophysics, and other areas of physics to express energy. The SI counterpart unit is the [`JOULE`](#joule).
 
@@ -1214,7 +1218,7 @@ def ERG = unit {
 
 ### `EXPOSURE`
 
-> [../si/dimensions.ha#L110](../si/dimensions.ha#L110)
+[`../si/dimensions.ha:110`](../si/dimensions.ha#L110)
 
 The SI derived dimension of exposure to ionising radiation. Its SI unit is [`COULOMB_PER_KILOGRAM`](#coulomb_per_kilogram).
 
@@ -1233,7 +1237,7 @@ def EXPOSURE = dimension {
 
 ### `FORCE`
 
-> [../si/dimensions.ha#L114](../si/dimensions.ha#L114)
+[`../si/dimensions.ha:114`](../si/dimensions.ha#L114)
 
 The SI derived dimension of force. Its SI unit is [`NEWTON`](#newton).
 
@@ -1252,7 +1256,7 @@ def FORCE = dimension {
 
 ### `FREQUENCY`
 
-> [../si/dimensions.ha#L40](../si/dimensions.ha#L40)
+[`../si/dimensions.ha:40`](../si/dimensions.ha#L40)
 
 The SI derived dimension of frequency. Its SI unit is [`HERTZ`](#hertz).
 
@@ -1269,7 +1273,7 @@ def FREQUENCY = dimension {
 
 ### `GAL`
 
-> [../si/units.ha#L499](../si/units.ha#L499)
+[`../si/units.ha:499`](../si/units.ha#L499)
 
 The gal is a CGS unit commonly used in geophysics and gravimetry to express acceleration. The SI counterpart unit is the [`METRE_PER_SECOND_SQUARED`](#metre_per_second_squared)
 
@@ -1286,7 +1290,7 @@ def GAL = unit {
 
 ### `GAUSS`
 
-> [../si/units.ha#L504](../si/units.ha#L504)
+[`../si/units.ha:504`](../si/units.ha#L504)
 
 The gauss is a CGS unit commonly used in physics and engineering to express magnetic flux density. The SI counterpart unit is the [`TESLA`](#tesla)
 
@@ -1303,7 +1307,7 @@ def GAUSS = unit {
 
 ### `GIGAHERTZ`
 
-> [../si/units.ha#L729](../si/units.ha#L729)
+[`../si/units.ha:729`](../si/units.ha#L729)
 
 The gigahertz is a scaled SI unit of frequency. The corresponding unscaled SI unit is the [`HERTZ`](#hertz).
 
@@ -1320,7 +1324,7 @@ def GIGAHERTZ = unit {
 
 ### `GIGAJOULE`
 
-> [../si/units.ha#L697](../si/units.ha#L697)
+[`../si/units.ha:697`](../si/units.ha#L697)
 
 The gigajoule is a scaled SI unit of energy. The corresponding unscaled SI unit is the [`JOULE`](#joule).
 
@@ -1337,7 +1341,7 @@ def GIGAJOULE = unit {
 
 ### `GIGAPASCAL`
 
-> [../si/units.ha#L665](../si/units.ha#L665)
+[`../si/units.ha:665`](../si/units.ha#L665)
 
 The gigapascal is a scaled SI unit of pressure. The corresponding unscaled SI unit is the [`PASCAL`](#pascal).
 
@@ -1354,7 +1358,7 @@ def GIGAPASCAL = unit {
 
 ### `GIGAWATT`
 
-> [../si/units.ha#L717](../si/units.ha#L717)
+[`../si/units.ha:717`](../si/units.ha#L717)
 
 The gigawatt is a scaled SI unit of power. The corresponding unscaled SI unit is the [`WATT`](#watt).
 
@@ -1371,7 +1375,7 @@ def GIGAWATT = unit {
 
 ### `GRAM`
 
-> [../si/units.ha#L565](../si/units.ha#L565)
+[`../si/units.ha:565`](../si/units.ha#L565)
 
 The gram is a scaled SI unit of mass. The corresponding unscaled SI unit is the [`KILOGRAM`](#kilogram).
 
@@ -1388,7 +1392,7 @@ def GRAM = unit {
 
 ### `HECTARE`
 
-> [../si/units.ha#L508](../si/units.ha#L508)
+[`../si/units.ha:508`](../si/units.ha#L508)
 
 The hectare is non-SI metric unit commonly used to express areas of land. The SI counterpart unit is the [`SQUARE_METRE`](#square_metre)
 
@@ -1405,7 +1409,7 @@ def HECTARE = unit {
 
 ### `HECTOMETRE`
 
-> [../si/units.ha#L633](../si/units.ha#L633)
+[`../si/units.ha:633`](../si/units.ha#L633)
 
 The hectometre is a scaled SI unit of length. The corresponding unscaled SI unit is the [`METRE`](#metre).
 
@@ -1422,7 +1426,7 @@ def HECTOMETRE = unit {
 
 ### `HECTOPASCAL`
 
-> [../si/units.ha#L669](../si/units.ha#L669)
+[`../si/units.ha:669`](../si/units.ha#L669)
 
 The hectopascal is a scaled SI unit of pressure. The corresponding unscaled SI unit is the [`PASCAL`](#pascal).
 
@@ -1439,7 +1443,7 @@ def HECTOPASCAL = unit {
 
 ### `HOUR`
 
-> [../si/units.ha#L512](../si/units.ha#L512)
+[`../si/units.ha:512`](../si/units.ha#L512)
 
 The hour is non-SI unit of time. The SI counterpart unit is the [`SECOND`](#second)
 
@@ -1456,7 +1460,7 @@ def HOUR = unit {
 
 ### `HYPERFINE_TRANSITION_CAESIUM_133`
 
-> [../si/constants.ha#L42](../si/constants.ha#L42)
+[`../si/constants.ha:42`](../si/constants.ha#L42)
 
 The caesium-133 hyperfine transition frequency, which defines the SI second. Its SI unit is [`HERTZ`](#hertz).
 
@@ -1473,7 +1477,7 @@ def HYPERFINE_TRANSITION_CAESIUM_133 = quantity {
 
 ### `ILLUMINANCE`
 
-> [../si/dimensions.ha#L118](../si/dimensions.ha#L118)
+[`../si/dimensions.ha:118`](../si/dimensions.ha#L118)
 
 The SI derived dimension of illuminance. Its SI unit is [`LUX`](#lux).
 
@@ -1491,7 +1495,7 @@ def ILLUMINANCE = dimension {
 
 ### `INDUCTANCE`
 
-> [../si/dimensions.ha#L136](../si/dimensions.ha#L136)
+[`../si/dimensions.ha:136`](../si/dimensions.ha#L136)
 
 The SI derived dimension of inductance. Its SI unit is [`HENRY`](#henry).
 
@@ -1511,7 +1515,7 @@ def INDUCTANCE = dimension {
 
 ### `JOULE_PER_KELVIN`
 
-> [../si/units.ha#L855](../si/units.ha#L855)
+[`../si/units.ha:855`](../si/units.ha#L855)
 
 The joule per kelvin is the coherent SI unit of [`ENTROPY`](#entropy).
 
@@ -1528,7 +1532,7 @@ def JOULE_PER_KELVIN = unit {
 
 ### `JOULE_SECOND`
 
-> [../si/units.ha#L858](../si/units.ha#L858)
+[`../si/units.ha:858`](../si/units.ha#L858)
 
 The joule-second is the coherent SI unit of [`ACTION`](#action).
 
@@ -1545,7 +1549,7 @@ def JOULE_SECOND = unit {
 
 ### `KILOGRAM_PER_CUBIC_METRE`
 
-> [../si/units.ha#L801](../si/units.ha#L801)
+[`../si/units.ha:801`](../si/units.ha#L801)
 
 The kilogram per cubic metre is the SI unit for [`DENSITY`](#density).
 
@@ -1562,7 +1566,7 @@ def KILOGRAM_PER_CUBIC_METRE = unit {
 
 ### `KILOHERTZ`
 
-> [../si/units.ha#L721](../si/units.ha#L721)
+[`../si/units.ha:721`](../si/units.ha#L721)
 
 The kilohertz is a scaled SI unit of frequency. The corresponding unscaled SI unit is the [`HERTZ`](#hertz).
 
@@ -1579,7 +1583,7 @@ def KILOHERTZ = unit {
 
 ### `KILOJOULE`
 
-> [../si/units.ha#L689](../si/units.ha#L689)
+[`../si/units.ha:689`](../si/units.ha#L689)
 
 The kilojoule is a scaled SI unit of energy. The corresponding unscaled SI unit is the [`JOULE`](#joule).
 
@@ -1596,7 +1600,7 @@ def KILOJOULE = unit {
 
 ### `KILOMETRE`
 
-> [../si/units.ha#L569](../si/units.ha#L569)
+[`../si/units.ha:569`](../si/units.ha#L569)
 
 The kilometre is a scaled SI unit of length. The corresponding unscaled SI unit is the [`METRE`](#metre).
 
@@ -1613,7 +1617,7 @@ def KILOMETRE = unit {
 
 ### `KILONEWTON`
 
-> [../si/units.ha#L677](../si/units.ha#L677)
+[`../si/units.ha:677`](../si/units.ha#L677)
 
 The kilonewton is a scaled SI unit of force. The corresponding unscaled SI unit is the [`NEWTON`](#newton).
 
@@ -1630,7 +1634,7 @@ def KILONEWTON = unit {
 
 ### `KILOOHM`
 
-> [../si/units.ha#L749](../si/units.ha#L749)
+[`../si/units.ha:749`](../si/units.ha#L749)
 
 The kiloohm is a scaled SI unit of electrical resistance. The corresponding unscaled SI unit is the [`OHM`](#ohm).
 
@@ -1647,7 +1651,7 @@ def KILOOHM = unit {
 
 ### `KILOPASCAL`
 
-> [../si/units.ha#L657](../si/units.ha#L657)
+[`../si/units.ha:657`](../si/units.ha#L657)
 
 The kilopascal is a scaled SI unit of pressure. The corresponding unscaled SI unit is the [`PASCAL`](#pascal).
 
@@ -1664,7 +1668,7 @@ def KILOPASCAL = unit {
 
 ### `KILOVOLT`
 
-> [../si/units.ha#L745](../si/units.ha#L745)
+[`../si/units.ha:745`](../si/units.ha#L745)
 
 The kilovolt is a scaled SI unit of electric potential. The corresponding unscaled SI unit is the [`VOLT`](#volt).
 
@@ -1681,7 +1685,7 @@ def KILOVOLT = unit {
 
 ### `KILOWATT`
 
-> [../si/units.ha#L709](../si/units.ha#L709)
+[`../si/units.ha:709`](../si/units.ha#L709)
 
 The kilowatt is a scaled SI unit of power. The corresponding unscaled SI unit is the [`WATT`](#watt).
 
@@ -1698,7 +1702,7 @@ def KILOWATT = unit {
 
 ### `KINEMATIC_VISCOSITY`
 
-> [../si/dimensions.ha#L236](../si/dimensions.ha#L236)
+[`../si/dimensions.ha:236`](../si/dimensions.ha#L236)
 
 The SI derived dimension of kinematic viscosity. Its SI unit is [`SQUARE_METRE_PER_SECOND`](#square_metre_per_second).
 
@@ -1716,7 +1720,7 @@ def KINEMATIC_VISCOSITY = dimension {
 
 ### `LENGTH`
 
-> [../si/dimensions.ha#L14](../si/dimensions.ha#L14)
+[`../si/dimensions.ha:14`](../si/dimensions.ha#L14)
 
 The SI base dimension of length.
 
@@ -1733,7 +1737,7 @@ def LENGTH = dimension {
 
 ### `LITRE`
 
-> [../si/units.ha#L446](../si/units.ha#L446)
+[`../si/units.ha:446`](../si/units.ha#L446)
 
 The litre is a non-SI metric unit of volume in common general use. See [`CUBIC_METRE`](#cubic_metre).
 
@@ -1750,7 +1754,7 @@ def LITRE = unit {
 
 ### `LUMINOSITY`
 
-> [../si/dimensions.ha#L29](../si/dimensions.ha#L29)
+[`../si/dimensions.ha:29`](../si/dimensions.ha#L29)
 
 The SI base dimension of luminous intensity.
 
@@ -1767,7 +1771,7 @@ def LUMINOSITY = dimension {
 
 ### `LUMINOUS_EFFICACY_540_THZ`
 
-> [../si/constants.ha#L49](../si/constants.ha#L49)
+[`../si/constants.ha:49`](../si/constants.ha#L49)
 
 The luminous efficacy of monochromatic radiation at 540 THz, an exact defining constant of the SI for [`LUMINOUS_EFFICACY`](#luminous_efficacy). Its SI unit is [`LUMEN_PER_WATT`](#lumen_per_watt).
 
@@ -1784,7 +1788,7 @@ def LUMINOUS_EFFICACY_540_THZ = quantity {
 
 ### `LUMINOUS_FLUX`
 
-> [../si/dimensions.ha#L146](../si/dimensions.ha#L146)
+[`../si/dimensions.ha:146`](../si/dimensions.ha#L146)
 
 The SI derived dimension of luminous flux. Its SI unit is [`LUMEN`](#lumen).
 
@@ -1801,7 +1805,7 @@ def LUMINOUS_FLUX = dimension {
 
 ### `MAGNETIC_FLUX`
 
-> [../si/dimensions.ha#L150](../si/dimensions.ha#L150)
+[`../si/dimensions.ha:150`](../si/dimensions.ha#L150)
 
 The SI derived dimension of magnetic flux. Its SI unit is [`WEBER`](#weber).
 
@@ -1821,7 +1825,7 @@ def MAGNETIC_FLUX = dimension {
 
 ### `MAGNETIC_FLUX_DENSITY`
 
-> [../si/dimensions.ha#L160](../si/dimensions.ha#L160)
+[`../si/dimensions.ha:160`](../si/dimensions.ha#L160)
 
 The SI derived dimension of magnetic flux density. Its SI unit is [`TESLA`](#tesla).
 
@@ -1840,7 +1844,7 @@ def MAGNETIC_FLUX_DENSITY = dimension {
 
 ### `MASS`
 
-> [../si/dimensions.ha#L11](../si/dimensions.ha#L11)
+[`../si/dimensions.ha:11`](../si/dimensions.ha#L11)
 
 The SI base dimension of mass.
 
@@ -1857,7 +1861,7 @@ def MASS = dimension {
 
 ### `MAXWELL`
 
-> [../si/units.ha#L516](../si/units.ha#L516)
+[`../si/units.ha:516`](../si/units.ha#L516)
 
 The maxwell is a CGS electromagnetic unit used to express magnetic flux. The SI counterpart unit is the [`WEBER`](#weber)
 
@@ -1874,7 +1878,7 @@ def MAXWELL = unit {
 
 ### `MEGAHERTZ`
 
-> [../si/units.ha#L725](../si/units.ha#L725)
+[`../si/units.ha:725`](../si/units.ha#L725)
 
 The megahertz is a scaled SI unit of frequency. The corresponding unscaled SI unit is the [`HERTZ`](#hertz).
 
@@ -1891,7 +1895,7 @@ def MEGAHERTZ = unit {
 
 ### `MEGAJOULE`
 
-> [../si/units.ha#L693](../si/units.ha#L693)
+[`../si/units.ha:693`](../si/units.ha#L693)
 
 The megajoule is a scaled SI unit of energy. The corresponding unscaled SI unit is the [`JOULE`](#joule).
 
@@ -1908,7 +1912,7 @@ def MEGAJOULE = unit {
 
 ### `MEGANEWTON`
 
-> [../si/units.ha#L681](../si/units.ha#L681)
+[`../si/units.ha:681`](../si/units.ha#L681)
 
 The meganewton is a scaled SI unit of force. The corresponding unscaled SI unit is the [`NEWTON`](#newton).
 
@@ -1925,7 +1929,7 @@ def MEGANEWTON = unit {
 
 ### `MEGAOHM`
 
-> [../si/units.ha#L753](../si/units.ha#L753)
+[`../si/units.ha:753`](../si/units.ha#L753)
 
 The megaohm is a scaled SI unit of electrical resistance. The corresponding unscaled SI unit is the [`OHM`](#ohm).
 
@@ -1942,7 +1946,7 @@ def MEGAOHM = unit {
 
 ### `MEGAPASCAL`
 
-> [../si/units.ha#L661](../si/units.ha#L661)
+[`../si/units.ha:661`](../si/units.ha#L661)
 
 The megapascal is a scaled SI unit of pressure. The corresponding unscaled SI unit is the [`PASCAL`](#pascal).
 
@@ -1959,7 +1963,7 @@ def MEGAPASCAL = unit {
 
 ### `MEGAWATT`
 
-> [../si/units.ha#L713](../si/units.ha#L713)
+[`../si/units.ha:713`](../si/units.ha#L713)
 
 The megawatt is a scaled SI unit of power. The corresponding unscaled SI unit is the [`WATT`](#watt).
 
@@ -1976,7 +1980,7 @@ def MEGAWATT = unit {
 
 ### `MICROAMPERE`
 
-> [../si/units.ha#L600](../si/units.ha#L600)
+[`../si/units.ha:600`](../si/units.ha#L600)
 
 The microampere is a scaled SI unit of electric current. The corresponding unscaled SI unit is the [`AMPERE`](#ampere).
 
@@ -1993,7 +1997,7 @@ def MICROAMPERE = unit {
 
 ### `MICROCOULOMB`
 
-> [../si/units.ha#L737](../si/units.ha#L737)
+[`../si/units.ha:737`](../si/units.ha#L737)
 
 The microcoulomb is a scaled SI unit of electric charge. The corresponding unscaled SI unit is the [`COULOMB`](#coulomb).
 
@@ -2010,7 +2014,7 @@ def MICROCOULOMB = unit {
 
 ### `MICROFARAD`
 
-> [../si/units.ha#L761](../si/units.ha#L761)
+[`../si/units.ha:761`](../si/units.ha#L761)
 
 The microfarad is a scaled SI unit of capacitance. The corresponding unscaled SI unit is the [`FARAD`](#farad).
 
@@ -2027,7 +2031,7 @@ def MICROFARAD = unit {
 
 ### `MICROGRAM`
 
-> [../si/units.ha#L621](../si/units.ha#L621)
+[`../si/units.ha:621`](../si/units.ha#L621)
 
 The microgram is a scaled SI unit of mass. The corresponding unscaled SI unit is the [`KILOGRAM`](#kilogram).
 
@@ -2044,7 +2048,7 @@ def MICROGRAM = unit {
 
 ### `MICROMETRE`
 
-> [../si/units.ha#L581](../si/units.ha#L581)
+[`../si/units.ha:581`](../si/units.ha#L581)
 
 The micrometre is a scaled SI unit of length. The corresponding unscaled SI unit is the [`METRE`](#metre).
 
@@ -2061,7 +2065,7 @@ def MICROMETRE = unit {
 
 ### `MICRON`
 
-> [../si/units.ha#L584](../si/units.ha#L584)
+[`../si/units.ha:584`](../si/units.ha#L584)
 
 The micron is an alternative name for the [`MICROMETRE`](#micrometre).
 
@@ -2075,7 +2079,7 @@ def MICRON = MICROMETRE;
 
 ### `MICROSECOND`
 
-> [../si/units.ha#L608](../si/units.ha#L608)
+[`../si/units.ha:608`](../si/units.ha#L608)
 
 The microsecond is a scaled SI unit of time. The corresponding unscaled SI unit is the [`SECOND`](#second).
 
@@ -2092,7 +2096,7 @@ def MICROSECOND = unit {
 
 ### `MICROTESLA`
 
-> [../si/units.ha#L777](../si/units.ha#L777)
+[`../si/units.ha:777`](../si/units.ha#L777)
 
 The microtesla is a scaled SI unit of magnetic flux density. The corresponding unscaled SI unit is the [`TESLA`](#tesla).
 
@@ -2109,7 +2113,7 @@ def MICROTESLA = unit {
 
 ### `MILLIAMPERE`
 
-> [../si/units.ha#L596](../si/units.ha#L596)
+[`../si/units.ha:596`](../si/units.ha#L596)
 
 The milliampere is a scaled SI unit of electric current. The corresponding unscaled SI unit is the [`AMPERE`](#ampere).
 
@@ -2126,7 +2130,7 @@ def MILLIAMPERE = unit {
 
 ### `MILLICOULOMB`
 
-> [../si/units.ha#L733](../si/units.ha#L733)
+[`../si/units.ha:733`](../si/units.ha#L733)
 
 The millicoulomb is a scaled SI unit of electric charge. The corresponding unscaled SI unit is the [`COULOMB`](#coulomb).
 
@@ -2143,7 +2147,7 @@ def MILLICOULOMB = unit {
 
 ### `MILLIGRAM`
 
-> [../si/units.ha#L617](../si/units.ha#L617)
+[`../si/units.ha:617`](../si/units.ha#L617)
 
 The milligram is a scaled SI unit of mass. The corresponding unscaled SI unit is the [`KILOGRAM`](#kilogram).
 
@@ -2160,7 +2164,7 @@ def MILLIGRAM = unit {
 
 ### `MILLIJOULE`
 
-> [../si/units.ha#L701](../si/units.ha#L701)
+[`../si/units.ha:701`](../si/units.ha#L701)
 
 The millijoule is a scaled SI unit of energy. The corresponding unscaled SI unit is the [`JOULE`](#joule).
 
@@ -2177,7 +2181,7 @@ def MILLIJOULE = unit {
 
 ### `MILLIMETRE`
 
-> [../si/units.ha#L577](../si/units.ha#L577)
+[`../si/units.ha:577`](../si/units.ha#L577)
 
 The millimetre is a scaled SI unit of length. The corresponding unscaled SI unit is the [`METRE`](#metre).
 
@@ -2194,7 +2198,7 @@ def MILLIMETRE = unit {
 
 ### `MILLIMETRES_OF_MERCURY`
 
-> [../si/units.ha#L525](../si/units.ha#L525)
+[`../si/units.ha:525`](../si/units.ha#L525)
 
 Millimetres of mercury are widely used in medicine and meteorology to express pressure. The SI counterpart unit is the [`PASCAL`](#pascal)
 
@@ -2211,7 +2215,7 @@ def MILLIMETRES_OF_MERCURY = unit {
 
 ### `MILLINEWTON`
 
-> [../si/units.ha#L685](../si/units.ha#L685)
+[`../si/units.ha:685`](../si/units.ha#L685)
 
 The millinewton is a scaled SI unit of force. The corresponding unscaled SI unit is the [`NEWTON`](#newton).
 
@@ -2228,7 +2232,7 @@ def MILLINEWTON = unit {
 
 ### `MILLIOHM`
 
-> [../si/units.ha#L757](../si/units.ha#L757)
+[`../si/units.ha:757`](../si/units.ha#L757)
 
 The milliohm is a scaled SI unit of electrical resistance. The corresponding unscaled SI unit is the [`OHM`](#ohm).
 
@@ -2245,7 +2249,7 @@ def MILLIOHM = unit {
 
 ### `MILLIPASCAL`
 
-> [../si/units.ha#L673](../si/units.ha#L673)
+[`../si/units.ha:673`](../si/units.ha#L673)
 
 The millipascal is a scaled SI unit of pressure. The corresponding unscaled SI unit is the [`PASCAL`](#pascal).
 
@@ -2262,7 +2266,7 @@ def MILLIPASCAL = unit {
 
 ### `MILLIPASCAL_SECOND`
 
-> [../si/units.ha#L785](../si/units.ha#L785)
+[`../si/units.ha:785`](../si/units.ha#L785)
 
 The millipascal-second is a scaled SI unit of dynamic viscosity. The corresponding unscaled SI unit is the [`PASCAL_SECOND`](#pascal_second).
 
@@ -2279,7 +2283,7 @@ def MILLIPASCAL_SECOND = unit {
 
 ### `MILLISECOND`
 
-> [../si/units.ha#L604](../si/units.ha#L604)
+[`../si/units.ha:604`](../si/units.ha#L604)
 
 The millisecond is a scaled SI unit of time. The corresponding unscaled SI unit is the [`SECOND`](#second).
 
@@ -2296,7 +2300,7 @@ def MILLISECOND = unit {
 
 ### `MILLITESLA`
 
-> [../si/units.ha#L773](../si/units.ha#L773)
+[`../si/units.ha:773`](../si/units.ha#L773)
 
 The millitesla is a scaled SI unit of magnetic flux density. The corresponding unscaled SI unit is the [`TESLA`](#tesla).
 
@@ -2313,7 +2317,7 @@ def MILLITESLA = unit {
 
 ### `MILLIVOLT`
 
-> [../si/units.ha#L741](../si/units.ha#L741)
+[`../si/units.ha:741`](../si/units.ha#L741)
 
 The millivolt is a scaled SI unit of electric potential. The corresponding unscaled SI unit is the [`VOLT`](#volt).
 
@@ -2330,7 +2334,7 @@ def MILLIVOLT = unit {
 
 ### `MILLIWATT`
 
-> [../si/units.ha#L705](../si/units.ha#L705)
+[`../si/units.ha:705`](../si/units.ha#L705)
 
 The milliwatt is a scaled SI unit of power. The corresponding unscaled SI unit is the [`WATT`](#watt).
 
@@ -2347,7 +2351,7 @@ def MILLIWATT = unit {
 
 ### `MILLIWEBER`
 
-> [../si/units.ha#L781](../si/units.ha#L781)
+[`../si/units.ha:781`](../si/units.ha#L781)
 
 The milliweber is a scaled SI unit of magnetic flux. The corresponding unscaled SI unit is the [`WEBER`](#weber).
 
@@ -2364,7 +2368,7 @@ def MILLIWEBER = unit {
 
 ### `MINUTE`
 
-> [../si/units.ha#L520](../si/units.ha#L520)
+[`../si/units.ha:520`](../si/units.ha#L520)
 
 The minute is non-SI unit of time. The SI counterpart unit is the [`SECOND`](#second)
 
@@ -2381,7 +2385,7 @@ def MINUTE = unit {
 
 ### `NANOFARAD`
 
-> [../si/units.ha#L765](../si/units.ha#L765)
+[`../si/units.ha:765`](../si/units.ha#L765)
 
 The nanofarad is a scaled SI unit of capacitance. The corresponding unscaled SI unit is the [`FARAD`](#farad).
 
@@ -2398,7 +2402,7 @@ def NANOFARAD = unit {
 
 ### `NANOMETRE`
 
-> [../si/units.ha#L588](../si/units.ha#L588)
+[`../si/units.ha:588`](../si/units.ha#L588)
 
 The nanometre is a scaled SI unit of length. The corresponding unscaled SI unit is the [`METRE`](#metre).
 
@@ -2415,7 +2419,7 @@ def NANOMETRE = unit {
 
 ### `NANOSECOND`
 
-> [../si/units.ha#L612](../si/units.ha#L612)
+[`../si/units.ha:612`](../si/units.ha#L612)
 
 The nanosecond is a scaled SI unit of time. The corresponding unscaled SI unit is the [`SECOND`](#second).
 
@@ -2432,7 +2436,7 @@ def NANOSECOND = unit {
 
 ### `NEPER`
 
-> [../si/units.ha#L453](../si/units.ha#L453)
+[`../si/units.ha:453`](../si/units.ha#L453)
 
 The neper is a non-SI relative logarithmic unit used in acoustics, telecommunications, and signal processing to express ratios of field quantities. This unit is dimensionless and does not support conversion. See also: [`BEL`](#bel).
 
@@ -2449,7 +2453,7 @@ def NEPER = unit {
 
 ### `NEWTON_METRE`
 
-> [../si/units.ha#L846](../si/units.ha#L846)
+[`../si/units.ha:846`](../si/units.ha#L846)
 
 The newton-metre is the coherent SI unit of [`TORQUE`](#torque).
 
@@ -2466,7 +2470,7 @@ def NEWTON_METRE = unit {
 
 ### `NEWTON_PER_METRE`
 
-> [../si/units.ha#L849](../si/units.ha#L849)
+[`../si/units.ha:849`](../si/units.ha#L849)
 
 The newton per metre is the coherent SI unit of [`SURFACE_TENSION`](#surface_tension).
 
@@ -2483,7 +2487,7 @@ def NEWTON_PER_METRE = unit {
 
 ### `OERSTED`
 
-> [../si/units.ha#L530](../si/units.ha#L530)
+[`../si/units.ha:530`](../si/units.ha#L530)
 
 The oersted is a CGS electromagnetic unit used to express magnetic field strength. The SI counterpart unit is the [`HENRY`](#henry).
 
@@ -2500,7 +2504,7 @@ def OERSTED = unit {
 
 ### `PASCAL_SECOND`
 
-> [../si/units.ha#L843](../si/units.ha#L843)
+[`../si/units.ha:843`](../si/units.ha#L843)
 
 The pascal-second is the coherent SI unit of [`DYNAMIC_VISCOSITY`](#dynamic_viscosity).
 
@@ -2517,7 +2521,7 @@ def PASCAL_SECOND = unit {
 
 ### `PICOFARAD`
 
-> [../si/units.ha#L769](../si/units.ha#L769)
+[`../si/units.ha:769`](../si/units.ha#L769)
 
 The picofarad is a scaled SI unit of capacitance. The corresponding unscaled SI unit is the [`FARAD`](#farad).
 
@@ -2534,7 +2538,7 @@ def PICOFARAD = unit {
 
 ### `PICOMETRE`
 
-> [../si/units.ha#L592](../si/units.ha#L592)
+[`../si/units.ha:592`](../si/units.ha#L592)
 
 The picometre is a scaled SI unit of length. The corresponding unscaled SI unit is the [`METRE`](#metre).
 
@@ -2551,7 +2555,7 @@ def PICOMETRE = unit {
 
 ### `PLANCK`
 
-> [../si/constants.ha#L22](../si/constants.ha#L22)
+[`../si/constants.ha:22`](../si/constants.ha#L22)
 
 The Planck constant, an exact defining constant of the SI relating the energy of a photon to its frequency. Its SI unit is [`JOULE_SECOND`](#joule_second).
 
@@ -2568,7 +2572,7 @@ def PLANCK = quantity {
 
 ### `POISE`
 
-> [../si/units.ha#L536](../si/units.ha#L536)
+[`../si/units.ha:536`](../si/units.ha#L536)
 
 The poise is a CGS unit commonly used in rheology and fluid mechanics to express dynamic viscosity.
 
@@ -2585,7 +2589,7 @@ def POISE = unit {
 
 ### `POWER`
 
-> [../si/dimensions.ha#L169](../si/dimensions.ha#L169)
+[`../si/dimensions.ha:169`](../si/dimensions.ha#L169)
 
 The SI derived dimension of power. Its SI unit is [`WATT`](#watt).
 
@@ -2604,7 +2608,7 @@ def POWER = dimension {
 
 ### `PRESSURE`
 
-> [../si/dimensions.ha#L173](../si/dimensions.ha#L173)
+[`../si/dimensions.ha:173`](../si/dimensions.ha#L173)
 
 The SI derived dimension of pressure. Its SI unit is [`PASCAL`](#pascal).
 
@@ -2623,7 +2627,7 @@ def PRESSURE = dimension {
 
 ### `RAD`
 
-> [../si/units.ha#L546](../si/units.ha#L546)
+[`../si/units.ha:546`](../si/units.ha#L546)
 
 The rad is a non-SI unit historically used in radiobiology and radiation dosimetry to express absorbed dose. The SI counterpart unit is the [`GRAY`](#gray).
 
@@ -2640,7 +2644,7 @@ def RAD = unit {
 
 ### `RECIPROCAL_CUBIC_METRE`
 
-> [../si/units.ha#L820](../si/units.ha#L820)
+[`../si/units.ha:820`](../si/units.ha#L820)
 
 The reciprocal cubic metre is the coherent SI unit of [`SPATIAL_FREQUENCY_3D`](#spatial_frequency_3d).
 
@@ -2657,7 +2661,7 @@ def RECIPROCAL_CUBIC_METRE = unit {
 
 ### `RECIPROCAL_CURRENT`
 
-> [../si/dimensions.ha#L43](../si/dimensions.ha#L43)
+[`../si/dimensions.ha:43`](../si/dimensions.ha#L43)
 
 The reciprocal of the SI base dimension of electric current.
 
@@ -2674,7 +2678,7 @@ def RECIPROCAL_CURRENT = dimension {
 
 ### `RECIPROCAL_LENGTH`
 
-> [../si/dimensions.ha#L35](../si/dimensions.ha#L35)
+[`../si/dimensions.ha:35`](../si/dimensions.ha#L35)
 
 The reciprocal of the SI base dimension of mass.
 
@@ -2691,7 +2695,7 @@ def RECIPROCAL_LENGTH = dimension {
 
 ### `RECIPROCAL_LUMINOSITY`
 
-> [../si/dimensions.ha#L52](../si/dimensions.ha#L52)
+[`../si/dimensions.ha:52`](../si/dimensions.ha#L52)
 
 The reciprocal of the SI base dimension of luminous intensity.
 
@@ -2708,7 +2712,7 @@ def RECIPROCAL_LUMINOSITY = dimension {
 
 ### `RECIPROCAL_MASS`
 
-> [../si/dimensions.ha#L32](../si/dimensions.ha#L32)
+[`../si/dimensions.ha:32`](../si/dimensions.ha#L32)
 
 The reciprocal of the SI base dimension of mass.
 
@@ -2725,7 +2729,7 @@ def RECIPROCAL_MASS = dimension {
 
 ### `RECIPROCAL_SQUARE_METRE`
 
-> [../si/units.ha#L813](../si/units.ha#L813)
+[`../si/units.ha:813`](../si/units.ha#L813)
 
 The reciprocal square metre is the coherent SI unit of [`SPATIAL_FREQUENCY_2D`](#spatial_frequency_2d).
 
@@ -2742,7 +2746,7 @@ def RECIPROCAL_SQUARE_METRE = unit {
 
 ### `RECIPROCAL_SUBSTANCE`
 
-> [../si/dimensions.ha#L49](../si/dimensions.ha#L49)
+[`../si/dimensions.ha:49`](../si/dimensions.ha#L49)
 
 The reciprocal of the SI base dimension of amount of substance.
 
@@ -2759,7 +2763,7 @@ def RECIPROCAL_SUBSTANCE = dimension {
 
 ### `RECIPROCAL_TEMPERATURE`
 
-> [../si/dimensions.ha#L46](../si/dimensions.ha#L46)
+[`../si/dimensions.ha:46`](../si/dimensions.ha#L46)
 
 The reciprocal of the SI base dimension of thermodynamic temperature.
 
@@ -2776,7 +2780,7 @@ def RECIPROCAL_TEMPERATURE = dimension {
 
 ### `REM`
 
-> [../si/units.ha#L551](../si/units.ha#L551)
+[`../si/units.ha:551`](../si/units.ha#L551)
 
 The rem (or Roentgen equivalent man) is a non-SI unit historically used in radiation protection to express equivalent dose. The SI counterpart unit is the [`SIEVERT`](#sievert).
 
@@ -2793,7 +2797,7 @@ def REM = unit {
 
 ### `RESISTANCE`
 
-> [../si/dimensions.ha#L177](../si/dimensions.ha#L177)
+[`../si/dimensions.ha:177`](../si/dimensions.ha#L177)
 
 The SI derived dimension of electrical resistance. Its SI unit is [`OHM`](#ohm).
 
@@ -2813,7 +2817,7 @@ def RESISTANCE = dimension {
 
 ### `ROENTGEN`
 
-> [../si/units.ha#L541](../si/units.ha#L541)
+[`../si/units.ha:541`](../si/units.ha#L541)
 
 The roentgen is a non-SI unit historically used in radiology and radiation protection to express [`EXPOSURE`](#exposure). The SI counterpart unit is the [`COULOMB_PER_KILOGRAM`](#coulomb_per_kilogram).
 
@@ -2830,7 +2834,7 @@ def ROENTGEN = unit {
 
 ### `SPATIAL_FREQUENCY_1D`
 
-> [../si/dimensions.ha#L124](../si/dimensions.ha#L124)
+[`../si/dimensions.ha:124`](../si/dimensions.ha#L124)
 
 Alias for [`RECIPROCAL_LENGTH`](#reciprocal_length).
 
@@ -2844,7 +2848,7 @@ def SPATIAL_FREQUENCY_1D = RECIPROCAL_LENGTH;
 
 ### `SPATIAL_FREQUENCY_2D`
 
-> [../si/dimensions.ha#L128](../si/dimensions.ha#L128)
+[`../si/dimensions.ha:128`](../si/dimensions.ha#L128)
 
 The SI derived dimension of two-dimensional spatial frequency. Its SI unit is [`RECIPROCAL_SQUARE_METRE`](#reciprocal_square_metre).
 
@@ -2861,7 +2865,7 @@ def SPATIAL_FREQUENCY_2D = dimension {
 
 ### `SPATIAL_FREQUENCY_3D`
 
-> [../si/dimensions.ha#L132](../si/dimensions.ha#L132)
+[`../si/dimensions.ha:132`](../si/dimensions.ha#L132)
 
 The SI derived dimension of three-dimensional spatial frequency. Its SI unit is [`RECIPROCAL_CUBIC_METRE`](#reciprocal_cubic_metre).
 
@@ -2878,7 +2882,7 @@ def SPATIAL_FREQUENCY_3D = dimension {
 
 ### `SPEED_OF_LIGHT`
 
-> [../si/constants.ha#L8](../si/constants.ha#L8)
+[`../si/constants.ha:8`](../si/constants.ha#L8)
 
 The speed of light in vacuum, an exact defining constant of the SI. Its SI unit is [`METRE_PER_SECOND`](#metre_per_second).
 
@@ -2895,7 +2899,7 @@ def SPEED_OF_LIGHT = quantity {
 
 ### `SQUARE_CENTIMETRE`
 
-> [../si/units.ha#L641](../si/units.ha#L641)
+[`../si/units.ha:641`](../si/units.ha#L641)
 
 The square centimetre is a scaled SI unit of area. The corresponding unscaled SI unit is the [`SQUARE_METRE`](#square_metre).
 
@@ -2912,7 +2916,7 @@ def SQUARE_CENTIMETRE = unit {
 
 ### `SQUARE_KILOMETRE`
 
-> [../si/units.ha#L637](../si/units.ha#L637)
+[`../si/units.ha:637`](../si/units.ha#L637)
 
 The square kilometre is a scaled SI unit of area. The corresponding unscaled SI unit is the [`SQUARE_METRE`](#square_metre).
 
@@ -2929,7 +2933,7 @@ def SQUARE_KILOMETRE = unit {
 
 ### `SQUARE_METRE`
 
-> [../si/units.ha#L809](../si/units.ha#L809)
+[`../si/units.ha:809`](../si/units.ha#L809)
 
 The reciprocal metre is the coherent SI unit of [`RECIPROCAL_LENGTH`](#reciprocal_length).
 
@@ -2946,7 +2950,7 @@ def SQUARE_METRE = unit {
 
 ### `SQUARE_METRE_PER_SECOND`
 
-> [../si/units.ha#L852](../si/units.ha#L852)
+[`../si/units.ha:852`](../si/units.ha#L852)
 
 The square metre per second is the coherent SI unit of [`KINEMATIC_VISCOSITY`](#kinematic_viscosity).
 
@@ -2963,7 +2967,7 @@ def SQUARE_METRE_PER_SECOND = unit {
 
 ### `SQUARE_MILLIMETRE`
 
-> [../si/units.ha#L645](../si/units.ha#L645)
+[`../si/units.ha:645`](../si/units.ha#L645)
 
 The square millimetre is a scaled SI unit of area. The corresponding unscaled SI unit is the [`SQUARE_METRE`](#square_metre).
 
@@ -2980,7 +2984,7 @@ def SQUARE_MILLIMETRE = unit {
 
 ### `SQUARE_MILLIMETRE_PER_SECOND`
 
-> [../si/units.ha#L789](../si/units.ha#L789)
+[`../si/units.ha:789`](../si/units.ha#L789)
 
 The square millimetre per second is a scaled SI unit of kinematic viscosity. The corresponding unscaled SI unit is the [`SQUARE_METRE_PER_SECOND`](#square_metre_per_second).
 
@@ -2997,7 +3001,7 @@ def SQUARE_MILLIMETRE_PER_SECOND = unit {
 
 ### `STOKES`
 
-> [../si/units.ha#L556](../si/units.ha#L556)
+[`../si/units.ha:556`](../si/units.ha#L556)
 
 The stokes is a CGS unit commonly used in fluid mechanics to express viscosity. The SI counterpart unit is the [`SQUARE_METRE_PER_SECOND`](#square_metre_per_second).
 
@@ -3014,7 +3018,7 @@ def STOKES = unit {
 
 ### `SUBSTANCE`
 
-> [../si/dimensions.ha#L26](../si/dimensions.ha#L26)
+[`../si/dimensions.ha:26`](../si/dimensions.ha#L26)
 
 The SI base dimension of amount of substance.
 
@@ -3031,7 +3035,7 @@ def SUBSTANCE = dimension {
 
 ### `TEMPERATURE`
 
-> [../si/dimensions.ha#L23](../si/dimensions.ha#L23)
+[`../si/dimensions.ha:23`](../si/dimensions.ha#L23)
 
 The SI base dimension of thermodynamic temperature.
 
@@ -3048,7 +3052,7 @@ def TEMPERATURE = dimension {
 
 ### `TIME`
 
-> [../si/dimensions.ha#L17](../si/dimensions.ha#L17)
+[`../si/dimensions.ha:17`](../si/dimensions.ha#L17)
 
 The SI base dimension of time.
 
@@ -3065,7 +3069,7 @@ def TIME = dimension {
 
 ### `TONNE`
 
-> [../si/units.ha#L458](../si/units.ha#L458)
+[`../si/units.ha:458`](../si/units.ha#L458)
 
 The tonne is a non-SI metric unit of mass still in common general use. Not to be confused with the ton units used in Imperial or Customary systems. See [`KILOGRAM`](#kilogram).
 
@@ -3082,7 +3086,7 @@ def TONNE = unit {
 
 ### `TORR`
 
-> [../si/units.ha#L560](../si/units.ha#L560)
+[`../si/units.ha:560`](../si/units.ha#L560)
 
 The torr is non-SI unit historically used in physics. The SI counterpart unit is the [`PASCAL`](#pascal).
 
@@ -3099,7 +3103,7 @@ def TORR = unit {
 
 ### `WAVENUMBER`
 
-> [../si/dimensions.ha#L121](../si/dimensions.ha#L121)
+[`../si/dimensions.ha:121`](../si/dimensions.ha#L121)
 
 Alias for [`RECIPROCAL_LENGTH`](#reciprocal_length).
 
@@ -3115,7 +3119,7 @@ def WAVENUMBER = RECIPROCAL_LENGTH;
 
 ### `add`
 
-> [../si/math.ha#L114](../si/math.ha#L114)
+[`../si/math.ha:114`](../si/math.ha#L114)
 
 Returns the sum of quantities a and b, converting b to a's unit. If b is an f64, it is treated as a value in a's unit.
 
@@ -3129,7 +3133,7 @@ fn add(a: quantity, b: (quantity | f64)) (quantity | dimension_mismatch);
 
 ### `divd`
 
-> [../si/math.ha#L60](../si/math.ha#L60)
+[`../si/math.ha:60`](../si/math.ha#L60)
 
 Returns the quotient of units a and b.
 
@@ -3143,7 +3147,7 @@ fn divd(a: dimension, b: dimension) dimension;
 
 ### `divq`
 
-> [../si/math.ha#L163](../si/math.ha#L163)
+[`../si/math.ha:163`](../si/math.ha#L163)
 
 Returns the quotient of quantities a and b, or scales a by 1/b if b is an f64.
 
@@ -3157,7 +3161,7 @@ fn divq(a: quantity, b: (quantity | f64)) quantity;
 
 ### `divu`
 
-> [../si/math.ha#L97](../si/math.ha#L97)
+[`../si/math.ha:97`](../si/math.ha#L97)
 
 Returns the quotient of units a and b.
 
@@ -3171,7 +3175,7 @@ fn divu(a: unit, b: unit) unit;
 
 ### `encodejson`
 
-> [../si/encode.ha#L37](../si/encode.ha#L37)
+[`../si/encode.ha:37`](../si/encode.ha#L37)
 
 Writes JSON encoded representation of a quantity or unit.
 
@@ -3185,7 +3189,7 @@ fn encodejson(h: io::handle, obj: (quantity | unit)) (size | error);
 
 ### `equal`
 
-> [../si/math.ha#L11](../si/math.ha#L11)
+[`../si/math.ha:11`](../si/math.ha#L11)
 
 Returns true if dimensions a and b are equal.
 
@@ -3199,7 +3203,7 @@ fn equal(a: dimension, b: dimension) bool;
 
 ### `fprint`
 
-> [../si/format.ha#L495](../si/format.ha#L495)
+[`../si/format.ha:495`](../si/format.ha#L495)
 
 Formats and prints x to handler h. Returns the number of bytes printed. See also: [`fprint`](#fprint), [`println`](#println).
 
@@ -3221,7 +3225,7 @@ fn fprint(
 
 ### `identify`
 
-> [../si/parser.ha#L506](../si/parser.ha#L506)
+[`../si/parser.ha:506`](../si/parser.ha#L506)
 
 Returns the decimal prefix and unit symbol components of the input string. If the input string does not match any prefix or unit symbol, the first component of the tuple will be empty. Output is trimmed and borrowed from input string.
 
@@ -3235,7 +3239,7 @@ fn identify(in: str) (prefix_kind, unit_kind);
 
 ### `isclose`
 
-> [../si/math.ha#L22](../si/math.ha#L22)
+[`../si/math.ha:22`](../si/math.ha#L22)
 
 Returns whether a and b are within tol of each other.
 
@@ -3253,7 +3257,7 @@ fn isclose(
 
 ### `isinf`
 
-> [../si/math.ha#L177](../si/math.ha#L177)
+[`../si/math.ha:177`](../si/math.ha#L177)
 
 Returns true if the value of the quantity or scale of its unit is infinite.
 
@@ -3267,7 +3271,7 @@ fn isinf(q: quantity) bool;
 
 ### `isnan`
 
-> [../si/math.ha#L182](../si/math.ha#L182)
+[`../si/math.ha:182`](../si/math.ha#L182)
 
 Returns true if the value of the quantity or scale of its unit is NaN.
 
@@ -3281,7 +3285,7 @@ fn isnan(q: quantity) bool;
 
 ### `muld`
 
-> [../si/math.ha#L49](../si/math.ha#L49)
+[`../si/math.ha:49`](../si/math.ha#L49)
 
 Returns the product of units a and b.
 
@@ -3295,7 +3299,7 @@ fn muld(a: dimension, b: dimension) dimension;
 
 ### `mulq`
 
-> [../si/math.ha#L149](../si/math.ha#L149)
+[`../si/math.ha:149`](../si/math.ha#L149)
 
 Returns the product of quantities a and b, or scales a by b if b is an f64.
 
@@ -3309,7 +3313,7 @@ fn mulq(a: quantity, b: (quantity | f64)) quantity;
 
 ### `mulu`
 
-> [../si/math.ha#L89](../si/math.ha#L89)
+[`../si/math.ha:89`](../si/math.ha#L89)
 
 Returns the product of units a and b.
 
@@ -3323,7 +3327,7 @@ fn mulu(a: unit, b: unit) unit;
 
 ### `powd`
 
-> [../si/math.ha#L71](../si/math.ha#L71)
+[`../si/math.ha:71`](../si/math.ha#L71)
 
 Returns the dimension x raised to the power of p
 
@@ -3337,7 +3341,7 @@ fn powd(x: dimension, p: int) dimension;
 
 ### `powq`
 
-> [../si/math.ha#L187](../si/math.ha#L187)
+[`../si/math.ha:187`](../si/math.ha#L187)
 
 Returns quantity x raised to the integer power p.
 
@@ -3351,7 +3355,7 @@ fn powq(x: quantity, p: int) quantity;
 
 ### `powu`
 
-> [../si/math.ha#L105](../si/math.ha#L105)
+[`../si/math.ha:105`](../si/math.ha#L105)
 
 Returns the quantity x raised to the integer power p.
 
@@ -3365,7 +3369,7 @@ fn powu(x: unit, p: int) unit;
 
 ### `print`
 
-> [../si/format.ha#L515](../si/format.ha#L515)
+[`../si/format.ha:515`](../si/format.ha#L515)
 
 Formats and prints x to . Returns the number of bytes printed. See also: [`fprint`](#fprint), [`println`](#println).
 
@@ -3386,7 +3390,7 @@ fn print(
 
 ### `println`
 
-> [../si/format.ha#L527](../si/format.ha#L527)
+[`../si/format.ha:527`](../si/format.ha#L527)
 
 Formats and prints x followed by a newline to h. Returns the number of bytes printed. See also: [`fprint`](#fprint), [`print`](#print).
 
@@ -3407,7 +3411,7 @@ fn println(
 
 ### `scale`
 
-> [../si/math.ha#L37](../si/math.ha#L37)
+[`../si/math.ha:37`](../si/math.ha#L37)
 
 Scales the unit by a f64 or metric prefix factor.
 
@@ -3421,7 +3425,7 @@ fn scale(u: unit, fac: (prefix_kind | f64)) unit;
 
 ### `strerror`
 
-> [../si/errors.ha#L46](../si/errors.ha#L46)
+[`../si/errors.ha:46`](../si/errors.ha#L46)
 
 Returns a human-readable description of an error. Output strings are statically allocated and are overwritten on subsequent calls.
 
@@ -3435,7 +3439,7 @@ fn strerror(err: error) str;
 
 ### `strf`
 
-> [../si/format.ha#L543](../si/format.ha#L543)
+[`../si/format.ha:543`](../si/format.ha#L543)
 
 Formats a quantity as a string using the specified unit format, precision, notation, and character encoding. The result must be freed after use.
 
@@ -3456,7 +3460,7 @@ fn strf(
 
 ### `strp`
 
-> [../si/parser.ha#L606](../si/parser.ha#L606)
+[`../si/parser.ha:606`](../si/parser.ha#L606)
 
 Parses a numeric quantity and unit expression. Accepts fixed-point and scientific notation, with permissive unit syntax including alternative multiplication operators (*, ×, ·, ⋅), exponent notation (^, **, superscripts), exponent signs (+, −), grouping (( ), { }), ASCII or UTF-8 encoded symbols, alternative micro (µ, μ) and ohm (Ω, Ω) symbols. Whitespace is permitted.
 
@@ -3488,7 +3492,7 @@ fn strp(s: str, strict: bool = false) (quantity | error);
 
 ### `strpu`
 
-> [../si/parser.ha#L569](../si/parser.ha#L569)
+[`../si/parser.ha:569`](../si/parser.ha#L569)
 
 Parses a unit expression. Accepts fixed-point and scientific notation, with permissive unit syntax including alternative multiplication operators (*, ×, ·, ⋅), exponent notation (^, **, superscripts), exponent signs (+, −), grouping (( ), { }), ASCII or UTF-8 encoded symbols, alternative micro (µ, μ) and ohm (Ω, Ω) symbols. Whitespace is permitted.
 
@@ -3519,7 +3523,7 @@ fn strpu(s: str, strict: bool = false) (unit | error);
 
 ### `sub`
 
-> [../si/math.ha#L132](../si/math.ha#L132)
+[`../si/math.ha:132`](../si/math.ha#L132)
 
 Returns the difference of quantities a and b, converting b to a's unit. If b is an f64, it is treated as a value in a's unit.
 
@@ -3533,7 +3537,7 @@ fn sub(a: quantity, b: (quantity | f64)) (quantity | dimension_mismatch);
 
 ### `tojson`
 
-> [../si/encode.ha#L45](../si/encode.ha#L45)
+[`../si/encode.ha:45`](../si/encode.ha#L45)
 
 Returns JSON encoded string representation of a quantity or unit.
 
