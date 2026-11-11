@@ -7,6 +7,7 @@
 use fmt;
 use io;
 use memio;
+use strconv;
 
 fn json_number(
 	out: io::handle, 
@@ -14,7 +15,18 @@ fn json_number(
 	v: (int | f64),
 	comma: bool,
 ) (size | io::error) = {
-	return fmt::fprintf(out, "\"{0}\": {1}", k, v);
+	let count = 0z;
+	count += fmt::fprintf(out, "\"{0}\":", k)?;
+	count += match(v) {
+	case let i: int => 
+		yield fmt::fprint(out, strconv::itos(i))?;
+	case let f: f64 =>
+		yield strconv::fftosf(out, f, strconv::ffmt::G, void, strconv::fflags::SHOW_POINT)?;
+	};
+	if (comma) {
+		count += memio::appendrune(out, ',')?;
+	};
+	return count;
 };
 
 fn json_string(
@@ -23,7 +35,7 @@ fn json_string(
 	s: (int | f64),
 	comma: bool,
 ) (size | io::error) = {
-	return fmt::fprintf(out, "\"{0}\": {1}", k, s,  if (comma) "," else "" );
+	return fmt::fprintf(out, "\"{0}\":{1}{2}", k, s,  if (comma) "," else "" );
 };
 
 fn dimension_to_json(out: io::handle, d: dimension) (size | io::error) = {
@@ -42,7 +54,7 @@ fn dimension_to_json(out: io::handle, d: dimension) (size | io::error) = {
 
 fn unit_to_json(out: io::handle, u: unit) (size | io::error) = {
 	let count = 0z;
-	count += fmt::fprint(out, "{")?;
+	count += fmt::fprint(out, "{\"dim\":")?;
 	count += dimension_to_json(out, u.dim)?;
 	count += fmt::fprint(out, ",")?;
 	count += json_number(out, "scale", u.scale, false)?;
@@ -52,7 +64,7 @@ fn unit_to_json(out: io::handle, u: unit) (size | io::error) = {
 
 fn quantity_to_json(out: io::handle, q: quantity) (size | io::error) = {
 	let count = 0z;
-	count += fmt::fprint(out, "{")?;
+	count += fmt::fprint(out, "{\"unit\":")?;
 	count += unit_to_json(out, q.unit)?;
 	count += fmt::fprint(out, ",")?;
 	count += json_number(out, "value", q.value, false)?;

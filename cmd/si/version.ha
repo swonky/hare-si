@@ -4,4 +4,4 @@
 // Semantic version of the current release.
 export def SEM_VERSION: str = "0.2.0";
 // Git commit identifier of the current build.
-export def GIT_VERSION: str = "e47cb20-dirty";
+export def GIT_VERSION: str = "7d9ae92-dirty";
