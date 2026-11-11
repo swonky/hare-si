@@ -38,12 +38,12 @@ with the International System of Units.
 
 - Parsing ([[strp]]) and formatting ([[strf]]) strings:
 
-	const a: si::quantity = si::strp("20 m/s^2")?;
-	const b: str = si::strf(qty, "km*s^-2")?;
+	const qty: si::quantity = si::strp("20 m/s^2")?;
+	let text: str = si::strf(qty, "km*s^-2")?;
 
-	assert(out == "0.02 km⋅s⁻²");
+	assert(text == "0.02 km⋅s⁻²");
 
-	const c: str = si::strf(
+	text = si::strf(
 		acceleration,
 		"km/s^2",
 		prec=3,
@@ -51,4 +51,4 @@ with the International System of Units.
 		encoding=si::ASCII,
 	)?;
 
-	assert(c == "2.00e-02 km/s^2");
+	assert(text == "2.00E-02 km/s^2");

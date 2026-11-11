@@ -13,6 +13,7 @@ let NO_COLOR = false;
 
 def NONE = "";
 
+
 def HELP = `
 A utility for parsing, converting, and formatting quantities using the International System of Units (SI).
 
@@ -74,8 +75,52 @@ fn print_help(out: io::handle) (void | io::error) = {
 			possible,
 		)?;
 	};
+
+	fmt::fprintln(out)?;
+	fmt::fprintf(out, "{}Tools:{}\n",
+		pal[palette::COMMAND_NAME],
+		pal[palette::OPTION_NAME],
+	)?;
+
+	for (let f .. all_tools) {
+
+		let possible: str = @undefined;
+
+		possible = match (f.possible) {
+		case let strs: []str =>
+			const a = strings::join(", ", strs...)?;
+			const b = fmt::asprintf(" ({})", a)?;
+			free(a);
+			defer free(possible);
+			yield b;
+		case void =>
+			yield "";
+		};
+
+		let value = match (f.value) {
+		case let s: str => yield fmt::asprintf("+{}{} <{}>", f.long, pal[palette::OPTION_ARGUMENT], s)?;
+		case void => yield fmt::asprintf("+{}{}", f.long, pal[palette::OPTION_ARGUMENT])?;
+		};
+
+		value = strings::rpad(value, ' ', 32)?;
+
+		fmt::fprintf(
+			out,
+			"   {0}+{3}, {4}{2}{2}{5}{1}{6}{2}\n",
+			pal[palette::OPTION_NAME],
+			pal[palette::OPTION_ARGUMENT],
+			pal[palette::RESET],
+			f.short,
+			value,
+			f.help,
+			possible,
+		)?;
+	};
 };
 
+fn print_schema(out: io::handle) (void | io::error) = {
+	fmt::fprintln(out, si::JSON_SCHEMA)?;
+};
 fn print_version(opts: options) (void | io::error) = {
 	if (opts.encoding == si::encoding::JSON) {
 		fmt::printf(

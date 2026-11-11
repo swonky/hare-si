@@ -19,6 +19,7 @@ type options = struct {
 	strict:      bool,
 	base:        bool,
 	completions: (void | shell),
+	schema:      bool,
 	version:     bool,
 	help:        bool,
 };
@@ -35,6 +36,25 @@ type flag = struct {
 	possible: (void | []str),
 };
 
+def all_tools: [_]flag = [
+	flag {
+		short = "c",
+		long ="completions",
+		help = "Print shell completion script",
+		handler = &handle_completion,
+		value = "SHELL",
+		possible = ["bash", "zsh"],
+	},
+	flag {
+		short = "s",
+		long ="schema",
+		help = "Prints the JSON output schema",
+		handler = &handle_schema,
+		value = void,
+		possible = void,
+	},
+];
+
 def all_flags: [_]flag = [
 	flag {
 		short = "b",
@@ -45,19 +65,11 @@ def all_flags: [_]flag = [
 		possible = void,
 	},
 	flag {
-		short = "c",
-		long ="completions",
-		help = "Print shell completion script",
-		handler = &handle_completion,
-		value = "SHELL",
-		possible = ["bash", "zsh"],
-	},
-	flag {
 		short = "e",
 		long ="encoding",
 		help = "Specify output format",
 		handler = &handle_encoding,
-		value = "ENCODING",
+		value = "FORMAT",
 		possible = ["utf", "ascii", "json"],
 	},
 	flag {
@@ -73,7 +85,7 @@ def all_flags: [_]flag = [
 		long ="notation",
 		help = "Specify numeric notation",
 		handler = &handle_notation,
-		value = "NUMBER",
+		value = "STYLE",
 		possible = ["general", "fixed", "scientific", "e", "E"],
 	},
 	flag {
@@ -124,6 +136,16 @@ fn get_flag(key: str) (flag | invalid_flag) = {
 			if (f.short == trimmed) return f;
 		};
 	};
+	if (strings::hasprefix(key, "+")){
+		const trimmed = strings::trimprefix(key, "+");
+		for (let f .. all_tools) {
+			if (f.short == trimmed) {
+				return f;
+			} else if (f.long == trimmed) {
+				return f;
+			};
+		};
+	};
 	return key: invalid_flag;
 };
 
@@ -142,7 +164,9 @@ fn join_args(args: []str) (str | error) = {
 
 fn is_flag(s: str) bool = {
 	const r = strings::toutf8(s);
-	return len(r) >= 2 && r[0] == '-' && (r[1] == '-' || ascii::isalpha(r[1]: rune));
+	return len(r) >= 2
+		&& (r[0] == '-' && (r[1] == '-' || ascii::isalpha(r[1]: rune)))
+		|| (r[0] == '+' && ascii::isalpha(r[1]: rune));
 };
 
 fn dispatch(args: []str) (options | error) = {
@@ -163,6 +187,7 @@ fn dispatch(args: []str) (options | error) = {
 		strict = false,
 		base = false,
 		completions = void,
+		schema = false,
 		version = false,
 		help = false,
 	};
@@ -212,7 +237,10 @@ fn handle_version(opts: *options) (void | error) = { opts.version = true; };
 
 fn handle_base(opts: *options) (void | error) = { opts.base = true; };
 
+fn handle_schema(opts: *options) (void | error) = { opts.schema = true; };
+
 fn handle_strict(opts: *options) (void | error) = { opts.strict = true; };
+
 
 fn handle_unit(opts: *options, input: str) (void | error) = {
 	opts.unit = input;
@@ -280,6 +308,11 @@ fn run(opts: options) (void | error) = {
 		return;
 	};
 
+	if (opts.schema) {
+		print_schema(os::stdout)?;
+		return;
+	};
+
 	match (opts.completions) {
 	case let sh: shell =>
 		fmt::print(generate_completions(sh))?;
@@ -299,7 +332,7 @@ fn run(opts: options) (void | error) = {
 		return "--base and --unit cannot both be set": argument_error;
 	};
 
-        const qty = si::strp(value)?;
+        const qty = si::strp(value, opts.strict)?;
 
 	if (opts.encoding == si::encoding::JSON) {
 		si::encodejson(os::stdout, qty)?;
@@ -308,7 +341,7 @@ fn run(opts: options) (void | error) = {
 	};
 
 	if (!opts.base && opts.unit is void) {
-		const parts = si::split(value)?;
+		const parts = si::split(value, opts.strict)?;
 		opts.unit = parts.1;
 	};
 
