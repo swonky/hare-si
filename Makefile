@@ -39,10 +39,6 @@ HAVE_PANDOC = $(shell command -v $(PANDOC) >/dev/null 2>&1 && echo yes)
 
 DOC_TARGETS =
 
-ifeq ($(HAVE_HAREDOC),yes)
-DOC_TARGETS += $(HAREDOC_PAGE)
-endif
-
 ifeq ($(HAVE_PANDOC),yes)
 DOC_TARGETS += $(MAN_PAGE)
 endif
@@ -77,7 +73,6 @@ $(VERSION_FILE): FORCE
 # Generate markdown module documentation.
 $(HAREDOC_PAGE): $(SOURCES)
 	@mkdir -p "$(@D)"
-	$(HAREDOC) -a ./si | $(PYTHON) ./scripts/generate_docs.py > "$@"
 
 # Generate man page.
 $(MAN_PAGE): $(MAN_SOURCE)
