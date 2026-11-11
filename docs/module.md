@@ -51,7 +51,7 @@ let text: str = si::strf(qty, "km*s^-2")?;
 
 assert(text == "0.02 km⋅s⁻²");
 
-const text = si::strf(
+text = si::strf(
 	acceleration,
 	"km/s^2",
 	prec=3,
@@ -59,7 +59,7 @@ const text = si::strf(
 	encoding=si::ASCII,
 )?;
 
-assert(c == "2.00E-02 km/s^2");
+assert(text == "2.00E-02 km/s^2");
 ```
 
 ## Index
@@ -67,14 +67,6 @@ assert(c == "2.00E-02 km/s^2");
 2. [Errors](#errors)
 3. [Functions](#functions)
 4. [Constants](#constants)
-
-
-
----
-
-## Types
-
-[↲ index](#index)
 
 ### List of symbols
 > \* asterisk indicates symbol is undocumented
@@ -102,62 +94,74 @@ Represents the dimensional exponents of the seven SI base dimensions.
 
 ```hare
 type dimension = struct {
-	// mass
+	// mass (M)
 	mass: int,
-	// length
+	// length (L)
 	length: int,
-	// time
+	// time (T)
 	time: int,
-	// electric current
+	// electric current (I)
 	current: int,
-	// thermodynamic temperature
+	// thermodynamic temperature (Θ)
 	temperature: int,
-	// amount of substance
+	// amount of substance (N)
 	substance: int,
-	// luminous intensity
+	// luminous intensity (J)
 	luminosity: int,
 };
 ```
 
-[↲ types](#types)
+[↩ types](#types) / [↩ index](#index)
 
 ---
 
 ### `encoding`
 
-[`⌕ ../si/types.ha:37`](../si/types.ha#L37)
+[`⌕ ../si/types.ha:60`](../si/types.ha#L60)
 
-Specifies the character encoding options.
+Specifies the output encoding.
 
 ```hare
 type encoding = enum u8 {
-	ASCII,
-	UTF8,
-	JSON,
+	ASCII, // Plain text restricted to the 128 code points of the ASCII character set.
+	UTF8, // Plain text using the full range of the Unicode UTF-8 character set.
+	JSON, // Machine-readable JSON object syntax.
 };
 ```
 
-[↲ types](#types)
+[↩ types](#types) / [↩ index](#index)
 
 ---
 
 ### `notation`
 
-[`⌕ ../si/types.ha:28`](../si/types.ha#L28)
+[`⌕ ../si/types.ha:39`](../si/types.ha#L39)
 
-Specifies the notation used to format floating-point values.
+Specifies the notation used to format floating-point values. This enum adapts and combines the declarative intentions of the enum  and the  flag, and extends to provide additional formatting options for alternative forms of scientific notation expressions.
 
 ```hare
 type notation = enum u8 {
+	// General format. Uses whichever of SCIENTIFIC and FIXED is shortest.
+	// Similar to [strconv::ffmt::G].
 	GENERAL,
+	// General format. Uses whichever of SCIENTIFIC and FIXED is shortest.
+	// Similar to [strconv::ffmt::F].
 	FIXED,
+	// E-notation. Consists of a fixed precision number between (1, 10),
+	// followed by '*10' (ascii) or '×10' (utf0, then an exponent expression.
 	SCIENTIFIC,
+	// E-notation. Consists of a fixed precision number between (1, 10),
+	// followed by uppercase 'E', then a signed integer exponent.
+	// Similar to [[strconv::ffmt::E]] and [[strconv::UPPER_EXP]].
 	E_UPPER,
+	// E-notation. Consists of a fixed precision number between (1, 10),
+	// followed by lowercase 'e', then a signed integer exponent.
+	// Similar to [[strconv::ffmt::E]].
 	E_LOWER,
 };
 ```
 
-[↲ types](#types)
+[↩ types](#types) / [↩ index](#index)
 
 ---
 
@@ -197,15 +201,15 @@ type prefix_kind = enum i8 {
 };
 ```
 
-[↲ types](#types)
+[↩ types](#types) / [↩ index](#index)
 
 ---
 
 ### `quantity`
 
-[`⌕ ../si/types.ha:22`](../si/types.ha#L22)
+[`⌕ ../si/types.ha:30`](../si/types.ha#L30)
 
-Represents a physical quantity as a unit and numerical value.
+Represents a physical quantity as a [`unit`](#unit) and numerical value.
 
 ```hare
 type quantity = struct {
@@ -214,13 +218,13 @@ type quantity = struct {
 };
 ```
 
-[↲ types](#types)
+[↩ types](#types) / [↩ index](#index)
 
 ---
 
 ### `symbol_kind`
 
-[`⌕ ../si/types.ha:44`](../si/types.ha#L44)
+[`⌕ ../si/types.ha:70`](../si/types.ha#L70)
 
 Union of symbol enum types.
 
@@ -228,13 +232,13 @@ Union of symbol enum types.
 type symbol_kind = (prefix_kind | unit_kind);
 ```
 
-[↲ types](#types)
+[↩ types](#types) / [↩ index](#index)
 
 ---
 
 ### `unit`
 
-[`⌕ ../si/types.ha:16`](../si/types.ha#L16)
+[`⌕ ../si/types.ha:23`](../si/types.ha#L23)
 
 Represents a unit of measurement by its physical [`dimension`](#dimension) and scale.
 
@@ -245,7 +249,7 @@ type unit = struct {
 };
 ```
 
-[↲ types](#types)
+[↩ types](#types) / [↩ index](#index)
 
 ---
 
@@ -261,7 +265,7 @@ type token = struct {
 };
 ```
 
-[↲ types](#types)
+[↩ types](#types) / [↩ index](#index)
 
 ---
 
@@ -292,7 +296,7 @@ type token_kind = enum u8 {
 };
 ```
 
-[↲ types](#types)
+[↩ types](#types) / [↩ index](#index)
 
 ---
 
@@ -348,17 +352,9 @@ type unit_kind = enum {
 };
 ```
 
-[↲ types](#types)
+[↩ types](#types) / [↩ index](#index)
 
 ---
-
-
-
----
-
-## Errors
-
-[↲ index](#index)
 
 ### List of symbols
 > \* asterisk indicates symbol is undocumented
@@ -387,7 +383,7 @@ The dimensions of two units or quantities do not match.
 type dimension_mismatch = !void;
 ```
 
-[↲ errors](#errors)
+[↩ errors](#errors) / [↩ index](#index)
 
 ---
 
@@ -404,7 +400,7 @@ type error = !(invalid_symbol | invalid_exponent | invalid_numeric | unexpected_
 	nomem);
 ```
 
-[↲ errors](#errors)
+[↩ errors](#errors) / [↩ index](#index)
 
 ---
 
@@ -418,7 +414,7 @@ The input is invalid.
 type invalid = !void;
 ```
 
-[↲ errors](#errors)
+[↩ errors](#errors) / [↩ index](#index)
 
 ---
 
@@ -432,7 +428,7 @@ An invalid exponent was encountered.
 type invalid_exponent = !void;
 ```
 
-[↲ errors](#errors)
+[↩ errors](#errors) / [↩ index](#index)
 
 ---
 
@@ -446,7 +442,7 @@ No matching unit or prefix was found.
 type invalid_numeric = !str;
 ```
 
-[↲ errors](#errors)
+[↩ errors](#errors) / [↩ index](#index)
 
 ---
 
@@ -460,7 +456,7 @@ No matching unit or prefix was found.
 type invalid_symbol = !token;
 ```
 
-[↲ errors](#errors)
+[↩ errors](#errors) / [↩ index](#index)
 
 ---
 
@@ -474,7 +470,7 @@ The requested operation is not implemented.
 type not_implemented = !void;
 ```
 
-[↲ errors](#errors)
+[↩ errors](#errors) / [↩ index](#index)
 
 ---
 
@@ -486,7 +482,7 @@ type not_implemented = !void;
 type unclosed_scope = !token_kind;
 ```
 
-[↲ errors](#errors)
+[↩ errors](#errors) / [↩ index](#index)
 
 ---
 
@@ -498,17 +494,9 @@ type unclosed_scope = !token_kind;
 type unexpected_token = !token;
 ```
 
-[↲ errors](#errors)
+[↩ errors](#errors) / [↩ index](#index)
 
 ---
-
-
-
----
-
-## Functions
-
-[↲ index](#index)
 
 ### List of symbols
 > \* asterisk indicates symbol is undocumented
@@ -555,7 +543,7 @@ Returns the sum of quantities a and b, converting b to a's unit. If b is an f64,
 fn add(a: quantity, b: (quantity | f64)) (quantity | dimension_mismatch);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -569,7 +557,7 @@ Returns the quotient of units a and b.
 fn divd(a: dimension, b: dimension) dimension;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -583,7 +571,7 @@ Returns the quotient of quantities a and b, or scales a by 1/b if b is an f64.
 fn divq(a: quantity, b: (quantity | f64)) quantity;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -597,21 +585,24 @@ Returns the quotient of units a and b.
 fn divu(a: unit, b: unit) unit;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
 ### `encodejson`
 
-[`⌕ ../si/encode.ha:37`](../si/encode.ha#L37)
+[`⌕ ../si/encode.ha:76`](../si/encode.ha#L76)
 
 Writes JSON encoded representation of a quantity or unit.
 
 ```hare
-fn encodejson(h: io::handle, obj: (quantity | unit)) (size | error);
+fn encodejson(
+	h: io::handle,
+	obj: (quantity | unit | dimension),
+) (size | error);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -625,7 +616,7 @@ Returns true if dimensions a and b are equal.
 fn equal(a: dimension, b: dimension) bool;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -647,7 +638,7 @@ fn fprint(
 ) (size | error);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -661,7 +652,7 @@ Returns the decimal prefix and unit symbol components of the input string. If th
 fn identify(in: str) (prefix_kind, unit_kind);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -679,7 +670,7 @@ fn isclose(
 ) (bool | dimension_mismatch);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -693,7 +684,7 @@ Returns true if the value of the quantity or scale of its unit is infinite.
 fn isinf(q: quantity) bool;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -707,7 +698,7 @@ Returns true if the value of the quantity or scale of its unit is NaN.
 fn isnan(q: quantity) bool;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -721,7 +712,7 @@ Returns the product of units a and b.
 fn muld(a: dimension, b: dimension) dimension;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -735,7 +726,7 @@ Returns the product of quantities a and b, or scales a by b if b is an f64.
 fn mulq(a: quantity, b: (quantity | f64)) quantity;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -749,7 +740,7 @@ Returns the product of units a and b.
 fn mulu(a: unit, b: unit) unit;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -763,7 +754,7 @@ Returns the dimension x raised to the power of p
 fn powd(x: dimension, p: int) dimension;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -777,7 +768,7 @@ Returns quantity x raised to the integer power p.
 fn powq(x: quantity, p: int) quantity;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -791,7 +782,7 @@ Returns the quantity x raised to the integer power p.
 fn powu(x: unit, p: int) unit;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -812,7 +803,7 @@ fn print(
 ) (size | error);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -833,7 +824,7 @@ fn println(
 ) (size | error);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -847,7 +838,7 @@ Scales the unit by a f64 or metric prefix factor.
 fn scale(u: unit, fac: (prefix_kind | f64)) unit;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -861,7 +852,7 @@ Returns a human-readable description of an error. Output strings are statically 
 fn strerror(err: error) str;
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -882,7 +873,7 @@ fn strf(
 ) (str | error);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -914,7 +905,7 @@ Returns the parsed [`quantity`](#quantity) on success, or an [`error`](#error) i
 fn strp(s: str, strict: bool = false) (quantity | error);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -945,7 +936,7 @@ Returns the parsed [`unit`](#unit) on success, or an [`error`](#error) if the in
 fn strpu(s: str, strict: bool = false) (unit | error);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -959,13 +950,13 @@ Returns the difference of quantities a and b, converting b to a's unit. If b is 
 fn sub(a: quantity, b: (quantity | f64)) (quantity | dimension_mismatch);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
 ### `tojson`
 
-[`⌕ ../si/encode.ha:45`](../si/encode.ha#L45)
+[`⌕ ../si/encode.ha:86`](../si/encode.ha#L86)
 
 Returns JSON encoded string representation of a quantity or unit.
 
@@ -973,7 +964,7 @@ Returns JSON encoded string representation of a quantity or unit.
 fn tojson(obj: (quantity | unit)) (str | error);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
 
@@ -985,17 +976,9 @@ fn tojson(obj: (quantity | unit)) (str | error);
 fn split(input: str, strict: bool = false) ((str, str) | error);
 ```
 
-[↲ functions](#functions)
+[↩ functions](#functions) / [↩ index](#index)
 
 ---
-
-
-
----
-
-## Constants
-
-[↲ index](#index)
 
 ### List of symbols
 > \* asterisk indicates symbol is undocumented
@@ -1181,6 +1164,7 @@ fn split(input: str, strict: bool = false) ((str, str) | error);
 - [`HENRY`](#henry)*
 - [`HERTZ`](#hertz)*
 - [`JOULE`](#joule)*
+- [`JSON_SCHEMA`](#json_schema)*
 - [`KATAL`](#katal)*
 - [`KELVIN`](#kelvin)*
 - [`KILO`](#kilo)*
@@ -1260,7 +1244,7 @@ def ABSORBED_DOSE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1277,7 +1261,7 @@ def ACTIVITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1294,7 +1278,7 @@ def ANGSTROM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1311,7 +1295,7 @@ def ASTRONOMICAL_UNIT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1328,7 +1312,7 @@ def ATMOSPHERE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1345,7 +1329,7 @@ def AVOGADRO = quantity {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1362,7 +1346,7 @@ def BAR = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1379,7 +1363,7 @@ def BARN = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1396,7 +1380,7 @@ def BEL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1413,7 +1397,7 @@ def BOLTZMANN = quantity {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1430,7 +1414,7 @@ def CALORIE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1450,7 +1434,7 @@ def CAPACITANCE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1468,7 +1452,7 @@ def CATALYTIC_ACTIVITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1485,7 +1469,7 @@ def CENTIMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1505,7 +1489,7 @@ def CONDUCTANCE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1522,7 +1506,7 @@ def CUBIC_CENTIMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1539,7 +1523,7 @@ def CUBIC_MILLIMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1556,7 +1540,7 @@ def CURIE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1573,7 +1557,7 @@ def CURRENT = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1590,7 +1574,7 @@ def DALTON = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1607,7 +1591,7 @@ def DAY = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1624,7 +1608,7 @@ def DECAMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1641,7 +1625,7 @@ def DECIMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1658,7 +1642,7 @@ def DEGREE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1674,7 +1658,7 @@ def DIMENSIONLESS = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1692,7 +1676,7 @@ def DOSE_EQUIVALENT = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1711,7 +1695,7 @@ def DYNAMIC_VISCOSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1728,7 +1712,7 @@ def DYNE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1746,7 +1730,7 @@ def ELECTRIC_CHARGE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1766,7 +1750,7 @@ def ELECTRIC_POTENTIAL = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1783,7 +1767,7 @@ def ELECTRONVOLT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1800,7 +1784,7 @@ def ELEMENTARY_CHARGE = quantity {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1819,7 +1803,7 @@ def ENERGY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1836,7 +1820,7 @@ def ERG = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1855,7 +1839,7 @@ def EXPOSURE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1874,7 +1858,7 @@ def FORCE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1891,7 +1875,7 @@ def FREQUENCY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1908,7 +1892,7 @@ def GAL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1925,7 +1909,7 @@ def GAUSS = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1942,7 +1926,7 @@ def GIGAHERTZ = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1959,7 +1943,7 @@ def GIGAJOULE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1976,7 +1960,7 @@ def GIGAPASCAL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -1993,7 +1977,7 @@ def GIGAWATT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2010,7 +1994,7 @@ def GRAM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2027,7 +2011,7 @@ def HECTARE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2044,7 +2028,7 @@ def HECTOMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2061,7 +2045,7 @@ def HECTOPASCAL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2078,7 +2062,7 @@ def HOUR = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2095,7 +2079,7 @@ def HYPERFINE_TRANSITION_CAESIUM_133 = quantity {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2113,7 +2097,7 @@ def ILLUMINANCE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2133,7 +2117,7 @@ def INDUCTANCE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2150,7 +2134,7 @@ def JOULE_PER_KELVIN = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2167,7 +2151,7 @@ def JOULE_SECOND = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2184,7 +2168,7 @@ def KILOGRAM_PER_CUBIC_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2201,7 +2185,7 @@ def KILOHERTZ = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2218,7 +2202,7 @@ def KILOJOULE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2235,7 +2219,7 @@ def KILOMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2252,7 +2236,7 @@ def KILONEWTON = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2269,7 +2253,7 @@ def KILOOHM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2286,7 +2270,7 @@ def KILOPASCAL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2303,7 +2287,7 @@ def KILOVOLT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2320,7 +2304,7 @@ def KILOWATT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2338,7 +2322,7 @@ def KINEMATIC_VISCOSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2355,7 +2339,7 @@ def LENGTH = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2372,7 +2356,7 @@ def LITRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2389,7 +2373,7 @@ def LUMINOSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2406,7 +2390,7 @@ def LUMINOUS_EFFICACY_540_THZ = quantity {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2423,7 +2407,7 @@ def LUMINOUS_FLUX = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2443,7 +2427,7 @@ def MAGNETIC_FLUX = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2462,7 +2446,7 @@ def MAGNETIC_FLUX_DENSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2479,7 +2463,7 @@ def MASS = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2496,7 +2480,7 @@ def MAXWELL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2513,7 +2497,7 @@ def MEGAHERTZ = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2530,7 +2514,7 @@ def MEGAJOULE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2547,7 +2531,7 @@ def MEGANEWTON = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2564,7 +2548,7 @@ def MEGAOHM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2581,7 +2565,7 @@ def MEGAPASCAL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2598,7 +2582,7 @@ def MEGAWATT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2615,7 +2599,7 @@ def MICROAMPERE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2632,7 +2616,7 @@ def MICROCOULOMB = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2649,7 +2633,7 @@ def MICROFARAD = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2666,7 +2650,7 @@ def MICROGRAM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2683,7 +2667,7 @@ def MICROMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2697,7 +2681,7 @@ The micron is an alternative name for the [`MICROMETRE`](#micrometre).
 def MICRON = MICROMETRE;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2714,7 +2698,7 @@ def MICROSECOND = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2731,7 +2715,7 @@ def MICROTESLA = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2748,7 +2732,7 @@ def MILLIAMPERE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2765,7 +2749,7 @@ def MILLICOULOMB = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2782,7 +2766,7 @@ def MILLIGRAM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2799,7 +2783,7 @@ def MILLIJOULE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2816,7 +2800,7 @@ def MILLIMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2833,7 +2817,7 @@ def MILLIMETRES_OF_MERCURY = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2850,7 +2834,7 @@ def MILLINEWTON = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2867,7 +2851,7 @@ def MILLIOHM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2884,7 +2868,7 @@ def MILLIPASCAL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2901,7 +2885,7 @@ def MILLIPASCAL_SECOND = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2918,7 +2902,7 @@ def MILLISECOND = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2935,7 +2919,7 @@ def MILLITESLA = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2952,7 +2936,7 @@ def MILLIVOLT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2969,7 +2953,7 @@ def MILLIWATT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -2986,7 +2970,7 @@ def MILLIWEBER = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3003,7 +2987,7 @@ def MINUTE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3020,7 +3004,7 @@ def NANOFARAD = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3037,7 +3021,7 @@ def NANOMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3054,7 +3038,7 @@ def NANOSECOND = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3071,7 +3055,7 @@ def NEPER = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3088,7 +3072,7 @@ def NEWTON_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3105,7 +3089,7 @@ def NEWTON_PER_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3122,7 +3106,7 @@ def OERSTED = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3139,7 +3123,7 @@ def PASCAL_SECOND = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3156,7 +3140,7 @@ def PICOFARAD = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3173,7 +3157,7 @@ def PICOMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3190,7 +3174,7 @@ def PLANCK = quantity {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3207,7 +3191,7 @@ def POISE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3226,7 +3210,7 @@ def POWER = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3245,7 +3229,7 @@ def PRESSURE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3262,7 +3246,7 @@ def RAD = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3279,7 +3263,7 @@ def RECIPROCAL_CUBIC_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3296,7 +3280,7 @@ def RECIPROCAL_CURRENT = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3313,7 +3297,7 @@ def RECIPROCAL_LENGTH = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3330,7 +3314,7 @@ def RECIPROCAL_LUMINOSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3347,7 +3331,7 @@ def RECIPROCAL_MASS = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3364,7 +3348,7 @@ def RECIPROCAL_SQUARE_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3381,7 +3365,7 @@ def RECIPROCAL_SUBSTANCE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3398,7 +3382,7 @@ def RECIPROCAL_TEMPERATURE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3415,7 +3399,7 @@ def REM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3435,7 +3419,7 @@ def RESISTANCE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3452,7 +3436,7 @@ def ROENTGEN = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3466,7 +3450,7 @@ Alias for [`RECIPROCAL_LENGTH`](#reciprocal_length).
 def SPATIAL_FREQUENCY_1D = RECIPROCAL_LENGTH;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3483,7 +3467,7 @@ def SPATIAL_FREQUENCY_2D = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3500,7 +3484,7 @@ def SPATIAL_FREQUENCY_3D = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3517,7 +3501,7 @@ def SPEED_OF_LIGHT = quantity {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3534,7 +3518,7 @@ def SQUARE_CENTIMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3551,7 +3535,7 @@ def SQUARE_KILOMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3568,7 +3552,7 @@ def SQUARE_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3585,7 +3569,7 @@ def SQUARE_METRE_PER_SECOND = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3602,7 +3586,7 @@ def SQUARE_MILLIMETRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3619,7 +3603,7 @@ def SQUARE_MILLIMETRE_PER_SECOND = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3636,7 +3620,7 @@ def STOKES = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3653,7 +3637,7 @@ def SUBSTANCE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3670,7 +3654,7 @@ def TEMPERATURE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3687,7 +3671,7 @@ def TIME = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3704,7 +3688,7 @@ def TONNE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3721,7 +3705,7 @@ def TORR = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3735,7 +3719,7 @@ Alias for [`RECIPROCAL_LENGTH`](#reciprocal_length).
 def WAVENUMBER = RECIPROCAL_LENGTH;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3751,7 +3735,7 @@ def ACCELERATION = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3768,7 +3752,7 @@ def ACTION = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3783,7 +3767,7 @@ def AMPERE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3798,7 +3782,7 @@ def AMPERE_PER_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3813,7 +3797,7 @@ def AMPERE_PER_SQUARE_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3828,7 +3812,7 @@ def AREA = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3840,7 +3824,7 @@ def AREA = dimension {
 def ATTO: f64 = 1.0e-18;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3855,7 +3839,7 @@ def BECQUEREL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3870,7 +3854,7 @@ def CANDELA = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3885,7 +3869,7 @@ def CANDELA_PER_SQUARE_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3897,7 +3881,7 @@ def CANDELA_PER_SQUARE_METRE = unit {
 def CENTI: f64 = 0.01;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3913,7 +3897,7 @@ def CONCENTRATION = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3928,7 +3912,7 @@ def COULOMB = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3943,7 +3927,7 @@ def COULOMB_PER_CUBIC_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3958,7 +3942,7 @@ def COULOMB_PER_KILOGRAM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3973,7 +3957,7 @@ def COULOMB_PER_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -3988,7 +3972,7 @@ def COULOMB_PER_SQUARE_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4003,7 +3987,7 @@ def CUBIC_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4018,7 +4002,7 @@ def CUBIC_METRE_PER_KILOGRAM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4034,7 +4018,7 @@ def CURRENT_DENSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4046,7 +4030,7 @@ def CURRENT_DENSITY = dimension {
 def DECA: f64 = 10.0;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4058,7 +4042,7 @@ def DECA: f64 = 10.0;
 def DECI: f64 = 0.1;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4073,7 +4057,7 @@ def DEGREE_CELSIUS = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4089,7 +4073,7 @@ def DENSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4104,7 +4088,7 @@ def DIMENSIONLESS_UNIT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4122,7 +4106,7 @@ def ENTROPY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4134,7 +4118,7 @@ def ENTROPY = dimension {
 def EXA: f64 = 1.0e18;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4149,7 +4133,7 @@ def FARAD = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4161,7 +4145,7 @@ def FARAD = unit {
 def FEMTO: f64 = 1.0e-15;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4173,7 +4157,7 @@ def FEMTO: f64 = 1.0e-15;
 def GIGA: f64 = 1.0e9;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4188,7 +4172,7 @@ def GRAY = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4200,7 +4184,7 @@ def GRAY = unit {
 def HECTO: f64 = 100.0;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4215,7 +4199,7 @@ def HENRY = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4230,7 +4214,7 @@ def HERTZ = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4245,7 +4229,63 @@ def JOULE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
+
+---
+
+### `JSON_SCHEMA`
+
+[`⌕ ../si/encode.ha:93`](../si/encode.ha#L93)
+
+```hare
+def JSON_SCHEMA = "
+{
+	\"$schema\": \"https://json-schema.org/draft/2020-12/schema\",
+	\"$defs\": {
+	\"dimension\": {
+		\"type\": \"object\",
+		\"properties\": {
+			\"mass\": { \"type\": \"integer\" },
+			\"length\": { \"type\": \"integer\" },
+			\"time\": { \"type\": \"integer\" },
+			\"current\": { \"type\": \"integer\" },
+			\"temperature\": { \"type\": \"integer\" },
+			\"substance\": { \"type\": \"integer\" },
+			\"luminosity\": { \"type\": \"integer\" }
+		},
+		\"required\": [
+			\"mass\",
+			\"length\",
+			\"time\",
+			\"current\",
+			\"temperature\",
+			\"substance\",
+			\"luminosity\"
+		],
+		\"additionalProperties\": false
+	},
+	\"unit\": {
+		\"type\": \"object\",
+		\"properties\": {
+			\"dim\": { \"$ref\": \"#/$defs/dimension\" },
+			\"scale\": { \"type\": \"number\" }
+		},
+		\"required\": [\"dim\", \"scale\"],
+		\"additionalProperties\": false
+	}
+	\"quantity\": {
+		\"type\": \"object\",
+		\"properties\": {
+			\"unit\": { \"$ref\": \"#/$defs/unit\" },
+			\"value\": { \"type\": \"number\" }
+		},
+		\"required\": [\"unit\", \"value\"],
+		\"additionalProperties\": false
+	},
+}";
+```
+
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4260,7 +4300,7 @@ def KATAL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4275,7 +4315,7 @@ def KELVIN = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4287,7 +4327,7 @@ def KELVIN = unit {
 def KILO: f64 = 1.0e3;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4302,7 +4342,7 @@ def KILOGRAM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4317,7 +4357,7 @@ def KILOGRAM_PER_SQUARE_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4334,7 +4374,7 @@ def LINEAR_CHARGE_DENSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4349,7 +4389,7 @@ def LUMEN = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4364,7 +4404,7 @@ def LUMEN_PER_WATT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4380,7 +4420,7 @@ def LUMINANCE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4398,7 +4438,7 @@ def LUMINOUS_EFFICACY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4413,7 +4453,7 @@ def LUX = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4429,7 +4469,7 @@ def MAGNETIC_FIELD_STRENGTH = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4441,7 +4481,7 @@ def MAGNETIC_FIELD_STRENGTH = dimension {
 def MEGA: f64 = 1.0e6;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4456,7 +4496,7 @@ def METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4471,7 +4511,7 @@ def METRE_PER_SECOND = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4486,7 +4526,7 @@ def METRE_PER_SECOND_SQUARED = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4498,7 +4538,7 @@ def METRE_PER_SECOND_SQUARED = unit {
 def MICRO: f64 = 1.0e-6;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4510,7 +4550,7 @@ def MICRO: f64 = 1.0e-6;
 def MILLI: f64 = 1.0e-3;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4525,7 +4565,7 @@ def MOLE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4540,7 +4580,7 @@ def MOLE_PER_CUBIC_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4552,7 +4592,7 @@ def MOLE_PER_CUBIC_METRE = unit {
 def NANO: f64 = 1.0e-9;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4567,7 +4607,7 @@ def NEWTON = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4579,7 +4619,7 @@ def NEWTON = unit {
 def NONE: f64 = 1.0;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4594,7 +4634,7 @@ def OHM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4609,7 +4649,7 @@ def PASCAL = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4621,7 +4661,7 @@ def PASCAL = unit {
 def PETA: f64 = 1.0e15;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4633,7 +4673,7 @@ def PETA: f64 = 1.0e15;
 def PICO: f64 = 1.0e-12;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4645,7 +4685,7 @@ def PICO: f64 = 1.0e-12;
 def QUECTO: f64 = 1.0e-30;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4657,7 +4697,7 @@ def QUECTO: f64 = 1.0e-30;
 def QUETTA: f64 = 1.0e30;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4672,7 +4712,7 @@ def RADIAN = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4687,7 +4727,7 @@ def RECIPROCAL_AMPERE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4702,7 +4742,7 @@ def RECIPROCAL_AREA = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4717,7 +4757,7 @@ def RECIPROCAL_CANDELA = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4732,7 +4772,7 @@ def RECIPROCAL_KELVIN = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4747,7 +4787,7 @@ def RECIPROCAL_KILOGRAM = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4762,7 +4802,7 @@ def RECIPROCAL_METRE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4777,7 +4817,7 @@ def RECIPROCAL_MOLE = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4792,7 +4832,7 @@ def RECIPROCAL_VOLUME = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4804,7 +4844,7 @@ def RECIPROCAL_VOLUME = dimension {
 def RONNA: f64 = 1.0e27;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4816,7 +4856,7 @@ def RONNA: f64 = 1.0e27;
 def RONTO: f64 = 1.0e-27;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4831,7 +4871,7 @@ def SECOND = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4846,7 +4886,7 @@ def SIEMENS = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4861,7 +4901,7 @@ def SIEVERT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4877,7 +4917,7 @@ def SPECIFIC_VOLUME = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4892,7 +4932,7 @@ def STERADIAN = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4909,7 +4949,7 @@ def SURFACE_CHARGE_DENSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4925,7 +4965,7 @@ def SURFACE_DENSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4942,7 +4982,7 @@ def SURFACE_TENSION = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4954,7 +4994,7 @@ def SURFACE_TENSION = dimension {
 def TERA: f64 = 1.0e12;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4969,7 +5009,7 @@ def TESLA = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -4986,7 +5026,7 @@ def TORQUE = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -5002,7 +5042,7 @@ def VELOCITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -5017,7 +5057,7 @@ def VOLT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -5032,7 +5072,7 @@ def VOLUME = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -5049,7 +5089,7 @@ def VOLUME_CHARGE_DENSITY = dimension {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -5064,7 +5104,7 @@ def WATT = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -5079,7 +5119,7 @@ def WEBER = unit {
 };
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -5091,7 +5131,7 @@ def WEBER = unit {
 def YOCTO: f64 = 1.0e-24;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -5103,7 +5143,7 @@ def YOCTO: f64 = 1.0e-24;
 def YOTTA: f64 = 1.0e24;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -5115,7 +5155,7 @@ def YOTTA: f64 = 1.0e24;
 def ZEPTO: f64 = 1.0e-21;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
@@ -5127,7 +5167,7 @@ def ZEPTO: f64 = 1.0e-21;
 def ZETTA: f64 = 1.0e21;
 ```
 
-[↲ constants](#constants)
+[↩ constants](#constants) / [↩ index](#index)
 
 ---
 
