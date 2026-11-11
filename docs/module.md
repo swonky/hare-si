@@ -1,4 +1,4 @@
-# si module
+# haredoc
 
 si: A module for parsing, converting, and formatting physical quantities expressed with the International System of Units.
 
