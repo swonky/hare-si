@@ -90,48 +90,48 @@ export fn tojson(obj: (quantity | unit)) (str | error) = {
 	return result;
 };
 
-export def JSON_SCHEMA = `
-{
+export def JSON_SCHEMA = `{
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"$defs": {
-	"dimension": {
-		"type": "object",
-		"properties": {
-			"mass": { "type": "integer" },
-			"length": { "type": "integer" },
-			"time": { "type": "integer" },
-			"current": { "type": "integer" },
-			"temperature": { "type": "integer" },
-			"substance": { "type": "integer" },
-			"luminosity": { "type": "integer" }
+		"dimension": {
+			"type": "object",
+			"properties": {
+				"mass": { "type": "integer" },
+				"length": { "type": "integer" },
+				"time": { "type": "integer" },
+				"current": { "type": "integer" },
+				"temperature": { "type": "integer" },
+				"substance": { "type": "integer" },
+				"luminosity": { "type": "integer" }
+			},
+			"required": [
+				"mass",
+				"length",
+				"time",
+				"current",
+				"temperature",
+				"substance",
+				"luminosity"
+			],
+			"additionalProperties": false
 		},
-		"required": [
-			"mass",
-			"length",
-			"time",
-			"current",
-			"temperature",
-			"substance",
-			"luminosity"
-		],
-		"additionalProperties": false
-	},
-	"unit": {
-		"type": "object",
-		"properties": {
-			"dim": { "$ref": "#/$defs/dimension" },
-			"scale": { "type": "number" }
+		"unit": {
+			"type": "object",
+			"properties": {
+				"dim": { "$ref": "#/$defs/dimension" },
+				"scale": { "type": "number" }
+			},
+			"required": ["dim", "scale"],
+			"additionalProperties": false
 		},
-		"required": ["dim", "scale"],
-		"additionalProperties": false
+		"quantity": {
+			"type": "object",
+			"properties": {
+				"unit": { "$ref": "#/$defs/unit" },
+				"value": { "type": "number" }
+			},
+			"required": ["unit", "value"],
+			"additionalProperties": false
+		}
 	}
-	"quantity": {
-		"type": "object",
-		"properties": {
-			"unit": { "$ref": "#/$defs/unit" },
-			"value": { "type": "number" }
-		},
-		"required": ["unit", "value"],
-		"additionalProperties": false
-	},
 }`;

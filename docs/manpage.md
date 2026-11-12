@@ -19,10 +19,6 @@ si - parse and convert SI units
 
 # OPTIONS
 
-`-c`, `--completions` _SHELL_
-
-: Generate shell completions. Supported values are `bash` and `zsh`.
-
 `-n`, `--notation` _NOTATION_
 
 : Set numeric notation. Supported values are `general`, `fixed`, `scientific`, `e`, and `E`.
@@ -55,6 +51,19 @@ si - parse and convert SI units
 
 : Display help information.
 
+# ACTIONS
+
+`+c`, `+completions` _SHELL_
+
+: Generate shell completions. Supported values are `bash` and `zsh`.
+
+`+j`, `+jsonschema`
+
+: Print the json schema for encoded outputs.
+
+`+s`, `+symbols`
+
+: Print the list of supported expression symbols.
 
 # EXAMPLES
 

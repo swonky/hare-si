@@ -2,6 +2,6 @@
 // (C) 2026 Tom Spencer <tcs.git@pm.me>
 
 // Semantic version of the current release.
-export def SEM_VERSION: str = "0.2.0";
+export def SEM_VERSION: str = "0.3.0";
 // Git commit identifier of the current build.
-export def GIT_VERSION: str = "7d9ae92-dirty";
+export def GIT_VERSION: str = "ba5e1f1-dirty";

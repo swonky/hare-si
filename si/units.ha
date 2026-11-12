@@ -26,6 +26,7 @@ type base_dimension = enum size {
 	LUMINOSITY,
 };
 
+
 export type unit_kind = enum int {
 	NONE,
 	AMPERE,
@@ -372,6 +373,58 @@ def units: [_]unit = [
 	WATT,
 	WEBER,
 ];
+
+export type symbol_entry = struct {
+	kind: symbol_kind,
+	name: str,
+	sym_ascii: str,
+	sym_utf: str,
+	sym_alt: []str,
+};
+
+export fn all_symbols() ([]symbol_entry | nomem) = {
+	let table: []symbol_entry = [];
+	for (let i = 0z; i < len(units); i+=1z) {
+		const entry = symbol_entry{
+			kind = i: unit_kind,
+			name = unit_names[i],
+			sym_ascii = symbols_ascii[i],
+			sym_utf = symbols_utf8[i],
+			sym_alt = symbols_for_kind(i: unit_kind)?,
+		};
+		append(table, entry)?;
+	};
+	for (let i = 0z; i < len(prefix_scale); i+=1z) {
+		const entry = symbol_entry{
+			kind = i: prefix_kind,
+			name = prefix_names[i],
+			sym_ascii = prefix_symbols_ascii[i],
+			sym_utf = prefix_symbols_utf8[i],
+			sym_alt = symbols_for_kind(i: prefix_kind)?,
+		};
+		append(table, entry)?;
+	};
+	return table;
+};
+
+fn symbols_for_kind(kind: (unit_kind | prefix_kind)) ([]str | nomem) = {
+	let symbols: []str = [];
+	match (kind) {
+	case let k: unit_kind =>
+		for (let i = 0z; i < len(symbol_lookup); i += 1) {
+			if (symbol_lookup[i].kind as unit_kind == k) {
+				append(symbols, symbol_lookup[i].repr)?;
+			};
+		};
+	case let k: prefix_kind =>
+		for (let i = 0z; i < len(prefix_lookup); i += 1) {
+			if (prefix_lookup[i].kind as prefix_kind == k) {
+				append(symbols, prefix_lookup[i].repr)?;
+			};
+		};
+	};
+	return symbols;
+};
 
 export def DIMENSIONLESS_UNIT = unit { dim = DIMENSIONLESS, scale = 1.0 };
 
@@ -856,6 +909,8 @@ export def JOULE_PER_KELVIN = unit { dim = ENTROPY, scale = 1.0 };
 
 // The joule-second is the coherent SI unit of [[ACTION]].
 export def JOULE_SECOND = unit { dim = ACTION, scale = 1.0 };
+
+
 
 def symbol_lookup: [_]symbol = [
 	symbol { repr = "A", kind = unit_kind::AMPERE },

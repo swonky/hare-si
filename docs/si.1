@@ -12,10 +12,6 @@ si \- parse and convert SI units
 between compatible units.
 .SH OPTIONS
 .TP
-\f[CR]\-c\f[R], \f[CR]\-\-completions\f[R] \f[I]SHELL\f[R]
-Generate shell completions.
-Supported values are \f[CR]bash\f[R] and \f[CR]zsh\f[R].
-.TP
 \f[CR]\-n\f[R], \f[CR]\-\-notation\f[R] \f[I]NOTATION\f[R]
 Set numeric notation.
 Supported values are \f[CR]general\f[R], \f[CR]fixed\f[R],
@@ -43,6 +39,17 @@ Display version information.
 .TP
 \f[CR]\-h\f[R], \f[CR]\-\-help\f[R]
 Display help information.
+.SH ACTIONS
+.TP
+\f[CR]+c\f[R], \f[CR]+completions\f[R] \f[I]SHELL\f[R]
+Generate shell completions.
+Supported values are \f[CR]bash\f[R] and \f[CR]zsh\f[R].
+.TP
+\f[CR]+j\f[R], \f[CR]+jsonschema\f[R]
+Print the json schema for encoded outputs.
+.TP
+\f[CR]+s\f[R], \f[CR]+symbols\f[R]
+Print the list of supported expression symbols.
 .SH EXAMPLES
 Parse a quantity:
 .IP

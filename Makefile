@@ -30,7 +30,7 @@ MAN_TEXT = ./docs/si.1.txt
 
 HAREDOC_PAGE = ./docs/module.md
 
-SEM_VERSION = 0.2.0
+SEM_VERSION = 0.3.0
 GIT_VERSION = $(shell if command -v git >/dev/null 2>&1; then git describe --always --dirty 2>/dev/null || printf 'unknown'; else printf 'unknown'; fi)
 
 # Optional documentation dependencies.
@@ -101,13 +101,13 @@ install-docs:
 install-completions: build
 	@if [ -n "$(BASH_DIR)" ]; then \
 		mkdir -p "$(DESTDIR)$(BASH_DIR)"; \
-		./bin/$(TARGET) --completions bash > "$(DESTDIR)$(BASH_DIR)/$(TARGET)"; \
+		./bin/$(TARGET) +completions bash > "$(DESTDIR)$(BASH_DIR)/$(TARGET)"; \
 	else \
 		echo "Bash completion directory not specified; skipping"; \
 	fi
 	@if [ -n "$(ZSH_DIR)" ]; then \
 		mkdir -p "$(DESTDIR)$(ZSH_DIR)"; \
-		./bin/$(TARGET) --completions zsh > "$(DESTDIR)$(ZSH_DIR)/_$(TARGET)"; \
+		./bin/$(TARGET) +completions zsh > "$(DESTDIR)$(ZSH_DIR)/_$(TARGET)"; \
 	else \
 		echo "Zsh completion directory not specified; skipping"; \
 	fi

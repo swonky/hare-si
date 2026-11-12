@@ -20,6 +20,7 @@ type options = struct {
 	base:        bool,
 	completions: (void | shell),
 	schema:      bool,
+	list_units:  bool,
 	version:     bool,
 	help:        bool,
 };
@@ -28,7 +29,7 @@ type arg_handler = *fn(_: *options, _: str) (void | error);
 type bool_handler = *fn(_: *options) (void | error);
 
 type flag = struct {
-	short: str,
+	short: (str | void),
 	long: str,
 	help: str,
 	handler: (arg_handler | bool_handler),
@@ -36,7 +37,7 @@ type flag = struct {
 	possible: (void | []str),
 };
 
-def all_tools: [_]flag = [
+def all_actions: [_]flag = [
 	flag {
 		short = "c",
 		long ="completions",
@@ -46,10 +47,18 @@ def all_tools: [_]flag = [
 		possible = ["bash", "zsh"],
 	},
 	flag {
-		short = "s",
-		long ="schema",
-		help = "Prints the JSON output schema",
+		short = "j",
+		long ="jsonschema",
+		help = "Print the JSON output schema",
 		handler = &handle_schema,
+		value = void,
+		possible = void,
+	},
+	flag {
+		short = "s",
+		long ="symbols",
+		help = "Print all supported symbols",
+		handler = &handle_list_unit,
 		value = void,
 		possible = void,
 	},
@@ -133,15 +142,22 @@ fn get_flag(key: str) (flag | invalid_flag) = {
 	if (strings::hasprefix(key, "-")){
 		const trimmed = strings::trimprefix(key, "-");
 		for (let f .. all_flags) {
-			if (f.short == trimmed) return f;
+			match (f.short) {
+			case let s: str =>
+				if (s == trimmed) return f;
+			case => void;
+			};
 		};
 	};
 	if (strings::hasprefix(key, "+")){
 		const trimmed = strings::trimprefix(key, "+");
-		for (let f .. all_tools) {
-			if (f.short == trimmed) {
-				return f;
-			} else if (f.long == trimmed) {
+		for (let f .. all_actions) {
+			match (f.short) {
+			case let s: str =>
+				if (s == trimmed) return f;
+			case => void;
+			};
+			if (f.long == trimmed) {
 				return f;
 			};
 		};
@@ -189,6 +205,7 @@ fn dispatch(args: []str) (options | error) = {
 		completions = void,
 		schema = false,
 		version = false,
+		list_units = false,
 		help = false,
 	};
 
@@ -239,12 +256,12 @@ fn handle_base(opts: *options) (void | error) = { opts.base = true; };
 
 fn handle_schema(opts: *options) (void | error) = { opts.schema = true; };
 
+fn handle_list_unit(opts: *options) (void | error) = { opts.list_units = true; };
+
 fn handle_strict(opts: *options) (void | error) = { opts.strict = true; };
 
 
-fn handle_unit(opts: *options, input: str) (void | error) = {
-	opts.unit = input;
-};
+fn handle_unit(opts: *options, input: str) (void | error) = { opts.unit = input; };
 
 fn handle_completion(opts: *options, input: str) (void | error) = { 
 	opts.completions = switch (input) {
@@ -313,6 +330,11 @@ fn run(opts: options) (void | error) = {
 		return;
 	};
 
+	if (opts.list_units) {
+		print_units(os::stdout)?;
+		return;
+	};
+
 	match (opts.completions) {
 	case let sh: shell =>
 		fmt::print(generate_completions(sh))?;
@@ -355,6 +377,56 @@ fn run(opts: options) (void | error) = {
 	)?;
 };
 
+fn contains32(haystack: []rune, needle: rune) bool = {
+	for (let h .. haystack) {
+		if (h == needle) {
+			return true;
+		};
+	};
+	return false;
+};
+
+fn print_units(out: io::handle) (void | error) = {
+	fmt::fprint(out, "TYPE         ")?;
+	fmt::fprint(out,  strings::rpad("NAME", ' ', 30)?)?;
+	fmt::fprint(out,  strings::rpad("ASCII", ' ', 10)?)?;
+	fmt::fprint(out,  strings::rpad("UTF-8", ' ', 10)?)?;
+	fmt::fprint(out,  "VARIANTS\n\n")?;
+	for (let entry .. si::all_symbols()?) {
+		if (entry.name == "") {
+			continue;
+		};
+		match (entry.kind) {
+		case si::unit_kind =>
+			fmt::fprint(out, "unit         ")?;
+		case si::prefix_kind =>
+			fmt::fprint(out, "prefix       ")?;
+		};
+		fmt::fprint(out, strings::rpad(entry.name, ' ', 30)?)?;
+		fmt::fprint(out, strings::rpad(entry.sym_ascii, ' ', 10)?)?;
+		fmt::fprint(out, strings::rpad(entry.sym_utf, ' ', 10)?)?;
+		let utf: []rune = [];
+		for (let alt .. entry.sym_alt) {
+			let iter = strings::iter(alt);
+			for (let r => strings::next(&iter)) {
+				if (r: u32 > 127 && !contains32(utf, r)) {
+					append(utf, r)?;
+				};
+			};
+		};
+		let first = true;
+		for (let r .. utf) {
+			if (first) {
+				fmt::fprint(out, " ")?;
+			} else {
+				fmt::fprint(out, ", ")?;
+			};
+			first = false;
+			fmt::fprintf(out, "U+{:.4X}", r: u32)?;
+		};
+		fmt::fprintln(out)?;
+	};
+};
 
 export fn main() void = {
 	const opts = match (dispatch(os::args)) {
